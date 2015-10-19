@@ -1,17 +1,18 @@
 {
   "name": "accepton",
   "version": "0.1.0",
-  "summary": "A short description of accepton.",
-  "description": "",
-  "homepage": "https://github.com/<GITHUB_USERNAME>/accepton",
+  "summary": "Beautiful payment processing for iOS",
+  "description": "A swift library for processing payments through the AcceptOn API which elegantly unifies many payment providers including PayPal, Stripe, and ApplePay. This library provides you with powerful flexibility and ease-of-use by offering both beautiful pre-made payment views and access to the well-engineered low-level primitives for those wanting to have tighter integration into their applications.",
+  "homepage": "http://accepton.com",
   "license": "MIT",
   "authors": {
     "seo": "seotownsend@icloud.com"
   },
   "source": {
-    "git": "https://github.com/<GITHUB_USERNAME>/accepton.git",
+    "git": "https://github.com/sotownsend/accepton-apple.git",
     "tag": "0.1.0"
   },
+  "social_media_url": "https://twitter.com/acceptonhq",
   "platforms": {
     "ios": "8.0"
   },
@@ -20,6 +21,11 @@
   "resource_bundles": {
     "accepton": [
       "Pod/Assets/*.png"
+    ]
+  },
+  "dependencies": {
+    "Alamofire": [
+      "~> 3.0"
     ]
   }
 }

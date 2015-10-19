@@ -1,3 +1,5 @@
+import Alamofire
+
 public class Accepton {
     
     public init() {
@@ -5,6 +7,6 @@ public class Accepton {
     }
     
     public func holah() {
-        print("holah!");
+        
     }
 }
