@@ -1,0 +1,6 @@
+framework module accepton {
+  umbrella header "accepton-umbrella.h"
+
+  export *
+  module * { export * }
+}

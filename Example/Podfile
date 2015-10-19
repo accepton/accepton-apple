@@ -1,0 +1,13 @@
+source 'https://github.com/CocoaPods/Specs.git'
+use_frameworks!
+
+target 'accepton_Example', :exclusive => true do
+  pod "accepton", :path => "../"
+end
+
+target 'accepton_Tests', :exclusive => true do
+  pod "accepton", :path => "../"
+
+  pod 'Quick', '~> 0.3.1'
+  pod 'Nimble'
+end

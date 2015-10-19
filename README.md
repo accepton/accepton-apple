@@ -1,21 +1,29 @@
-<div style='text-align: center'>
-  <img src='./banner.png' />
-</div>
+# accepton
 
-[![Build Status](https://travis-ci.org/sotownsend/Pully.svg?branch=master)](https://travis-ci.org/sotownsend/)
-[![CocoaPods Version](https://img.shields.io/cocoapods/v/accepton-apple.svg)](https://img.shields.io/cocoapods/v/accepton-apple.svg)
-[![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![Platform](https://img.shields.io/badge/Platforms-ios%20%7C%20osx%20%7C%20watchos%20%7C%20tvos-ff69b4.svg)](https://developer.apple.com)
+[![CI Status](http://img.shields.io/travis/seo/accepton.svg?style=flat)](https://travis-ci.org/seo/accepton)
+[![Version](https://img.shields.io/cocoapods/v/accepton.svg?style=flat)](http://cocoapods.org/pods/accepton)
+[![License](https://img.shields.io/cocoapods/l/accepton.svg?style=flat)](http://cocoapods.org/pods/accepton)
+[![Platform](https://img.shields.io/cocoapods/p/accepton.svg?style=flat)](http://cocoapods.org/pods/accepton)
 
-#What is this?
-*accepton-apple* is a swift library for processing payments through the [AcceptOn](http://accepton.com) API which elegantly unifies many payment providers including [PayPal](http://paypal.com), [Stripe](http://stripe.com), and **ApplePay**.  This library provides you with powerful flexibility and ease-of-use by offering both beautiful pre-made payment views and access to the well-engineered low-level primitives for those wanting to have tighter integration into their applications.
+## Usage
 
-#Installation
-You may...
+To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-```sh
-  cocoa-pods-file?
+## Requirements
+
+## Installation
+
+accepton is available through [CocoaPods](http://cocoapods.org). To install
+it, simply add the following line to your Podfile:
+
+```ruby
+pod "accepton"
 ```
 
-#License
-...?
+## Author
+
+seo, seotownsend@icloud.com
+
+## License
+
+accepton is available under the MIT license. See the LICENSE file for more info.

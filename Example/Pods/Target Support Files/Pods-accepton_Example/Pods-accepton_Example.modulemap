@@ -1,0 +1,6 @@
+framework module Pods_accepton_Example {
+  umbrella header "Pods-accepton_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}
