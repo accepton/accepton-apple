@@ -23,7 +23,7 @@ A swift library for processing payments through the AcceptOn API which elegantly
   s.homepage         = "http://accepton.com"
   s.license          = 'MIT'
   s.author           = { "seo" => "seotownsend@icloud.com" }
-  s.source           = { :git => "https://github.com/sotownsend/accepton.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://github.com/sotownsend/accepton-apple.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/acceptonhq'
 
   s.platform     = :ios, '8.0'
