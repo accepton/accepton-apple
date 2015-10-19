@@ -10,12 +10,48 @@
 #What is this?
 *accepton-apple* is a swift library for processing payments through the [AcceptOn](http://accepton.com) API which elegantly unifies many payment providers including [PayPal](http://paypal.com), [Stripe](http://stripe.com), and **ApplePay**.  This library provides you with powerful flexibility and ease-of-use by offering both beautiful pre-made payment views and access to the well-engineered low-level primitives for those wanting to have tighter integration into their applications.
 
-#Installation
-You may...
+### CocoaPods
 
-```sh
-  cocoa-pods-file?
+[CocoaPods](http://cocoapods.org) is a convenient dependency manager for XCode projects. If you haven't already, you may install *CocoaPods*
+with:
+
+```bash
+$ gem install cocoapods
 ```
 
-#License
-...?
+> Make sure you have version 0.39.0 or higher. Run `pod --version` if you're unsure. You may update cocoapods by running `gem install cocoapods`.
+
+Once you have installed *CocoaPods*, please put the following code into your `Podfile`:
+
+```ruby
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '8.0'
+use_frameworks!
+
+pod 'Accepton', '~> 0.1'
+```
+
+After you modify the `Podfile`, run `pod install` in the same directory as your modified `Podfile`.
+
+### Carthage
+
+[Carthage](https://github.com/Carthage/Carthage) is a dependency manager focused on simplicity that has no central repository. We rely
+on github to act as our repository for Carthage.
+
+If you haven't already, you may install *Carthage* via [Homebrew](http://brew.sh):
+
+```bash
+$ brew update
+$ brew install carthage
+```
+
+Next, modify your `Cartfile` to include:
+
+```ogdl
+github "AcceptOn/AcceptOn" ~> 0.1
+```
+
+Then run `cartchage` in the same directory as your modified `Cartfile` and drag `AcceptOn.framework` into the `Frameworks` group of your *XCode* project.
+
+### Libraries Used
+  * [Alamofire](https://github.com/Alamofire/Alamofire/) - Elegant HTTP Networking in Swift
