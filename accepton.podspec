@@ -20,10 +20,10 @@ Pod::Spec.new do |s|
 A swift library for processing payments through the AcceptOn API which elegantly unifies many payment providers including PayPal, Stripe, and ApplePay. This library provides you with powerful flexibility and ease-of-use by offering both beautiful pre-made payment views and access to the well-engineered low-level primitives for those wanting to have tighter integration into their applications.
                        DESC
 
-  s.homepage         = "https://github.com/sotownsend/accepton-apple"
+  s.homepage         = "http://accepton.com"
   s.license          = 'MIT'
   s.author           = { "seo" => "seotownsend@icloud.com" }
-  s.source           = { :git => "https://github.com/<GITHUB_USERNAME>/accepton.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://github.com/sotownsend/accepton.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/acceptonhq'
 
   s.platform     = :ios, '8.0'
