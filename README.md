@@ -56,3 +56,7 @@ Then run `cartchage` in the same directory as your modified `Cartfile` and drag 
 
 ### Libraries Used
   * [Alamofire](https://github.com/Alamofire/Alamofire/) - Elegant HTTP Networking in Swift
+
+## License
+*accepton-apple* is released under the MIT license. See LICENSE for details.
+
