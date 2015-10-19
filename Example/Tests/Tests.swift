@@ -8,6 +8,11 @@ class TableOfContentsSpec: QuickSpec {
     override func spec() {
         describe("these will fail") {
 
+            it("can holah") {
+                let accepton = Accepton()
+                accepton.holah();
+            }
+            
             it("can do maths") {
                 expect(1) == 2
             }
