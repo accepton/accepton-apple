@@ -61,7 +61,28 @@ public struct AcceptOnAPIPaymentMethodsInfo {
     }
 }
 
-//Actual API class, see https://github.com/sotownsend/accepton-apple/blob/master/docs/AcceptOnAPI.md for docs
+//Helper struct for the charge methods (which have a lot of parameters and variations of parameters)
+public struct AcceptOnAPIChargeInfo {
+    var cardToken: String?
+    var email: String?
+    
+    public init(cardToken: String, email: String?) {
+        self.cardToken = cardToken
+        self.email = email
+    }
+    
+    //Places all necessary info into an already created params struct (usually this would
+    //have the session key already in it, so we place all the requisite fields for the
+    //charge request)
+    public func mergeIntoParams(inout dict: [String:AnyObject]) {
+        if let cardToken = cardToken {
+            dict["card_token"] = cardToken
+            dict["email"] = email ?? ""
+        }
+    }
+}
+
+//Actual API class
 public class AcceptOnAPI {
     /* ######################################################################################### */
     /* Endpoint Communication Helpers                                                            */
@@ -161,6 +182,37 @@ public class AcceptOnAPI {
                 }
                 
                 completion(paymentMethods: nil, error: AcceptOnAPIError.errorWithCode(.MalformedOrNonExistantData, failureReason: "AcceptOn's API returned payment information, but it could not be processed. This may be a JSON formatting issue, no data was returned, or a schema change for the /v1/form/configure response for payment information"))
+            }
+        })
+    }
+    
+    //WIP: Need to get stripe or paypal to work before I can test this
+    public func chargeWithTransactionId(tid: String, andChargeinfo chargeInfo: AcceptOnAPIChargeInfo, completion: (chargeRes: [String: AnyObject]?, error: NSError?) -> ()) {
+        //Place the requisite authentication and token parameters in, and then
+        //merge the charge information setup in the AcceptOnAPIChargeInfo struct.
+        //The merge contains things like the 'card_token' or in some cases the
+        //actual credit card numbers.
+        var params = ["access_token":self.accessToken, "token": tid] as [String:AnyObject]
+        chargeInfo.mergeIntoParams(&params)
+        
+        AcceptOnAPI.requestWithMethod(.GET, path:"/v1/charges", params: params, completion: { res, err in
+            if (err != nil) {
+                completion(chargeRes: nil, error: err)
+            } else {
+                completion(chargeRes: res, error: nil)
+            }
+        })
+    }
+    
+    //WIP: Need to be able to make charges to test this
+    public func refundChargeWithTransactionId(tid: String, andChargeId chargeId: String, forAmountInCents amountInCents: Int, completion: (refundRes: [String: AnyObject]?, error: NSError?) -> ()) {
+        let params = ["access_token":self.accessToken, "token": tid, "charge_id": chargeId, "amount": amountInCents] as [String:AnyObject]
+        
+        AcceptOnAPI.requestWithMethod(.GET, path:"/v1/refunds", params: params, completion: { res, err in
+            if (err != nil) {
+                completion(refundRes: nil, error: err)
+            } else {
+                completion(refundRes: res, error: nil)
             }
         })
     }
