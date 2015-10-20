@@ -124,7 +124,7 @@ In order to issue a refund, you must have created the api with the `secretKey` p
 //First parameter is the transaction id you would get in api.createTransactionTokenWithDescription
 //Second parameter is the ID of the original charge
 //Third parameter is the amount to refund in cents from the original charge
-api.refundChargeWithTransactionId("txn_5e140f6ca52cad46c10c45b9da670ddd", andChargeId: "chg_oydyquhp39", forAmountInCends: 99) { refundRes, error in
+api.refundChargeWithTransactionId("txn_5e140f6ca52cad46c10c45b9da670ddd", andChargeId: "chg_oydyquhp39", forAmountInCents: 99) { refundRes, error in
   if (let error = error) {
     print("Failed with error: \(error)")
     return;
