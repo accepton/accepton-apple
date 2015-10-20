@@ -75,7 +75,7 @@ Let's start with our first example of charging a credit card:
 //expMonth / expYear - The expiration month and year as appears on the credit card
 //securityCode - The 'security' code on the credit card, e.g. 3-digit AMEX
 //email (optional) - The email to bind to the transaction
-let charge = AcceptOnAPIChargeInfo.withCreditCardNum("1234123412341234", 
+let charge = AcceptOnAPIChargeInfo(creditCardNum: "1234123412341234", 
                                                  expMonth: "09", 
                                                  expYear: "14", 
                                                  securityCode: "123", 
@@ -99,7 +99,7 @@ Alternatively, let's create a charge for a transaction partially handled by a 3r
 //Here we are creating a charge for a credit-card that has already been processed by a payment processor.
 //cardToken (optional) - The payment processor token
 //email (optional) - The email to bind to the transaction
-let charge = AcceptOnAPIChargeInfo.withCardToken("paypal_sszt2ga35rkea764kxwn07", 
+let charge = AcceptOnAPIChargeInfo(cardToken: "paypal_sszt2ga35rkea764kxwn07", 
                                                   andEmail: nil)
 
 //First parameter is the transaction id you would get in api.createTransactionTokenWithDescription
