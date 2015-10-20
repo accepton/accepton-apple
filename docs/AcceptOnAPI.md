@@ -157,9 +157,9 @@ api.createTransactionTokenWithDescription("T-Shirt", forAmountInCents: 2000) { t
   //Did we succeed?
   if (let error = error) {
     switch error {
-      case AcceptOnAPIError.Code.InternalServerError:
+      case AcceptOnAPIError.Code.InternalServerError.rawValue:
         print("Failed because AcceptOn is offline, \(error)")
-      case AcceptOnAPIError.Code.NetworkIssues:
+      case AcceptOnAPIError.Code.NetworkIssues.rawValue:
         print("Failed because your network connection is not available, \(error)")
       default:
         print("Failed for an unknown error, \(error)")
