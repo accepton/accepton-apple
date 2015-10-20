@@ -142,7 +142,7 @@ Possible Error Codes:
   * `AcceptOnAPIIError.Code.InternalServerError` - We had a problem with our server. Try again later.
   * `AcceptOnAPIError.Code.ServiceUnavailable` - We're temporarily offline for maintenance.  Please try again later.
   * `AcceptOnAPIError.Code.NetworkIssues` - The client is having issues connecting to the internet.
-  * `AcceptOnAPIError.Code.UnknownCode` - An unknown code, e.g. not 401, 500, etc. was returned from the AcceptOnAPI HTTP
+  * `AcceptOnAPIError.Code.UnknownCode` - An unknown code, e.g. not 401, 500, etc. was received from the api.
 
 Let's do an example of better error handling for requesting the transaction token:
 
