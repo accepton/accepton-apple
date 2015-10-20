@@ -56,6 +56,11 @@ api.getAvailablePaymentMethodsForTransactionWithId("txn_5e140f6ca52cad46c10c45b9
   let supportsStripe = paymentMethods.doesSupportStripe
   let supportsPaypal = paymentMethods.doesSupportPaypal
   let supportsApplePay = paymentMethods.doesSupportApplePay
+  
+  //Additionally, you get the processor information which contains
+  //payment processor specific configuration information.
+  let processorInfo = paymentMethods.processorInfo
+  //let paypalInfo = processorInfo?["paypal"] as? [String:AnyObject]
 }
 ```
 
