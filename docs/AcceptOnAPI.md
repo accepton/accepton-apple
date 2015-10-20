@@ -43,7 +43,7 @@ api.createTransactionTokenWithDescription("T-Shirt", forAmountInCents: 2000) { t
 Answer the questions of *can I accept credit cards?*, *can I accept paypal?*, etc. The first parameter is the transactional token id that you received as part of the response in `createTransactionToken`.
 
 ```swift
-api.getAvailablePaymentMethodsForTransactionWithId("txn_5e140f6ca52cad46c10c45b9da670ddd") { paymentMethods, error in
+api.getAvailablePaymentMethodsForTransactionWithId("txn_5e140f6ca52cad46c10c45b9da670ddd") { paymentMethods, error in
   if (let error = error) {
     print("Failed with error: \(error)")
     return;
@@ -76,7 +76,7 @@ let charge = AcceptOnAPIChargeInfo.withCreditCardNum("1234123412341234",
                                                  securityCode: "123", 
                                                  andEmail: nil)
 
-api.chargeWithTransactionId("txn_5e140f6ca52cad46c10c45b9da670ddd", andChargeInfo: charge) { chargeRes, error in
+api.chargeWithTransactionId("txn_5e140f6ca52cad46c10c45b9da670ddd", andChargeInfo: charge) { chargeRes, error in
   if (let error = error) {
     print("Failed with error: \(error)")
     return;
@@ -99,7 +99,7 @@ let charge = AcceptOnAPIChargeInfo.withCardToken("paypal_sszt2ga35rkea764kxwn07"
 
 //First parameter is the transaction id you would get in api.createTransactionTokenWithDescription
 //Second parameter is the charge info object you created
-api.chargeWithTransactionId("txn_5e140f6ca52cad46c10c45b9da670ddd", andChargeInfo: charge) { chargeRes, error in
+api.chargeWithTransactionId("txn_5e140f6ca52cad46c10c45b9da670ddd", andChargeInfo: charge) { chargeRes, error in
   if (let error = error) {
     print("Failed with error: \(error)")
     return;
@@ -119,7 +119,7 @@ In order to issue a refund, you must have created the api with the `secretKey` p
 //First parameter is the transaction id you would get in api.createTransactionTokenWithDescription
 //Second parameter is the ID of the original charge
 //Third parameter is the amount to refund in cents from the original charge
-api.refundChargeWithTransactionId("txn_5e140f6ca52cad46c10c45b9da670ddd", andChargeId: "chg_oydyquhp39", forAmountInCends: 99) { refundRes, error in
+api.refundChargeWithTransactionId("txn_5e140f6ca52cad46c10c45b9da670ddd", andChargeId: "chg_oydyquhp39", forAmountInCends: 99) { refundRes, error in
   if (let error = error) {
     print("Failed with error: \(error)")
     return;
