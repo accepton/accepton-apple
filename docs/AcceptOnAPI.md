@@ -155,7 +155,7 @@ Let's do an example of better error handling for requesting the transaction toke
 ```swift
 api.createTransactionTokenWithDescription("T-Shirt", forAmountInCents: 2000) { tokenRes, error in
   //Did we succeed?
-  if (let error = error) {
+  if let error = error {
     switch error {
       case AcceptOnAPIError.Code.InternalServerError.rawValue:
         print("Failed because AcceptOn is offline, \(error)")
