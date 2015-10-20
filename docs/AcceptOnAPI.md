@@ -43,7 +43,7 @@ api.createTransactionTokenWithDescription("T-Shirt", forAmountInCents: 2000) { t
 Answer the questions of *can I accept credit cards?*, *can I accept paypal?*, etc. The first parameter is the transactional token id that you received as part of the response in `createTransactionToken`.
 
 ```swift
-api.availablePaymentMethodsForTransactionWithId("txn_5e140f6ca52cad46c10c45b9da670ddd") { paymentMethods, error in
+api.getAvailablePaymentMethodsForTransactionWithId("txn_5e140f6ca52cad46c10c45b9da670ddd") { paymentMethods, error in
   if (let error = error) {
     print("Failed with error: \(error)")
     return;
