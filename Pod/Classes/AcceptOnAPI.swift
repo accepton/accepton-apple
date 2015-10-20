@@ -1,5 +1,8 @@
 import Alamofire
 
+//See https://github.com/sotownsend/accepton-apple/blob/master/docs/AcceptOnAPI.md
+//for details of most classes and structs in this file
+
 //Contains error codes for AcceptOnAPI & convenience methods
 public struct AcceptOnAPIError {
     public static let domain = "com.accepton.api.error"
@@ -22,31 +25,59 @@ public struct AcceptOnAPIError {
     }
 }
 
-public class AcceptOnAPI {
-    public func holahOnResponse() {
-        //Token Stub
-        Alamofire.request(.POST, "https://staging-checkout.accepton.com/v1/tokens", parameters: ["access_token":"pkey_24b6fa78e2bf234d", "amount":"1000", "description":"Hipster T-Shirt"]).responseJSON { response in
-            
-
-            
-            if let JSON = response.result.value {
-                let id = JSON["id"] as! String
-            }
-        }
-    }
+//Returned for the payment methods requests.  Describes what payments are available.
+public struct AcceptOnAPIPaymentMethodsInfo {
+    public var supportsCreditCard: Bool = false
+    public var supportsStripe: Bool = false
+    public var supportsPaypal: Bool = false
+    public var supportsApplePay: Bool = true
     
+    public var processorInfo: [String:AnyObject]?
+    
+    //Tries to take the /v1/form/configure endpoint JSON info and convert it to
+    //a info object. Returns nil if failed to parse correctly.
+    static public func parseConfig(config: [String: AnyObject]) -> AcceptOnAPIPaymentMethodsInfo? {
+        var info: AcceptOnAPIPaymentMethodsInfo = AcceptOnAPIPaymentMethodsInfo()
+        
+        if let paymentMethods = config["payment_methods"] as? [String] {
+            if paymentMethods.contains("paypal") {
+                info.supportsPaypal = true
+            }
+            
+            if paymentMethods.contains("credit-card") {
+                info.supportsCreditCard = true
+            }
+        } else {
+            return nil
+        }
+        
+        if let processorInfo = config["processor_information"] as? [String:AnyObject] {
+            info.processorInfo = processorInfo
+        } else {
+            return nil
+        }
+        
+        return info
+    }
+}
+
+//Actual API class, see https://github.com/sotownsend/accepton-apple/blob/master/docs/AcceptOnAPI.md for docs
+public class AcceptOnAPI {
+    /* ######################################################################################### */
+    /* Endpoint Communication Helpers                                                            */
+    /* ######################################################################################### */
     //The endpoint URL we are communicating with for all API calls
     static let endpointUrl = "https://staging-checkout.accepton.com"
     
     //Makes an AcceptOnAPI network request to the `path`, e.g. if you passed in `/v1/tokens` for path
     //then you would make a request to something like `https://staging-checkout.accepton.com/v1/tokens`
     //depending on the value of endpoint_url above
-    static public func requestWithPath(path: String, params: [String:AnyObject]?, completion: (res: [String:AnyObject]?, error:NSError?) -> ()) {
+    static public func requestWithMethod(method: Alamofire.Method, path: String, params: [String:AnyObject]?, completion: (res: [String:AnyObject]?, error:NSError?) -> ()) {
         //Get the full network request path, e.g. https://staging-checkout.accepton.com + /v1/tokens
         let fullPath = "\(endpointUrl)/\(path)"
         
         //Make a request
-        Alamofire.request(.POST, fullPath, parameters: params).responseJSON { response in
+        Alamofire.request(method, fullPath, parameters: params).responseJSON { response in
             switch response.result {
             case .Success:
                 //If the status code isn't a 200, return an error
@@ -86,6 +117,9 @@ public class AcceptOnAPI {
         }
     }
     
+    /* ######################################################################################### */
+    /* Constructors & Members                                                                    */
+    /* ######################################################################################### */
     public var accessToken: String!
     public init(publicKey: String) {
         accessToken = publicKey
@@ -94,18 +128,39 @@ public class AcceptOnAPI {
     public init(secretKey: String) {
         accessToken = secretKey
     }
-    
-    public func getAvailablePaymentMethodsforTransactionWithId(tid: String, completion: (paymentMethods: String, error: NSError?) -> ()) {
-    }
-    
+
+    /* ######################################################################################### */
+    /* API Request Functions                                                                     */
+    /* ######################################################################################### */
     public func createTransactionTokenWithDescription(description: String, forAmountInCents amount: Int, completion: (tokenRes: [String:AnyObject]?, error: NSError?) -> ()) {
         let params = ["access_token":self.accessToken, "amount": String(amount), "description": description]
         
-        AcceptOnAPI.requestWithPath("/v1/tokens", params: params, completion: { res, err in
+        AcceptOnAPI.requestWithMethod(.POST, path:"/v1/tokens", params: params, completion: { res, err in
             if (err != nil) {
                 completion(tokenRes: nil, error: err)
             } else {
                 completion(tokenRes: res, error: nil)
+            }
+        })
+    }
+    
+    public func getAvailablePaymentMethodsForTransactionWithId(tid: String, completion: (paymentMethods: AcceptOnAPIPaymentMethodsInfo?, error: NSError?) -> ()) {
+        let params = ["access_token":self.accessToken, "token_id": tid]
+        
+        AcceptOnAPI.requestWithMethod(.GET, path:"/v1/form/configure", params: params, completion: { res, err in
+            if (err != nil) {
+                completion(paymentMethods: nil, error: err)
+            } else {
+                if let config = res?["config"] as? [String:AnyObject] {
+                    if let info = AcceptOnAPIPaymentMethodsInfo.parseConfig(config) {
+                        completion(paymentMethods: info, error: nil)
+                    } else {
+                        completion(paymentMethods: nil, error: AcceptOnAPIError.errorWithCode(.MalformedOrNonExistantData, failureReason: "Couldn't parse the paymentMethods configuration correctly, but did receive the configuration response from AcceptOn (And it was valid JSON).  Something may have changed in the schema of the dictionary returned by /v1/form/configure."))
+                    }
+                    return
+                }
+                
+                completion(paymentMethods: nil, error: AcceptOnAPIError.errorWithCode(.MalformedOrNonExistantData, failureReason: "AcceptOn's API returned payment information, but it could not be processed. This may be a JSON formatting issue, no data was returned, or a schema change for the /v1/form/configure response for payment information"))
             }
         })
     }
