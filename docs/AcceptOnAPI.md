@@ -143,6 +143,7 @@ Possible Error Codes:
   * `AcceptOnAPIError.Code.ServiceUnavailable` - We're temporarily offline for maintenance.  Please try again later.
   * `AcceptOnAPIError.Code.NetworkIssues` - The client is having issues connecting to the internet.
   * `AcceptOnAPIError.Code.UnknownCode` - An unknown code, e.g. not 401, 500, etc. was received from the api.
+  * `AcceptOnAPIError.Code.MalformedOrNonExistantData` - No data, or malformed JSON, was received.
 
 Let's do an example of better error handling for requesting the transaction token:
 
