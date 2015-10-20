@@ -56,6 +56,11 @@ api.getAvailablePaymentMethodsForTransactionWithId("txn_5e140f6ca52cad46c10c45b9
   let supportsStripe = paymentMethods.doesSupportStripe
   let supportsPaypal = paymentMethods.doesSupportPaypal
   let supportsApplePay = paymentMethods.doesSupportApplePay
+  
+  //Additionally, you get the processor information which contains
+  //payment processor specific configuration information.
+  let processorInfo = paymentMethods.processorInfo
+  //let paypalInfo = processorInfo?["paypal"] as? [String:AnyObject]
 }
 ```
 
@@ -70,7 +75,7 @@ Let's start with our first example of charging a credit card:
 //expMonth / expYear - The expiration month and year as appears on the credit card
 //securityCode - The 'security' code on the credit card, e.g. 3-digit AMEX
 //email (optional) - The email to bind to the transaction
-let charge = AcceptOnAPIChargeInfo.withCreditCardNum("1234123412341234", 
+let charge = AcceptOnAPIChargeInfo(creditCardNum: "1234123412341234", 
                                                  expMonth: "09", 
                                                  expYear: "14", 
                                                  securityCode: "123", 
@@ -94,7 +99,7 @@ Alternatively, let's create a charge for a transaction partially handled by a 3r
 //Here we are creating a charge for a credit-card that has already been processed by a payment processor.
 //cardToken (optional) - The payment processor token
 //email (optional) - The email to bind to the transaction
-let charge = AcceptOnAPIChargeInfo.withCardToken("paypal_sszt2ga35rkea764kxwn07", 
+let charge = AcceptOnAPIChargeInfo(cardToken: "paypal_sszt2ga35rkea764kxwn07", 
                                                   andEmail: nil)
 
 //First parameter is the transaction id you would get in api.createTransactionTokenWithDescription
@@ -119,7 +124,7 @@ In order to issue a refund, you must have created the api with the `secretKey` p
 //First parameter is the transaction id you would get in api.createTransactionTokenWithDescription
 //Second parameter is the ID of the original charge
 //Third parameter is the amount to refund in cents from the original charge
-api.refundChargeWithTransactionId("txn_5e140f6ca52cad46c10c45b9da670ddd", andChargeId: "chg_oydyquhp39", forAmountInCends: 99) { refundRes, error in
+api.refundChargeWithTransactionId("txn_5e140f6ca52cad46c10c45b9da670ddd", andChargeId: "chg_oydyquhp39", forAmountInCents: 99) { refundRes, error in
   if (let error = error) {
     print("Failed with error: \(error)")
     return;
@@ -142,6 +147,8 @@ Possible Error Codes:
   * `AcceptOnAPIIError.Code.InternalServerError` - We had a problem with our server. Try again later.
   * `AcceptOnAPIError.Code.ServiceUnavailable` - We're temporarily offline for maintenance.  Please try again later.
   * `AcceptOnAPIError.Code.NetworkIssues` - The client is having issues connecting to the internet.
+  * `AcceptOnAPIError.Code.UnknownCode` - An unknown code, e.g. not 401, 500, etc. was received from the api.
+  * `AcceptOnAPIError.Code.MalformedOrNonExistantData` - No data, or malformed JSON, was received.
 
 Let's do an example of better error handling for requesting the transaction token:
 
