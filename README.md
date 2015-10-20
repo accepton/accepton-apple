@@ -61,10 +61,6 @@ Wip
 You may create more customized solutions through using the lower level api's:
   * [AcceptOnAPI](./docs/AcceptOnAPI.md) - The raw low-level networking API to talk to *AcceptOn*
 
-```swift
-import accepton
-```
-
 ## Libraries Used
   * [Alamofire](https://github.com/Alamofire/Alamofire/) - Elegant HTTP Networking in Swift
 
