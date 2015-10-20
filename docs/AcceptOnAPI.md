@@ -169,6 +169,6 @@ api.createTransactionTokenWithDescription("T-Shirt", forAmountInCents: 2000) { t
   
   //We now have a tokenId we can use
   let tokenId = tokenRes["id"] as! String
-  print("Token id: ", tokenId)  //e.g. `Token id: txn_5e140f6ca52cad46c10c45b9da670ddd`
+  print("Token id: \(tokenId)")  //e.g. `Token id: txn_5e140f6ca52cad46c10c45b9da670ddd`
 }
 ```
