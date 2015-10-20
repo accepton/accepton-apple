@@ -58,7 +58,6 @@ Then run `cartchage` in the same directory as your modified `Cartfile` and drag 
 Wip
 
 ## Low Level Primitives
-You may create more customized solutions through using the lower level api's:
   * [AcceptOnAPI](./docs/AcceptOnAPI.md) - The raw low-level networking API to talk to *AcceptOn*
 
 ## Libraries Used
