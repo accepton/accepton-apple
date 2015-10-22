@@ -1,7 +1,6 @@
 import Alamofire
 
-//See https://github.com/sotownsend/accepton-apple/blob/master/docs/AcceptOnAPI.md
-//for details of most classes and structs in this file
+//See /docs/AcceptOnAPI.md for details of most classes and structs in this file
 
 //Contains error codes for AcceptOnAPI & convenience methods
 public struct AcceptOnAPIError {

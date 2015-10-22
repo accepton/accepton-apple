@@ -154,11 +154,11 @@ Let's do an example of better error handling for requesting the transaction toke
 ```swift
 api.createTransactionTokenWithDescription("T-Shirt", forAmountInCents: 2000) { tokenRes, error in
   //Did we succeed?
-  if (let error = error) {
+  if let error = error {
     switch error {
-      case AcceptOnAPIError.Code.InternalServerError:
+      case AcceptOnAPIError.Code.InternalServerError.rawValue:
         print("Failed because AcceptOn is offline, \(error)")
-      case AcceptOnAPIError.Code.NetworkIssues:
+      case AcceptOnAPIError.Code.NetworkIssues.rawValue:
         print("Failed because your network connection is not available, \(error)")
       default:
         print("Failed for an unknown error, \(error)")
@@ -168,6 +168,6 @@ api.createTransactionTokenWithDescription("T-Shirt", forAmountInCents: 2000) { t
   
   //We now have a tokenId we can use
   let tokenId = tokenRes["id"] as! String
-  print("Token id: ", tokenId)  //e.g. `Token id: txn_5e140f6ca52cad46c10c45b9da670ddd`
+  print("Token id: \(tokenId)")  //e.g. `Token id: txn_5e140f6ca52cad46c10c45b9da670ddd`
 }
 ```
