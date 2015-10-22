@@ -2,8 +2,8 @@
   <img src='./banner.png' />
 </div>
 
-[![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/sotownsend/accepton-apple/blob/master/LICENSE)
-[![Build Status](https://travis-ci.org/sotownsend/Pully.svg?branch=master)](https://travis-ci.org/sotownsend/)
+[![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/sotownsend/accepton-apple/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/sotownsend/accepton-apple.svg?branch=master)](https://travis-ci.org/sotownsend/)
 [![CocoaPods Version](https://img.shields.io/cocoapods/v/accepton.svg)](https://img.shields.io/cocoapods/v/accepton-apple.svg)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Platform](https://img.shields.io/badge/Platforms-ios%20%7C%20osx%20%7C%20watchos%20%7C%20tvos-ff69b4.svg)](https://developer.apple.com)
@@ -58,7 +58,16 @@ Then run `cartchage` in the same directory as your modified `Cartfile` and drag 
 Wip
 
 ## Low Level Primitives
+You may create more customized solutions through using the lower level api's:
+
   * [AcceptOnAPI](./docs/AcceptOnAPI.md) - The raw low-level networking API to talk to *AcceptOn*
+  * [AcceptOnUIManager](./docs/AcceptOnUIManager.md) - Handles the semantics of the UI
+
+  
+
+```swift
+import accepton
+```
 
 ## Libraries Used
   * [Alamofire](https://github.com/Alamofire/Alamofire/) - Elegant HTTP Networking in Swift

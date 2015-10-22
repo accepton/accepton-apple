@@ -23,19 +23,18 @@ Now we can make requests with this API. You'll want to store the `api` object if
 Many API requests require a transaction token.  I.e. many api calls are for the middle of the transaction lifetime. To start a new transaction, you must create a transaction token via this request.
 
 
-In this example, we're selling a *T-Shirt* for $20 USD. At the end of the code block; we receive an *NSDictionary* object containing the response of the token object as a *NSDictionary*. You will need to keep the *token_id* around.
+In this example, we're selling a *T-Shirt* for $20 USD. At the end of the code block; we receive an `AcceptOnAPITransactionToken` object containing the response of the token object as a *NSDictionary*. You will need to keep this around as many of the other methods need a transaction token id.  You may retrieve this my calling `tokenObject.id`.
 
 ```swift
-api.createTransactionTokenWithDescription("T-Shirt", forAmountInCents: 2000) { tokenRes, error in
+api.createTransactionTokenWithDescription("T-Shirt", forAmountInCents: 2000) { token, error in
   //Did we succeed?
   if (let error = error) {
     print("Failed with error: \(error)")
     return;
   }
   
-  //We now have a tokenId we can use
-  let tokenId = tokenRes["id"] as! String
-  print("Token id: ", tokenId)  //e.g. `Token id: txn_5e140f6ca52cad46c10c45b9da670ddd`
+  //We now have a token we can use
+  let tokenId = token.id
 }
 ```
 
@@ -43,7 +42,7 @@ api.createTransactionTokenWithDescription("T-Shirt", forAmountInCents: 2000) { t
 Answer the questions of *can I accept credit cards?*, *can I accept paypal?*, etc. The first parameter is the transactional token id that you received as part of the response in `createTransactionToken`.
 
 ```swift
-api.getAvailablePaymentMethodsForTransactionWithId("txn_5e140f6ca52cad46c10c45b9da670ddd") { paymentMethods, error in
+api.getAvailablePaymentMethodsForTransactionWithId(token.id) { paymentMethods, error in
   if (let error = error) {
     print("Failed with error: \(error)")
     return;
@@ -81,7 +80,7 @@ let charge = AcceptOnAPIChargeInfo(creditCardNum: "1234123412341234",
                                                  securityCode: "123", 
                                                  andEmail: nil)
 
-api.chargeWithTransactionId("txn_5e140f6ca52cad46c10c45b9da670ddd", andChargeInfo: charge) { chargeRes, error in
+api.chargeWithTransactionId(token.id, andChargeInfo: charge) { chargeRes, error in
   if (let error = error) {
     print("Failed with error: \(error)")
     return;

@@ -67,6 +67,7 @@
 		9E7786C034F0E0A6B5F0A0E6BE7D7E4A /* BeEmpty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E994D3FAC9E5D9E63C5315CB1D9E2F /* BeEmpty.swift */; };
 		A5D82EFAAA513B29173AE397474E344B /* Quick.h in Headers */ = {isa = PBXBuildFile; fileRef = D3E9B8C979CAF2529A31EE9561CBD2FD /* Quick.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA21C9BDD808F207C00BD312BCD44F5E /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBFB3C8EA35F0A5A02254F0497BE441 /* Manager.swift */; };
+		AAA3A5241BD95246006578B7 /* AcceptOnUIMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA3A5231BD95246006578B7 /* AcceptOnUIMachine.swift */; settings = {ASSET_TAGS = (); }; };
 		B02B17850D7287E15A9BDC16388EC7F3 /* Pods-accepton_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 499F826A66F99880437488E8C268E950 /* Pods-accepton_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B0A26F58BA3E6222E50AE5AC883B8EAF /* DSL.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D759638F172198C9D521BF2484C0CF /* DSL.m */; };
 		B0BFA375AD9E5DCA4EF0E9204D20168F /* Pods-accepton_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 963D9980DF8543D8597D560CE732A8CF /* Pods-accepton_Tests-dummy.m */; };
@@ -265,6 +266,7 @@
 		A6F94A4DDF6000425492AFD88032F925 /* HaveCount.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HaveCount.swift; path = Nimble/Matchers/HaveCount.swift; sourceTree = "<group>"; };
 		A71349C60BE0646838FEE976D514D0E0 /* Pods-accepton_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-accepton_Example-frameworks.sh"; sourceTree = "<group>"; };
 		A9F98BDC2749AE188A7925704A604829 /* FailureMessage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FailureMessage.swift; path = Nimble/FailureMessage.swift; sourceTree = "<group>"; };
+		AAA3A5231BD95246006578B7 /* AcceptOnUIMachine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnUIMachine.swift; sourceTree = "<group>"; };
 		AB4222921A2C6A2D11EAEFBB89371E15 /* Quick-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Quick-dummy.m"; sourceTree = "<group>"; };
 		ACC9177919816259B7FD39126349F141 /* ResponseSerialization.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ResponseSerialization.swift; path = Source/ResponseSerialization.swift; sourceTree = "<group>"; };
 		B03497957A37AC6689033D9FB3EB6EBA /* EndWith.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EndWith.swift; path = Nimble/Matchers/EndWith.swift; sourceTree = "<group>"; };
@@ -374,6 +376,7 @@
 			isa = PBXGroup;
 			children = (
 				04AFDC611298DA485AB0D9EEFCFBE476 /* AcceptOnAPI.swift */,
+				AAA3A5231BD95246006578B7 /* AcceptOnUIMachine.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -919,6 +922,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4D9D270BB619949B8C00F835153D32D /* accepton-dummy.m in Sources */,
+				AAA3A5241BD95246006578B7 /* AcceptOnUIMachine.swift in Sources */,
 				49D1733AF9ABAC1C02B72A112DC99C38 /* AcceptOnAPI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

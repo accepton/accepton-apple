@@ -31,19 +31,19 @@ class AcceptOnAPISpec: QuickSpec {
             
             it("does retrieve a transaction token when a working access token is given") {
                 let api = AcceptOnAPI.init(publicKey: "pkey_89f2cc7f2c423553")
-                var tokenRes: [String: AnyObject]? = nil
-                api.createTransactionTokenWithDescription("T-Shirt", forAmountInCents: 100, completion: { (_tokenRes, _error) -> () in
-                    tokenRes = _tokenRes
+                var token: AcceptOnAPITransactionToken? = nil
+                api.createTransactionTokenWithDescription("T-Shirt", forAmountInCents: 100, completion: { (_token, _error) -> () in
+                    token = _token
                 })
                 
                 //Should have returned a transaction token whose id starts with txn_
                 expect {
-                    return tokenRes?["id"] as? String
+                    return token?.id
                 }.toEventually(contain("txn_"))
                 
                 //Should have returned cents of the transaction (100 cents)
                 expect {
-                    return tokenRes?["amount"] as? Int
+                    return token?.amountInCents
                 }.toEventually(equal(100))
             }
         }
@@ -54,9 +54,9 @@ class AcceptOnAPISpec: QuickSpec {
                 
                 //Create a transaction token
                 let api = AcceptOnAPI.init(publicKey: "pkey_89f2cc7f2c423553")
-                api.createTransactionTokenWithDescription("T-Shirt", forAmountInCents: 100, completion: { (tokenRes, _error) -> () in
+                api.createTransactionTokenWithDescription("T-Shirt", forAmountInCents: 100, completion: { (token, _error) -> () in
                     //Grab the transaction token
-                    let tid = tokenRes!["id"] as! String
+                    let tid = token!.id
                     
                     api.getAvailablePaymentMethodsForTransactionWithId(tid, completion: { (_paymentMethods, error) -> () in
                         paymentMethods = _paymentMethods

@@ -59,6 +59,39 @@ public struct AcceptOnAPIPaymentMethodsInfo {
         
         return info
     }
+    
+    public init() {}
+}
+
+//Helper struct that converts the original dictionary returned from the transaction creation into a
+//swift object
+public struct AcceptOnAPITransactionToken {
+    
+    public var id: String!
+    public var amountInCents: Int!
+    public var desc: String!
+    
+    static public func parseTokenRes(tokenRes: [String: AnyObject]) -> AcceptOnAPITransactionToken? {
+        //Create the object we are going to return
+        var t: AcceptOnAPITransactionToken = AcceptOnAPITransactionToken()
+        
+        //Get the various fields specified in http://developers.accepton.com/#transaction-tokens
+        if let id = tokenRes["id"] as? String {
+            t.id = id
+        } else { return nil }
+        
+        if let amount = tokenRes["amount"] as? Int {
+            t.amountInCents = amount
+        } else { return nil }
+        
+        if let description = tokenRes["description"] as? String {
+            t.desc = description
+        } else { return nil }
+    
+        return t
+    }
+    
+    public init() {}
 }
 
 //Helper struct for the charge methods (which have a lot of parameters and variations of parameters)
@@ -153,14 +186,19 @@ public class AcceptOnAPI {
     /* ######################################################################################### */
     /* API Request Functions                                                                     */
     /* ######################################################################################### */
-    public func createTransactionTokenWithDescription(description: String, forAmountInCents amount: Int, completion: (tokenRes: [String:AnyObject]?, error: NSError?) -> ()) {
+    public func createTransactionTokenWithDescription(description: String, forAmountInCents amount: Int, completion: (token: AcceptOnAPITransactionToken?, error: NSError?) -> ()) {
         let params = ["access_token":self.accessToken, "amount": String(amount), "description": description]
         
         AcceptOnAPI.requestWithMethod(.POST, path:"/v1/tokens", params: params, completion: { res, err in
             if (err != nil) {
-                completion(tokenRes: nil, error: err)
+                completion(token: nil, error: err)
             } else {
-                completion(tokenRes: res, error: nil)
+                //Make sure our response is a valid Transaction Token Object by checking for an id
+                if let tokenObject = AcceptOnAPITransactionToken.parseTokenRes(res!) {
+                    completion(token: tokenObject, error: nil)
+                } else {
+                    completion(token: nil, error: AcceptOnAPIError.errorWithCode(.MalformedOrNonExistantData, failureReason: "Tried to create a transaction token for item with description: '\(description)' for amountInCents: '\(amount)', but the returned JSON did not have an id field.  The JSON was expected to return a 'Transaction Token Object' as described in the AcceptOn API documentation at http://developers.accepton.com/#transaction-tokens but this had no such id field. We did get a 2XX response and the JSON was well formed, the JSON just didn't contain the expected fields)"))
+                }
             }
         })
     }
