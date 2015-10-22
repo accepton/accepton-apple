@@ -61,7 +61,7 @@ Wip
 You may create more customized solutions through using the lower level api's:
 
   * [AcceptOnAPI](./docs/AcceptOnAPI.md) - The raw low-level networking API to talk to *AcceptOn*
-  * [AcceptOnUIManager](./docs/AcceptOnUIManager.md) - Handles the semantics of the UI
+  * [AcceptOnUIMachine](./docs/AcceptOnUIMachine.md) - Handles the semantics of the UI
 
   
 
