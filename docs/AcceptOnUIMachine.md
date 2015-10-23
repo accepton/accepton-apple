@@ -142,7 +142,7 @@ At this point, the view controller will receive a message from the `uim` that a 
 
 ###Credit card form
 
-The credit card form has a good deal of complexity; the `uim` simplifies the process by handling the verifyication of the form, showing messages, determining which fields to highlight, etc.
+The credit card form has a good deal of complexity; the `uim` simplifies the process by handling the verification of the form, showing messages, determining which fields to highlight, etc.
 
 Here is a standardized listing of all the fields in the credit-card form and an example of the error validation.
 <div style='text-align: center'>
