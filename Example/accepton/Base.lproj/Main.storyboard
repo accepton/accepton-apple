@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="vXZ-lx-hvc" customClass="ViewController" customModule="accepton_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -15,11 +16,56 @@
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RS4-DH-LeG">
+                                <rect key="frame" x="0.0" y="336" width="600" height="67"/>
+                                <animations/>
+                                <color key="backgroundColor" red="0.93333333330000001" green="0.0" blue="0.05362601769" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="67" id="0vt-L7-5BF"/>
+                                </constraints>
+                                <state key="normal" title="Pay"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0m6-V6-dtN">
+                                <rect key="frame" x="0.0" y="45" width="600" height="79"/>
+                                <animations/>
+                                <color key="backgroundColor" red="0.0" green="1" blue="0.76828854810000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="79" id="eps-YM-Lrp"/>
+                                </constraints>
+                                <state key="normal" title="Paypal"/>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KDE-do-1ku">
+                                <rect key="frame" x="153" y="223" width="295" height="30"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="295" id="Qyr-Yn-hmW"/>
+                                    <constraint firstAttribute="height" constant="30" id="ryc-0b-hvs"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="KDE-do-1ku" firstAttribute="top" secondItem="0m6-V6-dtN" secondAttribute="bottom" constant="99" id="7hv-Q4-WDK"/>
+                            <constraint firstItem="KDE-do-1ku" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="8c8-qx-RvG"/>
+                            <constraint firstItem="0m6-V6-dtN" firstAttribute="width" secondItem="kh9-bI-dsS" secondAttribute="width" id="MN4-dz-aEu"/>
+                            <constraint firstItem="RS4-DH-LeG" firstAttribute="width" secondItem="kh9-bI-dsS" secondAttribute="width" id="RIL-QN-jOT"/>
+                            <constraint firstItem="RS4-DH-LeG" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="XhJ-84-01z"/>
+                            <constraint firstItem="0m6-V6-dtN" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="25" id="XnV-KE-2dq"/>
+                            <constraint firstItem="0m6-V6-dtN" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="bBT-lq-Gww"/>
+                            <constraint firstItem="RS4-DH-LeG" firstAttribute="top" secondItem="KDE-do-1ku" secondAttribute="bottom" constant="83" id="xmV-BW-caL"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="emailField" destination="KDE-do-1ku" id="yA3-4h-WqC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="316" y="865"/>
         </scene>
     </scenes>
 </document>

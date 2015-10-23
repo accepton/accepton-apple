@@ -9,14 +9,25 @@ import accepton
         super.init()
     }
     
+    var ready: (()->())?
+    public func whenReady(ready: (()->())) {
+        self.ready = ready
+    }
+    
     public var beginOptions: AcceptOnUIMachineFormOptions?
     public func acceptOnUIMachineDidFinishBeginWithFormOptions(options: AcceptOnUIMachineFormOptions) {
         beginOptions = options
+        ready?()
     }
     
     public var didFailBeginError: NSError?
     public func acceptOnUIMachineDidFailBegin(error: NSError) {
         didFailBeginError = error
+    }
+    
+    public var creditCardValidationErrors = NSMutableArray()
+    public func acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName(name: String, withMessage msg: String) {
+        creditCardValidationErrors.insertObject(["name":name, "msg":msg], atIndex: 0)
     }
 }
 
@@ -77,6 +88,41 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 expect {
                     return delegate.beginOptions?.hasPaypalButton
                 }.toEventually(beTrue())
+            }
+        }
+        
+        describe("email field validation") {
+            it("Does not trigger validation error if no email is entered but the focus is not changed") {
+                var delegate = AcceptOnUIMachineSpecDelegate()
+                
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                uim.delegate = delegate
+                
+                uim.beginForItemWithDescription("test", forAmountInCents: 100)
+                delegate.whenReady() {
+                    uim.creditCardFieldDidFocusWithName("email")
+                }
+                
+                expect {
+                    return delegate.creditCardValidationErrors.count
+                }.toNotEventually(beGreaterThan(0))
+            }
+            
+            it("Does trigger validation error if no email is entered and the focus is changed") {
+                var delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                uim.delegate = delegate
+                
+                uim.beginForItemWithDescription("test", forAmountInCents: 100)
+
+                delegate.whenReady() {
+                    uim.creditCardFieldDidFocusWithName("email")
+                    uim.creditCardFieldDidLoseFocus()
+                }
+                
+                expect {
+                    return delegate.creditCardValidationErrors.count
+                }.toEventually(beGreaterThan(0))
             }
         }
         

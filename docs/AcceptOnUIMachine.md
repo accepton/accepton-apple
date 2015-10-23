@@ -167,7 +167,7 @@ Our `UIViewController` dosen't implement the *logic* of these behaviours; only w
 uim.creditCardFieldDidFocusFieldWithName(name: String)
 
 //When a user switches away from a field
-uim.creditCardFieldDidLoseFocusWithName(name: String)
+uim.creditCardFieldDidLoseFocus()
 
 //When a user updates a field.  This is based around the UITextFieldDelegate function textField(_:shouldChangeCharactersInRange:replacementString:)
 //Your view controller should be a delegate of the text fields and relay necessary information to the `uim`.  In addition to relaying information,

@@ -1,9 +1,11 @@
 PODS:
   - accepton (0.1.0):
     - Alamofire (~> 3.0)
-  - Alamofire (3.0.0)
+    - SnapKit
+  - Alamofire (3.1.0)
   - Nimble (2.0.0)
   - Quick (0.7.0)
+  - SnapKit (0.15.0)
 
 DEPENDENCIES:
   - accepton (from `../`)
@@ -15,9 +17,10 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  accepton: 058887f1ea60bfa13308f44b66d4562be1ded046
-  Alamofire: b61782387f81bcc538a0284cf2bb5d7995cd0a80
+  accepton: e796e7ccebb6a3ed775e0fc4ddbcc9acee5838fc
+  Alamofire: 415bd7f56197722978759078486689f7ef913dce
   Nimble: 472e75466819eb8c06299233e87c694a9b51328a
   Quick: 906d8aa995ee0afa96f1f7f01170f40fccfa5898
+  SnapKit: 4962eed2ee18e48cbd2b2292fffc57efe7235f87
 
 COCOAPODS: 0.39.0

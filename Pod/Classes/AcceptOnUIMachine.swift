@@ -1,6 +1,10 @@
 @objc public protocol AcceptOnUIMachineDelegate {
+    //Start-up
     optional func acceptOnUIMachineDidFailBegin(error: NSError)
     optional func acceptOnUIMachineDidFinishBeginWithFormOptions(options: AcceptOnUIMachineFormOptions)
+    
+    //Credit-card form
+    optional func acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName(name: String, withMessage msg: String)
 }
 
 //Contains error codes for AcceptOnUIMachine & convenience methods
@@ -54,6 +58,12 @@ public class AcceptOnUIMachineFormOptions : NSObject {
     }
 }
 
+enum AcceptOnUIMachineState {
+    case Initialized    //begin has not been called
+    case BeginWasCalled //In the middle of the begin
+    case PaymentForm    //begin succeeded
+}
+
 public class AcceptOnUIMachine {
     /* ######################################################################################### */
     /* Constructors & Members (Stage I)                                                          */
@@ -71,6 +81,18 @@ public class AcceptOnUIMachine {
         self.api = api
     }
     
+    //Controls the state transitions
+    var state: AcceptOnUIMachineState {
+        get {
+            return _state
+        }
+        
+        set (newState) {
+            _state = newState
+        }
+    }
+    var _state: AcceptOnUIMachineState = .Initialized
+    
     //This is typically the vc that created us
     public weak var delegate: AcceptOnUIMachineDelegate?
 
@@ -80,21 +102,19 @@ public class AcceptOnUIMachine {
     //Signal from controller that we are ready to fetch data on the form configuration
     //and signal to the controller the didLoadFormWithConfig event for the given transaction
     //request
-    var didBegin: Bool = false                          //Ensure that beginForItemWithDescription is only called once (Stage II Initializer)
     var tokenObject: AcceptOnAPITransactionToken? //Transaction token that was created during beginForItemWithDescription for the given parameters
     var amountInCents: Int?                             //Amount in cents of this transaction
     var itemDescription: String?                        //Description of this transaction
     var paymentMethods: AcceptOnAPIPaymentMethodsInfo?  //Retrieved by the AcceptOnAPI containing the form configuration (payment types accepted)
-    var didFinishBegin: Bool = false                    //When the information is loaded and the form is ready to be displayed, etc.
     public func beginForItemWithDescription(description: String, forAmountInCents amountInCents: Int) {
         //Prevent race-conditions on didBegin check
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
             //Can only be called at the start once.  It's a stage II initializer
-            if (self?.didBegin != false) {
+            if (self?._state != .Initialized) {
                 self?.delegate?.acceptOnUIMachineDidFailBegin?(AcceptOnUIMachineError.errorWithCode(.DeveloperError, failureReason: "You already called beginForItemWithDescription; this should have been called once at the start.  You will have to make a new AcceptOnUIMachine for a new form"))
                 return
             }
-            self?.didBegin = true
+            self?.state = .BeginWasCalled
             
             //Create a transaction token
             self?.api.createTransactionTokenWithDescription(description, forAmountInCents: amountInCents) { (tokenObject, error) -> () in
@@ -119,7 +139,7 @@ public class AcceptOnUIMachine {
                     self?.paymentMethods = paymentMethods!
                     
                     //Notify that we are loaded
-                    self?.didFinishBegin = true
+                    self?.state = .PaymentForm
                     self?.postBegin()
                 })
             }
@@ -134,5 +154,49 @@ public class AcceptOnUIMachine {
         
         //Signal that we should show the form
         self.delegate?.acceptOnUIMachineDidFinishBeginWithFormOptions?(options)
+    }
+    
+    
+    /* ######################################################################################### */
+    /* Credit Card Form Specifics                                                                */
+    /* ######################################################################################### */
+    //User targets a credit-card field, or untargets a field. Field names
+    //are specified in the example form in https://github.com/sotownsend/accepton-apple/blob/master/docs/AcceptOnUIMachine.md
+    var _currentFocusedCreditCardFieldName: String?
+    var currentFocusedCreditCardFieldName: String? {
+        set (newFieldName) {
+            //Validate the old field if it existed
+            if (_currentFocusedCreditCardFieldName != nil) {
+                validateCreditCardFieldWithName(_currentFocusedCreditCardFieldName)
+            }
+            
+            _currentFocusedCreditCardFieldName = newFieldName
+        }
+        
+        get {
+            return _currentFocusedCreditCardFieldName
+        }
+    }
+    
+    //Values of various fields
+    var emailFieldValue: String = ""
+    
+    //Called every time a credit-card field needs validation (loses focus)
+    func validateCreditCardFieldWithName(name: String?) {
+        if (name == "email") {
+            delegate?.acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName?("email", withMessage: "Invalid email test")
+        }
+    }
+        
+    public func creditCardFieldDidFocusWithName(name: String) {
+        guard state == .PaymentForm else { return }
+        
+        currentFocusedCreditCardFieldName = name
+    }
+    
+    public func creditCardFieldDidLoseFocus() {
+        guard _state == .PaymentForm else { return }
+        
+        currentFocusedCreditCardFieldName = nil
     }
 }
