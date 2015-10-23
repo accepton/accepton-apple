@@ -207,7 +207,7 @@ At this point, the view controller will receive a message from the `uim` that a 
 
 ##Payment Processing
 
-At this point, the `uim` would have received `paypalClicked`, `payClicked`, etc. and is now processing the payment request.  You should have pushed an error view ontop of the original form and are now awaiting a response.  In order to detect this response, we need to add some delegate functions.
+At this point, the `uim` would have received `paypalClicked`, `creditCardPayClicked`, etc. and is now processing the payment request.  You should have pushed an error view ontop of the original form and are now awaiting a response.  In order to detect this response, we need to add some delegate functions.
 
 ```swift
 //Payment succeeded, you should show a screen to notify the user that the payment went through. 
