@@ -160,6 +160,8 @@ The ux behaviour of the credit-form is as such:
 
 Our `UIViewController` dosen't implement the *logic* of these behaviours; only what they entail.  The `uim` is capable of handling all the *logic* as it receives all necessary semantic events including field switches and input entry. Functions you must call to the `uim` for the credit-card form based on user actions:
 
+>The `name` parameter is the name labeled in the credit-card example form above
+
 ```swift
 //When a user switches to a field, e.g. clicks and brings up the keyboard, but not when the user pastes something.
 //Multiple focuses will assume that the last focus is no longer active, but you should still
@@ -180,6 +182,8 @@ uim.creditCardPayClicked()
 ```
 
 In addition to these user actions, you will also need to add the following delegate function handlers (apart of the `AcceptOnUIMachineDelegate` protocol), to your *view-controller* to receive things like field updates and validation errors.
+
+>The `name` parameter is the name labeled in the credit-card example form above
 
 ```swift
 func acceptOnUIMachineUpdateCreditCardFieldWithName(name: String, withString string: String) {
