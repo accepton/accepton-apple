@@ -1,11 +1,23 @@
 #AcceptOnUIMachine
 A swift class that provides the support for the *semantics* of the UI layers. Each machine represents one
-payment transaction flow.
+payment transaction flow; here is a typical *view-flow* that approximately mirrors the *state-flow* of the `AcceptOnUIMachine`.
 
-##Usage
-In a typical use case scenario, `AcceptOnUIMachine` will be created inside a `UIViewController` and the same `UIViewController` will act as a delegate of the `AcceptOnUIMachine` instance.  The `UIViewController` will receive events that determine when it should display loading screens, errors, what to display on forms, successful payment submissions, etc. The `AcceptOnUIMachine` doesn't determine the actual views to be displayed only the concepts that should be displayed.  It is up to the `UIViewController` to determine what these concepts mean.  
+<div style='text-align: center'>
+  <img src='./images/ui_machine_view_flow.png' width="900" />
+</div>
 
-Let's create an example `UIViewController` that initializes a `AcceptOnUIMachine` and sets itself as the delegate to our manager instance:
+##Theory of operation
+In a typical use case scenario, `AcceptOnUIMachine` will be created inside a `UIViewController` and the same `UIViewController` will act as a delegate of the `AcceptOnUIMachine` instance.  
+
+The `UIViewController` will talk to the `AcceptOnUIMachine` by making ordinary method calls.  The `AcceptOnUIMachine` in turn, talks to the `UIViewController` through the delegate proxy set by the `UIViewController` as itself.
+
+<div style='text-align: center'>
+  <img src='./images/ui_machine_two_way.png' width="900" />
+</div>
+
+##Getting started
+
+Let's create an example `UIViewController` that initializes a `AcceptOnUIMachine` and sets itself as the delegate to our manager instance as depicted in the diagram above:
 
 ```swift
 //Create a UIViewController that acts as an AcceptOnUIMachineDelegate
@@ -22,28 +34,44 @@ class MyController : UIViewController, AcceptOnUIMachineDelegate {
 
 > ☃ You may either pass a `publicKey:`, or `secretKey:`  as a parameter to the AcceptOnUIMachine.  As this only handles payments, and not refunds, etc. both the public and secret provide the same level of functionality
 
-At this point, we have a fully initialized `AcceptOnUIMachine`.  Nothing will happened until we tell the machine to start. We do this by calling `uim.beginForItemWithDescription`.  This method signals the start of a payment flow; the machine represents the state you are in that payment flow.  That is why you provide this method with a description and price.  The machine will then request from the *AcceptOn* api's a transaction token based on our given description and price.
+Notice that we have declared that our controller has declared that it is complaint with the `AcceptOnUIMachineDelegate` protocol. 
+
+> ☃ The `AcceptOnUIMachineDelegate` protocol only has optional methods so there are no compilation errors.
+
+##Putting everything into motion
+
+Once you have added the code annotated in the *Getting Started* section above, you will need to *start* the machine (`uim`) before you see any side-effects.  When you *start* the machine, you pass along a description and price of the object you are selling:
+
+```swift
+//Create a UIViewController that acts as an AcceptOnUIMachineDelegate
+class MyController : UIViewController, AcceptOnUIMachineDelegate {
+  var uim: AcceptOnUIMachine!
+  
+  func viewDidLoad() {
+    //Create a new AcceptOnUIMachine object and set ourselves as the delegate
+    let uim = AcceptOnUIMachine(publicKey: "pkey_0d4502a9bf8430ae")
+    uim.delegate = self
+    
+    //Start the machine for a T-Shirt that costs $10
+    uim.beginForItemWithDescription("T-Shirt", forAmountInCents: 1000)
+  }
+}
+```
 
 >⚠ `beginForItemWithDescription` can only be called once. If the machine fails to bootup, e.g. network error, you must re-create the machine to try again.
 
-```swift
-//Create a UIViewController that acts as an AcceptOnUIMachineDelegate
-class MyController : UIViewController, AcceptOnUIMachineDelegate {
-  var uim: AcceptOnUIMachine!
-  
-  func viewDidLoad() {
-    //Create a new AcceptOnUIMachine object and set ourselves as the delegate
-    let uim = AcceptOnUIMachine(publicKey: "pkey_0d4502a9bf8430ae")
-    uim.delegate = self
+The machine will now make the necessary network requests to the `AcceptOnAPI` servers and notify the `UIViewController` when it has completed loading by calling either the `acceptOnUIMachineDidFinishBeginWithFormOptions` or `acceptOnUIMachineDidFailBegin` depending on whether or not the machine was able to reach the *AcceptOn*.  
 
-    //Request the machine to 'bootup'
-    uim.beginForItemWithDescription("Shoes", amountInCents: 440)
-  }
-}
-```
-If you ran this code, there would be no noticeable side-effects. That is because the `uim` calls the delegate's functions when something 
-happends; but we have not added any of the optional delegate methods. Let's add the two most basic of the delegate methods, `acceptOnUIMachineDidFinishBeginWithFormOptions` and
-the `acceptOnUIMachineDidFailBegin`:
+>⚠ If you receive `acceptOnUIMachineDidFailBegin`, the machine is in an irrecoverable state.  You must re-create the machine to try again.
+
+Here is a diagram that depicts the flow from initialization of the `AcceptOnUIMachine` to the states of either *Form Active* or *Failed load*.  Notice the pills in the center of the diagram indicate the methods being called between the view controller and machine:
+
+
+<div style='text-align: center'>
+  <img src='./images/ui_machine_states.png' width="900" />
+</div>
+
+Lets implement the depected *view-flow* in code:
 
 ```swift
 //Create a UIViewController that acts as an AcceptOnUIMachineDelegate
@@ -54,118 +82,148 @@ class MyController : UIViewController, AcceptOnUIMachineDelegate {
     //Create a new AcceptOnUIMachine object and set ourselves as the delegate
     let uim = AcceptOnUIMachine(publicKey: "pkey_0d4502a9bf8430ae")
     uim.delegate = self
-
-    //Request the machine to 'bootup'
-    uim.beginForItemWithDescription("Shoes", amountInCents: 440)
+    
+    //Start the machine for a T-Shirt that costs $10
+    uim.beginForItemWithDescription("T-Shirt", forAmountInCents: 1000)
+    
+    //Show a loading screen until the machine starts up
+    showLoader()
   }
-
-  //You should display the form as specified by options and hide any loading screen you had showing
+  
   func acceptOnUIMachineDidFinishBeginWithFormOptions(options: AcceptOnUIMachineFormOptions) {
-    if (options.hasCreditCardForm) {
-      //See credit-card-form section below
-    }
-
-    if (options.hasPaypalButton) {
-      //See paypal-form section below
-    }
+    //Success!  We should show the form requested in `AcceptOnUIMachineFormOptions` (keep on reading below)
+    hideLoader()
+    //loadForm()
   }
-
-  //This is non-recoverable. acceptUIMachineDidFinishBeginWithFormOptions was never called.  More than likely, you
-  //couldn't connect with the AcceptOn API's servers and it couldn't get the paymentMethods information needed
-  //to infer form options.
-  func acceptOnUIMachineDidFailBegin(error: NSError) {
-    //You should display an error and possible `retry` button.
+  
+  func acceptOnUIMachineDidFailBegin(error: NSerror) {
+    //Fail! We should show the retry button
   }
 }
 ```
 
-After `beginForItemWithDescription` is called, one of two things can happened. Either `acceptOnUIMachineDidFinishBeginWithFormOptions` is called or
-`acceptOnUIMachineDidFailBegin` is called. Before either of these two options is called, you should show a loading screen.  If the `acceptOnUIMachineDidFailBegin`
-is received, it is non-recoverable and you may want to display a `retry` button and you will need to recreate the `AcceptOnUIMachine` to retry.
-
-#### credit-card-form
-If you receive the `hasCreditCardForm` as true in the form options, you should show a credit-card form with a card-number, expiriation date, and security code.
-
-receive a `acceptOnUIMachineDidFinishBeginWithFormOptions`, then you should display the requisite form & buttons to the user.
-
-------
-
-Notice that we declare our view controller to be compatible with the `AcceptOnUIMachineDelegate` protocol.  This is necessary for the delegate relationship.  
-
-At this point, this class is not functional as we still need to add some methods defined in the protocol definition by the `AcceptOnUIMachineDelegate` to our view controller class.  Notice that we marked the area to place these protocol methods, but have not yet added them.  **All protocol methods are optional** and divided into logical sub-sections.  Let's go through each section of protocol methods and show how they should be implemented and use cases for each protocol method.
-
-##`AcceptOnUIMachineDelegate` & `AcceptOnUIMachine` methods
-
-##Section I - Stage II Initilaziatio
-
-###Section II - Payment Success & Failure
-When a user hits the *paypal* button (if paypal is available), or the credit-card form submit button, etc. the outcome of that payment is reduced to either a payment success or failure.
+##Showing the form
+Assuming you received the `acceptOnUIMachineDidFinishBeginWithFormOptions` event with your form `options`, you are now ready to hide your loading screen and show the payment form with the requisite options.  The `options` you are passed tells you which buttons to show, e.g. `paypal`, and if you should show a credit-card form.
 
 ```swift
-  ...continued from previous `MyController` example
-  /* ################################################################################ */   
-  /* AcceptOnUIMachineDelegate Methods                                                */
-  /* ################################################################################ */
+//Expansion on the previous example code
+func acceptOnUIMachineDidFinishBeginWithFormOptions(options: AcceptOnUIMachineFormOptions) {
+  //In our VC, we showed a loader while waiting for the machine to start.  Hide this loader now.
+  hideLoader()
   
-  /* --------------------------------------------------- */
-  /* Section I | Stage II Initialization (initial load)  */
-  /* --------------------------------------------------- */
-  //When a user successfully completes a payment (i.e. charge creation) through any payment provider, e.g. `paypal`, `stripe`, etc.
-  func acceptOnUIMachinePaymentDidSucceedForChargeWithId(cid: String, andDescription desc: String, andUIAmount uiAmount: String, andAmountInCents amountInCents: Int) {
-    //cid           - The id of this charge that completed successfully
-    //desc          - The description that was part of this charge
-    //uiAmount      - The amount as a string like `3.48` for 348 cents
-    //amountInCents - The amount in cents as an integer
+  let desc = options.itemDescription  //Description you passed in beginForItemWithDescription
+  let uiAmount = options.uiAmount     //Amount you passed in beginForItemWithDescription in "$xx.xx" format
+  let tokenId = options.token.id      //May be useful to some.  Uses the raw token stored
+  
+  if (options.hasPaypalButton) {
+    //Show paypal button
   }
   
-  //When a payment fails
-  func acceptOnUIMachinePaymentDidFailWithMessage(msg: String) {
-    //msg - A useful string to show the user when their payment fails
-   }
-   
-  //We have the necessary information to load the form. This happends once after
-  //the uim is started. Before this event is received, you should show a loading
-  //screen
-  func acceptOnUIMachineDidFinishBeginWithFormOptions(xxx) {
-  }
-  
-  //We couldn't get the needed information from the AcceptOnAPI at this time. You will
-  //have to create a new `AcceptOnUIMachine` and try again
-  func acceptOnUIMachineDidFailBegin(error: NSError) {
+  if (options.hasCreditCardForm) {
+     //Show credit-card form
   }
 }
 ```
 
-###Section II - Credit Card Form
-When a user types in numbers on the credit card form, typically the fields are validated on the fly and then marked with *green* or *red* on failure.  The credit-card type, e.g. *amex*, *mastercard*, etc. will highlight for the card number, and the input fields will reject invalid input.  This section handles the messages relating to the credit-card form that signal when these types of events occur.
+It is up to us to add the requested buttons & forms to our view. Lets go through a few different cases based on the given options in `acceptOnUIMachineDidFinishBeginWithFormOptions`
 
-###Signaling
+###Paypal and ApplePay Buttons
+Most buttons, like paypal, require little more than adding a button to your form and then notifying the machine via a method.
 
-###Continuation of delegate methods...
+  * `paypal` - Add a button and call `uim.paypalClicked()` when the button is pressed.
+  * `applePay` - Add a button and call `uim.applePayClicked()` when the button is pressed.
+
+Here is an example of the paypal flow:
+<div style='text-align: center'>
+  <img src='./images/ui_machine_paypal_clicked.png' width="900" />
+</div>
+
+At this point, the view controller will receive a message from the `uim` that a payment is processing via `acceptOnUIMachinePaymentIsProcessing`.  You should show a loading screen at this time and await an automated redirection; services will then redirect you to custom authentication screens which can either be special websites (*paypal*) or kernel-level screens (*apple pay*).  Read below in *Payment Processing* to see what to do after this point.  
+
+###Credit card form
+
+The credit card form has a good deal of complexity; the `uim` simplifies the process by handling the verifyication of the form, showing messages, determining which fields to highlight, etc.
+
+Here is a standardized listing of all the fields in the credit-card form and an example of the error validation.
+<div style='text-align: center'>
+  <img src='./images/ui_machine_credit_card_fields.png' width="900" />
+</div>
+
+The ux behaviour of the credit-form is as such:
+
+  * When a field loses focus, it is validated.
+    * If the validation fails, the field is typically highlighted red and an error message is shown beside the field
+      * If a field has an error that is subsequently fixed, the error goes away when the field loses focus
+  * When a user `cardType` is identified, the card is usually shown next to the *cardNum* field
+  * The `expMonth` field contains a drop-down selector with the available months
+  * When the user hits *pay* while there are validation errors, the user is hinted that there are still validation errors.
+
+Our `UIViewController` dosen't implement the *logic* of these behaviours; only what they entail.  The `uim` is capable of handling all the *logic* as it receives all necessary semantic events including field switches and input entry. Functions you must call to the `uim` for the credit-card form based on user actions:
 
 ```swift
- /* ---------------------------------------------------------- */
- /* Section II | Credit Card Form Interactive Validation, etc. */
- /* ---------------------------------------------------------- */
- //When a credit-card form field has a malformed-value upon submission, dispatched within
- //the same frame of execution as the button click handler (main).  i.e. synchronous w.r.t
- //to the UI click event
- func acceptOnUIMachineCreditCardFormErrorForFieldWithName(fieldName: String, msg: String) {
- }
+//When a user switches to a field, e.g. clicks and brings up the keyboard, but not when the user pastes something.
+//Multiple focuses will assume that the last focus is no longer active, but you should still
+//call didLoseFocusWithName before calling this function (see below)
+uim.creditCardFieldDidFocusFieldWithName(name: String)
+
+//When a user switches away from a field
+uim.creditCardFieldDidLoseFocusWithName(name: String)
+
+//When a user updates a field.  This is based around the UITextFieldDelegate function textField(_:shouldChangeCharactersInRange:replacementString:)
+//Your view controller should be a delegate of the text fields and relay necessary information to the `uim`.  In addition to relaying information,
+//you should return false in the textField(_:shouldChangeCharactersInRange:replacementString:) so that the field is not updated as the `uim` will 
+//issue a request for the field to be updated.
+uim.creditCardFieldWithName(name: String, didChangeCharactersInRange: NSRange, withReplacementString: string)
+
+//When the user hits the pay button
+uim.creditCardPayClicked()
+```
+
+In addition to these user actions, you will also need to add the following delegate function handlers (apart of the `AcceptOnUIMachineDelegate` protocol), to your *view-controller* to receive things like field updates and validation errors.
+
+```swift
+func acceptOnUIMachineUpdateCreditCardFieldWithName(name: String, withString string: String) {
+	//As noted in the user-actions section above, you should update the specified field with the given display string.  The user input will not directly update
+	//the field because of the delegate as mentioned in the above comment signals to the UITextField to not directly update.
+}
+
+func acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName(name: String, withMessage msg: String) {
+  //Animate an error in for the given field.
+}
+
+func acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName(name: String) {
+  //Re-animate an error for the given field. The field is guaranteed to have an error
+  //currently attached to it. This happens when the user hits 'pay' with validation errors
+}
+
+func acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName(name: String) {
+  //Remove a validation error from a field.  Usually happens after user switches fields
+  //and has fixed errors
+}
+
+```
+
+At this point, the view controller will receive a message from the `uim` that a payment is processing via `acceptOnUIMachinePaymentIsProcessing`.  You should show a loading screen at this time.  Read below in *Payment Processing* to see what to do after this point.  
+
+##Payment Processing
+
+At this point, the `uim` would have received `paypalClicked`, `payClicked`, etc. and is now processing the payment request.  You should have pushed an error view ontop of the original form and are now awaiting a response.  In order to detect this response, we need to add some delegate functions.
+
+```swift
+//Payment succeeded, you should show a screen to notify the user that the payment went through. 
+//The original payment-form and payment-form loader you pushed ontop during `acceptOnUIMachinePaymentIsProcessing` 
+//should be torn down at this time.
+func acceptOnUIMachinePaymentDidSucceed() {
+  removePaypmentForm()
+  removePaymentProcessingLoader()
+  showSuccessPage()
+}
+
+//Something went wrong :/ Go back to the payment form and notify the user of what happend
+func acceptOnUIMachinePaymentDidFailWithError(error: NSError) {
+  removePaymentProcessingLoader()
   
- //When a credit-card form field is `good` and typically goes green once the user types in
- //enough information.  You should not show an incorrect form field until after the user
- //has hit submit.  This should only show a green (isValid) field or nothing at all.
- func acceptOnUIMachineCrediCardFormValidatedFieldWithName(fieldName: String, isValid: Bool) {
- }
-  
- //When a credit-card form field, like card number, should be updated. You may still use a UIInputField 
- //to collect inputs but should prevent the field from updating from the input itself. Just capture the
- //changes and relay it to the field
- func acceptOnUIMachineCrediCardFormUpdateValueForField(fieldName: String) {
- }
- 
- //The given field should be targeted for entry.
- func acceptOnUIMachineCreditCardFormShouldFocusOnField(fieldName: String) {
- }
+  //Display the message on the payment form, or you could show a UIAlertView, etc.
+  showErrorOnPaymentForm(error.localizedDescription)
+}
 ```
