@@ -166,7 +166,7 @@ Our `UIViewController` dosen't implement the *logic* of these behaviours; only w
 //When a user switches to a field, e.g. clicks and brings up the keyboard, but not when the user pastes something.
 //Multiple focuses will assume that the last focus is no longer active, but you should still
 //call didLoseFocusWithName before calling this function (see below)
-uim.creditCardDidFocusWithName(name: String)
+uim.creditCardFieldDidFocusWithName(name: String)
 
 //When a user switches away from a field
 uim.creditCardFieldDidLoseFocusWithName(name: String)
