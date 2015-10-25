@@ -58,6 +58,8 @@ class ViewController: UIViewController, AcceptOnUIMachineDelegate, UITextFieldDe
         return nil
     }
     
+    var validation: UIView?
+    var text: UILabel?
     func highlightCreditCardField(name: String, withError error: String) {
         creditCardFieldNameToUIView(name)!.backgroundColor = UIColor.redColor()
         
@@ -70,6 +72,7 @@ class ViewController: UIViewController, AcceptOnUIMachineDelegate, UITextFieldDe
             make.centerX.equalTo(creditCardFieldNameToUIView(name)!.snp_centerX)
             return
         }
+        validation = view
         
         view.backgroundColor = UIColor.greenColor()
         
@@ -96,12 +99,41 @@ class ViewController: UIViewController, AcceptOnUIMachineDelegate, UITextFieldDe
             }) { (Bool) -> Void in
         }
         
+        text = textField
+        
         view.layer.cornerRadius = 20
         
         UIView.animateWithDuration(1.2, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.3, options: UIViewAnimationOptions.AllowUserInteraction, animations: { () -> Void in
             textField.layer.transform = CATransform3DIdentity
             textField.layer.opacity = 1
             }) { (Bool) -> Void in
+        }
+        
+        
+    }
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        let text = (emailField.text! as NSString).stringByReplacingCharactersInRange(range, withString: string)
+        uim.creditCardFieldWithName("email", didUpdateWithString: text)
+        return true
+    }
+    
+    func acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName(name: String) {
+        if let validation = validation {
+            validation.removeFromSuperview()
+        }
+        
+        emailField.backgroundColor = UIColor.whiteColor()
+    }
+    
+    func acceptOnUIMachineEmphasizeValidationErorrForCreditCardFieldWithName(name: String, withMessage msg: String) {
+        text?.text = msg
+        validation?.layer.transform = CATransform3DMakeScale(1.3, 1.3, 1)
+        
+        UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+            validation?.layer.transform = CATransform3DIdentity
+            }) { (res) -> Void in
+                
         }
     }
 }

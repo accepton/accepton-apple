@@ -38,4 +38,5 @@ A swift library for processing payments through the AcceptOn API which elegantly
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'Alamofire', '~> 3.0'
   s.dependency 'SnapKit'
+  s.dependency 'Stripe'
 end

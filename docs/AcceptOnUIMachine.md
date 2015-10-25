@@ -171,11 +171,8 @@ uim.creditCardFieldDidFocusWithName(name: String)
 //When a user switches away from a field
 uim.creditCardFieldDidLoseFocus()
 
-//When a user updates a field.  This is based around the UITextFieldDelegate function textField(_:shouldChangeCharactersInRange:replacementString:)
-//Your view controller should be a delegate of the text fields and relay necessary information to the `uim`.  In addition to relaying information,
-//you should return false in the textField(_:shouldChangeCharactersInRange:replacementString:) so that the field is not updated as the `uim` will 
-//issue a request for the field to be updated.
-uim.creditCardFieldWithName(name: String, didChangeCharactersInRange: NSRange, withReplacementString: string)
+//When a user updates a field, you should report the new value of that field
+uim.creditCardFieldWithName(name: String, didUpdateWithString string: String)
 
 //When the user hits the pay button
 uim.creditCardPayClicked()
@@ -186,16 +183,11 @@ In addition to these user actions, you will also need to add the following deleg
 >The `name` parameter is the name labeled in the credit-card example form above
 
 ```swift
-func acceptOnUIMachineUpdateCreditCardFieldWithName(name: String, withString string: String) {
-	//As noted in the user-actions section above, you should update the specified field with the given display string.  The user input will not directly update
-	//the field because of the delegate as mentioned in the above comment signals to the UITextField to not directly update.
-}
-
 func acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName(name: String, withMessage msg: String) {
   //Animate an error in for the given field.
 }
 
-func acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName(name: String) {
+func acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName(name: String, withdMessage msg: String) {
   //Re-animate an error for the given field. The field is guaranteed to have an error
   //currently attached to it. This happens when the user hits 'pay' with validation errors
 }

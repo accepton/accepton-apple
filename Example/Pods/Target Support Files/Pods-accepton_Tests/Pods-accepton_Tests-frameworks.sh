@@ -86,6 +86,7 @@ strip_invalid_archs() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-accepton_Tests/Alamofire.framework"
   install_framework "Pods-accepton_Tests/SnapKit.framework"
+  install_framework "Pods-accepton_Tests/Stripe.framework"
   install_framework "Pods-accepton_Tests/accepton.framework"
   install_framework "Pods-accepton_Tests/Nimble.framework"
   install_framework "Pods-accepton_Tests/Quick.framework"
@@ -93,6 +94,7 @@ fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-accepton_Tests/Alamofire.framework"
   install_framework "Pods-accepton_Tests/SnapKit.framework"
+  install_framework "Pods-accepton_Tests/Stripe.framework"
   install_framework "Pods-accepton_Tests/accepton.framework"
   install_framework "Pods-accepton_Tests/Nimble.framework"
   install_framework "Pods-accepton_Tests/Quick.framework"

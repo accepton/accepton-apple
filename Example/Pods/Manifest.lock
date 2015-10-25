@@ -2,10 +2,14 @@ PODS:
   - accepton (0.1.0):
     - Alamofire (~> 3.0)
     - SnapKit
+    - Stripe
   - Alamofire (3.1.0)
   - Nimble (2.0.0)
   - Quick (0.7.0)
   - SnapKit (0.15.0)
+  - Stripe (6.0.1):
+    - Stripe/Core (= 6.0.1)
+  - Stripe/Core (6.0.1)
 
 DEPENDENCIES:
   - accepton (from `../`)
@@ -17,10 +21,11 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  accepton: e796e7ccebb6a3ed775e0fc4ddbcc9acee5838fc
+  accepton: 4f532864f5a70d5861e250a9e74017cb5dd7ecff
   Alamofire: 415bd7f56197722978759078486689f7ef913dce
   Nimble: 472e75466819eb8c06299233e87c694a9b51328a
   Quick: 906d8aa995ee0afa96f1f7f01170f40fccfa5898
   SnapKit: 4962eed2ee18e48cbd2b2292fffc57efe7235f87
+  Stripe: 04f215191702c268b89fe0cdf28dc24a9688a71b
 
 COCOAPODS: 0.39.0

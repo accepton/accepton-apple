@@ -1,3 +1,5 @@
+import Stripe
+
 @objc public protocol AcceptOnUIMachineDelegate {
     //Start-up
     optional func acceptOnUIMachineDidFailBegin(error: NSError)
@@ -5,6 +7,11 @@
     
     //Credit-card form
     optional func acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName(name: String, withMessage msg: String)
+    optional func acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName(name: String, withMessage msg: String)
+    optional func acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName(name: String)
+    
+    //Spec related
+    optional func acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName(name: String, withValue value: String)  //Field updated, no validation error
 }
 
 //Contains error codes for AcceptOnUIMachine & convenience methods
@@ -166,7 +173,7 @@ public class AcceptOnUIMachine {
     var currentFocusedCreditCardFieldName: String? {
         set (newFieldName) {
             //Validate the old field if it existed
-            if (_currentFocusedCreditCardFieldName != nil) {
+            if let _currentFocusedCreditCardFieldName = _currentFocusedCreditCardFieldName {
                 validateCreditCardFieldWithName(_currentFocusedCreditCardFieldName)
             }
             
@@ -178,16 +185,6 @@ public class AcceptOnUIMachine {
         }
     }
     
-    //Values of various fields
-    var emailFieldValue: String = ""
-    
-    //Called every time a credit-card field needs validation (loses focus)
-    func validateCreditCardFieldWithName(name: String?) {
-        if (name == "email") {
-            delegate?.acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName?("email", withMessage: "Invalid email test")
-        }
-    }
-        
     public func creditCardFieldDidFocusWithName(name: String) {
         guard state == .PaymentForm else { return }
         
@@ -198,5 +195,258 @@ public class AcceptOnUIMachine {
         guard _state == .PaymentForm else { return }
         
         currentFocusedCreditCardFieldName = nil
+    }
+    
+    public func creditCardFieldWithName(name: String, didUpdateWithString string: String) {
+        if (name == "email") { updateCreditCardEmailFieldWithString(string)}
+        else if (name == "cardNum") { updateCreditCardCardNumFieldWithString(string)}
+        else if (name == "expMonth") { updateCreditCardExpMonthFieldWithString(string)}
+        else if (name == "expYear") { updateCreditCardExpYearFieldWithString(string)}
+        else if (name == "security") { updateCreditCardSecurityFieldWithString(string)}
+    }
+    
+    func validateCreditCardFieldWithName(name: String) {
+        if (name == "email") { validateCreditCardEmailField() }
+        else if (name == "cardNum") { validateCreditCardCardNumField() }
+        else if (name == "expMonth") { validateCreditCardExpMonthField() }
+        else if (name == "expYear") { validateCreditCardExpYearField() }
+        else if (name == "security") { validateCreditCardSecurityField() }
+    }
+    
+    //Email field
+    /////////////////////////////////////////////////////////////////////
+    var _emailFieldValue: String?
+    var emailFieldValue: String {
+        get { return _emailFieldValue ?? "" }
+        set { _emailFieldValue = newValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) }
+    }
+    var emailFieldHasValidationError: Bool = false
+    
+    func validateCreditCardEmailField() -> Bool {
+        var errorStr: String? = nil
+       
+        if emailFieldValue == "" { errorStr = "Please enter an email" }
+        else {
+            let emailRegEx = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+            let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+            if emailTest.evaluateWithObject(emailFieldValue) != true {
+                errorStr = "Please check your email"
+            }
+        }
+    
+        if let errorStr = errorStr {
+            //We have a new validation error
+            if (emailFieldHasValidationError == false) {
+                delegate?.acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName?("email", withMessage: errorStr)
+                emailFieldHasValidationError = true
+            } else {
+                //We still have a validation error
+                delegate?.acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName?("email", withMessage: errorStr)
+            }
+        } else {
+            //We no longer have a validation error
+            if emailFieldHasValidationError == true {
+                emailFieldHasValidationError = false
+                delegate?.acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName?("email")
+            }
+            delegate?.acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName?("email", withValue: emailFieldValue)
+        }
+        return errorStr == nil ? false : true
+    }
+    func updateCreditCardEmailFieldWithString(string: String) {
+        emailFieldValue = string
+    }
+    /////////////////////////////////////////////////////////////////////
+
+    //cardNum field
+    /////////////////////////////////////////////////////////////////////
+    var _cardNumFieldValue: String?
+    var cardNumFieldValue: String {
+        get { return _cardNumFieldValue ?? "" }
+        set { _cardNumFieldValue = newValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) }
+    }
+    var cardNumFieldHasValidationError: Bool = false
+    
+    func validateCreditCardCardNumField() -> Bool {
+        var errorStr: String? = nil
+       
+        if cardNumFieldValue == "" { errorStr = "Please enter an card number" }
+        else {
+            let cardNumValidationState = STPCardValidator.validationStateForNumber(cardNumFieldValue, validatingCardBrand: true)
+            if cardNumValidationState != .Valid {
+                errorStr = "Please check your card number"
+            }
+        }
+    
+        if let errorStr = errorStr {
+            //We have a new validation error
+            if (cardNumFieldHasValidationError == false) {
+                delegate?.acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName?("cardNum", withMessage: errorStr)
+                cardNumFieldHasValidationError = true
+            } else {
+                //We still have a validation error
+                delegate?.acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName?("cardNum", withMessage: errorStr)
+            }
+        } else {
+            //We no longer have a validation error
+            if cardNumFieldHasValidationError == true {
+                cardNumFieldHasValidationError = false
+                delegate?.acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName?("cardNum")
+            }
+            delegate?.acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName?("cardNum", withValue: cardNumFieldValue)
+        }
+        return errorStr == nil ? false : true
+    }
+    func updateCreditCardCardNumFieldWithString(string: String) {
+        cardNumFieldValue = string
+    }
+    /////////////////////////////////////////////////////////////////////
+
+    //expMonth field
+    /////////////////////////////////////////////////////////////////////
+    var _expMonthFieldValue: String?
+    var expMonthFieldValue: String? {
+        get { return _expMonthFieldValue }
+        set { _expMonthFieldValue = newValue?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) }
+    }
+    var expMonthFieldHasValidationError: Bool = false
+    
+    func validateCreditCardExpMonthField() -> Bool {
+        var errorStr: String? = nil
+       
+        if expMonthFieldValue == "" { errorStr = "Please enter the expiration month" }
+        else {
+            let expMonthValidationState = STPCardValidator.validationStateForExpirationMonth(expMonthFieldValue ?? "<no month>")
+            if expMonthValidationState != .Valid {
+                errorStr = "Please check your card number"
+            }
+        }
+    
+        if let errorStr = errorStr {
+            //We have a new validation error
+            if (expMonthFieldHasValidationError == false) {
+                delegate?.acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName?("expMonth", withMessage: errorStr)
+                expMonthFieldHasValidationError = true
+            } else {
+                //We still have a validation error
+                delegate?.acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName?("expMonth", withMessage: errorStr)
+            }
+        } else {
+            //We no longer have a validation error
+            if expMonthFieldHasValidationError == true {
+                expMonthFieldHasValidationError = false
+                delegate?.acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName?("expMonth")
+            }
+            delegate?.acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName?("expMonth", withValue: expMonthFieldValue ?? "<no month>")
+        }
+
+        return errorStr == nil ? false : true
+    }
+    func updateCreditCardExpMonthFieldWithString(string: String) {
+        expMonthFieldValue = string
+    }
+    /////////////////////////////////////////////////////////////////////
+
+    //expYear field
+    /////////////////////////////////////////////////////////////////////
+    var _expYearFieldValue: String?
+    var expYearFieldValue: String {
+        get { return _expYearFieldValue ?? "" }
+        set { _expYearFieldValue = newValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) }
+    }
+    var expYearFieldHasValidationError: Bool = false
+    
+    func validateCreditCardExpYearField() -> Bool {
+        var errorStr: String? = nil
+       
+        if expYearFieldValue == "" { errorStr = "Please enter the expiration year" }
+        else {
+            let expYearValidationState = STPCardValidator.validationStateForExpirationYear(expYearFieldValue, inMonth: expMonthFieldValue ?? "01")
+            if expYearValidationState != .Valid {
+                errorStr = "Please check your card number"
+            }
+        }
+    
+        if let errorStr = errorStr {
+            //We have a new validation error
+            if (expYearFieldHasValidationError == false) {
+                delegate?.acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName?("expYear", withMessage: errorStr)
+                expYearFieldHasValidationError = true
+            } else {
+                //We still have a validation error
+                delegate?.acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName?("expYear", withMessage: errorStr)
+            }
+        } else {
+            //We no longer have a validation error
+            if expYearFieldHasValidationError == true {
+                expYearFieldHasValidationError = false
+                delegate?.acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName?("expYear")
+            }
+            delegate?.acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName?("expYear", withValue: expYearFieldValue)
+        }
+        return errorStr == nil ? false : true
+    }
+    func updateCreditCardExpYearFieldWithString(string: String) {
+        expYearFieldValue = string
+    }
+    /////////////////////////////////////////////////////////////////////
+
+    //security field
+    /////////////////////////////////////////////////////////////////////
+    var _securityFieldValue: String?
+    var securityFieldValue: String {
+        get { return _securityFieldValue ?? "" }
+        set { _securityFieldValue = newValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) }
+    }
+    var securityFieldHasValidationError: Bool = false
+    
+    func validateCreditCardSecurityField() -> Bool {
+        var errorStr: String? = nil
+       
+        if securityFieldValue == "" { errorStr = "Please enter the security code" }
+        else {
+            let securityValidationState = STPCardValidator.validationStateForCVC(securityFieldValue, cardBrand: STPCardValidator.brandForNumber(cardNumFieldValue))
+            if securityValidationState != .Valid {
+                errorStr = "Please check your security code"
+            }
+        }
+    
+        if let errorStr = errorStr {
+            //We have a new validation error
+            if (securityFieldHasValidationError == false) {
+                delegate?.acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName?("security", withMessage: errorStr)
+                securityFieldHasValidationError = true
+            } else {
+                //We still have a validation error
+                delegate?.acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName?("security", withMessage: errorStr)
+            }
+        } else {
+            //We no longer have a validation error
+            if securityFieldHasValidationError == true {
+                securityFieldHasValidationError = false
+                delegate?.acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName?("security")
+            }
+            delegate?.acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName?("security", withValue: securityFieldValue)
+        }
+        return errorStr == nil ? false : true
+    }
+    func updateCreditCardSecurityFieldWithString(string: String) {
+        securityFieldValue = string
+    }
+    /////////////////////////////////////////////////////////////////////
+
+    //User hits the 'pay' button
+    public func creditCardPayClicked() {
+        //Don't use &&: optimizer might attempt short-circuit multi-line
+        //statements and we want all these to execute at the same time
+        let resEmail = validateCreditCardEmailField()
+        let resCardNum = validateCreditCardCardNumField()
+        let resCardExpMonth = validateCreditCardExpMonthField()
+        let resCardExpYear = validateCreditCardExpYearField()
+        let resCardSecurity = validateCreditCardSecurityField()
+
+        if (resEmail && resCardNum && resCardExpMonth && resCardExpYear && resCardSecurity) {
+            //Switch
+        }
     }
 }
