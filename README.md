@@ -71,6 +71,7 @@ import accepton
 
 ## Libraries Used
   * [Alamofire](https://github.com/Alamofire/Alamofire/) - Elegant HTTP Networking in Swift
+  * [SnapKit](http://snapkit.io) - An Autolayout DSL for iOS & OSX
 
 ## License
 *accepton-apple* is released under the MIT license. See LICENSE for details.
