@@ -1,9 +1,29 @@
 import UIKit
 
+@objc protocol AcceptOnUICreditCardValidatableFieldDelegate {
+    func validatableFieldTapped(field: AcceptOnUICreditCardValidatableField, withName: String?)
+}
+
 class AcceptOnUICreditCardValidatableField : UIView {
     //-----------------------------------------------------------------------------------------------------
     //Property
     //-----------------------------------------------------------------------------------------------------
+    weak var delegate: AcceptOnUICreditCardValidatableFieldDelegate?
+    var name: String?
+    
+    //View that gains first responder status & disabled touch when this view
+    //does not have touch enabled
+    weak var _responderView: UIView?
+    var responderView: UIView? {
+        set {
+            _responderView = newValue
+            _responderView?.userInteractionEnabled = false
+        }
+
+        get {
+            return _responderView
+        }
+    }
     
     //Constructors
     //-----------------------------------------------------------------------------------------------------
@@ -26,6 +46,25 @@ class AcceptOnUICreditCardValidatableField : UIView {
         self.layer.borderColor = originalBorderColor
         self.layer.borderWidth = 0.5
         self.layer.masksToBounds = true
+        
+        let tap = UITapGestureRecognizer(target: self, action: "viewTapped")
+        tap.delaysTouchesBegan = false
+        tap.delaysTouchesEnded = false
+        self.addGestureRecognizer(tap)
+    }
+    
+    func viewTapped() {
+        self.delegate?.validatableFieldTapped(self, withName: name)
+        
+        responderView?.userInteractionEnabled = true
+        responderView?.becomeFirstResponder()
+    }
+    
+    override func resignFirstResponder() -> Bool {
+        responderView?.resignFirstResponder()
+        responderView?.userInteractionEnabled = false
+        
+        return true
     }
     
     override func layoutSubviews() {

@@ -71,11 +71,19 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate
         let gesture = UITapGestureRecognizer(target: self, action: "viewTapped")
         gesture.delaysTouchesBegan = false
         self.addGestureRecognizer(gesture)
+        
+        //Disables touch input for the fields, they will
+        //be forwarded beginFirstResponder when necessary
+        //and have no touch interaction at other times
+        cardNumValidationView.responderView = cardNumField
+        emailValidationView.responderView = emailField
+        expYearValidationView.responderView = expYearField
+        securityValidationView.responderView = securityField
     }
     
     //Dismiss keyboard
     func viewTapped() {
-        for (idx, elm) in nameToField.enumerate() {
+        for (idx, elm) in nameToValidationView.enumerate() {
             elm.1.resignFirstResponder()
         }
         
@@ -112,13 +120,19 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate
     
     //UITextFieldDelegate
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        //Calculate the new value of the field (this is called before it is updated)
-        let currentString = textField.text as NSString?
-        if let currentString = currentString {
-            let newString = currentString.stringByReplacingCharactersInRange(range, withString: string)
-            self.delegate?.creditCardFormFieldWithName?(fieldToName[textField] ?? "email", wasUpdatedToString: newString)
-        }
+        //We need a field name & it needs to have some value
+        guard let fieldName = fieldToName[textField] else { return true }
+        guard let currentString = textField.text as NSString? else { return true }
         
+        //Re-calculate string of field based on changes (we can't get the current string because it hasn't updated yet)
+        let newString = currentString.stringByReplacingCharactersInRange(range, withString: string)
+        
+        //Field length maximums, prevent further input
+        if (fieldName == "security" && currentString.length >= 4) { return false }  //Don't allow security field to be more than 4 chars
+        if (fieldName == "expYear" && currentString.length >= 2) { return false }   //Don't allow year field to be more than 2 chars
+        
+        //If we reached this point, we can accept the update
+        self.delegate?.creditCardFormFieldWithName?(fieldName, wasUpdatedToString: newString)
         return true
     }
     
