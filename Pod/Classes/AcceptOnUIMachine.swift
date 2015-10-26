@@ -9,6 +9,10 @@ import Stripe
     optional func acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName(name: String, withMessage msg: String)
     optional func acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName(name: String, withMessage msg: String)
     optional func acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName(name: String)
+    optional func acceptOnUIMachineCreditCardTypeDidChange(type: String)
+    
+    //Mid-cycle
+    optional func acceptOnUIMachinePaymentIsProcessing()
     
     //Spec related
     optional func acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName(name: String, withValue value: String)  //Field updated, no validation error
@@ -251,7 +255,7 @@ public class AcceptOnUIMachine {
             }
             delegate?.acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName?("email", withValue: emailFieldValue)
         }
-        return errorStr == nil ? false : true
+        return errorStr == nil ? true : false
     }
     func updateCreditCardEmailFieldWithString(string: String) {
         emailFieldValue = string
@@ -261,6 +265,20 @@ public class AcceptOnUIMachine {
     //cardNum field
     /////////////////////////////////////////////////////////////////////
     var _cardNumFieldValue: String?
+    var _creditCardType: String = "unknown"
+    var creditCardType: String {
+        get {
+            return _creditCardType
+        }
+        
+        set {
+            if newValue != _creditCardType {
+                delegate?.acceptOnUIMachineCreditCardTypeDidChange?(newValue)
+            }
+            
+            _creditCardType = newValue
+        }
+    }
     var cardNumFieldValue: String {
         get { return _cardNumFieldValue ?? "" }
         set { _cardNumFieldValue = newValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) }
@@ -295,10 +313,24 @@ public class AcceptOnUIMachine {
             }
             delegate?.acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName?("cardNum", withValue: cardNumFieldValue)
         }
-        return errorStr == nil ? false : true
+        return errorStr == nil ? true : false
     }
     func updateCreditCardCardNumFieldWithString(string: String) {
         cardNumFieldValue = string
+        
+        let cardBrand = STPCardValidator.brandForNumber(string)
+        switch (cardBrand) {
+        case .Visa:
+            creditCardType = "visa"
+        case .Amex:
+            creditCardType = "amex"
+        case .Discover:
+            creditCardType = "discover"
+        case .MasterCard:
+            creditCardType = "master_card"
+        default:
+            creditCardType = "unknown"
+        }
     }
     /////////////////////////////////////////////////////////////////////
 
@@ -340,7 +372,7 @@ public class AcceptOnUIMachine {
             delegate?.acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName?("expMonth", withValue: expMonthFieldValue ?? "<no month>")
         }
 
-        return errorStr == nil ? false : true
+        return errorStr == nil ? true : false
     }
     func updateCreditCardExpMonthFieldWithString(string: String) {
         expMonthFieldValue = string
@@ -384,7 +416,7 @@ public class AcceptOnUIMachine {
             }
             delegate?.acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName?("expYear", withValue: expYearFieldValue)
         }
-        return errorStr == nil ? false : true
+        return errorStr == nil ? true : false
     }
     func updateCreditCardExpYearFieldWithString(string: String) {
         expYearFieldValue = string
@@ -428,7 +460,7 @@ public class AcceptOnUIMachine {
             }
             delegate?.acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName?("security", withValue: securityFieldValue)
         }
-        return errorStr == nil ? false : true
+        return errorStr == nil ? true : false
     }
     func updateCreditCardSecurityFieldWithString(string: String) {
         securityFieldValue = string
@@ -445,8 +477,8 @@ public class AcceptOnUIMachine {
         let resCardExpYear = validateCreditCardExpYearField()
         let resCardSecurity = validateCreditCardSecurityField()
 
-        if (resEmail && resCardNum && resCardExpMonth && resCardExpYear && resCardSecurity) {
-            //Switch
+        if (resEmail && resCardNum && resCardExpMonth && resCardExpYear && resCardSecurity == true) {
+            delegate?.acceptOnUIMachinePaymentIsProcessing?()
         }
     }
 }

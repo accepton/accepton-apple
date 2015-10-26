@@ -47,6 +47,14 @@ import accepton
     public func acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName(name: String, withMessage msg: String) {
         delegateEventLog.append("acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName:\(name)")
     }
+    
+    public func acceptOnUIMachinePaymentIsProcessing() {
+        delegateEventLog.append("acceptOnUIMachinePaymentIsProcessing")
+    }
+    
+    public func acceptOnUIMachineCreditCardTypeDidChange(type: String) {
+        delegateEventLog.append("acceptOnUIMachineCreditCardTypeDidChange:\(type)")
+    }
 }
 
 class AcceptOnUIMachineSpec: QuickSpec {
@@ -325,10 +333,10 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 
                 expect {
                     return delegate.delegateEventLog
-                }.toEventually(equal(["acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:cardNum", "acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName:cardNum", "acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName:cardNum"]))
+                    }.toEventually(equal(["acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:cardNum", "acceptOnUIMachineCreditCardTypeDidChange:visa", "acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName:cardNum", "acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName:cardNum"]))
             }
 
-            it("Does trigger a emphasize error if an invalid cardNum is entered and the focus is changed, and update the field, but then hides validation when the cardNum is *not* fixed and the focus is changed") {
+            it("Does trigger acceptOnUIMachineCreditCardTypeDidChange when card number can be deduced") {
                 var delegate = AcceptOnUIMachineSpecDelegate()
                 let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
                 uim.delegate = delegate
@@ -338,19 +346,24 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 delegate.whenReady() {
                     //First we enter an invalid cardNum
                     uim.creditCardFieldDidFocusWithName("cardNum")
-                    uim.creditCardFieldWithName("cardNum", didUpdateWithString: "test")
-                    uim.creditCardFieldDidLoseFocus()
-
-                    //Now we fix the cardNum
-                    uim.creditCardFieldDidFocusWithName("cardNum")
-                    uim.creditCardFieldWithName("cardNum", didUpdateWithString: "test2")
-                    uim.creditCardFieldDidLoseFocus()
-
+                    
+                    //Go through different brands prefixes
+                    uim.creditCardFieldWithName("cardNum", didUpdateWithString: "4")    //visa
+                    uim.creditCardFieldWithName("cardNum", didUpdateWithString: "37")   //amex
+                    uim.creditCardFieldWithName("cardNum", didUpdateWithString: "6011") //discover
+                    uim.creditCardFieldWithName("cardNum", didUpdateWithString: "50")   //master-card
+                    uim.creditCardFieldWithName("cardNum", didUpdateWithString: "99")   //unknown
                 }
                 
                 expect {
                     return delegate.delegateEventLog
-                }.toEventually(equal(["acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:cardNum", "acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName:cardNum"]))
+                    }.toEventually(equal([
+                        "acceptOnUIMachineCreditCardTypeDidChange:visa",
+                        "acceptOnUIMachineCreditCardTypeDidChange:amex",
+                        "acceptOnUIMachineCreditCardTypeDidChange:discover",
+                        "acceptOnUIMachineCreditCardTypeDidChange:master_card",
+                        "acceptOnUIMachineCreditCardTypeDidChange:unknown",
+                    ]))
             }
         }
 
@@ -744,6 +757,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
               expect {
                   return delegate.delegateEventLog
               }.toEventually(equal([
+                "acceptOnUIMachineCreditCardTypeDidChange:visa",
                 "acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName:cardNum",
                 "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:email",
                 "acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName:cardNum",
@@ -807,13 +821,49 @@ class AcceptOnUIMachineSpec: QuickSpec {
                     return delegate.delegateEventLog
                     }.toEventually(equal([
                         "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:cardNum",
+                        "acceptOnUIMachineCreditCardTypeDidChange:visa",
                         "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:email",
                         "acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName:cardNum",
                         "acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName:cardNum",
                         "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:expMonth",
                         "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:expYear",
                         "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:security",
-                        ]))
+                    ]))
+            }
+            
+            it("Does call acceptOnUIMachinePaymentIsProcessing when validated information is entered") {
+                var delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                uim.delegate = delegate
+                
+                uim.beginForItemWithDescription("test", forAmountInCents: 100)
+                
+                delegate.whenReady() {
+                    //Enter valid information
+                    uim.creditCardFieldDidFocusWithName("cardNum")
+                    uim.creditCardFieldWithName("cardNum", didUpdateWithString: "4242424242424242")
+                    
+                    uim.creditCardFieldDidFocusWithName("email")
+                    uim.creditCardFieldWithName("email", didUpdateWithString: "test@test.com")
+                    
+                    uim.creditCardFieldDidFocusWithName("expMonth")
+                    uim.creditCardFieldWithName("expMonth", didUpdateWithString: "04")
+                   
+                    uim.creditCardFieldDidFocusWithName("expYear")
+                    uim.creditCardFieldWithName("expYear", didUpdateWithString: "17")
+                    
+                    uim.creditCardFieldDidFocusWithName("security")
+                    uim.creditCardFieldWithName("security", didUpdateWithString: "123")
+                    
+                    //Submit
+                    uim.creditCardPayClicked()
+                }
+                
+                expect {
+                    return delegate.delegateEventLog.last
+                }.toEventually(equal(
+                    "acceptOnUIMachinePaymentIsProcessing"
+                ))
             }
         }
         

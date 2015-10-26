@@ -197,6 +197,11 @@ func acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName(name: String
   //and has fixed errors
 }
 
+//A credit-card number was typed to the point where the type could be
+//deduced.  Types include "visa", "amex", "master_card", "discover" and "unknown"
+func acceptOnUIMachineCreditCardTypeDidChange(type: String) {
+}
+
 ```
 
 At this point, the view controller will receive a message from the `uim` that a payment is processing via `acceptOnUIMachinePaymentIsProcessing`.  You should show a loading screen at this time.  Read below in *Payment Processing* to see what to do after this point.  

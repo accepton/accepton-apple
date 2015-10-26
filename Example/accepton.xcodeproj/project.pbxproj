@@ -15,6 +15,11 @@
 		607FACEC1AFB9204008FA782 /* AcceptOnAPISpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* AcceptOnAPISpec.swift */; };
 		8CB6C48E20B34F41541EAE71 /* Pods_accepton_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 448DC9D3D8A878B7D61866C6 /* Pods_accepton_Tests.framework */; };
 		AA287C081BDAFBAD00C10DCF /* FieldErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA287C071BDAFBAD00C10DCF /* FieldErrorView.swift */; settings = {ASSET_TAGS = (); }; };
+		AA287C0A1BDD73AE00C10DCF /* AcceptOnCreditCardFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA287C091BDD73AE00C10DCF /* AcceptOnCreditCardFormView.swift */; settings = {ASSET_TAGS = (); }; };
+		AA287C0C1BDD744600C10DCF /* AcceptOnCreditCardFormView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA287C0B1BDD744600C10DCF /* AcceptOnCreditCardFormView.xib */; settings = {ASSET_TAGS = (); }; };
+		AA287C121BDD7D7800C10DCF /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = AA287C111BDD7D7800C10DCF /* lock.png */; settings = {ASSET_TAGS = (); }; };
+		AA287C141BDD889E00C10DCF /* AcceptOnCreditCardValidatableField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA287C131BDD889E00C10DCF /* AcceptOnCreditCardValidatableField.swift */; settings = {ASSET_TAGS = (); }; };
+		AA287C181BDD97E500C10DCF /* AcceptOnRoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA287C171BDD97E500C10DCF /* AcceptOnRoundedButton.swift */; settings = {ASSET_TAGS = (); }; };
 		AA558C8D1BD954D1003A7929 /* AcceptOnUIMachineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA558C8B1BD95485003A7929 /* AcceptOnUIMachineSpec.swift */; };
 		E8307E9328DEC22B1C53C273 /* Pods_accepton_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EEB34365484DD019D518191 /* Pods_accepton_Example.framework */; };
 /* End PBXBuildFile section */
@@ -46,6 +51,11 @@
 		8602CC063BC5F177EA38808C /* Pods-accepton_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-accepton_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-accepton_Example/Pods-accepton_Example.release.xcconfig"; sourceTree = "<group>"; };
 		A275D41E14815B65D4C1E8FB /* accepton.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = accepton.podspec; path = ../accepton.podspec; sourceTree = "<group>"; };
 		AA287C071BDAFBAD00C10DCF /* FieldErrorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FieldErrorView.swift; sourceTree = "<group>"; };
+		AA287C091BDD73AE00C10DCF /* AcceptOnCreditCardFormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnCreditCardFormView.swift; sourceTree = "<group>"; };
+		AA287C0B1BDD744600C10DCF /* AcceptOnCreditCardFormView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AcceptOnCreditCardFormView.xib; sourceTree = "<group>"; };
+		AA287C111BDD7D7800C10DCF /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock.png; sourceTree = "<group>"; };
+		AA287C131BDD889E00C10DCF /* AcceptOnCreditCardValidatableField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnCreditCardValidatableField.swift; sourceTree = "<group>"; };
+		AA287C171BDD97E500C10DCF /* AcceptOnRoundedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnRoundedButton.swift; sourceTree = "<group>"; };
 		AA558C8B1BD95485003A7929 /* AcceptOnUIMachineSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnUIMachineSpec.swift; sourceTree = "<group>"; };
 		CB2386879C9FC7B1B2B10C0A /* Pods-accepton_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-accepton_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-accepton_Example/Pods-accepton_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		CFCA9927F0EED72BDD3B3097 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -106,6 +116,7 @@
 		607FACD21AFB9204008FA782 /* Example for accepton */ = {
 			isa = PBXGroup;
 			children = (
+				AA287C111BDD7D7800C10DCF /* lock.png */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
@@ -113,6 +124,10 @@
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 				AA287C071BDAFBAD00C10DCF /* FieldErrorView.swift */,
+				AA287C091BDD73AE00C10DCF /* AcceptOnCreditCardFormView.swift */,
+				AA287C0B1BDD744600C10DCF /* AcceptOnCreditCardFormView.xib */,
+				AA287C131BDD889E00C10DCF /* AcceptOnCreditCardValidatableField.swift */,
+				AA287C171BDD97E500C10DCF /* AcceptOnRoundedButton.swift */,
 			);
 			name = "Example for accepton";
 			path = accepton;
@@ -253,7 +268,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA287C0C1BDD744600C10DCF /* AcceptOnCreditCardFormView.xib in Resources */,
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
+				AA287C121BDD7D7800C10DCF /* lock.png in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 			);
@@ -366,7 +383,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA287C0A1BDD73AE00C10DCF /* AcceptOnCreditCardFormView.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				AA287C141BDD889E00C10DCF /* AcceptOnCreditCardValidatableField.swift in Sources */,
+				AA287C181BDD97E500C10DCF /* AcceptOnRoundedButton.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				AA287C081BDAFBAD00C10DCF /* FieldErrorView.swift in Sources */,
 			);
