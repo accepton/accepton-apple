@@ -31,6 +31,9 @@ class ViewController: UIViewController, AcceptOnUIMachineDelegate, AcceptOnCredi
         creditCardForm.emphasizeErrorForFieldWithName(name, withMessage: msg)
     }
     
+    func acceptOnUIMachineCreditCardTypeDidChange(type: String) {
+        creditCardForm.creditCardNumBrandWasUpdatedWithBrandName(type)
+    }
     
     //AcceptOnCreditCardFormViewDelegate
     func creditCardFormPayWasClicked() {
@@ -43,9 +46,21 @@ class ViewController: UIViewController, AcceptOnUIMachineDelegate, AcceptOnCredi
     
     func creditCardFormFieldWithNameDidFocus(name: String) {
         uim.creditCardFieldDidFocusWithName(name)
+        
+        //Animate view up to make room for keyboard
+        UIView.animateWithDuration(0.8, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.5, options: [UIViewAnimationOptions.CurveEaseOut, UIViewAnimationOptions.BeginFromCurrentState, UIViewAnimationOptions.AllowUserInteraction], animations: { () -> Void in
+                self.creditCardForm.layer.transform = CATransform3DMakeTranslation(0, -130, 0)
+            }) { (res) -> Void in
+        }
     }
     
     func creditCardFormFocusedFieldLostFocus() {
+        //Reset to original position
+        UIView.animateWithDuration(0.8, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.5, options: [UIViewAnimationOptions.CurveEaseOut, UIViewAnimationOptions.BeginFromCurrentState, UIViewAnimationOptions.AllowUserInteraction], animations: { () -> Void in
+            self.creditCardForm.layer.transform = CATransform3DIdentity
+            }) { (res) -> Void in
+        }
+        
         uim.creditCardFieldDidLoseFocus()
     }
 }

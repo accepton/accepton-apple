@@ -73,5 +73,8 @@ import accepton
   * [Alamofire](https://github.com/Alamofire/Alamofire/) - Elegant HTTP Networking in Swift
   * [SnapKit](http://snapkit.io) - An Autolayout DSL for iOS & OSX
 
+## Special thanks to:
+  * [@HelloMany | Flat Credit-Card Icons](https://www.iconfinder.com/HelloMany) - Licensed under [CC Attribution](http://creativecommons.org/licenses/by/2.5/)
+
 ## License
 *accepton-apple* is released under the MIT license. See LICENSE for details.

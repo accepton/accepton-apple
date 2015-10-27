@@ -90,9 +90,9 @@ class AcceptOnUICreditCardValidatableField : UIView {
                 anim.beginTime = 0
                 anim.duration = 0.3
                 anim.fromValue = UIColor.clearColor().CGColor
-                anim.toValue = UIColor.redColor().CGColor
+                anim.toValue = UIColor(red:0.871, green:0.267, blue:0.220, alpha: 0.6).CGColor
                 self.layer.addAnimation(anim, forKey: "error")
-                self.layer.borderColor = UIColor.redColor().CGColor
+                self.layer.borderColor = UIColor(red:0.871, green:0.267, blue:0.220, alpha: 0.6).CGColor
                 
                 let anim2 = CABasicAnimation(keyPath: "borderWidth")
                 anim2.beginTime = 0

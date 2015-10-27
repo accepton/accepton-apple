@@ -39,6 +39,32 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate
         "expYear":self.expYearValidationView
     ]
     
+    //Bubble that contains credit-card brand
+    @IBOutlet weak var brandPop: AcceptOnCreditCardNumBrandPop!
+    
+    @IBOutlet weak var emailLabel: UILabel!
+    @IBOutlet weak var cardNumLabel: UILabel!
+    @IBOutlet weak var securityLabel: UILabel!
+    @IBOutlet weak var expYearLabel: UILabel!
+    @IBOutlet weak var expMonthLabel: UILabel!
+    
+    @IBOutlet weak var payButton: AcceptOnRoundedButton!
+    @IBOutlet weak var lockIconTop: UIImageView! //Lock icon next to text on top
+    @IBOutlet weak var topH1: UILabel!           //"Secure Online Payment"
+    @IBOutlet weak var topH2: UILabel!           //"Your data is protected..."
+    
+    //Order that things are animated in for the flashy intro
+    lazy var animationInOrder: [UIView] = [
+        self.lockIconTop, self.topH1, self.topH2,
+        self.emailLabel, self.emailValidationView,
+        self.cardNumLabel, self.cardNumValidationView,
+        self.securityLabel, self.securityValidationView,
+        self.expYearLabel, self.expYearValidationView,
+        self.expMonthLabel, self.expMonthValidationView,
+        self.payButton
+    ]
+    var hasAnimatedIn = false
+    
     weak var delegate: AcceptOnCreditCardFormDelegate?
     
     //Constructors
@@ -92,6 +118,22 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
+        dispatch_async(dispatch_get_main_queue()) { [weak self] () -> Void in
+            for (idx, elm) in self!.animationInOrder.enumerate() {
+                elm.layer.transform = CATransform3DMakeTranslation(-50, 0, 0)
+            
+                elm.alpha = 0
+                UIView.animateWithDuration(1, delay: NSTimeInterval(idx)/25.0+0.5, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.7, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                    elm.layer.transform = CATransform3DIdentity
+                    elm.alpha = 1
+                    }, completion: { (res) -> Void in
+                        if (elm == self?.cardNumValidationView) {
+                            self?.brandPop.switchToBrandWithName("unknown")
+                        }
+                })
+            }
+        }
     }
     
     override func updateConstraints() {
@@ -112,6 +154,12 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate
     //error was still in effect
     func emphasizeErrorForFieldWithName(name: String, withMessage msg: String) {
         nameToValidationView[name]!.error = msg
+    }
+    
+    //Credit-card type was updated
+    //brands include visa, amex, master_card, discover, etc.
+    func creditCardNumBrandWasUpdatedWithBrandName(name: String) {
+        brandPop.switchToBrandWithName(name)
     }
     
     @IBAction func payWasClicked(sender: AnyObject) {
@@ -139,6 +187,7 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate
     func textFieldDidBeginEditing(textField: UITextField) {
         if let textFieldName = fieldToName[textField] {
             self.delegate?.creditCardFormFieldWithNameDidFocus?(textFieldName)
+            
         } else {
             puts("Warning: textField didn't have a name bound")
         }

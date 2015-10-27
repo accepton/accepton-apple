@@ -21,6 +21,15 @@
 		AA287C141BDD889E00C10DCF /* AcceptOnCreditCardValidatableField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA287C131BDD889E00C10DCF /* AcceptOnCreditCardValidatableField.swift */; settings = {ASSET_TAGS = (); }; };
 		AA287C181BDD97E500C10DCF /* AcceptOnRoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA287C171BDD97E500C10DCF /* AcceptOnRoundedButton.swift */; settings = {ASSET_TAGS = (); }; };
 		AA558C8D1BD954D1003A7929 /* AcceptOnUIMachineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA558C8B1BD95485003A7929 /* AcceptOnUIMachineSpec.swift */; };
+		AAB4728C1BDE63730071DEBC /* AcceptOnCreditCardCardNumBrandPop.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB4728B1BDE63730071DEBC /* AcceptOnCreditCardCardNumBrandPop.swift */; settings = {ASSET_TAGS = (); }; };
+		AAB4728F1BDE668F0071DEBC /* discover.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB4728E1BDE668F0071DEBC /* discover.png */; settings = {ASSET_TAGS = (); }; };
+		AAB472911BDE66960071DEBC /* amex.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB472901BDE66960071DEBC /* amex.png */; settings = {ASSET_TAGS = (); }; };
+		AAB472931BDE669A0071DEBC /* visa.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB472921BDE669A0071DEBC /* visa.png */; settings = {ASSET_TAGS = (); }; };
+		AAB472951BDE669E0071DEBC /* master_card.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB472941BDE669E0071DEBC /* master_card.png */; settings = {ASSET_TAGS = (); }; };
+		AAB472971BDE67A40071DEBC /* unknown.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB472961BDE67A40071DEBC /* unknown.png */; settings = {ASSET_TAGS = (); }; };
+		AAB472991BDE7FDA0071DEBC /* AcceptOnChoosePaymentTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB472981BDE7FDA0071DEBC /* AcceptOnChoosePaymentTypeView.swift */; settings = {ASSET_TAGS = (); }; };
+		AAB4729B1BDE802D0071DEBC /* AcceptOnChoosePaymentTypeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAB4729A1BDE802D0071DEBC /* AcceptOnChoosePaymentTypeView.xib */; settings = {ASSET_TAGS = (); }; };
+		AAB4729E1BDE80FA0071DEBC /* AcceptOnChoosePaymentTypeSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB4729D1BDE80FA0071DEBC /* AcceptOnChoosePaymentTypeSelectorView.swift */; settings = {ASSET_TAGS = (); }; };
 		E8307E9328DEC22B1C53C273 /* Pods_accepton_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EEB34365484DD019D518191 /* Pods_accepton_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +66,15 @@
 		AA287C131BDD889E00C10DCF /* AcceptOnCreditCardValidatableField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnCreditCardValidatableField.swift; sourceTree = "<group>"; };
 		AA287C171BDD97E500C10DCF /* AcceptOnRoundedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnRoundedButton.swift; sourceTree = "<group>"; };
 		AA558C8B1BD95485003A7929 /* AcceptOnUIMachineSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnUIMachineSpec.swift; sourceTree = "<group>"; };
+		AAB4728B1BDE63730071DEBC /* AcceptOnCreditCardCardNumBrandPop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnCreditCardCardNumBrandPop.swift; sourceTree = "<group>"; };
+		AAB4728E1BDE668F0071DEBC /* discover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = discover.png; sourceTree = "<group>"; };
+		AAB472901BDE66960071DEBC /* amex.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = amex.png; sourceTree = "<group>"; };
+		AAB472921BDE669A0071DEBC /* visa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = visa.png; sourceTree = "<group>"; };
+		AAB472941BDE669E0071DEBC /* master_card.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = master_card.png; sourceTree = "<group>"; };
+		AAB472961BDE67A40071DEBC /* unknown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unknown.png; sourceTree = "<group>"; };
+		AAB472981BDE7FDA0071DEBC /* AcceptOnChoosePaymentTypeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnChoosePaymentTypeView.swift; sourceTree = "<group>"; };
+		AAB4729A1BDE802D0071DEBC /* AcceptOnChoosePaymentTypeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AcceptOnChoosePaymentTypeView.xib; sourceTree = "<group>"; };
+		AAB4729D1BDE80FA0071DEBC /* AcceptOnChoosePaymentTypeSelectorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnChoosePaymentTypeSelectorView.swift; sourceTree = "<group>"; };
 		CB2386879C9FC7B1B2B10C0A /* Pods-accepton_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-accepton_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-accepton_Example/Pods-accepton_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		CFCA9927F0EED72BDD3B3097 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		D1DE597F06ED87415E6E57BA /* Pods-accepton_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-accepton_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-accepton_Tests/Pods-accepton_Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -116,6 +134,8 @@
 		607FACD21AFB9204008FA782 /* Example for accepton */ = {
 			isa = PBXGroup;
 			children = (
+				AAB4729C1BDE80D10071DEBC /* ChoosePaymentType */,
+				AAB4728D1BDE66850071DEBC /* Assets */,
 				AA287C111BDD7D7800C10DCF /* lock.png */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
@@ -128,6 +148,7 @@
 				AA287C0B1BDD744600C10DCF /* AcceptOnCreditCardFormView.xib */,
 				AA287C131BDD889E00C10DCF /* AcceptOnCreditCardValidatableField.swift */,
 				AA287C171BDD97E500C10DCF /* AcceptOnRoundedButton.swift */,
+				AAB4728B1BDE63730071DEBC /* AcceptOnCreditCardCardNumBrandPop.swift */,
 			);
 			name = "Example for accepton";
 			path = accepton;
@@ -167,6 +188,28 @@
 				CFCA9927F0EED72BDD3B3097 /* LICENSE */,
 			);
 			name = "Podspec Metadata";
+			sourceTree = "<group>";
+		};
+		AAB4728D1BDE66850071DEBC /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				AAB472961BDE67A40071DEBC /* unknown.png */,
+				AAB472941BDE669E0071DEBC /* master_card.png */,
+				AAB472921BDE669A0071DEBC /* visa.png */,
+				AAB472901BDE66960071DEBC /* amex.png */,
+				AAB4728E1BDE668F0071DEBC /* discover.png */,
+			);
+			name = Assets;
+			sourceTree = "<group>";
+		};
+		AAB4729C1BDE80D10071DEBC /* ChoosePaymentType */ = {
+			isa = PBXGroup;
+			children = (
+				AAB472981BDE7FDA0071DEBC /* AcceptOnChoosePaymentTypeView.swift */,
+				AAB4729A1BDE802D0071DEBC /* AcceptOnChoosePaymentTypeView.xib */,
+				AAB4729D1BDE80FA0071DEBC /* AcceptOnChoosePaymentTypeSelectorView.swift */,
+			);
+			name = ChoosePaymentType;
 			sourceTree = "<group>";
 		};
 		CB43BDA417224DD57FEB60B4 /* Pods */ = {
@@ -268,8 +311,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAB4728F1BDE668F0071DEBC /* discover.png in Resources */,
+				AAB472951BDE669E0071DEBC /* master_card.png in Resources */,
+				AAB472931BDE669A0071DEBC /* visa.png in Resources */,
 				AA287C0C1BDD744600C10DCF /* AcceptOnCreditCardFormView.xib in Resources */,
+				AAB472911BDE66960071DEBC /* amex.png in Resources */,
+				AAB4729B1BDE802D0071DEBC /* AcceptOnChoosePaymentTypeView.xib in Resources */,
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
+				AAB472971BDE67A40071DEBC /* unknown.png in Resources */,
 				AA287C121BDD7D7800C10DCF /* lock.png in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
@@ -384,11 +433,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA287C0A1BDD73AE00C10DCF /* AcceptOnCreditCardFormView.swift in Sources */,
+				AAB4729E1BDE80FA0071DEBC /* AcceptOnChoosePaymentTypeSelectorView.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				AAB4728C1BDE63730071DEBC /* AcceptOnCreditCardCardNumBrandPop.swift in Sources */,
 				AA287C141BDD889E00C10DCF /* AcceptOnCreditCardValidatableField.swift in Sources */,
 				AA287C181BDD97E500C10DCF /* AcceptOnRoundedButton.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				AA287C081BDAFBAD00C10DCF /* FieldErrorView.swift in Sources */,
+				AAB472991BDE7FDA0071DEBC /* AcceptOnChoosePaymentTypeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
