@@ -5,23 +5,13 @@ protocol AcceptOnChoosePaymentTypeViewDelegate {
     func choosePaymentTypeWasClicked(name: String)
 }
 
+//'choose your payment type' view backed by the XIB named AcceptOnChoosePaymentTypeView
+//The actual view that has the animated buttons is called AcceptOnChoosePaymentTypeSelectorView
 class AcceptOnChoosePaymentTypeView: UIView
 {
     //-----------------------------------------------------------------------------------------------------
     //Property
     //-----------------------------------------------------------------------------------------------------
-    //The listing of payment types, e.g. 'paypal' that should be displayed
-    //as clickable buttons
-    var _availablePaymentTypes: [String] = []
-    var availablePaymentTypes: [String] {
-        set {
-            
-        }
-        
-        get {
-            return _availablePaymentTypes
-        }
-    }
     
     //Constructors
     //-----------------------------------------------------------------------------------------------------

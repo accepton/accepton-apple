@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -19,7 +20,12 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SmC-fF-sGk" customClass="AcceptOnCreditCardFormView" customModule="accepton_Example" customModuleProvider="target">
-                                <rect key="frame" x="20" y="60" width="560" height="540"/>
+                                <rect key="frame" x="20" y="540" width="560" height="60"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AG4-jD-6De" customClass="AcceptOnChoosePaymentTypeSelectorView" customModule="accepton_Example" customModuleProvider="target">
+                                <rect key="frame" x="20" y="20" width="560" height="520"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -27,19 +33,24 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="SmC-fF-sGk" firstAttribute="top" secondItem="AG4-jD-6De" secondAttribute="bottom" id="2E1-a9-I80"/>
+                            <constraint firstItem="SmC-fF-sGk" firstAttribute="height" secondItem="kh9-bI-dsS" secondAttribute="height" multiplier="0.1" id="4xP-uH-1S5"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="SmC-fF-sGk" secondAttribute="bottom" id="Exl-ZJ-7Sv"/>
                             <constraint firstAttribute="trailingMargin" secondItem="SmC-fF-sGk" secondAttribute="trailing" id="Kwq-bk-GCR"/>
                             <constraint firstItem="SmC-fF-sGk" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="LD4-fr-kdS"/>
-                            <constraint firstItem="SmC-fF-sGk" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="40" id="OmI-sh-7cZ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="AG4-jD-6De" secondAttribute="trailing" id="XGd-cV-G2H"/>
+                            <constraint firstItem="AG4-jD-6De" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="gc0-Gp-1qZ"/>
+                            <constraint firstItem="AG4-jD-6De" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="iMT-vP-LGY"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="choosePaymentTypeView" destination="AG4-jD-6De" id="OEr-hb-8OH"/>
                         <outlet property="creditCardForm" destination="SmC-fF-sGk" id="r1K-dC-un0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="327" y="606"/>
+            <point key="canvasLocation" x="121" y="590"/>
         </scene>
     </scenes>
 </document>

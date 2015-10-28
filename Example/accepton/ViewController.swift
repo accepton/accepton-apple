@@ -5,13 +5,14 @@ import SnapKit
 class ViewController: UIViewController, AcceptOnUIMachineDelegate, AcceptOnCreditCardFormDelegate {
     var uim: AcceptOnUIMachine!
     @IBOutlet weak var creditCardForm: AcceptOnCreditCardFormView!
+    @IBOutlet weak var choosePaymentTypeView: AcceptOnChoosePaymentTypeSelectorView!
     
     override func viewDidLoad() {
         uim = AcceptOnUIMachine(publicKey: "pkey_89f2cc7f2c423553")
         uim.delegate = self
         uim.beginForItemWithDescription("My Item", forAmountInCents: 125)
-        
-        creditCardForm.delegate = self
+        choosePaymentTypeView.paymentMethods = ["paypal", "credit_card", "apple_pay"]
+//        creditCardForm.delegate = self
     }
     
     //AcceptOnUIMachineDelegate
