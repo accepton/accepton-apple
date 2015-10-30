@@ -12,7 +12,7 @@ import Stripe
     optional func acceptOnUIMachineCreditCardTypeDidChange(type: String)
     
     //Mid-cycle
-    optional func acceptOnUIMachinePaymentIsProcessing()
+    optional func acceptOnUIMachinePaymentIsProcessing(paymentType: String)
     
     //Spec related
     optional func acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName(name: String, withValue value: String)  //Field updated, no validation error
@@ -494,7 +494,21 @@ public class AcceptOnUIMachine {
         let resCardSecurity = validateCreditCardSecurityField()
 
         if (resEmail && resCardNum && resCardExpMonth && resCardExpYear && resCardSecurity == true) {
-            delegate?.acceptOnUIMachinePaymentIsProcessing?()
+            dispatch_async(dispatch_get_main_queue(), { [weak self] in
+                self?.delegate?.acceptOnUIMachinePaymentIsProcessing?("credit_card")
+            })
+        }
+    }
+    
+    /* ######################################################################################### */
+    /* Paypal specifics                                                                          */
+    /* ######################################################################################### */
+    public func paypalClicked() {
+        //Wait 500ms so there is time to show something like a loading screen to the user
+        let delay = Int64(1) * Int64(NSEC_PER_MSEC/2)
+        let time = dispatch_time(DISPATCH_TIME_NOW, delay)
+        dispatch_after(time, dispatch_get_main_queue()) { [weak self] in
+            self?.delegate?.acceptOnUIMachinePaymentIsProcessing?("paypal")
         }
     }
 }

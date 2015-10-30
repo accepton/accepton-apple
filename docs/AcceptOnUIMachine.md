@@ -138,7 +138,7 @@ Here is an example of the paypal flow:
   <img src='./images/ui_machine_paypal_clicked.png' width="900" />
 </div>
 
-At this point, the view controller will receive a message from the `uim` that a payment is processing via `acceptOnUIMachinePaymentIsProcessing`.  You should show a loading screen at this time and await an automated redirection; services will then redirect you to custom authentication screens which can either be special websites (*paypal*) or kernel-level screens (*apple pay*).  Read below in *Payment Processing* to see what to do after this point.  
+At this point, the view controller will receive a message from the `uim` that a payment is processing via `acceptOnUIMachinePaymentIsProcessing(paymentType)`.  You should show a loading screen at this time and await an automated redirection; services will then redirect you to custom authentication screens which can either be special websites (*paypal*) or kernel-level screens (*apple pay*).  Read below in *Payment Processing* to see what to do after this point.  
 
 ###Credit card form
 
@@ -213,13 +213,18 @@ func acceptOnUIMachineCreditCardTypeDidChange(type: String) {
 
 ```
 
-At this point, the view controller will receive a message from the `uim` that a payment is processing via `acceptOnUIMachinePaymentIsProcessing`.  You should show a loading screen at this time.  Read below in *Payment Processing* to see what to do after this point.  
+At this point, the view controller will receive a message from the `uim` that a payment is processing via `acceptOnUIMachinePaymentIsProcessing("credit_card")`.  You should show a loading screen at this time.  Read below in *Payment Processing* to see what to do after this point.  
 
 ##Payment Processing
 
 At this point, the `uim` would have received `paypalClicked`, `creditCardPayClicked`, etc. and is now processing the payment request.  You should have pushed an error view ontop of the original form and are now awaiting a response.  In order to detect this response, we need to add some delegate functions.
 
 ```swift
+//Called when a payment is processing, e.g. paypal. type is 'pay_pal', 'credit_card', etc.
+func acceptOnUIMachinePaymentIsProcessing(paymentType: String) {
+  showPaymentProcessingLoaderOverPaymentForm()
+}
+
 //Payment succeeded, you should show a screen to notify the user that the payment went through. 
 //The original payment-form and payment-form loader you pushed ontop during `acceptOnUIMachinePaymentIsProcessing` 
 //should be torn down at this time.

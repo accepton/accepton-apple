@@ -50,8 +50,8 @@ import accepton
         emphasizeValidationErrorCount += 1
     }
     
-    public func acceptOnUIMachinePaymentIsProcessing() {
-        delegateEventLog.append("acceptOnUIMachinePaymentIsProcessing")
+    public func acceptOnUIMachinePaymentIsProcessing(paymentType: String) {
+        delegateEventLog.append("acceptOnUIMachinePaymentIsProcessing:\(paymentType)")
     }
     
     public var creditCardTypeTransitions: [String] = []
@@ -83,7 +83,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 
                 expect {
                     return delegate.didFailBeginError?.code
-                }.toEventually(equal(AcceptOnAPIError.Code.Unauthorized.rawValue))
+                    }.toEventually(equal(AcceptOnAPIError.Code.Unauthorized.rawValue))
             }
             
             it("does fail to load with DevelopeError error if begin is called twice") {
@@ -96,7 +96,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 
                 expect {
                     return delegate.didFailBeginError?.code
-                }.toEventually(equal(AcceptOnUIMachineError.Code.DeveloperError.rawValue))
+                    }.toEventually(equal(AcceptOnUIMachineError.Code.DeveloperError.rawValue))
             }
             
             it("does succeed to load with a good key") {
@@ -108,16 +108,16 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 
                 expect {
                     return delegate.beginOptions
-                }.toNotEventually(beNil())
+                    }.toNotEventually(beNil())
                 
                 //Should have a credit-card form & paylpal button
                 expect {
                     return delegate.beginOptions?.hasCreditCardForm
-                }.toEventually(beTrue())
+                    }.toEventually(beTrue())
                 
                 expect {
                     return delegate.beginOptions?.hasPaypalButton
-                }.toEventually(beTrue())
+                    }.toEventually(beTrue())
             }
         }
         
@@ -135,7 +135,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 
                 expect {
                     return delegate.creditCardValidationErrors.count
-                }.toNotEventually(beGreaterThan(0))
+                    }.toNotEventually(beGreaterThan(0))
             }
             
             it("Does trigger validation error if no email is entered and the focus is changed") {
@@ -144,7 +144,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
-
+                
                 delegate.whenReady() {
                     uim.creditCardFieldDidFocusWithName("email")
                     uim.creditCardFieldDidLoseFocus()
@@ -152,7 +152,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 
                 expect {
                     return delegate.creditCardValidationErrors.count
-                }.toEventually(beGreaterThan(0))
+                    }.toEventually(beGreaterThan(0))
             }
             
             it("Does not trigger a validation error if a valid email is entered and the focus is changed, and update the field") {
@@ -171,7 +171,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 //Ensure there are no errors
                 expect {
                     return delegate.creditCardNoValidationErrors.count
-                }.toEventually(equal(1))
+                    }.toEventually(equal(1))
             }
             
             it("Does trigger a validation error if an invalid email is entered and the focus is changed, and update the field") {
@@ -189,9 +189,9 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 
                 expect {
                     return delegate.creditCardValidationErrors.count
-                }.toEventually(equal(1))
+                    }.toEventually(equal(1))
             }
-
+            
             it("Does trigger a validation error if an invalid email is entered and the focus is changed, and update the field, but then hides validation when the email is fixed and the focus is changed") {
                 var delegate = AcceptOnUIMachineSpecDelegate()
                 let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
@@ -204,19 +204,19 @@ class AcceptOnUIMachineSpec: QuickSpec {
                     uim.creditCardFieldDidFocusWithName("email")
                     uim.creditCardFieldWithName("email", didUpdateWithString: "test")
                     uim.creditCardFieldDidLoseFocus()
-
+                    
                     //Now we fix the email
                     uim.creditCardFieldDidFocusWithName("email")
                     uim.creditCardFieldWithName("email", didUpdateWithString: "test@test.com")
                     uim.creditCardFieldDidLoseFocus()
-
+                    
                 }
                 
                 expect {
                     return delegate.delegateEventLog
-                }.toEventually(equal(["acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:email", "acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName:email", "acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName:email"]))
+                    }.toEventually(equal(["acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:email", "acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName:email", "acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName:email"]))
             }
-
+            
             it("Does trigger a emphasize error if an invalid email is entered and the focus is changed, and update the field, but then hides validation when the email is *not* fixed and the focus is changed") {
                 var delegate = AcceptOnUIMachineSpecDelegate()
                 let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
@@ -229,17 +229,17 @@ class AcceptOnUIMachineSpec: QuickSpec {
                     uim.creditCardFieldDidFocusWithName("email")
                     uim.creditCardFieldWithName("email", didUpdateWithString: "test")
                     uim.creditCardFieldDidLoseFocus()
-
+                    
                     //Now we fix the email
                     uim.creditCardFieldDidFocusWithName("email")
                     uim.creditCardFieldWithName("email", didUpdateWithString: "test2")
                     uim.creditCardFieldDidLoseFocus()
-
+                    
                 }
                 
                 expect {
                     return delegate.delegateEventLog
-                }.toEventually(equal(["acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:email", "acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName:email"]))
+                    }.toEventually(equal(["acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:email", "acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName:email"]))
             }
         }
         
@@ -313,7 +313,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                     return delegate.creditCardValidationErrors.count
                     }.toEventually(equal(1))
             }
-
+            
             it("Does trigger a validation error if an invalid card number is entered and the focus is changed, and update the field, but then hides validation when the card number is fixed and the focus is changed") {
                 var delegate = AcceptOnUIMachineSpecDelegate()
                 let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
@@ -326,19 +326,19 @@ class AcceptOnUIMachineSpec: QuickSpec {
                     uim.creditCardFieldDidFocusWithName("cardNum")
                     uim.creditCardFieldWithName("cardNum", didUpdateWithString: "test")
                     uim.creditCardFieldDidLoseFocus()
-
+                    
                     //Now we fix the cardNum
                     uim.creditCardFieldDidFocusWithName("cardNum")
                     uim.creditCardFieldWithName("cardNum", didUpdateWithString: "4242424242424242")
                     uim.creditCardFieldDidLoseFocus()
-
+                    
                 }
                 
                 expect {
                     return delegate.delegateEventLog
                     }.toEventually(equal(["acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:cardNum", "acceptOnUIMachineCreditCardTypeDidChange:visa", "acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName:cardNum", "acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName:cardNum"]))
             }
-
+            
             it("Does trigger acceptOnUIMachineCreditCardTypeDidChange when card number can be deduced") {
                 var delegate = AcceptOnUIMachineSpecDelegate()
                 let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
@@ -366,10 +366,10 @@ class AcceptOnUIMachineSpec: QuickSpec {
                         "acceptOnUIMachineCreditCardTypeDidChange:discover",
                         "acceptOnUIMachineCreditCardTypeDidChange:master_card",
                         "acceptOnUIMachineCreditCardTypeDidChange:unknown",
-                    ]))
+                        ]))
             }
         }
-
+        
         describe("expMonth field validation") {
             it("Does not trigger validation error if no expMonth is entered but the focus is not changed") {
                 var delegate = AcceptOnUIMachineSpecDelegate()
@@ -440,7 +440,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                     return delegate.creditCardValidationErrors.count
                     }.toEventually(equal(1))
             }
-
+            
             it("Does trigger a validation error if an invalid expMonth is entered and the focus is changed, and update the field, but then hides validation when the expMonth is fixed and the focus is changed") {
                 var delegate = AcceptOnUIMachineSpecDelegate()
                 let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
@@ -453,20 +453,20 @@ class AcceptOnUIMachineSpec: QuickSpec {
                     uim.creditCardFieldDidFocusWithName("expMonth")
                     uim.creditCardFieldWithName("expMonth", didUpdateWithString: "test")
                     uim.creditCardFieldDidLoseFocus()
-
+                    
                     //Now we fix the expMonth
                     uim.creditCardFieldDidFocusWithName("expMonth")
                     uim.creditCardFieldWithName("expMonth", didUpdateWithString: "09")
                     uim.creditCardFieldDidLoseFocus()
-
+                    
                 }
                 
                 expect {
                     return delegate.delegateEventLog
-                }.toEventually(equal(["acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:expMonth", "acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName:expMonth", "acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName:expMonth"]))
+                    }.toEventually(equal(["acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:expMonth", "acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName:expMonth", "acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName:expMonth"]))
             }
-
-
+            
+            
             it("Does trigger a emphasize error if an invalid expMonth is entered and the focus is changed, and update the field, but then hides validation when the expMonth is *not* fixed and the focus is changed") {
                 var delegate = AcceptOnUIMachineSpecDelegate()
                 let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
@@ -479,21 +479,21 @@ class AcceptOnUIMachineSpec: QuickSpec {
                     uim.creditCardFieldDidFocusWithName("expMonth")
                     uim.creditCardFieldWithName("expMonth", didUpdateWithString: "test")
                     uim.creditCardFieldDidLoseFocus()
-
+                    
                     //Now we fix the expMonth
                     uim.creditCardFieldDidFocusWithName("expMonth")
                     uim.creditCardFieldWithName("expMonth", didUpdateWithString: "test2")
                     uim.creditCardFieldDidLoseFocus()
-
+                    
                 }
                 
                 expect {
                     return delegate.delegateEventLog
-                }.toEventually(equal(["acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:expMonth", "acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName:expMonth"]))
+                    }.toEventually(equal(["acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:expMonth", "acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName:expMonth"]))
             }
-
+            
         }
-
+        
         describe("expYear field validation") {
             it("Does not trigger validation error if no expYear is entered but the focus is not changed") {
                 var delegate = AcceptOnUIMachineSpecDelegate()
@@ -564,7 +564,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                     return delegate.creditCardValidationErrors.count
                     }.toEventually(equal(1))
             }
-
+            
             it("Does trigger a validation error if an invalid expYear is entered and the focus is changed, and update the field, but then hides validation when the expYear is fixed and the focus is changed") {
                 var delegate = AcceptOnUIMachineSpecDelegate()
                 let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
@@ -577,19 +577,19 @@ class AcceptOnUIMachineSpec: QuickSpec {
                     uim.creditCardFieldDidFocusWithName("expYear")
                     uim.creditCardFieldWithName("expYear", didUpdateWithString: "test")
                     uim.creditCardFieldDidLoseFocus()
-
+                    
                     //Now we fix the expYear
                     uim.creditCardFieldDidFocusWithName("expYear")
                     uim.creditCardFieldWithName("expYear", didUpdateWithString: "92")
                     uim.creditCardFieldDidLoseFocus()
-
+                    
                 }
                 
                 expect {
                     return delegate.delegateEventLog
-                }.toEventually(equal(["acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:expYear", "acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName:expYear", "acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName:expYear"]))
+                    }.toEventually(equal(["acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:expYear", "acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName:expYear", "acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName:expYear"]))
             }
-
+            
             it("Does trigger a emphasize error if an invalid expYear is entered and the focus is changed, and update the field, but then hides validation when the expYear is *not* fixed and the focus is changed") {
                 var delegate = AcceptOnUIMachineSpecDelegate()
                 let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
@@ -602,21 +602,21 @@ class AcceptOnUIMachineSpec: QuickSpec {
                     uim.creditCardFieldDidFocusWithName("expYear")
                     uim.creditCardFieldWithName("expYear", didUpdateWithString: "test")
                     uim.creditCardFieldDidLoseFocus()
-
+                    
                     //Now we fix the expYear
                     uim.creditCardFieldDidFocusWithName("expYear")
                     uim.creditCardFieldWithName("expYear", didUpdateWithString: "test2")
                     uim.creditCardFieldDidLoseFocus()
-
+                    
                 }
                 
                 expect {
                     return delegate.delegateEventLog
-                }.toEventually(equal(["acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:expYear", "acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName:expYear"]))
+                    }.toEventually(equal(["acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:expYear", "acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName:expYear"]))
             }
-
+            
         }
-
+        
         describe("security field validation") {
             it("Does not trigger validation error if no security is entered but the focus is not changed") {
                 var delegate = AcceptOnUIMachineSpecDelegate()
@@ -687,7 +687,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                     return delegate.creditCardValidationErrors.count
                     }.toEventually(equal(1))
             }
-
+            
             it("Does trigger a validation error if an invalid security is entered and the focus is changed, and update the field, but then hides validation when the security is fixed and the focus is changed") {
                 var delegate = AcceptOnUIMachineSpecDelegate()
                 let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
@@ -700,19 +700,19 @@ class AcceptOnUIMachineSpec: QuickSpec {
                     uim.creditCardFieldDidFocusWithName("security")
                     uim.creditCardFieldWithName("security", didUpdateWithString: "test")
                     uim.creditCardFieldDidLoseFocus()
-
+                    
                     //Now we fix the security
                     uim.creditCardFieldDidFocusWithName("security")
                     uim.creditCardFieldWithName("security", didUpdateWithString: "1234")
                     uim.creditCardFieldDidLoseFocus()
-
+                    
                 }
                 
                 expect {
                     return delegate.delegateEventLog
-                }.toEventually(equal(["acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:security", "acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName:security", "acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName:security"]))
+                    }.toEventually(equal(["acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:security", "acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName:security", "acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName:security"]))
             }
-
+            
             it("Does trigger a emphasize error if an invalid security is entered and the focus is changed, and update the field, but then hides validation when the security is *not* fixed and the focus is changed") {
                 var delegate = AcceptOnUIMachineSpecDelegate()
                 let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
@@ -725,78 +725,78 @@ class AcceptOnUIMachineSpec: QuickSpec {
                     uim.creditCardFieldDidFocusWithName("security")
                     uim.creditCardFieldWithName("security", didUpdateWithString: "test")
                     uim.creditCardFieldDidLoseFocus()
-
+                    
                     //Now we fix the security
                     uim.creditCardFieldDidFocusWithName("security")
                     uim.creditCardFieldWithName("security", didUpdateWithString: "test2")
                     uim.creditCardFieldDidLoseFocus()
-
+                    
                 }
                 
                 expect {
                     return delegate.delegateEventLog
-                }.toEventually(equal(["acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:security", "acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName:security"]))
+                    }.toEventually(equal(["acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:security", "acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName:security"]))
             }
         }
-
+        
         describe("pay button") {
-          it("Does trigger validation of all fields") {
-              var delegate = AcceptOnUIMachineSpecDelegate()
-              let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
-              uim.delegate = delegate
-              
-              uim.beginForItemWithDescription("test", forAmountInCents: 100)
-              
-              delegate.whenReady() {
-                  //We enter a valid card number
-                  uim.creditCardFieldDidFocusWithName("cardNum")
-                  uim.creditCardFieldWithName("cardNum", didUpdateWithString: "4242424242424242")
-                  uim.creditCardFieldDidLoseFocus()
+            it("Does trigger validation of all fields") {
+                var delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                uim.delegate = delegate
                 
-                  uim.creditCardPayClicked()
+                uim.beginForItemWithDescription("test", forAmountInCents: 100)
+                
+                delegate.whenReady() {
+                    //We enter a valid card number
+                    uim.creditCardFieldDidFocusWithName("cardNum")
+                    uim.creditCardFieldWithName("cardNum", didUpdateWithString: "4242424242424242")
+                    uim.creditCardFieldDidLoseFocus()
+                    
+                    uim.creditCardPayClicked()
+                }
+                
+                //All fields should be simultaneously validated
+                expect {
+                    return delegate.delegateEventLog
+                    }.toEventually(equal([
+                        "acceptOnUIMachineCreditCardTypeDidChange:visa",
+                        "acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName:cardNum",
+                        "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:email",
+                        "acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName:cardNum",
+                        "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:expMonth",
+                        "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:expYear",
+                        "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:security",
+                        ]))
             }
             
-            //All fields should be simultaneously validated
-              expect {
-                  return delegate.delegateEventLog
-              }.toEventually(equal([
-                "acceptOnUIMachineCreditCardTypeDidChange:visa",
-                "acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName:cardNum",
-                "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:email",
-                "acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName:cardNum",
-                "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:expMonth",
-                "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:expYear",
-                "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:security",
-              ]))
-          }
-
-        it("Does trigger emphasize on fields that still have errors") {
-            var delegate = AcceptOnUIMachineSpecDelegate()
-            let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
-            uim.delegate = delegate
-            
-            uim.beginForItemWithDescription("test", forAmountInCents: 100)
-            
-            delegate.whenReady() {
-                //We enter a valid card number
-                uim.creditCardFieldDidFocusWithName("cardNum")
-                uim.creditCardFieldWithName("cardNum", didUpdateWithString: "<invalid card number>")
-                uim.creditCardFieldDidLoseFocus()
+            it("Does trigger emphasize on fields that still have errors") {
+                var delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                uim.delegate = delegate
                 
-                uim.creditCardPayClicked()
-            }
-            
-            //All fields should be simultaneously validated
-            expect {
-                return delegate.delegateEventLog
-                }.toEventually(equal([
-                    "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:cardNum",
-                    "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:email",
-                    "acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName:cardNum",
-                    "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:expMonth",
-                    "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:expYear",
-                    "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:security",
-                    ]))
+                uim.beginForItemWithDescription("test", forAmountInCents: 100)
+                
+                delegate.whenReady() {
+                    //We enter a valid card number
+                    uim.creditCardFieldDidFocusWithName("cardNum")
+                    uim.creditCardFieldWithName("cardNum", didUpdateWithString: "<invalid card number>")
+                    uim.creditCardFieldDidLoseFocus()
+                    
+                    uim.creditCardPayClicked()
+                }
+                
+                //All fields should be simultaneously validated
+                expect {
+                    return delegate.delegateEventLog
+                    }.toEventually(equal([
+                        "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:cardNum",
+                        "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:email",
+                        "acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName:cardNum",
+                        "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:expMonth",
+                        "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:expYear",
+                        "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:security",
+                        ]))
             }
             
             it("Does trigger hide error on fields that had errors but no longer do") {
@@ -831,7 +831,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                         "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:expMonth",
                         "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:expYear",
                         "acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:security",
-                    ]))
+                        ]))
             }
             
             it("Does call acceptOnUIMachinePaymentIsProcessing when validated information is entered") {
@@ -851,7 +851,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                     
                     uim.creditCardFieldDidFocusWithName("expMonth")
                     uim.creditCardFieldWithName("expMonth", didUpdateWithString: "04")
-                   
+                    
                     uim.creditCardFieldDidFocusWithName("expYear")
                     uim.creditCardFieldWithName("expYear", didUpdateWithString: "17")
                     
@@ -864,9 +864,9 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 
                 expect {
                     return delegate.delegateEventLog.last
-                }.toEventually(equal(
-                    "acceptOnUIMachinePaymentIsProcessing"
-                ))
+                    }.toEventually(equal(
+                        "acceptOnUIMachinePaymentIsProcessing:credit_card"
+                        ))
             }
         }
         
@@ -916,7 +916,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 //Pay was clicked, so it validated all fields
                 expect {
                     return delegate.creditCardValidationErrors.count
-                }.toEventually(equal(5))
+                    }.toEventually(equal(5))
             }
             
             it("Does clear the internal validation statuses with the credit-card when the reset is used") {
@@ -952,11 +952,11 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 //Pay was clicked, so it validated all fields
                 expect {
                     return delegate.creditCardValidationErrors.count
-                }.toEventually(equal(10))
+                    }.toEventually(equal(10))
                 
                 expect {
                     return delegate.emphasizeValidationErrorCount
-                }.toEventually(equal(0))
+                    }.toEventually(equal(0))
             }
             
             it("Does reset the brand type for the credit-card") {
@@ -988,6 +988,26 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 expect {
                     return delegate.creditCardTypeTransitions
                     }.toEventually(equal(["visa", "visa"]))
+            }
+        }
+        
+        describe("paypal") {
+            it("Does call acceptOnUIMachinePaymentIsProcessing when paypal is clicked") {
+                var delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                uim.delegate = delegate
+                
+                uim.beginForItemWithDescription("test", forAmountInCents: 100)
+                
+                delegate.whenReady() {
+                    uim.paypalClicked()
+                }
+                
+                expect {
+                    return delegate.delegateEventLog.last
+                    }.toEventually(equal(
+                        "acceptOnUIMachinePaymentIsProcessing:paypal"
+                        ))
             }
         }
     }
