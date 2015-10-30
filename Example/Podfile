@@ -3,6 +3,7 @@ use_frameworks!
 
 target 'accepton_Example', :exclusive => true do
   pod "accepton", :path => "../"
+  pod "PayPal-iOS-SDK"
 end
 
 target 'accepton_Tests', :exclusive => true do

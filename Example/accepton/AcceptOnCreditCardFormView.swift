@@ -6,9 +6,10 @@ import accepton
     optional func creditCardFormFieldWithName(name: String, wasUpdatedToString: String)
     optional func creditCardFormFieldWithNameDidFocus(name: String)
     optional func creditCardFormFocusedFieldLostFocus()
+    optional func creditCardFormBackWasClicked()
 }
 
-class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate
+class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate, AcceptOnViewControllerVibrancyUser
 {
     //-----------------------------------------------------------------------------------------------------
     //Property
@@ -26,6 +27,14 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate
         self.emailField:"email", self.cardNumField:"cardNum",
         self.securityField:"security", self.expYearField:"expYear"
     ]
+    
+    @IBOutlet weak var roundFormArea: UIView!
+    var _vibrantContentView: UIView!
+    var vibrantContentView: UIView {
+        get { return _vibrantContentView }
+        
+        set { _vibrantContentView = newValue }
+    }
     
     //Container of fields, contains the actual validation view (surrounds)
     @IBOutlet weak var emailValidationView: AcceptOnUICreditCardValidatableField!
@@ -49,13 +58,9 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate
     @IBOutlet weak var expMonthLabel: UILabel!
     
     @IBOutlet weak var payButton: AcceptOnRoundedButton!
-    @IBOutlet weak var lockIconTop: UIImageView! //Lock icon next to text on top
-    @IBOutlet weak var topH1: UILabel!           //"Secure Online Payment"
-    @IBOutlet weak var topH2: UILabel!           //"Your data is protected..."
     
     //Order that things are animated in for the flashy intro
     lazy var animationInOrder: [UIView] = [
-        self.lockIconTop, self.topH1, self.topH2,
         self.emailLabel, self.emailValidationView,
         self.cardNumLabel, self.cardNumValidationView,
         self.securityLabel, self.securityValidationView,
@@ -83,6 +88,7 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate
         self.init(frame: CGRectZero)
     }
     
+    var nibView: UIView?
     func defaultInit() {
         let nib = UINib(nibName: "AcceptOnCreditCardFormView", bundle: NSBundle(forClass: self.dynamicType))
         let nibInstance = nib.instantiateWithOwner(self, options: nil)
@@ -93,6 +99,8 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate
             make.edges.equalTo(UIEdgeInsetsMake(0, 0, 0, 0))
             return
         }
+        view.alpha = 0
+        nibView = view
         
         let gesture = UITapGestureRecognizer(target: self, action: "viewTapped")
         gesture.delaysTouchesBegan = false
@@ -105,6 +113,15 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate
         emailValidationView.responderView = emailField
         expYearValidationView.responderView = expYearField
         securityValidationView.responderView = securityField
+        
+        for (i, e) in animationInOrder.enumerate() {
+            e.alpha = 0
+        }
+        
+        self.alpha = 0
+        
+        self.roundFormArea.layer.cornerRadius = 15
+        self.roundFormArea.clipsToBounds = true
     }
     
     //Dismiss keyboard
@@ -116,15 +133,13 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate
         self.delegate?.creditCardFormFocusedFieldLostFocus?()
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
+    func animateIn() {
         dispatch_async(dispatch_get_main_queue()) { [weak self] () -> Void in
             for (idx, elm) in self!.animationInOrder.enumerate() {
-                elm.layer.transform = CATransform3DMakeTranslation(-50, 0, 0)
-            
+                elm.layer.transform = CATransform3DMakeScale(0.8, 0.8, 1)
+                
                 elm.alpha = 0
-                UIView.animateWithDuration(1, delay: NSTimeInterval(idx)/25.0+0.5, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.7, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                UIView.animateWithDuration(1, delay: NSTimeInterval(idx)/25.0+1, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.7, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
                     elm.layer.transform = CATransform3DIdentity
                     elm.alpha = 1
                     }, completion: { (res) -> Void in
@@ -133,6 +148,27 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate
                         }
                 })
             }
+            
+            
+            self?.layer.transform = CATransform3DMakeScale(0.8, 0.8, 1)
+            UIView.animateWithDuration(1, delay: 1, usingSpringWithDamping: 0.8, initialSpringVelocity: 1, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                self?.layer.transform = CATransform3DIdentity
+                self?.nibView!.alpha = 1
+                self?.alpha = 1
+                }, completion: { (res) -> Void in
+                    
+            })
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+            })
+        }
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        if (hasAnimatedIn == false) {
+            hasAnimatedIn = true
+            animateIn()
         }
     }
     
@@ -191,5 +227,9 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate
         } else {
             puts("Warning: textField didn't have a name bound")
         }
+    }
+    
+    @IBAction func backButtonClicked(sender: AnyObject) {
+        self.delegate?.creditCardFormBackWasClicked?()
     }
 }

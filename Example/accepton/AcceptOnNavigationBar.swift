@@ -1,17 +1,17 @@
 import UIKit
 import accepton
 
-protocol AcceptOnChoosePaymentTypeViewDelegate {
-    func choosePaymentTypeWasClicked(name: String)
+@objc protocol AcceptOnNavigationBarDelegate {
 }
 
 //'choose your payment type' view backed by the XIB named AcceptOnChoosePaymentTypeView
 //The actual view that has the animated buttons is called AcceptOnChoosePaymentTypeSelectorView
-class AcceptOnChoosePaymentTypeView: UIView
+class AcceptOnNavigationBar: UIView
 {
     //-----------------------------------------------------------------------------------------------------
     //Property
     //-----------------------------------------------------------------------------------------------------
+    var backButton: AcceptOnPopButton!
     
     //Constructors
     //-----------------------------------------------------------------------------------------------------
@@ -30,22 +30,16 @@ class AcceptOnChoosePaymentTypeView: UIView
     }
     
     func defaultInit() {
-        let nib = UINib(nibName: "AcceptOnChoosePaymentTypeView", bundle: NSBundle(forClass: self.dynamicType))
-        let nibInstance = nib.instantiateWithOwner(self, options: nil)
-        let view = nibInstance[0] as! UIView
-        
-        self.addSubview(view)
-        view.snp_makeConstraints { make in
-            make.edges.equalTo(UIEdgeInsetsMake(0, 0, 0, 0))
-            return
-        }
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-    }
-    
-    override func updateConstraints() {
-        super.updateConstraints()
+//        self.backButton = AcceptOnPopButton()
+//        self.backButton.image = UIImage(named: "back_arrow")!
+//        self.addSubview(self.backButton)
+//        backButton.snp_makeConstraints { make in
+//            make.width.equalTo(26)
+//            make.height.equalTo(26)
+//            make.left.equalTo(self.snp_left).offset(25)
+//            make.centerY.equalTo(self.snp_centerY)
+//            return
+//        }
     }
 }
+

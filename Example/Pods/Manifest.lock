@@ -5,8 +5,9 @@ PODS:
     - Stripe
   - Alamofire (3.1.0)
   - Nimble (2.0.0)
+  - PayPal-iOS-SDK (2.12.4)
   - Quick (0.7.0)
-  - SnapKit (0.15.0)
+  - SnapKit (0.16.0)
   - Stripe (6.0.1):
     - Stripe/Core (= 6.0.1)
   - Stripe/Core (6.0.1)
@@ -14,6 +15,7 @@ PODS:
 DEPENDENCIES:
   - accepton (from `../`)
   - Nimble (~> 2.0.0)
+  - PayPal-iOS-SDK
   - Quick (~> 0.7.0)
 
 EXTERNAL SOURCES:
@@ -24,8 +26,9 @@ SPEC CHECKSUMS:
   accepton: 4f532864f5a70d5861e250a9e74017cb5dd7ecff
   Alamofire: 415bd7f56197722978759078486689f7ef913dce
   Nimble: 472e75466819eb8c06299233e87c694a9b51328a
+  PayPal-iOS-SDK: fdf3b2f900e0100b9e1df615663e7f6c41047789
   Quick: 906d8aa995ee0afa96f1f7f01170f40fccfa5898
-  SnapKit: 4962eed2ee18e48cbd2b2292fffc57efe7235f87
+  SnapKit: ddac6b339d571f9d80dbb733585b172ee9eed3cb
   Stripe: 04f215191702c268b89fe0cdf28dc24a9688a71b
 
 COCOAPODS: 0.39.0
