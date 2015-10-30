@@ -37,7 +37,7 @@
 		AAB472931BDE669A0071DEBC /* visa.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB472921BDE669A0071DEBC /* visa.png */; };
 		AAB472951BDE669E0071DEBC /* master_card.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB472941BDE669E0071DEBC /* master_card.png */; };
 		AAB472971BDE67A40071DEBC /* unknown.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB472961BDE67A40071DEBC /* unknown.png */; };
-		AAB4729E1BDE80FA0071DEBC /* AcceptOnChoosePaymentTypeSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB4729D1BDE80FA0071DEBC /* AcceptOnChoosePaymentTypeSelectorView.swift */; };
+		AAB4729E1BDE80FA0071DEBC /* AcceptOnChoosePaymentTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB4729D1BDE80FA0071DEBC /* AcceptOnChoosePaymentTypeView.swift */; };
 		AADE004E1BE3EE6900912152 /* watch.png in Resources */ = {isa = PBXBuildFile; fileRef = AADE004D1BE3EE6900912152 /* watch.png */; };
 		E8307E9328DEC22B1C53C273 /* Pods_accepton_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EEB34365484DD019D518191 /* Pods_accepton_Example.framework */; };
 /* End PBXBuildFile section */
@@ -92,7 +92,7 @@
 		AAB472921BDE669A0071DEBC /* visa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = visa.png; sourceTree = "<group>"; };
 		AAB472941BDE669E0071DEBC /* master_card.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = master_card.png; sourceTree = "<group>"; };
 		AAB472961BDE67A40071DEBC /* unknown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unknown.png; sourceTree = "<group>"; };
-		AAB4729D1BDE80FA0071DEBC /* AcceptOnChoosePaymentTypeSelectorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnChoosePaymentTypeSelectorView.swift; sourceTree = "<group>"; };
+		AAB4729D1BDE80FA0071DEBC /* AcceptOnChoosePaymentTypeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnChoosePaymentTypeView.swift; sourceTree = "<group>"; };
 		AADE004D1BE3EE6900912152 /* watch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = watch.png; sourceTree = "<group>"; };
 		CB2386879C9FC7B1B2B10C0A /* Pods-accepton_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-accepton_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-accepton_Example/Pods-accepton_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		CFCA9927F0EED72BDD3B3097 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -244,7 +244,7 @@
 		AAB4729C1BDE80D10071DEBC /* ChoosePaymentType */ = {
 			isa = PBXGroup;
 			children = (
-				AAB4729D1BDE80FA0071DEBC /* AcceptOnChoosePaymentTypeSelectorView.swift */,
+				AAB4729D1BDE80FA0071DEBC /* AcceptOnChoosePaymentTypeView.swift */,
 			);
 			name = ChoosePaymentType;
 			sourceTree = "<group>";
@@ -520,7 +520,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA287C0A1BDD73AE00C10DCF /* AcceptOnCreditCardFormView.swift in Sources */,
-				AAB4729E1BDE80FA0071DEBC /* AcceptOnChoosePaymentTypeSelectorView.swift in Sources */,
+				AAB4729E1BDE80FA0071DEBC /* AcceptOnChoosePaymentTypeView.swift in Sources */,
 				607FACD81AFB9204008FA782 /* AcceptOnViewController.swift in Sources */,
 				AA9016AE1BE13B8200C00E77 /* AcceptOnPopButton.swift in Sources */,
 				AAB4728C1BDE63730071DEBC /* AcceptOnCreditCardCardNumBrandPop.swift in Sources */,

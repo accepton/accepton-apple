@@ -5,20 +5,20 @@ class AcceptOnPopButton: UIButton {
     //-----------------------------------------------------------------------------------------------------
     //Properties
     //-----------------------------------------------------------------------------------------------------
-    //Layout subviews allowed to continue?
-    var layoutSubviewsEnabled: Bool = true
-    
+    //The amount of space around the innerView
     var padding: CGFloat = 0
     
-    //View to animate, should be added by an external view
-    //during configuration
+    var layoutSubviewsIsDisabled: Bool = false
+    
+    //View to animate, should be added by an external view right after initialization. Should not
+    //have any constraints installed on it
     var innerView: UIView!
     
     @IBInspectable var scale: CGFloat = 0.8
     
-    //------------------------------------------------------------------------------------------------------
-    //Constructors
-    //------------------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------------
+    //Constructors, Initializers, and UIView lifecycle
+    //-----------------------------------------------------------------------------------------------------
     required init(coder: NSCoder) {
         super.init(coder: coder)!
         viewDidLoad()
@@ -30,42 +30,43 @@ class AcceptOnPopButton: UIButton {
     }
     
     func viewDidLoad() {
-        //Event handling
-        self.addTarget(self, action: "buttonClick", forControlEvents: UIControlEvents.TouchUpInside)
-        self.addTarget(self, action: "buttonDown", forControlEvents: [UIControlEvents.TouchDown, UIControlEvents.TouchDragEnter])
-        self.addTarget(self, action: "buttonCancel", forControlEvents: [UIControlEvents.TouchCancel, UIControlEvents.TouchDragExit])
+        //Bind event handlers for the button
+        self.addTarget(self, action: "buttonDidClick", forControlEvents: UIControlEvents.TouchUpInside)
+        self.addTarget(self, action: "buttonDidTouchDown", forControlEvents: [UIControlEvents.TouchDown, UIControlEvents.TouchDragEnter])
+        self.addTarget(self, action: "buttonDidCancel", forControlEvents: [UIControlEvents.TouchCancel, UIControlEvents.TouchDragExit])
     }
     
     //------------------------------------------------------------------------------------------------------
     //View Rendering
     //------------------------------------------------------------------------------------------------------
     override func layoutSubviews() {
-        if (!layoutSubviewsEnabled) {
-            return
-        }
+        super.layoutSubviews()
         
+        //Ensure our inner-view is in the correct location
+        if (self.layoutSubviewsIsDisabled) { return }
         self.innerView.frame = CGRectInset(self.bounds, self.padding, self.padding)
     }
     
     //------------------------------------------------------------------------------------------------------
     //Event Handling
     //------------------------------------------------------------------------------------------------------
-    func buttonDown() {
-        self.layoutSubviewsEnabled = false
+    func buttonDidTouchDown() {
+        self.layoutSubviewsIsDisabled = true
         UIView.animateWithDuration(0.8, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: [UIViewAnimationOptions.CurveEaseOut, UIViewAnimationOptions.AllowUserInteraction], animations: { () in
             self.innerView.layer.transform = CATransform3DMakeScale(self.scale, self.scale, 1)
-            }, completion: nil)
+            }, completion: {res in
+        })
     }
     
-    func buttonCancel() {
-        self.layoutSubviewsEnabled = false
+    func buttonDidCancel() {
+        self.layoutSubviewsIsDisabled = true
         UIView.animateWithDuration(0.8, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: [UIViewAnimationOptions.CurveEaseOut, UIViewAnimationOptions.AllowUserInteraction], animations: { () in
             self.innerView.layer.transform = CATransform3DIdentity
             }, completion: nil)
     }
     
-    func buttonClick() {
-        self.layoutSubviewsEnabled = false
+    func buttonDidClick() {
+        self.layoutSubviewsIsDisabled = true
         UIView.animateWithDuration(0.8, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: [UIViewAnimationOptions.CurveEaseOut, UIViewAnimationOptions.AllowUserInteraction], animations: { () in
             self.innerView.layer.transform = CATransform3DIdentity
             }, completion: nil)

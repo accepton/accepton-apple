@@ -1,12 +1,9 @@
 import UIKit
 
-//This creates an oblong shaped button
+//This creates an oblong (slot) shaped button
 class AcceptOnRoundedButton : UIButton {
     //-----------------------------------------------------------------------------------------------------
-    //Property
-    //-----------------------------------------------------------------------------------------------------
-    
-    //Constructors
+    //Constructors, Initializers, and UIView lifecycle
     //-----------------------------------------------------------------------------------------------------
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,17 +19,15 @@ class AcceptOnRoundedButton : UIButton {
         self.init(frame: CGRectZero)
     }
     
-    func defaultInit() { 
+    func defaultInit() {
+        //Make sure the rounding is shown
         self.layer.masksToBounds = true
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
+        //Make it oblong (slot) shapped
         self.layer.cornerRadius = self.bounds.size.height / 2
-    }
-    
-    override func updateConstraints() {
-        super.updateConstraints()
     }
 }

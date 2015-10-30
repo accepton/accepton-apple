@@ -2,56 +2,56 @@ import UIKit
 import accepton
 import SnapKit
 
-
 @objc protocol AcceptOnViewControllerDelegate {
+    //You should use this to close the accept-on view controller modal
     optional func acceptOnCancelWasClicked(vc: AcceptOnViewController)
 }
 
-class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, AcceptOnCreditCardFormDelegate, AcceptOnChoosePaymentTypeSelectorViewDelegate, PayPalPaymentDelegate {
+//Works with the AcceptOnUIMachine to manage the UI behaviours
+class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, AcceptOnCreditCardFormDelegate, AcceptOnChoosePaymentTypeViewDelegate, PayPalPaymentDelegate {
+    //-----------------------------------------------------------------------------------------------------
+    //Properties
+    //-----------------------------------------------------------------------------------------------------
+    //The AcceptOnUIMachine that handles most of the behaviour
     var uim: AcceptOnUIMachine!
-    weak var creditCardForm: AcceptOnCreditCardFormView!
-    weak var choosePaymentTypeView: AcceptOnChoosePaymentTypeSelectorView!
     
-    //Where the choose payment, form, loader, etc. go to
+    //The credit-card form if a user clicks the credit-card payment option
+    weak var creditCardForm: AcceptOnCreditCardFormView!
+    
+    //The first window with all the payment options and "Select your preferred payment option"
+    weak var choosePaymentTypeView: AcceptOnChoosePaymentTypeView!
+    
+    //'Center' conent window where the creditCardForm, choosePaymentTypeView, etc. go
     weak var contentView: UIView?
     
+    //The top-center down-arrow button shown when you open the modal
     var exitButton: AcceptOnPopButton!
     
+    //Back-button shown on some pages like the credit-card form
+    var backButton: AcceptOnPopButton!
+    
+    //Receive information back about the payment and when to dismiss this view-controller's modal
     weak var delegate: AcceptOnViewControllerDelegate?
     
     //All subviews should descend from these two views
     var _mainView: UIVisualEffectView!
-    var _mainVibrantView: UIVisualEffectView!
     var mainView: UIView { return _mainView.contentView }
-    var mainVibrantView: UIView { return _mainVibrantView.contentView }
     
-    
-    override func viewWillAppear(animated: Bool) {
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-            self?.animateIn()
-        }
-    }
-    
-    func payPalPaymentDidCancel(paymentViewController: PayPalPaymentViewController!) {
-        paymentViewController.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    func payPalPaymentViewController(paymentViewController: PayPalPaymentViewController!, didCompletePayment completedPayment: PayPalPayment!) {
-        
-    }
-    
+    //-----------------------------------------------------------------------------------------------------
+    //Constructors, Initializers, and UIViewController lifecycle
+    //-----------------------------------------------------------------------------------------------------
     override func viewDidLoad() {
-        
+        //We're presenting over a view-controller, the underlying view-controller
+        //should be visible
         self.view.backgroundColor = UIColor.clearColor()
         
+        //Create the UIMachine to handle behaviours
         uim = AcceptOnUIMachine(publicKey: "pkey_89f2cc7f2c423553")
         uim.delegate = self
         uim.beginForItemWithDescription("My Item", forAmountInCents: 125)
         
-        //Setup the main blur & vibrancy views
-        //all views should descend from these based on their requirements, i.e. flashy
-        //text should go in the mainVibrantView
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        //Setup the main blur view, all child-views should go ontop of this view, nothing
+        //should go on self.view besides this
         _mainView = UIVisualEffectView()
         self.view.addSubview(_mainView)
         _mainView.snp_makeConstraints { make in
@@ -59,13 +59,6 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
             make.center.equalTo(self.view.snp_center)
             return
         }
-        _mainVibrantView = UIVisualEffectView(effect: UIVibrancyEffect(forBlurEffect: UIBlurEffect(style: .Dark)))
-        _mainView.contentView.addSubview(_mainVibrantView)
-        _mainVibrantView.snp_makeConstraints { make in
-            make.margins.equalTo(_mainView.snp_margins)
-            return
-        }
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
         
         //Down-arrow exit button to exit
         exitButton = AcceptOnPopButton()
@@ -84,7 +77,23 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
         }
         exitButton.addTarget(self, action: "exitWasClicked", forControlEvents: UIControlEvents.TouchUpInside)
         
-        self.addBackButton()
+        //Back arrow
+        backButton = AcceptOnPopButton()
+        self.view.addSubview(backButton)
+        var backArrowImage = UIImage(named: "back_arrow")
+        backArrowImage = backArrowImage?.imageWithColor(UIColor.whiteColor())
+        let backArrowImageView = UIImageView(image: backArrowImage)
+        backButton.addSubview(backArrowImageView)
+        backButton.innerView = backArrowImageView
+        backButton.snp_makeConstraints { make in
+            make.width.equalTo(23)
+            make.height.equalTo(23)
+            make.left.equalTo(self.view.snp_left).offset(20)
+            make.top.equalTo(self.view.snp_top).offset(30)
+            return
+        }
+        backButton.addTarget(self, action: "backWasClicked", forControlEvents: UIControlEvents.TouchUpInside)
+        backButton.alpha = 0
         
         //Holds all content like form, buttons, etc.
         let contentView = UIView()
@@ -92,14 +101,14 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
         self.mainView.addSubview(contentView)
         contentView.snp_makeConstraints { make in
             make.top.equalTo(self.exitButton.snp_bottom)
-            make.bottom.equalTo(self.view.snp_top)
+            make.bottom.equalTo(self.view.snp_bottom)
             make.width.equalTo(self.mainView.snp_width)
             make.centerX.equalTo(self.mainView.snp_centerX)
             return
         }
         
         //Choose paypal, credit-card, etc.
-        let choosePaymentTypeView = AcceptOnChoosePaymentTypeSelectorView()
+        let choosePaymentTypeView = AcceptOnChoosePaymentTypeView()
         self.choosePaymentTypeView = choosePaymentTypeView
         self.mainView.addSubview(choosePaymentTypeView)
         choosePaymentTypeView.snp_makeConstraints { make in
@@ -109,36 +118,57 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
         choosePaymentTypeView.delegate = self
         choosePaymentTypeView.paymentMethods = ["paypal", "credit_card", "apple_pay"]
         choosePaymentTypeView.layer.cornerRadius = 5
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.animateIn()
+    }
+    
+    //-----------------------------------------------------------------------------------------------------
+    //Signal / Action Handlers
+    //-----------------------------------------------------------------------------------------------------
+    func exitWasClicked() {
+        //Signal our delegate that we can now exit
+        self.delegate?.acceptOnCancelWasClicked?(self)
+    }
+    
+    func backWasClicked() {
+        self.creditCardForm.removeFromSuperview()
         
-        let priceView = UIView()
-        self.view.addSubview(priceView)
-        priceView.snp_makeConstraints { make in
-            make.bottom.equalTo(self.view.snp_bottom)
-            make.centerX.equalTo(self.view.snp_centerX)
-            make.height.equalTo(80)
-            make.width.equalTo(self.view.snp_width)
-            return
+        //Animate exit button in
+        self.exitButton.userInteractionEnabled = true
+        self.exitButton.layer.transform = CATransform3DMakeTranslation(0, -self.view.bounds.size.height/4, 0)
+        UIView.animateWithDuration(0.8, delay: 0.3, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+            self.exitButton.alpha = 1
+            self.exitButton.layer.transform = CATransform3DIdentity
+            }) { (res) -> Void in
         }
-//        priceView.backgroundColor = UIColor.whiteColor()
         
-        let text = UILabel()
-        self.view.addSubview(text)
-        text.font = UIFont(name: "HelveticaNeue-Light", size: 20)
-        text.textColor = UIColor.whiteColor()
-        text.text = "Widget"
-        priceView.addSubview(text)
-        priceView.snp_makeConstraints { make in
-            make.left.equalTo(self.view.snp_left)
-            make.height.equalTo(priceView.snp_height)
-            make.top.equalTo(priceView.snp_top)
-            make.bottom.equalTo(priceView.snp_bottom)
-            return
+        //Animate back button out
+        self.backButton.userInteractionEnabled = false
+        UIView.animateWithDuration(0.8, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+            self.backButton.alpha = 0
+            self.backButton.layer.transform = CATransform3DMakeTranslation(0, -self.view.bounds.size.height/4, 0)
+            }) { (res) -> Void in
+        }
+        choosePaymentTypeView.animateButtonsIn()
+    }
+    
+    //------------------------------------------------------------------------------------------------------
+    //Animation Helpers
+    //------------------------------------------------------------------------------------------------------
+    func animateIn() {
+        UIView.animateWithDuration(0.8, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+            self._mainView.effect = UIBlurEffect(style: .Dark)
+            }) { (res) -> Void in
+                
         }
     }
     
-    //AcceptOnUIMachineDelegate
+    //-----------------------------------------------------------------------------------------------------
+    //AcceptOnUIMachineDelegate Handlers
+    //-----------------------------------------------------------------------------------------------------
     func acceptOnUIMachineDidFinishBeginWithFormOptions(options: AcceptOnUIMachineFormOptions) {
-        
     }
     
     func acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName(name: String, withMessage msg: String) {
@@ -157,7 +187,9 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
         creditCardForm.creditCardNumBrandWasUpdatedWithBrandName(type)
     }
     
-    //AcceptOnCreditCardFormViewDelegate
+    //-----------------------------------------------------------------------------------------------------
+    //AcceptOnCreditCardFormDelegate Handlers
+    //-----------------------------------------------------------------------------------------------------
     func creditCardFormPayWasClicked() {
         uim.creditCardPayClicked()
     }
@@ -188,6 +220,9 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
         uim.creditCardFieldDidLoseFocus()
     }
     
+    //-----------------------------------------------------------------------------------------------------
+    //AcceptOnChoosePaymentTypeViewDelegate Handlers
+    //-----------------------------------------------------------------------------------------------------
     func choosePaymentTypeWasClicked(name: String) {
         if (name == "paypal") {
             PayPalMobile.initializeWithClientIdsForEnvironments([PayPalEnvironmentSandbox:"EAGEb2Sey28DzhMc4P0PNothBmsJggVKZK9kTBrw5bU_PP5tmRUSFSlPe62K56FGxF8LkmwA3vPn-LGh"])
@@ -239,65 +274,13 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
         choosePaymentTypeView.animateButtonsOutExcept(name)
     }
     
-    func exitWasClicked() {
-        self.delegate?.acceptOnCancelWasClicked?(self)
+    //-----------------------------------------------------------------------------------------------------
+    //PayPalPaymentDelegate Handlers
+    //-----------------------------------------------------------------------------------------------------
+    func payPalPaymentDidCancel(paymentViewController: PayPalPaymentViewController!) {
+        paymentViewController.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func creditCardFormBackClicked() {
-        self.creditCardForm.removeFromSuperview()
-        
-        //Animate exit button in
-        self.exitButton.userInteractionEnabled = true
-        self.exitButton.layer.transform = CATransform3DMakeTranslation(0, -self.view.bounds.size.height/4, 0)
-        UIView.animateWithDuration(0.8, delay: 0.3, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-            self.exitButton.alpha = 1
-            self.exitButton.layer.transform = CATransform3DIdentity
-            }) { (res) -> Void in
-        }
-        
-        //Animate back button out
-        self.backButton.userInteractionEnabled = false
-        UIView.animateWithDuration(0.8, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-            self.backButton.alpha = 0
-            self.backButton.layer.transform = CATransform3DMakeTranslation(0, -self.view.bounds.size.height/4, 0)
-            }) { (res) -> Void in
-        }
-        choosePaymentTypeView.animateButtonsIn()
-    }
-
-    //------------------------------------------------------------------------------------------------------
-    //Animations
-    //------------------------------------------------------------------------------------------------------
-    func animateIn() {
-        UIView.animateWithDuration(0.8, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-            self._mainView.effect = UIBlurEffect(style: .Dark)
-            }) { (res) -> Void in
-            
-        }
-    }
-    
-    //------------------------------------------------------------------------------------------------------
-    //View Management
-    //------------------------------------------------------------------------------------------------------
-    
-    var backButton: AcceptOnPopButton!
-    func addBackButton() {
-        //Back arrow
-        backButton = AcceptOnPopButton()
-        self.view.addSubview(backButton)
-        var image = UIImage(named: "back_arrow")
-        image = image?.imageWithColor(UIColor.whiteColor())
-        let exitButtonImageView = UIImageView(image: image)
-        backButton.addSubview(exitButtonImageView)
-        backButton.innerView = exitButtonImageView
-        backButton.snp_makeConstraints { make in
-            make.width.equalTo(23)
-            make.height.equalTo(23)
-            make.left.equalTo(self.view.snp_left).offset(20)
-            make.top.equalTo(self.view.snp_top).offset(30)
-            return
-        }
-        backButton.addTarget(self, action: "creditCardFormBackClicked", forControlEvents: UIControlEvents.TouchUpInside)
-        backButton.alpha = 0
+    func payPalPaymentViewController(paymentViewController: PayPalPaymentViewController!, didCompletePayment completedPayment: PayPalPayment!) {
     }
 }

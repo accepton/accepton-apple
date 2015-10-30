@@ -9,7 +9,13 @@ import UIKit
 //the actual input field, etc.
 class AcceptOnUICreditCardValidatableField : UIView {
     //-----------------------------------------------------------------------------------------------------
-    //Property
+    //Constants
+    //-----------------------------------------------------------------------------------------------------
+    let validBorderColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1).CGColor
+    let errorBorderColor = UIColor(red:0.871, green:0.267, blue:0.220, alpha: 0.6).CGColor
+    
+    //-----------------------------------------------------------------------------------------------------
+    //Properties
     //-----------------------------------------------------------------------------------------------------
     weak var delegate: AcceptOnUICreditCardValidatableFieldDelegate?
     var name: String?
@@ -22,13 +28,22 @@ class AcceptOnUICreditCardValidatableField : UIView {
             _responderView = newValue
             _responderView?.userInteractionEnabled = false
         }
+        get { return _responderView }
+    }
 
-        get {
-            return _responderView
+    //Adds an error to the view, animates it in
+    var _error: String?
+    var error: String? {
+        get { return _error }
+        set {
+            _error = newValue
+
+            animateError()
         }
     }
     
-    //Constructors
+    //-----------------------------------------------------------------------------------------------------
+    //Constructors, Initializers, and UIView lifecycle
     //-----------------------------------------------------------------------------------------------------
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -44,23 +59,15 @@ class AcceptOnUICreditCardValidatableField : UIView {
         self.init(frame: CGRectZero)
     }
     
-    let originalBorderColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1).CGColor
     func defaultInit() {
-        self.layer.borderColor = originalBorderColor
+        self.layer.borderColor = validBorderColor
         self.layer.borderWidth = 1
         self.layer.masksToBounds = true
         
-        let tap = UITapGestureRecognizer(target: self, action: "viewTapped")
+        let tap = UITapGestureRecognizer(target: self, action: "viewWasTapped")
         tap.delaysTouchesBegan = false
         tap.delaysTouchesEnded = false
         self.addGestureRecognizer(tap)
-    }
-    
-    func viewTapped() {
-        self.delegate?.validatableFieldTapped(self, withName: name)
-        
-        responderView?.userInteractionEnabled = true
-        responderView?.becomeFirstResponder()
     }
     
     override func resignFirstResponder() -> Bool {
@@ -76,40 +83,39 @@ class AcceptOnUICreditCardValidatableField : UIView {
         self.layer.cornerRadius = self.bounds.size.height/2
     }
     
-    override func updateConstraints() {
-        super.updateConstraints()
-    }
-    
-    //Set error, or hide with nil
-    var _error: String?
-    var error: String? {
-        get {
-            return _error
+    //-----------------------------------------------------------------------------------------------------
+    //Animation helpers
+    //-----------------------------------------------------------------------------------------------------
+    //Animates the current error status. If the error status is nil, the field
+    //is animated to no error
+    func animateError() {
+        //If there is an error
+        if (error != nil) {
+            //Animate the border color
+            let anim = CABasicAnimation(keyPath: "borderColor")
+            anim.beginTime = 0
+            anim.duration = 0.3
+            anim.toValue = errorBorderColor
+            self.layer.addAnimation(anim, forKey: "error")
+            self.layer.borderColor = errorBorderColor
+            
+            return
         }
         
-        set {
-            if (newValue != nil) {
-                let anim = CABasicAnimation(keyPath: "borderColor")
-                anim.beginTime = 0
-                anim.duration = 0.3
-                anim.fromValue = UIColor.clearColor().CGColor
-                anim.toValue = UIColor(red:0.871, green:0.267, blue:0.220, alpha: 0.6).CGColor
-                self.layer.addAnimation(anim, forKey: "error")
-                self.layer.borderColor = UIColor(red:0.871, green:0.267, blue:0.220, alpha: 0.6).CGColor
-                
-                let anim2 = CABasicAnimation(keyPath: "borderWidth")
-                anim2.beginTime = 0
-                anim2.duration = 0.5
-                anim2.fromValue = 1
-                anim2.toValue = 0.5
-                
-                self.layer.addAnimation(anim2, forKey: "borderError")
+        //No error, remove border color change
+        self.layer.borderColor = validBorderColor
+    }
 
-            } else {
-                self.layer.borderColor = originalBorderColor
-            }
-            
-            _error = newValue
-        }
+    //-----------------------------------------------------------------------------------------------------
+    //Signal / Action Handlers
+    //-----------------------------------------------------------------------------------------------------
+    //User tapped this field, gain first-responder status
+    func viewWasTapped() {
+        //Notify the delegate that we are the first-responder
+        self.delegate?.validatableFieldTapped(self, withName: name)
+        
+        //Enable user-interaction temporarily
+        responderView?.userInteractionEnabled = true
+        responderView?.becomeFirstResponder()
     }
 }

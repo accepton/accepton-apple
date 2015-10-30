@@ -1,22 +1,23 @@
-//The bubble on the right-side of the card number that changes
-//when enough numbers have been entered in the number field
-
 import UIKit
 
+//The bubble on the right-side of the card number that changes
+//when enough numbers have been entered in the number field
 class AcceptOnCreditCardNumBrandPop: UIView
 {
     //-----------------------------------------------------------------------------------------------------
-    //Property
+    //Properties
     //-----------------------------------------------------------------------------------------------------
     //The view that is actually animated and contains two image views (for double buffering during animations)
     var popView = UIView()
         let imageA = UIImageView()
         let imageB = UIImageView() //ontop of A
-        lazy var activeImageBuffer: UIImageView? = self.imageA
+    lazy var activeImageBuffer: UIImageView? = self.imageA
     
+    //A queue used for both loading brandImages if needed and then
+    //animating them without contention
     let animationQueue = NSOperationQueue()
     
-    //Cached brand images
+    //Cached brand images and a listing of image names
     var brandImages: [String:UIImage] = [:]
     let brandNameToImageName: [String:String] = [
         "amex": "amex",
@@ -26,7 +27,8 @@ class AcceptOnCreditCardNumBrandPop: UIView
         "unknown":"unknown"
     ]
     
-    //Constructors
+    //-----------------------------------------------------------------------------------------------------
+    //Constructors, Initializers, and UIView lifecycle
     //-----------------------------------------------------------------------------------------------------
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -43,27 +45,16 @@ class AcceptOnCreditCardNumBrandPop: UIView
     }
     
     func defaultInit() {
+        //Our animation queue needs to block
         animationQueue.maxConcurrentOperationCount = 1
         
-        //Add a pop-view, centered and square w.r.t to super-view width
+        //Add a pop-view for when the images are swapped out
         self.addSubview(popView)
-        popView.snp_makeConstraints { make in
-            make.width.equalTo(self.snp_width).multipliedBy(0.63)
-            make.height.equalTo(popView.snp_width)
-            make.center.equalTo(self.snp_center)
-            return
-        }
-        
-        //Mask it to it's bounds & set color
         popView.layer.masksToBounds = true
         
-        //Set-up our double buffered image views
+        //Add two image views (double buffered)
         for e in [imageA, imageB] {
             popView.addSubview(e)
-            e.snp_makeConstraints { make in
-                make.margins.equalTo(UIEdgeInsetsMake(0, 0, 0, 0))
-                return
-            }
             e.contentMode = UIViewContentMode.ScaleAspectFill
         }
     }
@@ -75,12 +66,33 @@ class AcceptOnCreditCardNumBrandPop: UIView
         self.popView.layer.cornerRadius = self.popView.bounds.size.height/2
     }
     
+    var constraintsWereUpdated = false
     override func updateConstraints() {
         super.updateConstraints()
+        
+        //Only run custom constraints once
+        if (constraintsWereUpdated) { return }
+        constraintsWereUpdated = true
+        
+        //Pop-view should be centered & square 63% the size
+        popView.snp_makeConstraints { make in
+            make.width.equalTo(self.snp_width).multipliedBy(0.63)
+            make.height.equalTo(popView.snp_width)
+            make.center.equalTo(self.snp_center)
+            return
+        }
+        
+        //Set-up our double buffered image views inside the pop-views
+        for e in [imageA, imageB] {
+            e.snp_makeConstraints { make in
+                make.margins.equalTo(UIEdgeInsetsMake(0, 0, 0, 0))
+                return
+            }
+        }
     }
     
     //-----------------------------------------------------------------------------------------------------
-    //Drawing helpers
+    //Animation Helpers
     //-----------------------------------------------------------------------------------------------------
     //Accepts visa, master_card, unknown, etc. Switches to the image
     //for that card by animating out the current card and animating
@@ -98,6 +110,7 @@ class AcceptOnCreditCardNumBrandPop: UIView
                 }
             }
             
+            //Animate to the other brand image
             if let image = image {
                 self?.animateFromCurrentBrandImageToOtherBrandImageWithImage(image)
             } else {
@@ -112,7 +125,7 @@ class AcceptOnCreditCardNumBrandPop: UIView
         let alternativeImageBuffer: UIImageView? = activeImageBuffer == imageA ? imageB : imageA
         
         //Lock this thread up until animations complete
-        var dispatchLock = dispatch_semaphore_create(0)
+        let dispatchLock = dispatch_semaphore_create(0)
         
         //Set the image of the 'other' buffer
         dispatch_sync(dispatch_get_main_queue()) { [weak self] () -> Void in
@@ -120,27 +133,27 @@ class AcceptOnCreditCardNumBrandPop: UIView
             alternativeImageBuffer?.image = image
             
             //Animate the pop out
-            UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 0.95, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-                    self?.popView.layer.transform = CATransform3DMakeScale(0.0001, 0.0001, 1)
-                }, completion: { (res) -> Void in
-                    //Animate the pop in with the alternative image
-                    alternativeImageBuffer?.alpha = 1
-                    self?.activeImageBuffer?.alpha = 0
-                    UIView.animateWithDuration(0.8, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-                        self?.popView.layer.transform = CATransform3DIdentity
-                        }, completion: { (res) -> Void in
-                            dispatch_semaphore_signal(dispatchLock)
-                    })
+            UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 0.95, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+                self?.popView.layer.transform = CATransform3DMakeScale(0.0001, 0.0001, 1)
+            }, completion: { res in
+                //Animate the pop in with the alternative image
+                alternativeImageBuffer?.alpha = 1
+                self?.activeImageBuffer?.alpha = 0
+                UIView.animateWithDuration(0.8, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+                    self?.popView.layer.transform = CATransform3DIdentity
+                }, completion: { res in
+                    //Signal that we are done
+                    dispatch_semaphore_signal(dispatchLock)
+                })
             })
         }
         
-        //Lock this NSOperation until we've completed our animations
-        //or 5 seconds have passed (animation sub-system has no guarantees
-        //on actually completing our request)
+        //Lock this NSOperation until we've completed our animations, or 5 seconds have passed,
+        //as animation sub-system has no guarantees on actually completing our request
         let maxWaitInSecs = 5
         dispatch_semaphore_wait(dispatchLock, dispatch_time(DISPATCH_TIME_NOW, Int64(maxWaitInSecs)*Int64(NSEC_PER_SEC)))
         
-        //Flip
+        //Swap buffers out
         activeImageBuffer = alternativeImageBuffer
     }
 }

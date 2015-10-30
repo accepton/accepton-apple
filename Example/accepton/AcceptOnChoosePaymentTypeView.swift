@@ -1,19 +1,20 @@
 import UIKit
 import accepton
 
-@objc protocol AcceptOnChoosePaymentTypeSelectorViewDelegate {
+@objc protocol AcceptOnChoosePaymentTypeViewDelegate {
     //Returns the payment method chosen such as 'paypal', 'credit_card', etc.
     func choosePaymentTypeWasClicked(name: String)
 }
 
 //This view contains a listing of clickable payment types like 'paypal', 'applepay', etc. and sends
 //a delegate event when one of them is pressed.
-class AcceptOnChoosePaymentTypeSelectorView: UIView
+class AcceptOnChoosePaymentTypeView: UIView
 {
     //-----------------------------------------------------------------------------------------------------
-    //Property
+    //Properties
     //-----------------------------------------------------------------------------------------------------
-    //List of available payment methods to display
+    //List of available payment methods to display. Set when first initialized. Calls down
+    //to view creation methods
     var _paymentMethods: [String]?
     var paymentMethods: [String]! {
         get { return _paymentMethods! }
@@ -24,27 +25,20 @@ class AcceptOnChoosePaymentTypeSelectorView: UIView
         }
     }
     
-    var _vibrantContentView: UIView!
-    var vibrantContentView: UIView {
-        get { return _vibrantContentView }
-        
-        set {
-            _vibrantContentView = newValue
-        }
-    }
-    
-    weak var delegate: AcceptOnChoosePaymentTypeSelectorViewDelegate?
+    //Notify the delegate when a payment type was selected
+    weak var delegate: AcceptOnChoosePaymentTypeViewDelegate?
     
     //All the buttons are stored on a sub-view
     var paymentMethodButtonsView: UIView?
         var paymentMethodButtonsToName: [UIButton:String]!  //Each button is bound to the payment name
-        var paymentMethodButtons: [UIButton]!
-        var paymentMethodButtonAspectRatios: [Double]!
+        var paymentMethodButtons: [UIButton]!               //Holds the order of the buttons
+        var paymentMethodButtonAspectRatios: [Double]!      //We need the aspect ratio of the embedded image
     
     //"Select your preffered payment method"
-    let headerLabel = UILabel()
+    lazy var headerLabel = UILabel()
     
-    //Constructors
+    //-----------------------------------------------------------------------------------------------------
+    //Constructors, Initializers, and UIView lifecycle
     //-----------------------------------------------------------------------------------------------------
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -61,27 +55,43 @@ class AcceptOnChoosePaymentTypeSelectorView: UIView
     }
     
     func defaultInit() {
-        addHeaderLabel()
+        //Add a header / title label
+        self.addSubview(headerLabel)
+        headerLabel.text = "Please select your preferred payment method"
+        headerLabel.numberOfLines = 2
+        headerLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        headerLabel.font = UIFont(name: "HelveticaNeue-Light", size: 24)
+        headerLabel.textAlignment = NSTextAlignment.Center
+        headerLabel.textColor = UIColor.whiteColor()
     }
     
-    var hasAnimatedIn: Bool = false
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        if !hasAnimatedIn {
-            hasAnimatedIn = true
-            dispatch_async(dispatch_get_main_queue()) { [weak self] () -> Void in
-                self?.animatePaymentButtonsIn()
-            }
+        //Animate the payment buttons in on the first load
+        self.animatePaymentButtonsIn()
+    }
+    
+    var constraintsWereUpdated = false
+    override func updateConstraints() {
+        super.updateConstraints()
+        
+        //Only run custom constraints once
+        if (constraintsWereUpdated) { return }
+        constraintsWereUpdated = true
+        
+        //Put header on the top
+        headerLabel.snp_makeConstraints { make in
+            make.top.equalTo(self.snp_top).offset(0)
+            make.centerX.equalTo(self.snp_centerX)
+            make.width.equalTo(self.snp_width)
+            make.height.equalTo(90)
+            return
         }
     }
     
-    override func updateConstraints() {
-        super.updateConstraints()
-    }
-    
     //-----------------------------------------------------------------------------------------------------
-    //Drawing & Event
+    //Adding payment buttons if paymentMethods is set
     //-----------------------------------------------------------------------------------------------------
     func updatePaymentMethodsInView() {
         //Remove the old buttons-view if it exists (may have called paymentMethods multiple
@@ -117,8 +127,8 @@ class AcceptOnChoosePaymentTypeSelectorView: UIView
         setButtonConstraints()
     }
     
-    //Called near the end of updatePaymentMethodsInView because the addXXX button
-    //functions don't set constraints
+    //Called near the end of updatePaymentMethodsInView to set constraints of newly added
+    //buttons
     func setButtonConstraints() {
         var lastTop: UIView = self.headerLabel
         let intraButtonVerticalSpace = 10
@@ -146,8 +156,6 @@ class AcceptOnChoosePaymentTypeSelectorView: UIView
         }
     }
     
-    //Adding various buttons, but not positioning or sizing them
-    //////////////////////////////////////////////////////////////////////////////////////////
     func addPaypalButton() {
         let button = AcceptOnPopButton()
         paymentMethodButtonsView?.addSubview(button)
@@ -166,7 +174,7 @@ class AcceptOnChoosePaymentTypeSelectorView: UIView
         paymentMethodButtonsToName[button] = "paypal"
         paymentMethodButtonAspectRatios.append(Double(image!.size.width/image!.size.height))
         
-        button.addTarget(self, action: "buttonClicked:", forControlEvents:.TouchUpInside)
+        button.addTarget(self, action: "paymentMethodButtonWasClicked:", forControlEvents:.TouchUpInside)
     }
     
     func addCreditCardButton() {
@@ -186,7 +194,7 @@ class AcceptOnChoosePaymentTypeSelectorView: UIView
         paymentMethodButtons.append(button)
         paymentMethodButtonsToName[button] = "credit_card"
         paymentMethodButtonAspectRatios.append(Double(image!.size.width/image!.size.height))
-        button.addTarget(self, action: "buttonClicked:", forControlEvents:.TouchUpInside)
+        button.addTarget(self, action: "paymentMethodButtonWasClicked:", forControlEvents:.TouchUpInside)
     }
     
     func addApplePay() {
@@ -206,24 +214,95 @@ class AcceptOnChoosePaymentTypeSelectorView: UIView
         paymentMethodButtons.append(button)
         paymentMethodButtonsToName[button] = "apple_pay"
         paymentMethodButtonAspectRatios.append(Double(image!.size.width/image!.size.height))
-        button.addTarget(self, action: "buttonClicked:", forControlEvents:.TouchUpInside)
+        button.addTarget(self, action: "paymentMethodButtonWasClicked:", forControlEvents:.TouchUpInside)
     }
-    //////////////////////////////////////////////////////////////////////////////////////////
     
-    //Animate all the buttons in
+    //-----------------------------------------------------------------------------------------------------
+    //Animation Helpers
+    //-----------------------------------------------------------------------------------------------------
+    var hasAnimatedPaymentButtonsIn: Bool = false
     func animatePaymentButtonsIn() {
+        if (hasAnimatedPaymentButtonsIn) { return }
+        hasAnimatedPaymentButtonsIn = true
+        
+        //Animate each button in with a slight delay
         for (i, e) in paymentMethodButtons.enumerate() {
             e.layer.transform = CATransform3DMakeTranslation(0, self.bounds.size.height, 0)
             e.alpha = 1
-            UIView.animateWithDuration(0.8, delay: Double(i)*0.100, usingSpringWithDamping: 0.8, initialSpringVelocity: 1, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+            UIView.animateWithDuration(0.8, delay: Double(i)*0.100, usingSpringWithDamping: 0.8, initialSpringVelocity: 1, options: UIViewAnimationOptions.CurveEaseOut, animations: {
                 e.layer.transform = CATransform3DIdentity
-                }, completion: { (res) -> Void in
-                    
+                }, completion: { res in
             })
         }
     }
     
-    func buttonClicked(button: UIButton) {
+    //Animates a single payment button as 'active' and remove all other buttons
+    var lastExcept: String!
+    func animateButtonsOutExcept(name: String) {
+        //Retrieve the 'other' buttons that aren't the one selected & the selected button
+        let otherButtons = paymentMethodButtonsToName.filter {$0.1 != name}
+        let selectedButton = paymentMethodButtonsToName.filter {$0.1 == name}[0].0
+        
+        //Animate buttons not selected out left
+        for (i, e) in otherButtons.enumerate() {
+            UIView.animateWithDuration(0.8, delay: Double(i)*0.15, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+                e.0.alpha = 0
+                e.0.layer.transform = CATransform3DMakeTranslation(-self.bounds.size.width/8, 0, 0)
+                }) { res in
+            }
+        }
+        
+        //Animate the selected button to the bottom
+        UIView.animateWithDuration(0.8, delay: Double(otherButtons.count)*0.3+0.2, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+            var transform = CATransform3DIdentity
+            transform = CATransform3DTranslate(transform, 0, self.bounds.size.height-selectedButton.layer.position.y+100, 0)
+            transform = CATransform3DScale(transform, 1.3, 1.3, 1)
+            selectedButton.layer.transform = transform
+            }) { res in
+        }
+        
+        //Animate the header label out top
+        UIView.animateWithDuration(0.8, delay: 0.1, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+            self.headerLabel.alpha = 0
+            self.headerLabel.layer.transform = CATransform3DMakeTranslation(0, -self.bounds.size.height/4, 0)
+            }) { res in
+        }
+        
+        lastExcept = name
+    }
+    
+    //Animate all back in
+    func animateButtonsIn() {
+        //Retrieve the 'other' buttons that aren't the one selected & the selected button
+        let otherButtons = paymentMethodButtonsToName.filter {$0.1 != lastExcept}
+        let button = paymentMethodButtonsToName.filter {$0.1 == lastExcept}[0].0
+        
+        UIView.animateWithDuration(0.8, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+            button.layer.transform = CATransform3DIdentity
+            button.alpha = 1
+            }) { res in
+        }
+        
+        for (i, e) in otherButtons.enumerate() {
+            UIView.animateWithDuration(0.8, delay: Double(i)*0.15+0.2, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+                e.0.alpha = 1
+                e.0.layer.transform = CATransform3DIdentity
+                }) { res in
+            }
+        }
+        
+        UIView.animateWithDuration(0.8, delay: 0.1, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+            self.headerLabel.alpha = 1
+            self.headerLabel.layer.transform = CATransform3DIdentity
+            }) { res in
+        }
+    }
+    
+    //-----------------------------------------------------------------------------------------------------
+    //Signal / Action Handlers
+    //-----------------------------------------------------------------------------------------------------
+    //User clicked on a payment method button
+    func paymentMethodButtonWasClicked(button: UIButton) {
         //When we created the buttons, we added the actual UIView as a hash key
         //mapping the button to the payment type.  e.g. the
         //paypal button was mapped to paymentMethodButtons[paypalButton] = "paypal"
@@ -232,94 +311,6 @@ class AcceptOnChoosePaymentTypeSelectorView: UIView
             return
         }
         
-        puts("Warning: Button clicked '\(button)' that wasn't handled in the choose payment type")
-    }
-    
-    func addHeaderLabel() {
-        self.addSubview(headerLabel)
-        headerLabel.snp_makeConstraints { make in
-            make.top.equalTo(self.snp_top).offset(0)
-            make.centerX.equalTo(self.snp_centerX)
-            make.width.equalTo(self.snp_width)
-            make.height.equalTo(90)
-            return
-        }
-        headerLabel.text = "Please select your preferred payment method"
-        headerLabel.numberOfLines = 2
-        headerLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
-        headerLabel.font = UIFont(name: "HelveticaNeue-Light", size: 24)
-        headerLabel.textAlignment = NSTextAlignment.Center
-        headerLabel.textColor = UIColor.whiteColor()
-    }
-    
-    var lastExcept: String!
-    //Animate all the buttons *except* the clicked
-    func animateButtonsOutExcept(name: String) {
-        let otherButtons = paymentMethodButtonsToName.filter { (e) -> Bool in
-            return e.1 != name
-        }
-        let button = (paymentMethodButtonsToName.filter { (e) -> Bool in
-            return e.1 == name
-        })[0].0
-        
-        for (i, e) in otherButtons.enumerate() {
-            UIView.animateWithDuration(0.8, delay: Double(i)*0.15, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-                e.0.alpha = 0
-                e.0.layer.transform = CATransform3DMakeTranslation(-self.bounds.size.width/8, 0, 0)
-                }) { (res) -> Void in
-            }
-        }
-
-        puts("View origin = \(button.layer.position)")
-        UIView.animateWithDuration(0.8, delay: Double(otherButtons.count)*0.3+0.2, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-            var transform = CATransform3DIdentity
-            transform = CATransform3DTranslate(transform, 0, self.bounds.size.height-button.layer.position.y+100, 0)
-            transform = CATransform3DScale(transform, 1.3, 1.3, 1)
-            button.layer.transform = transform
-            }) { (res) -> Void in
-                
-        }
-        
-        UIView.animateWithDuration(0.8, delay: 0.1, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-                self.headerLabel.alpha = 0
-                self.headerLabel.layer.transform = CATransform3DMakeTranslation(0, -self.bounds.size.height/4, 0)
-            }) { (res) -> Void in
-                
-        }
-        
-        lastExcept = name
-    }
-    
-    //Animate all back in
-    func animateButtonsIn() {
-        
-        let otherButtons = paymentMethodButtonsToName.filter { (e) -> Bool in
-            return e.1 != lastExcept
-        }
-        let button = (paymentMethodButtonsToName.filter { (e) -> Bool in
-            return e.1 == lastExcept
-            })[0].0
-        
-        UIView.animateWithDuration(0.8, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-            button.layer.transform = CATransform3DIdentity
-            button.alpha = 1
-            }) { (res) -> Void in
-                
-        }
-        
-        for (i, e) in otherButtons.enumerate() {
-            UIView.animateWithDuration(0.8, delay: Double(i)*0.15+0.2, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-                e.0.alpha = 1
-                e.0.layer.transform = CATransform3DIdentity
-                }) { (res) -> Void in
-            }
-        }
-        
-        UIView.animateWithDuration(0.8, delay: 0.1, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-            self.headerLabel.alpha = 1
-            self.headerLabel.layer.transform = CATransform3DIdentity
-            }) { (res) -> Void in
-        }
-        
+        puts("Warning: Payment method button was clicked '\(button)' but that wasn't bound to a name")
     }
 }
