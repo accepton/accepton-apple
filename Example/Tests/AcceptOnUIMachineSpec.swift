@@ -44,16 +44,20 @@ import accepton
         delegateEventLog.append("acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName:\(name)")
     }
     
+    public var emphasizeValidationErrorCount = 0
     public func acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName(name: String, withMessage msg: String) {
         delegateEventLog.append("acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName:\(name)")
+        emphasizeValidationErrorCount += 1
     }
     
     public func acceptOnUIMachinePaymentIsProcessing() {
         delegateEventLog.append("acceptOnUIMachinePaymentIsProcessing")
     }
     
+    public var creditCardTypeTransitions: [String] = []
     public func acceptOnUIMachineCreditCardTypeDidChange(type: String) {
         delegateEventLog.append("acceptOnUIMachineCreditCardTypeDidChange:\(type)")
+        creditCardTypeTransitions.append(type)
     }
 }
 
@@ -237,7 +241,6 @@ class AcceptOnUIMachineSpec: QuickSpec {
                     return delegate.delegateEventLog
                 }.toEventually(equal(["acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName:email", "acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName:email"]))
             }
-
         }
         
         describe("credit-card card number field validation") {
@@ -882,6 +885,109 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 let paymentMethods = AcceptOnAPIPaymentMethodsInfo()
                 var options = AcceptOnUIMachineFormOptions(token: token, paymentMethods: paymentMethods)
                 expect(options.uiAmount).to(equal("$0.00"))
+            }
+        }
+        
+        describe("creditCardReset") {
+            it("Does clear the internal fields associated with the credit-card when the reset is used") {
+                var delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                uim.delegate = delegate
+                
+                uim.beginForItemWithDescription("test", forAmountInCents: 100)
+                
+                delegate.whenReady() {
+                    uim.creditCardFieldDidFocusWithName("email")
+                    uim.creditCardFieldWithName("email", didUpdateWithString: "test@test.com")
+                    uim.creditCardFieldDidFocusWithName("cardNum")
+                    uim.creditCardFieldWithName("cardNum", didUpdateWithString: "4242424242424242")
+                    uim.creditCardFieldDidFocusWithName("expMonth")
+                    uim.creditCardFieldWithName("expMonth", didUpdateWithString: "04")
+                    uim.creditCardFieldDidFocusWithName("expYear")
+                    uim.creditCardFieldWithName("expYear", didUpdateWithString: "20")
+                    uim.creditCardFieldDidFocusWithName("security")
+                    uim.creditCardFieldWithName("expYear", didUpdateWithString: "1234")
+                    uim.creditCardReset()
+                    
+                    //If it didn't reset, then the fields would have been still the same (valid)
+                    uim.creditCardPayClicked()
+                }
+                
+                //Pay was clicked, so it validated all fields
+                expect {
+                    return delegate.creditCardValidationErrors.count
+                }.toEventually(equal(5))
+            }
+            
+            it("Does clear the internal validation statuses with the credit-card when the reset is used") {
+                var delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                uim.delegate = delegate
+                
+                uim.beginForItemWithDescription("test", forAmountInCents: 100)
+                
+                delegate.whenReady() {
+                    uim.creditCardFieldDidFocusWithName("email")
+                    uim.creditCardFieldWithName("email", didUpdateWithString: "<invalid>")
+                    
+                    uim.creditCardFieldDidFocusWithName("cardNum")
+                    uim.creditCardFieldWithName("cardNum", didUpdateWithString: "<invalid>")
+                    
+                    uim.creditCardFieldDidFocusWithName("expMonth")
+                    uim.creditCardFieldWithName("expMonth", didUpdateWithString: "<invalid>")
+                    
+                    uim.creditCardFieldDidFocusWithName("expYear")
+                    uim.creditCardFieldWithName("expYear", didUpdateWithString: "<invalid>")
+                    
+                    uim.creditCardFieldDidFocusWithName("security")
+                    uim.creditCardFieldWithName("expYear", didUpdateWithString: "<invalid>")
+                    uim.creditCardFieldDidLoseFocus()
+                    
+                    uim.creditCardReset()
+                    
+                    //If it reset, we would get back new 'show' validation errors, not emphasize
+                    uim.creditCardPayClicked()
+                }
+                
+                //Pay was clicked, so it validated all fields
+                expect {
+                    return delegate.creditCardValidationErrors.count
+                }.toEventually(equal(10))
+                
+                expect {
+                    return delegate.emphasizeValidationErrorCount
+                }.toEventually(equal(0))
+            }
+            
+            it("Does reset the brand type for the credit-card") {
+                var delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                uim.delegate = delegate
+                
+                uim.beginForItemWithDescription("test", forAmountInCents: 100)
+                
+                delegate.whenReady() {
+                    //Set it to visa
+                    uim.creditCardFieldDidFocusWithName("cardNum")
+                    uim.creditCardFieldWithName("cardNum", didUpdateWithString: "4242424242424242")
+                    
+                    uim.creditCardReset()
+                    
+                    //It should now trigger a
+                    uim.creditCardFieldDidFocusWithName("cardNum")
+                    uim.creditCardFieldWithName("cardNum", didUpdateWithString: "4242424242424242")
+                    
+                    //If it reset, there should be two transitions to visa (implied 'unknown' starting state)
+                    //if it didn't reset, it still thinks it in visa and won't emit a transition
+                    uim.creditCardFieldDidLoseFocus()
+                    uim.creditCardFieldDidFocusWithName("cardNum")
+                    uim.creditCardFieldWithName("cardNum", didUpdateWithString: "4")
+                }
+                
+                //Pay was clicked, so it validated all fields
+                expect {
+                    return delegate.creditCardTypeTransitions
+                    }.toEventually(equal(["visa", "visa"]))
             }
         }
     }

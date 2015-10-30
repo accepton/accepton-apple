@@ -176,6 +176,15 @@ uim.creditCardFieldWithName(name: String, didUpdateWithString string: String)
 
 //When the user hits the pay button
 uim.creditCardPayClicked()
+
+//For some implementations, if you don't want to show the form-screen
+//at the start, you may want to show it after the user clicks a 'credit_card'
+//button. This provides a way to tell the engine that the credit-card
+//view no-longer exists so the entries that the engine believes are in
+//the credit-card view are no longer there and it should consider the
+//credit-card view fresh again. You will not receive any validation
+//events with this.
+uid.creditCardReset()
 ```
 
 In addition to these user actions, you will also need to add the following delegate function handlers (apart of the `AcceptOnUIMachineDelegate` protocol), to your *view-controller* to receive things like field updates and validation errors.

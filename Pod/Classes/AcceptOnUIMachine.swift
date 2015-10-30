@@ -217,6 +217,21 @@ public class AcceptOnUIMachine {
         else if (name == "security") { validateCreditCardSecurityField() }
     }
     
+    public func creditCardReset() {
+        _emailFieldValue = ""
+        _cardNumFieldValue = ""
+        _expMonthFieldValue = ""
+        _expYearFieldValue = ""
+        _securityFieldValue = ""
+        _creditCardType = "unknown"
+        
+        emailFieldHasValidationError = false
+        cardNumFieldHasValidationError = false
+        expMonthFieldHasValidationError = false
+        expYearFieldHasValidationError = false
+        securityFieldHasValidationError = false
+    }
+    
     //Email field
     /////////////////////////////////////////////////////////////////////
     var _emailFieldValue: String?
@@ -257,6 +272,7 @@ public class AcceptOnUIMachine {
         }
         return errorStr == nil ? true : false
     }
+    
     func updateCreditCardEmailFieldWithString(string: String) {
         emailFieldValue = string
     }
