@@ -9,6 +9,8 @@ import accepton
     optional func creditCardFormBackWasClicked()
 }
 
+//This contains the credit-card form that is displayed if the user hits the 'credit_card' payment
+//button on setup
 class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate
 {
     //-----------------------------------------------------------------------------------------------------

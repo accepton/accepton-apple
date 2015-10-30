@@ -1,5 +1,6 @@
 import UIKit
 
+//This is a button that goes 'pop' on touch-down.  Used for back buttons, exit buttons, etc.
 class AcceptOnPopButton: UIButton {
     //-----------------------------------------------------------------------------------------------------
     //Properties
@@ -11,7 +12,7 @@ class AcceptOnPopButton: UIButton {
     
     //View to animate, should be added by an external view
     //during configuration
-    weak var innerView: UIView!
+    var innerView: UIView!
     
     @IBInspectable var scale: CGFloat = 0.8
     

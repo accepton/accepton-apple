@@ -1,5 +1,6 @@
 import UIKit
 
+//This contains the 'buy the watch for $10' page on the Main.storyboard
 class ViewController : UIViewController, AcceptOnViewControllerDelegate {
     override func viewDidLoad() {
         

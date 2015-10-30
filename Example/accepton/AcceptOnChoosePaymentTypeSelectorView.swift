@@ -1,5 +1,3 @@
-//This view contains a listing of clickable payment types like 'paypal', 'applepay', etc. and sends
-//a delegate event when one of them is pressed.  It is instantiated by AcceptOnChosePaymentTypeView.XIB
 import UIKit
 import accepton
 
@@ -8,6 +6,8 @@ import accepton
     func choosePaymentTypeWasClicked(name: String)
 }
 
+//This view contains a listing of clickable payment types like 'paypal', 'applepay', etc. and sends
+//a delegate event when one of them is pressed.
 class AcceptOnChoosePaymentTypeSelectorView: UIView
 {
     //-----------------------------------------------------------------------------------------------------

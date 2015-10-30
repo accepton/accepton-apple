@@ -66,16 +66,6 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
             return
         }
         ////////////////////////////////////////////////////////////////////////////////////////////////////
-    
-        let pr = PurchaseBarView()
-        self.mainView.addSubview(pr)
-        pr.snp_makeConstraints { make in
-            make.height.equalTo(100)
-            make.bottom.equalTo(self.mainView.snp_bottom)
-            make.width.equalTo(self.mainView.snp_width)
-            make.centerX.equalTo(self.mainView.snp_centerX)
-            return
-        }
         
         //Down-arrow exit button to exit
         exitButton = AcceptOnPopButton()
@@ -102,7 +92,7 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
         self.mainView.addSubview(contentView)
         contentView.snp_makeConstraints { make in
             make.top.equalTo(self.exitButton.snp_bottom)
-            make.bottom.equalTo(pr.snp_top)
+            make.bottom.equalTo(self.view.snp_top)
             make.width.equalTo(self.mainView.snp_width)
             make.centerX.equalTo(self.mainView.snp_centerX)
             return

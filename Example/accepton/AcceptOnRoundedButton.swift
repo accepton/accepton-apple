@@ -1,5 +1,6 @@
 import UIKit
 
+//This creates an oblong shaped button
 class AcceptOnRoundedButton : UIButton {
     //-----------------------------------------------------------------------------------------------------
     //Property
@@ -34,5 +35,4 @@ class AcceptOnRoundedButton : UIButton {
     override func updateConstraints() {
         super.updateConstraints()
     }
-    
 }

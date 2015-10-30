@@ -4,6 +4,9 @@ import UIKit
     func validatableFieldTapped(field: AcceptOnUICreditCardValidatableField, withName: String?)
 }
 
+//Each credit-card field contains one of these validatable fields behind it.  It containts the
+//actual white oblong shape that goes red when a validation occurrs.  It does not contain
+//the actual input field, etc.
 class AcceptOnUICreditCardValidatableField : UIView {
     //-----------------------------------------------------------------------------------------------------
     //Property

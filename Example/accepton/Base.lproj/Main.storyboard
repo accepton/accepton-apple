@@ -20,7 +20,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="skin_full_page_bgimage.png" translatesAutoresizingMaskIntoConstraints="NO" id="9xZ-uF-SjX">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blur_bg.png" translatesAutoresizingMaskIntoConstraints="NO" id="9xZ-uF-SjX">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <animations/>
                             </imageView>
@@ -33,14 +33,14 @@
                                     <constraint firstAttribute="height" constant="60" id="Wt2-nG-okO"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
-                                <state key="normal" title="Buy Widget for $10">
+                                <state key="normal" title="Buy watch for $10">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <segue destination="3AT-wg-vuu" kind="presentation" modalPresentationStyle="overCurrentContext" id="6sE-mp-ANA"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shoes.png" translatesAutoresizingMaskIntoConstraints="NO" id="5Qk-Dr-dS6">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="watch.png" translatesAutoresizingMaskIntoConstraints="NO" id="5Qk-Dr-dS6">
                                 <rect key="frame" x="200" y="50" width="200" height="200"/>
                                 <animations/>
                                 <constraints>
@@ -87,7 +87,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="shoes.png" width="512" height="320"/>
-        <image name="skin_full_page_bgimage.png" width="1920" height="1200"/>
+        <image name="blur_bg.png" width="1920" height="1200"/>
+        <image name="watch.png" width="288" height="512"/>
     </resources>
 </document>
