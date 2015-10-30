@@ -133,6 +133,7 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
     }
     
     func backWasClicked() {
+        uim.creditCardReset()
         self.creditCardForm.removeFromSuperview()
         
         //Animate exit button in
