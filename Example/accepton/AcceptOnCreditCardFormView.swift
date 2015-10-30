@@ -9,7 +9,7 @@ import accepton
     optional func creditCardFormBackWasClicked()
 }
 
-class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate, AcceptOnViewControllerVibrancyUser
+class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate
 {
     //-----------------------------------------------------------------------------------------------------
     //Property

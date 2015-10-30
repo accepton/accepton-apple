@@ -14,35 +14,35 @@
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* AcceptOnAPISpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* AcceptOnAPISpec.swift */; };
 		8CB6C48E20B34F41541EAE71 /* Pods_accepton_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 448DC9D3D8A878B7D61866C6 /* Pods_accepton_Tests.framework */; };
-		AA287C081BDAFBAD00C10DCF /* FieldErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA287C071BDAFBAD00C10DCF /* FieldErrorView.swift */; settings = {ASSET_TAGS = (); }; };
-		AA287C0A1BDD73AE00C10DCF /* AcceptOnCreditCardFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA287C091BDD73AE00C10DCF /* AcceptOnCreditCardFormView.swift */; settings = {ASSET_TAGS = (); }; };
-		AA287C0C1BDD744600C10DCF /* AcceptOnCreditCardFormView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA287C0B1BDD744600C10DCF /* AcceptOnCreditCardFormView.xib */; settings = {ASSET_TAGS = (); }; };
-		AA287C121BDD7D7800C10DCF /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = AA287C111BDD7D7800C10DCF /* lock.png */; settings = {ASSET_TAGS = (); }; };
-		AA287C141BDD889E00C10DCF /* AcceptOnCreditCardValidatableField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA287C131BDD889E00C10DCF /* AcceptOnCreditCardValidatableField.swift */; settings = {ASSET_TAGS = (); }; };
-		AA287C181BDD97E500C10DCF /* AcceptOnRoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA287C171BDD97E500C10DCF /* AcceptOnRoundedButton.swift */; settings = {ASSET_TAGS = (); }; };
-		AA3857111BE2471E00491040 /* UIImageColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3857101BE2471E00491040 /* UIImageColor.swift */; settings = {ASSET_TAGS = (); }; };
-		AA3857131BE2670600491040 /* shoes.png in Resources */ = {isa = PBXBuildFile; fileRef = AA3857121BE2670600491040 /* shoes.png */; settings = {ASSET_TAGS = (); }; };
-		AA3857151BE267D400491040 /* skin_full_page_bgimage.png in Resources */ = {isa = PBXBuildFile; fileRef = AA3857141BE267D400491040 /* skin_full_page_bgimage.png */; settings = {ASSET_TAGS = (); }; };
-		AA3857171BE26A1B00491040 /* accepton.png in Resources */ = {isa = PBXBuildFile; fileRef = AA3857161BE26A1B00491040 /* accepton.png */; settings = {ASSET_TAGS = (); }; };
-		AA38571A1BE2BF9D00491040 /* 1433297457732.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = AA3857191BE2BF9D00491040 /* 1433297457732.jpeg */; settings = {ASSET_TAGS = (); }; };
-		AA4950411BDFE78500FE70C7 /* checkout_with_apple_pay.png in Resources */ = {isa = PBXBuildFile; fileRef = AA4950401BDFE78500FE70C7 /* checkout_with_apple_pay.png */; settings = {ASSET_TAGS = (); }; };
-		AA4950431BDFE78A00FE70C7 /* checkout_with_paypal.png in Resources */ = {isa = PBXBuildFile; fileRef = AA4950421BDFE78A00FE70C7 /* checkout_with_paypal.png */; settings = {ASSET_TAGS = (); }; };
-		AA4950451BDFE78F00FE70C7 /* checkout_with_credit.png in Resources */ = {isa = PBXBuildFile; fileRef = AA4950441BDFE78F00FE70C7 /* checkout_with_credit.png */; settings = {ASSET_TAGS = (); }; };
+		AA287C081BDAFBAD00C10DCF /* FieldErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA287C071BDAFBAD00C10DCF /* FieldErrorView.swift */; };
+		AA287C0A1BDD73AE00C10DCF /* AcceptOnCreditCardFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA287C091BDD73AE00C10DCF /* AcceptOnCreditCardFormView.swift */; };
+		AA287C0C1BDD744600C10DCF /* AcceptOnCreditCardFormView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA287C0B1BDD744600C10DCF /* AcceptOnCreditCardFormView.xib */; };
+		AA287C121BDD7D7800C10DCF /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = AA287C111BDD7D7800C10DCF /* lock.png */; };
+		AA287C141BDD889E00C10DCF /* AcceptOnCreditCardValidatableField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA287C131BDD889E00C10DCF /* AcceptOnCreditCardValidatableField.swift */; };
+		AA287C181BDD97E500C10DCF /* AcceptOnRoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA287C171BDD97E500C10DCF /* AcceptOnRoundedButton.swift */; };
+		AA3857111BE2471E00491040 /* UIImageColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3857101BE2471E00491040 /* UIImageColor.swift */; };
+		AA3857131BE2670600491040 /* shoes.png in Resources */ = {isa = PBXBuildFile; fileRef = AA3857121BE2670600491040 /* shoes.png */; };
+		AA3857151BE267D400491040 /* skin_full_page_bgimage.png in Resources */ = {isa = PBXBuildFile; fileRef = AA3857141BE267D400491040 /* skin_full_page_bgimage.png */; };
+		AA3857171BE26A1B00491040 /* accepton.png in Resources */ = {isa = PBXBuildFile; fileRef = AA3857161BE26A1B00491040 /* accepton.png */; };
+		AA38571A1BE2BF9D00491040 /* 1433297457732.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = AA3857191BE2BF9D00491040 /* 1433297457732.jpeg */; };
+		AA4950411BDFE78500FE70C7 /* checkout_with_apple_pay.png in Resources */ = {isa = PBXBuildFile; fileRef = AA4950401BDFE78500FE70C7 /* checkout_with_apple_pay.png */; };
+		AA4950431BDFE78A00FE70C7 /* checkout_with_paypal.png in Resources */ = {isa = PBXBuildFile; fileRef = AA4950421BDFE78A00FE70C7 /* checkout_with_paypal.png */; };
+		AA4950451BDFE78F00FE70C7 /* checkout_with_credit.png in Resources */ = {isa = PBXBuildFile; fileRef = AA4950441BDFE78F00FE70C7 /* checkout_with_credit.png */; };
 		AA558C8D1BD954D1003A7929 /* AcceptOnUIMachineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA558C8B1BD95485003A7929 /* AcceptOnUIMachineSpec.swift */; };
-		AA9016A91BE12E8C00C00E77 /* back_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = AA9016A81BE12E8C00C00E77 /* back_arrow.png */; settings = {ASSET_TAGS = (); }; };
-		AA9016AC1BE1392A00C00E77 /* AcceptOnNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9016AB1BE1392A00C00E77 /* AcceptOnNavigationBar.swift */; settings = {ASSET_TAGS = (); }; };
-		AA9016AE1BE13B8200C00E77 /* AcceptOnPopButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9016AD1BE13B8200C00E77 /* AcceptOnPopButton.swift */; settings = {ASSET_TAGS = (); }; };
-		AA9016B01BE155FD00C00E77 /* down_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = AA9016AF1BE155FD00C00E77 /* down_arrow.png */; settings = {ASSET_TAGS = (); }; };
-		AA9016B21BE1844E00C00E77 /* PurchaseBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9016B11BE1844E00C00E77 /* PurchaseBarView.swift */; settings = {ASSET_TAGS = (); }; };
-		AA9016B51BE187CE00C00E77 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9016B41BE187CE00C00E77 /* ViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		AA9016B71BE2333400C00E77 /* test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AA9016B61BE2333400C00E77 /* test.jpg */; settings = {ASSET_TAGS = (); }; };
-		AAB4728C1BDE63730071DEBC /* AcceptOnCreditCardCardNumBrandPop.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB4728B1BDE63730071DEBC /* AcceptOnCreditCardCardNumBrandPop.swift */; settings = {ASSET_TAGS = (); }; };
-		AAB4728F1BDE668F0071DEBC /* discover.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB4728E1BDE668F0071DEBC /* discover.png */; settings = {ASSET_TAGS = (); }; };
-		AAB472911BDE66960071DEBC /* amex.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB472901BDE66960071DEBC /* amex.png */; settings = {ASSET_TAGS = (); }; };
-		AAB472931BDE669A0071DEBC /* visa.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB472921BDE669A0071DEBC /* visa.png */; settings = {ASSET_TAGS = (); }; };
-		AAB472951BDE669E0071DEBC /* master_card.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB472941BDE669E0071DEBC /* master_card.png */; settings = {ASSET_TAGS = (); }; };
-		AAB472971BDE67A40071DEBC /* unknown.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB472961BDE67A40071DEBC /* unknown.png */; settings = {ASSET_TAGS = (); }; };
-		AAB4729E1BDE80FA0071DEBC /* AcceptOnChoosePaymentTypeSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB4729D1BDE80FA0071DEBC /* AcceptOnChoosePaymentTypeSelectorView.swift */; settings = {ASSET_TAGS = (); }; };
+		AA9016A91BE12E8C00C00E77 /* back_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = AA9016A81BE12E8C00C00E77 /* back_arrow.png */; };
+		AA9016AC1BE1392A00C00E77 /* AcceptOnNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9016AB1BE1392A00C00E77 /* AcceptOnNavigationBar.swift */; };
+		AA9016AE1BE13B8200C00E77 /* AcceptOnPopButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9016AD1BE13B8200C00E77 /* AcceptOnPopButton.swift */; };
+		AA9016B01BE155FD00C00E77 /* down_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = AA9016AF1BE155FD00C00E77 /* down_arrow.png */; };
+		AA9016B21BE1844E00C00E77 /* PurchaseBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9016B11BE1844E00C00E77 /* PurchaseBarView.swift */; };
+		AA9016B51BE187CE00C00E77 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9016B41BE187CE00C00E77 /* ViewController.swift */; };
+		AA9016B71BE2333400C00E77 /* test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AA9016B61BE2333400C00E77 /* test.jpg */; };
+		AAB4728C1BDE63730071DEBC /* AcceptOnCreditCardCardNumBrandPop.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB4728B1BDE63730071DEBC /* AcceptOnCreditCardCardNumBrandPop.swift */; };
+		AAB4728F1BDE668F0071DEBC /* discover.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB4728E1BDE668F0071DEBC /* discover.png */; };
+		AAB472911BDE66960071DEBC /* amex.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB472901BDE66960071DEBC /* amex.png */; };
+		AAB472931BDE669A0071DEBC /* visa.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB472921BDE669A0071DEBC /* visa.png */; };
+		AAB472951BDE669E0071DEBC /* master_card.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB472941BDE669E0071DEBC /* master_card.png */; };
+		AAB472971BDE67A40071DEBC /* unknown.png in Resources */ = {isa = PBXBuildFile; fileRef = AAB472961BDE67A40071DEBC /* unknown.png */; };
+		AAB4729E1BDE80FA0071DEBC /* AcceptOnChoosePaymentTypeSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB4729D1BDE80FA0071DEBC /* AcceptOnChoosePaymentTypeSelectorView.swift */; };
 		E8307E9328DEC22B1C53C273 /* Pods_accepton_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EEB34365484DD019D518191 /* Pods_accepton_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -82,7 +82,7 @@
 		AA3857121BE2670600491040 /* shoes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shoes.png; sourceTree = "<group>"; };
 		AA3857141BE267D400491040 /* skin_full_page_bgimage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skin_full_page_bgimage.png; sourceTree = "<group>"; };
 		AA3857161BE26A1B00491040 /* accepton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = accepton.png; sourceTree = "<group>"; };
-		AA3857181BE2B9B700491040 /* Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Example-Bridging-Header.h"; sourceTree = "<group>"; };
+		AA3857181BE2B9B700491040 /* bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bridge.h; sourceTree = "<group>"; };
 		AA3857191BE2BF9D00491040 /* 1433297457732.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1433297457732.jpeg; sourceTree = "<group>"; };
 		AA4950401BDFE78500FE70C7 /* checkout_with_apple_pay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkout_with_apple_pay.png; sourceTree = "<group>"; };
 		AA4950421BDFE78A00FE70C7 /* checkout_with_paypal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkout_with_paypal.png; sourceTree = "<group>"; };
@@ -177,7 +177,7 @@
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 				AA287C071BDAFBAD00C10DCF /* FieldErrorView.swift */,
 				AA9016B11BE1844E00C00E77 /* PurchaseBarView.swift */,
-				AA3857181BE2B9B700491040 /* Example-Bridging-Header.h */,
+				AA3857181BE2B9B700491040 /* bridge.h */,
 			);
 			name = "Example for accepton";
 			path = accepton;
@@ -655,12 +655,13 @@
 			baseConfigurationReference = CB2386879C9FC7B1B2B10C0A /* Pods-accepton_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				HEADER_SEARCH_PATHS = "$(inherited)";
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
+				HEADER_SEARCH_PATHS = "$(inherited)/**";
 				INFOPLIST_FILE = accepton/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "./accepton/Example-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = ./accepton/bridge.h;
 			};
 			name = Debug;
 		};
@@ -669,12 +670,13 @@
 			baseConfigurationReference = 8602CC063BC5F177EA38808C /* Pods-accepton_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				HEADER_SEARCH_PATHS = "$(inherited)";
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
+				HEADER_SEARCH_PATHS = "$(inherited)/**";
 				INFOPLIST_FILE = accepton/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "./accepton/Example-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = ./accepton/bridge.h;
 			};
 			name = Release;
 		};

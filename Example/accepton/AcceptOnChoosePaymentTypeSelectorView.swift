@@ -8,7 +8,7 @@ import accepton
     func choosePaymentTypeWasClicked(name: String)
 }
 
-class AcceptOnChoosePaymentTypeSelectorView: UIView, AcceptOnViewControllerVibrancyUser
+class AcceptOnChoosePaymentTypeSelectorView: UIView
 {
     //-----------------------------------------------------------------------------------------------------
     //Property

@@ -7,10 +7,6 @@ import SnapKit
     optional func acceptOnCancelWasClicked(vc: AcceptOnViewController)
 }
 
-@objc protocol AcceptOnViewControllerVibrancyUser {
-    var vibrantContentView: UIView { get set }
-}
-
 class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, AcceptOnCreditCardFormDelegate, AcceptOnChoosePaymentTypeSelectorViewDelegate, PayPalPaymentDelegate {
     var uim: AcceptOnUIMachine!
     weak var creditCardForm: AcceptOnCreditCardFormView!
@@ -114,7 +110,6 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
         
         //Choose paypal, credit-card, etc.
         let choosePaymentTypeView = AcceptOnChoosePaymentTypeSelectorView()
-        setVibrantViewForSubview(choosePaymentTypeView)
         self.choosePaymentTypeView = choosePaymentTypeView
         self.mainView.addSubview(choosePaymentTypeView)
         choosePaymentTypeView.snp_makeConstraints { make in
@@ -294,29 +289,6 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
     //------------------------------------------------------------------------------------------------------
     //View Management
     //------------------------------------------------------------------------------------------------------
-    //A view area would normally not be needed, but we have a vibrancy view we
-    //want to be able to share with subviews
-    var vibrancySubviews: [UIView:UIView] = [:]
-    func setVibrantViewForSubview(subview: AcceptOnViewControllerVibrancyUser) {
-        let vibrancyContentSubview = UIView()
-        mainVibrantView.addSubview(vibrancyContentSubview)
-        vibrancyContentSubview.snp_makeConstraints { make in
-            make.margins.equalTo(mainVibrantView.snp_margins)
-            return
-        }
-        
-        vibrancySubviews[subview as! UIView] = vibrancyContentSubview
-        subview.vibrantContentView = vibrancyContentSubview
-    }
-    
-    func removeVibrancySubviewForSubview(subview: AcceptOnViewControllerVibrancyUser) {
-        let vibrantRemovedView = vibrancySubviews.removeValueForKey(subview as! UIView)
-        if let vibrantRemovedView = vibrantRemovedView {
-            vibrantRemovedView.removeFromSuperview()
-        } else {
-            NSException(name: "AcceptOnViewController", reason: "Tried to remove vibrancy subview for subview \(subview) but there was no vibrant view", userInfo: nil).raise()
-        }
-    }
     
     var backButton: AcceptOnPopButton!
     func addBackButton() {
