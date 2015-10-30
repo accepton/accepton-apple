@@ -9,6 +9,6 @@ end
 target 'accepton_Tests', :exclusive => true do
   pod "accepton", :path => "../"
 
- #pod 'Quick', '~> 0.7.0'
-#  pod 'Nimble', '~> 2.0.0'
+ pod 'Quick', '~> 0.7.0'
+ pod 'Nimble', '~> 2.0.0'
 end
