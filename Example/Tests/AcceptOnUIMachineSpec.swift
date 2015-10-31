@@ -118,6 +118,10 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 expect {
                     return delegate.beginOptions?.hasPaypalButton
                     }.toEventually(beTrue())
+                
+                expect {
+                    return delegate.beginOptions?.hasApplePay
+                    }.toEventually(beTrue())
             }
         }
         

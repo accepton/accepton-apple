@@ -15,6 +15,7 @@ import Stripe
     optional func acceptOnUIMachinePaymentIsProcessing(paymentType: String)
     optional func acceptOnUIMachinePaymentDidAbortPaymentMethodWithName(name: String)
     optional func acceptOnUIMachinePaymentErrorWithMessage(message: String)
+    optional func acceptOnUIMachinePaymentDidSucceed()
     
     //Spec related
     optional func acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName(name: String, withValue value: String)  //Field updated, no validation error
@@ -53,6 +54,10 @@ public class AcceptOnUIMachineFormOptions : NSObject {
     
     public var hasPaypalButton: Bool {
         return paymentMethods.supportsPaypal
+    }
+    
+    public var hasApplePay: Bool {
+        return paymentMethods.supportsApplePay
     }
     
     //Converts amountInCents into a $xx.xx style string.  E.g. 349 -> $3.49
@@ -513,12 +518,12 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate 
         if state != .PaymentForm { return }
         
         self.state = .WaitingForPaypal
-        //Wait 500ms so there is time to show something like a loading screen to the user
+        //Wait 1500ms so there is time to show something like a loading screen to the user
         let delay = Int64(1500) * Int64(NSEC_PER_MSEC)
         let time = dispatch_time(DISPATCH_TIME_NOW, delay)
         dispatch_after(time, dispatch_get_main_queue()) { [weak self] in
             self?.paypalDriver.delegate = self
-            self?.paypalDriver.beginPaypalTransactionWithAmountInDollars(self!.amountInCents!*100, andDescription: self!.itemDescription!)
+            self?.paypalDriver.beginPaypalTransactionWithAmountInCents(NSDecimalNumber(long: self!.amountInCents!), andDescription: self!.itemDescription!)
         }
         
         delegate?.acceptOnUIMachinePaymentIsProcessing?("paypal")
@@ -534,7 +539,12 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate 
     }
     
     func paypalTransactionDidSucceed() {
+        //We could double charge if this goes catastrophically wrong, so let it
+        //trigger the transaction completion under any conditions
+//        if state != .WaitingForPaypal { return }
         
+        state = .PaymentComplete
+        delegate?.acceptOnUIMachinePaymentDidSucceed?()
     }
     
     func paypalTransactionDidCancel() {

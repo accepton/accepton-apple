@@ -17,4 +17,12 @@ class ViewController : UIViewController, AcceptOnViewControllerDelegate {
         vc.dismissViewControllerAnimated(true) {
         }
     }
+    
+    func acceptOnPaymentDidSucceed(vc: AcceptOnViewController) {
+        //Hide the accept-on UI
+        vc.dismissViewControllerAnimated(true) {
+        }
+        
+        UIAlertView(title: "Hurray!", message: "Your widget was shipped", delegate: nil, cancelButtonTitle: "Ok").show()
+    }
 }

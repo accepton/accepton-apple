@@ -122,6 +122,10 @@ func acceptOnUIMachineDidFinishBeginWithFormOptions(options: AcceptOnUIMachineFo
   if (options.hasCreditCardForm) {
      //Show credit-card form
   }
+
+  if (options.hasApplePay) {
+    //Show apple-pay
+  }
 }
 ```
 

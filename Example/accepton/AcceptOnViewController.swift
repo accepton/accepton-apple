@@ -5,6 +5,9 @@ import SnapKit
 @objc protocol AcceptOnViewControllerDelegate {
     //You should use this to close the accept-on view controller modal
     optional func acceptOnCancelWasClicked(vc: AcceptOnViewController)
+    
+    //You should show the user that the payment was successful
+    optional func acceptOnPaymentDidSucceed(vc: AcceptOnViewController)
 }
 
 //Works with the AcceptOnUIMachine to manage the UI behaviours
@@ -231,8 +234,9 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
     func acceptOnUIMachineDidFinishBeginWithFormOptions(options: AcceptOnUIMachineFormOptions) {
         
         var paymentMethods: [String] = []
-        if options.hasCreditCardForm { paymentMethods.append("credit_card") }
         if options.hasPaypalButton { paymentMethods.append("paypal") }
+        if options.hasCreditCardForm { paymentMethods.append("credit_card") }
+        if options.hasApplePay { paymentMethods.append("apple_pay") }
         choosePaymentTypeView.paymentMethods = paymentMethods
         choosePaymentTypeView.layer.cornerRadius = 5
         
@@ -290,6 +294,10 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
         
         //Show waiting loader
         showWaitingWithAnimationAndDelay(1)
+    }
+    
+    func acceptOnUIMachinePaymentDidSucceed() {
+        delegate?.acceptOnPaymentDidSucceed?(self)
     }
     
     //-----------------------------------------------------------------------------------------------------

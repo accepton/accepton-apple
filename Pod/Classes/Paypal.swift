@@ -10,7 +10,7 @@ import UIKit
 @objc class AcceptOnUIMachinePaypalDriver : NSObject, PayPalPaymentDelegate {
     weak var delegate: AcceptOnUIMachinePaypalDriverDelegate?
     
-    //Present using the root view controller
+    //Present using a specially created view controller applied to the root window
     var _presentingViewController: UIViewController!
     var presentingViewController: UIViewController! {
         get {
@@ -31,16 +31,16 @@ import UIKit
     }
     
     var ppvc: PayPalPaymentViewController!
-    func beginPaypalTransactionWithAmountInDollars(amount: Int, andDescription: String) {
+    func beginPaypalTransactionWithAmountInCents(amountInCents: NSDecimalNumber, andDescription description: String) {
         PayPalMobile.initializeWithClientIdsForEnvironments([PayPalEnvironmentSandbox:"EAGEb2Sey28DzhMc4P0PNothBmsJggVKZK9kTBrw5bU_PP5tmRUSFSlPe62K56FGxF8LkmwA3vPn-LGh"])
         let _config = PayPalConfiguration()
         _config.acceptCreditCards = false
         _config.payPalShippingAddressOption = PayPalShippingAddressOption.PayPal
         
         let pp = PayPalPayment()
-        pp.amount = 10
+        pp.amount = NSDecimalNumber(double: amountInCents.doubleValue / 100.0)
         pp.currencyCode = "USD"
-        pp.shortDescription = "Widget"
+        pp.shortDescription = description
         pp.intent = PayPalPaymentIntent.Sale
         pp.shippingAddress = PayPalShippingAddress(recipientName: "Test", withLine1: "test", withLine2: "test", withCity: "Tampa", withState: "Florida", withPostalCode: "33612", withCountryCode: "US")
         
@@ -58,10 +58,18 @@ import UIKit
     }
     
     func payPalPaymentViewController(paymentViewController: PayPalPaymentViewController!, didCompletePayment completedPayment: PayPalPayment!) {
-        
+        _presentingViewController.dismissViewControllerAnimated(true) { [weak self] in
+            self?._presentingViewController.view.removeFromSuperview()
+            self?._presentingViewController.removeFromParentViewController()
+            self?._presentingViewController = nil
+            
+            self?.delegate?.paypalTransactionDidSucceed?()
+        }
     }
     
     func payPalPaymentViewController(paymentViewController: PayPalPaymentViewController!, willCompletePayment completedPayment: PayPalPayment!, completionBlock: PayPalPaymentDelegateCompletionBlock!) {
+        let confirmation = completedPayment.confirmation
         
+        completionBlock()
     }
 }
