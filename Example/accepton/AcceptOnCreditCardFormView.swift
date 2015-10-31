@@ -12,7 +12,7 @@ import accepton
 
 //This contains the credit-card form that is displayed if the user hits the 'credit_card' payment
 //button on setup
-class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate
+class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource
 {
     //-----------------------------------------------------------------------------------------------------
     //Properties
@@ -21,19 +21,25 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate
     @IBOutlet weak var cardNumField: UITextField!
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var securityField: UITextField!
+    @IBOutlet weak var expMonthField: UITextField!
     @IBOutlet weak var expYearField: UITextField!
     lazy var nameToField: [String:UITextField] = [
         "email":self.emailField,
         "cardNum":self.cardNumField,
         "security":self.securityField,
-        "expYear":self.expYearField
+        "expYear":self.expYearField,
+        "expMonth":self.expMonthField
     ]
     lazy var fieldToName: [UITextField:String] = [
         self.emailField:"email",
         self.cardNumField:"cardNum",
         self.securityField:"security",
-        self.expYearField:"expYear"
+        self.expYearField:"expYear",
+        self.expMonthField:"expMonth",
     ]
+    
+    //Picker views to show for certain input fields
+    lazy var expMonthPickerView = UIPickerView()
     
     //The rounded white area of the form that contains padding
     //that is animated in
@@ -112,12 +118,18 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate
         gesture.delaysTouchesBegan = false
         self.addGestureRecognizer(gesture)
         
+        //Set the month field to use a picker
+        expMonthPickerView.delegate = self
+        expMonthPickerView.dataSource = self
+        expMonthField.inputView = expMonthPickerView
+        
         //Disables touch input for the fields, they will be forwarded beginFirstResponder when necessary
         //via the validation views and have no touch interaction at other times
         cardNumValidationView.responderView = cardNumField
         emailValidationView.responderView = emailField
         expYearValidationView.responderView = expYearField
         securityValidationView.responderView = securityField
+        expMonthValidationView.responderView = expMonthField
         
         //Make our form area rounded
         self.roundFormArea.layer.cornerRadius = 15
@@ -197,6 +209,9 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate
         delegate?.creditCardFormPayWasClicked?()
     }
     
+    //-----------------------------------------------------------------------------------------------------
+    //UITextFieldDelegate Handlers
+    //-----------------------------------------------------------------------------------------------------
     //User updated a form option
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         //We need a field name & it needs to have some value
@@ -207,8 +222,8 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate
         let newString = currentString.stringByReplacingCharactersInRange(range, withString: string)
         
         //Field length maximums, prevent further input
-        if (fieldName == "security" && currentString.length >= 4) { return false }  //Don't allow security field to be more than 4 chars
-        if (fieldName == "expYear" && currentString.length >= 2) { return false }   //Don't allow year field to be more than 2 chars
+        if (fieldName == "security" && (newString as NSString).length > 4) { return false }  //Don't allow security field to be more than 4 chars
+        if (fieldName == "expYear" && (newString as NSString).length > 2) { return false }   //Don't allow year field to be more than 2 chars
         
         //If we reached this point, we can accept the update
         self.delegate?.creditCardFormFieldWithName?(fieldName, wasUpdatedToString: newString)
@@ -224,6 +239,85 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate
         }
     }
     
+    //-----------------------------------------------------------------------------------------------------
+    //AcceptOnCreditCardFormDelegate handlers
+    //-----------------------------------------------------------------------------------------------------
+    //Credit-card type was updated; brands include visa, amex, master_card, discover, etc.
+    func creditCardNumBrandWasUpdatedWithBrandName(name: String) {
+        //Notify the bouncy image
+        brandPop.switchToBrandWithName(name)
+    }
+    
+    //-----------------------------------------------------------------------------------------------------
+    //UIPickerFieldDelegate & UIPickerFieldDataSource Handlers
+    //-----------------------------------------------------------------------------------------------------
+    func pickerView(pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        if pickerView == expMonthPickerView {
+            let values = [
+                "01 - Jan",
+                "02 - Feb",
+                "03 - Mar",
+                "04 - Apr",
+                "05 - May",
+                "06 - Jun",
+                "07 - July",
+                "08 - Aug",
+                "09 - Sep",
+                "10 - Oct",
+                "11 - Nov",
+                "12 - Dec"
+            ]
+            return NSAttributedString(string: values[row], attributes: nil)
+        } else {
+            return nil
+        }
+    }
+    
+    //Ensure the expMonthPicker loads a default value to the UIMachine, because if we don't
+    //the didSelectRow is not called if the user dosen't change from the default of 01 (Jan)
+    var expMonthPickerViewDidSetDefault: Bool = false
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if pickerView == expMonthPickerView {
+            if (!expMonthPickerViewDidSetDefault) {
+                expMonthPickerViewDidSetDefault = true
+                self.delegate?.creditCardFormFieldWithName?("expMonth", wasUpdatedToString: "01")
+            }
+            return 12
+        } else {
+            return -1
+        }
+    }
+    
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        if pickerView == expMonthPickerView {
+            return 1
+        } else {
+            return -1
+        }
+    }
+    
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if pickerView == expMonthPickerView {
+            let values = [
+                "01",
+                "02",
+                "03",
+                "04",
+                "05",
+                "06",
+                "07",
+                "08",
+                "09",
+                "10",
+                "11",
+                "12"
+            ]
+            let value = values[row]
+            
+            self.expMonthField.text = value
+            self.delegate?.creditCardFormFieldWithName?("expMonth", wasUpdatedToString: value)
+        }
+    }
     //-----------------------------------------------------------------------------------------------------
     //External / Delegate Handlers
     //-----------------------------------------------------------------------------------------------------
@@ -242,14 +336,5 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate
     //error was still in effect
     func emphasizeErrorForFieldWithName(name: String, withMessage msg: String) {
         nameToValidationView[name]!.error = msg
-    }
-    
-    //-----------------------------------------------------------------------------------------------------
-    //AcceptOnCreditCardFormDelegate handlers
-    //-----------------------------------------------------------------------------------------------------
-    //Credit-card type was updated; brands include visa, amex, master_card, discover, etc.
-    func creditCardNumBrandWasUpdatedWithBrandName(name: String) {
-        //Notify the bouncy image
-        brandPop.switchToBrandWithName(name)
     }
 }

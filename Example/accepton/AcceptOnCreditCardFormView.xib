@@ -16,6 +16,7 @@
                 <outlet property="emailField" destination="BLC-gE-JbC" id="wyf-jE-mwg"/>
                 <outlet property="emailLabel" destination="Yn0-N4-hfb" id="ZlJ-t6-Xb7"/>
                 <outlet property="emailValidationView" destination="qTE-L5-tvt" id="bke-V5-p50"/>
+                <outlet property="expMonthField" destination="kST-Pj-LHV" id="HBT-0A-hme"/>
                 <outlet property="expMonthLabel" destination="wRU-XS-B8l" id="FPo-BT-rhr"/>
                 <outlet property="expMonthValidationView" destination="s0b-cu-yZA" id="Y8t-3l-Zj0"/>
                 <outlet property="expYearField" destination="InK-pM-vt4" id="o5y-dE-zwK"/>
@@ -67,7 +68,7 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qTE-L5-tvt" customClass="AcceptOnUICreditCardValidatableField" customModule="accepton_Example" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="23" width="540" height="42"/>
                                                             <subviews>
-                                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="jessica@yahoo.com" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BLC-gE-JbC">
+                                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="aoeu@oeuoeuvoeuoeu.oeuoeu" placeholder="jessica@yahoo.com" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BLC-gE-JbC">
                                                                     <rect key="frame" x="15" y="5" width="510" height="32"/>
                                                                     <animations/>
                                                                     <color key="textColor" red="0.21933962260000001" green="0.21933962260000001" blue="0.21933962260000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -117,7 +118,14 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2pn-Ra-KAI" customClass="AcceptOnUICreditCardValidatableField" customModule="accepton_Example" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="23" width="540" height="42"/>
                                                             <subviews>
-                                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1xR-R1-An5">
+                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FdW-Nc-bnA" customClass="AcceptOnCreditCardNumBrandPop" customModule="accepton_Example" customModuleProvider="target">
+                                                                    <rect key="frame" x="498" y="0.0" width="42" height="42"/>
+                                                                    <animations/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" secondItem="FdW-Nc-bnA" secondAttribute="height" id="9qI-RF-Dzy"/>
+                                                                    </constraints>
+                                                                </view>
+                                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="424242424242424242" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1xR-R1-An5">
                                                                     <rect key="frame" x="15" y="5" width="468" height="32"/>
                                                                     <animations/>
                                                                     <color key="textColor" red="0.21933962260000001" green="0.21933962260000001" blue="0.21933962260000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -127,13 +135,6 @@
                                                                         <outlet property="delegate" destination="-1" id="ROY-Sh-RwA"/>
                                                                     </connections>
                                                                 </textField>
-                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FdW-Nc-bnA" customClass="AcceptOnCreditCardNumBrandPop" customModule="accepton_Example" customModuleProvider="target">
-                                                                    <rect key="frame" x="498" y="0.0" width="42" height="42"/>
-                                                                    <animations/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" secondItem="FdW-Nc-bnA" secondAttribute="height" id="9qI-RF-Dzy"/>
-                                                                    </constraints>
-                                                                </view>
                                                             </subviews>
                                                             <animations/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -176,7 +177,7 @@
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JnI-io-37g" customClass="AcceptOnUICreditCardValidatableField" customModule="accepton_Example" customModuleProvider="target">
                                                                     <rect key="frame" x="0.0" y="23" width="162" height="42"/>
                                                                     <subviews>
-                                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="1234" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DEx-mD-Pqw">
+                                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="123" placeholder="1234" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DEx-mD-Pqw">
                                                                             <rect key="frame" x="15" y="5" width="132" height="32"/>
                                                                             <animations/>
                                                                             <color key="textColor" red="0.21933962260000001" green="0.21933962260000001" blue="0.21933962260000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -228,27 +229,29 @@
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s0b-cu-yZA" customClass="AcceptOnUICreditCardValidatableField" customModule="accepton_Example" customModuleProvider="target">
                                                                     <rect key="frame" x="0.0" y="23" width="162" height="42"/>
                                                                     <subviews>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jan (01)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RRH-OJ-lMd">
-                                                                            <rect key="frame" x="15" y="5" width="132" height="32"/>
+                                                                        <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="08" placeholder="MM" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kST-Pj-LHV">
+                                                                            <rect key="frame" x="15" y="2" width="132" height="35"/>
                                                                             <animations/>
-                                                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                                                                             <color key="textColor" red="0.21933962260000001" green="0.21933962260000001" blue="0.21933962260000001" alpha="1" colorSpace="calibratedRGB"/>
-                                                                            <nil key="highlightedColor"/>
-                                                                        </label>
+                                                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                                                            <textInputTraits key="textInputTraits"/>
+                                                                            <connections>
+                                                                                <outlet property="delegate" destination="-1" id="gpU-gw-sra"/>
+                                                                            </connections>
+                                                                        </textField>
                                                                     </subviews>
                                                                     <animations/>
                                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="bottom" secondItem="RRH-OJ-lMd" secondAttribute="bottom" constant="5" id="a65-2v-icU"/>
-                                                                        <constraint firstAttribute="trailing" secondItem="RRH-OJ-lMd" secondAttribute="trailing" constant="15" id="hpn-7D-sAx"/>
-                                                                        <constraint firstItem="RRH-OJ-lMd" firstAttribute="top" secondItem="s0b-cu-yZA" secondAttribute="top" constant="5" id="k7O-mc-wfU"/>
-                                                                        <constraint firstItem="RRH-OJ-lMd" firstAttribute="leading" secondItem="s0b-cu-yZA" secondAttribute="leading" constant="15" id="sW4-OH-9sJ"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="kST-Pj-LHV" secondAttribute="trailing" constant="15" id="Jja-zD-uuE"/>
+                                                                        <constraint firstAttribute="bottom" secondItem="kST-Pj-LHV" secondAttribute="bottom" constant="5" id="fky-Vt-1wq"/>
+                                                                        <constraint firstItem="kST-Pj-LHV" firstAttribute="leading" secondItem="s0b-cu-yZA" secondAttribute="leading" constant="15" id="mlz-tG-Hhe"/>
                                                                     </constraints>
                                                                 </view>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="imc-AX-pQ0" customClass="AcceptOnUICreditCardValidatableField" customModule="accepton_Example" customModuleProvider="target">
                                                                     <rect key="frame" x="172" y="20" width="152" height="45"/>
                                                                     <subviews>
-                                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="YY" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="InK-pM-vt4">
+                                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="17" placeholder="YY" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="InK-pM-vt4">
                                                                             <rect key="frame" x="15" y="5" width="122" height="35"/>
                                                                             <animations/>
                                                                             <color key="textColor" red="0.21933962264150941" green="0.21933962264150941" blue="0.21933962264150941" alpha="1" colorSpace="calibratedRGB"/>
@@ -286,6 +289,7 @@
                                                                 <constraint firstItem="wRU-XS-B8l" firstAttribute="leading" secondItem="wY0-j6-SPz" secondAttribute="leading" id="Rbt-jt-Vyv"/>
                                                                 <constraint firstItem="s0b-cu-yZA" firstAttribute="top" secondItem="wRU-XS-B8l" secondAttribute="bottom" constant="3" id="Rdz-Bc-y1B"/>
                                                                 <constraint firstItem="qgh-Iu-o7G" firstAttribute="width" secondItem="imc-AX-pQ0" secondAttribute="width" id="XS2-4W-l3N"/>
+                                                                <constraint firstItem="kST-Pj-LHV" firstAttribute="top" secondItem="wRU-XS-B8l" secondAttribute="bottom" constant="5" id="hBy-Sb-SYb"/>
                                                                 <constraint firstAttribute="trailing" secondItem="imc-AX-pQ0" secondAttribute="trailing" id="mmX-c7-wDs"/>
                                                                 <constraint firstItem="s0b-cu-yZA" firstAttribute="width" secondItem="wY0-j6-SPz" secondAttribute="width" multiplier="0.5" id="pgl-jD-8rJ"/>
                                                                 <constraint firstAttribute="trailing" secondItem="qgh-Iu-o7G" secondAttribute="trailing" id="s9g-JO-w2f"/>
