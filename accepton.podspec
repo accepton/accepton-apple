@@ -34,7 +34,7 @@ A swift library for processing payments through the AcceptOn API which elegantly
     'accepton' => ['Pod/Assets/*.png']
   }
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
+  s.public_header_files = 'Pod/Headers/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'Alamofire', '~> 3.0'
   s.dependency 'SnapKit'

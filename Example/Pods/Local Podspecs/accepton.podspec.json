@@ -23,6 +23,7 @@
       "Pod/Assets/*.png"
     ]
   },
+  "public_header_files": "Pod/Headers/**/*.h",
   "dependencies": {
     "Alamofire": [
       "~> 3.0"

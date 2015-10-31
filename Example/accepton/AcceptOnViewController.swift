@@ -226,21 +226,7 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
     //-----------------------------------------------------------------------------------------------------
     func choosePaymentTypeWasClicked(name: String) {
         if (name == "paypal") {
-            PayPalMobile.initializeWithClientIdsForEnvironments([PayPalEnvironmentSandbox:"EAGEb2Sey28DzhMc4P0PNothBmsJggVKZK9kTBrw5bU_PP5tmRUSFSlPe62K56FGxF8LkmwA3vPn-LGh"])
-            let _config = PayPalConfiguration()
-            _config.acceptCreditCards = false
-            _config.payPalShippingAddressOption = PayPalShippingAddressOption.PayPal
-            
-            let pp = PayPalPayment()
-            pp.amount = 10
-            pp.currencyCode = "USD"
-            pp.shortDescription = "Widget"
-            pp.intent = PayPalPaymentIntent.Sale
-            pp.shippingAddress = PayPalShippingAddress(recipientName: "Test", withLine1: "test", withLine2: "test", withCity: "Tampa", withState: "Florida", withPostalCode: "33612", withCountryCode: "US")
-            
-            let ppvc = PayPalPaymentViewController(payment: pp, configuration: _config, delegate: self)
-            self.presentViewController(ppvc, animated: true) { () -> Void in
-            }
+
             return
         }
         let creditCardForm = AcceptOnCreditCardFormView(frame: CGRectZero)
