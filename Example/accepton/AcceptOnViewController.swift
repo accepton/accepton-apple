@@ -226,9 +226,10 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
     //-----------------------------------------------------------------------------------------------------
     func choosePaymentTypeWasClicked(name: String) {
         if (name == "paypal") {
-
+            uim.paypalClicked()
             return
         }
+        
         let creditCardForm = AcceptOnCreditCardFormView(frame: CGRectZero)
         self.creditCardForm = creditCardForm
         self.mainView.addSubview(creditCardForm)

@@ -136,6 +136,8 @@ public class AcceptOnUIMachine {
                 }
                 
                 self?.tokenObject = tokenObject
+                self?.amountInCents = amountInCents
+                self?.itemDescription = description
                 
                 //Request the form configuration
                 self?.api.getAvailablePaymentMethodsForTransactionWithId(tokenObject!.id, completion: { (paymentMethods, error) -> () in
@@ -503,6 +505,7 @@ public class AcceptOnUIMachine {
     /* ######################################################################################### */
     /* Paypal specifics                                                                          */
     /* ######################################################################################### */
+    public lazy var paypalDriver: AcceptOnUIMachinePaypalDriver = AcceptOnUIMachinePaypalDriver()
     public func paypalClicked() {
         //Wait 500ms so there is time to show something like a loading screen to the user
         let delay = Int64(1) * Int64(NSEC_PER_MSEC/2)
@@ -510,5 +513,6 @@ public class AcceptOnUIMachine {
         dispatch_after(time, dispatch_get_main_queue()) { [weak self] in
             self?.delegate?.acceptOnUIMachinePaymentIsProcessing?("paypal")
         }
+        paypalDriver.beginPaypalTransactionWithAmountInDollars(amountInCents!*100, andDescription: itemDescription!)
     }
 }
