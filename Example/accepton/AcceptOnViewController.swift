@@ -280,6 +280,30 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
     }
     
     func acceptOnUIMachinePaymentIsProcessing(paymentType: String) {
+        //Credit-card has a special flow as the UIMachine dosen't have the concept
+        //of the credit-card being on a seperate page
+        if paymentType == "credit_card" {
+            //Show waiting loader
+            showWaitingWithAnimationAndDelay(0.5)
+            
+            //Animate back button out
+            self.backButton.userInteractionEnabled = false
+            UIView.animateWithDuration(0.75, delay: 0.1, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                self.backButton.alpha = 0
+                self.backButton.layer.transform = CATransform3DMakeTranslation(0, -self.view.bounds.size.height/4, 0)
+                }) { (res) -> Void in
+            }
+            
+            //Animate the credit-card form out
+            UIView.animateWithDuration(0.75, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                self.creditCardForm.alpha = 0
+                self.creditCardForm.layer.transform = CATransform3DMakeScale(0.9, 0.9, 1)
+                }) { (res) -> Void in
+            }
+            
+            return
+        }
+        
         //Animate buttons for the selection out
         choosePaymentTypeView.animateButtonsOutExcept(paymentType)
         

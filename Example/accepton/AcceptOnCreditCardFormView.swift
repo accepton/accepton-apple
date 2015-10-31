@@ -206,6 +206,7 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate, UIPickerViewDeleg
     
     //User hit the 'pay' button
     @IBAction func payWasClicked(sender: AnyObject) {
+        viewWasTapped()
         delegate?.creditCardFormPayWasClicked?()
     }
     

@@ -68,7 +68,7 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qTE-L5-tvt" customClass="AcceptOnUICreditCardValidatableField" customModule="accepton_Example" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="23" width="540" height="42"/>
                                                             <subviews>
-                                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="aoeu@oeuoeuvoeuoeu.oeuoeu" placeholder="jessica@yahoo.com" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BLC-gE-JbC">
+                                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="marissa@yahoo.com" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BLC-gE-JbC">
                                                                     <rect key="frame" x="15" y="5" width="510" height="32"/>
                                                                     <animations/>
                                                                     <color key="textColor" red="0.21933962260000001" green="0.21933962260000001" blue="0.21933962260000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -125,7 +125,7 @@
                                                                         <constraint firstAttribute="width" secondItem="FdW-Nc-bnA" secondAttribute="height" id="9qI-RF-Dzy"/>
                                                                     </constraints>
                                                                 </view>
-                                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="424242424242424242" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1xR-R1-An5">
+                                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1xR-R1-An5">
                                                                     <rect key="frame" x="15" y="5" width="468" height="32"/>
                                                                     <animations/>
                                                                     <color key="textColor" red="0.21933962260000001" green="0.21933962260000001" blue="0.21933962260000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -177,7 +177,7 @@
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JnI-io-37g" customClass="AcceptOnUICreditCardValidatableField" customModule="accepton_Example" customModuleProvider="target">
                                                                     <rect key="frame" x="0.0" y="23" width="162" height="42"/>
                                                                     <subviews>
-                                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="123" placeholder="1234" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DEx-mD-Pqw">
+                                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="1234" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DEx-mD-Pqw">
                                                                             <rect key="frame" x="15" y="5" width="132" height="32"/>
                                                                             <animations/>
                                                                             <color key="textColor" red="0.21933962260000001" green="0.21933962260000001" blue="0.21933962260000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -229,7 +229,7 @@
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s0b-cu-yZA" customClass="AcceptOnUICreditCardValidatableField" customModule="accepton_Example" customModuleProvider="target">
                                                                     <rect key="frame" x="0.0" y="23" width="162" height="42"/>
                                                                     <subviews>
-                                                                        <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="08" placeholder="MM" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kST-Pj-LHV">
+                                                                        <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="MM" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kST-Pj-LHV">
                                                                             <rect key="frame" x="15" y="2" width="132" height="35"/>
                                                                             <animations/>
                                                                             <color key="textColor" red="0.21933962260000001" green="0.21933962260000001" blue="0.21933962260000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -251,7 +251,7 @@
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="imc-AX-pQ0" customClass="AcceptOnUICreditCardValidatableField" customModule="accepton_Example" customModuleProvider="target">
                                                                     <rect key="frame" x="172" y="20" width="152" height="45"/>
                                                                     <subviews>
-                                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="17" placeholder="YY" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="InK-pM-vt4">
+                                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="YY" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="InK-pM-vt4">
                                                                             <rect key="frame" x="15" y="5" width="122" height="35"/>
                                                                             <animations/>
                                                                             <color key="textColor" red="0.21933962264150941" green="0.21933962264150941" blue="0.21933962264150941" alpha="1" colorSpace="calibratedRGB"/>

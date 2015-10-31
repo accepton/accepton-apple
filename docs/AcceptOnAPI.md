@@ -60,6 +60,9 @@ api.getAvailablePaymentMethodsForTransactionWithId(token.id) { paymentMethods, e
   //payment processor specific configuration information.
   let processorInfo = paymentMethods.processorInfo
   //let paypalInfo = processorInfo?["paypal"] as? [String:AnyObject]
+
+  let supportsStripe = paymentMethods.supportsStripe
+  let stripePublishableKey = paymentMethods.stripePublishableKey
 }
 ```
 

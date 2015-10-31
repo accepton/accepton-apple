@@ -34,7 +34,24 @@ public enum AcceptOnAPIPaymentTypes {
 //Returned for the payment methods requests.  Describes what payments are available.
 public struct AcceptOnAPIPaymentMethodsInfo {
     public var supportsCreditCard: Bool = false
-    public var supportsStripe: Bool = false
+    public var supportsStripe: Bool {
+        return stripePublishableKey != nil
+    }
+    
+    public var stripePublishableKey: String? {
+        let creditCardInfo = processorInfo?["credit-card"]
+        if let creditCardInfo = creditCardInfo {
+            let stripeInfo = creditCardInfo["stripe"]
+            if let stripeInfo = stripeInfo {
+                let publishableKey = stripeInfo?["publishable_key"]
+                if let publishableKey = publishableKey {
+                    return publishableKey as? String
+                }
+            }
+        }
+        return nil
+    }
+    
     public var supportsPaypal: Bool = false
     public var supportsApplePay: Bool = true
     
@@ -239,7 +256,7 @@ public class AcceptOnAPI {
         var params = ["access_token":self.accessToken, "token": tid] as [String:AnyObject]
         chargeInfo.mergeIntoParams(&params)
         
-        AcceptOnAPI.requestWithMethod(.GET, path:"/v1/charges", params: params, completion: { res, err in
+        AcceptOnAPI.requestWithMethod(.POST, path:"/v1/charges", params: params, completion: { res, err in
             if (err != nil) {
                 completion(chargeRes: nil, error: err)
             } else {

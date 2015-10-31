@@ -37,7 +37,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="3AT-wg-vuu" kind="presentation" modalPresentationStyle="overCurrentContext" id="6sE-mp-ANA"/>
+                                    <segue destination="3AT-wg-vuu" kind="presentation" animates="NO" modalPresentationStyle="overCurrentContext" id="6sE-mp-ANA"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="watch.png" translatesAutoresizingMaskIntoConstraints="NO" id="5Qk-Dr-dS6">

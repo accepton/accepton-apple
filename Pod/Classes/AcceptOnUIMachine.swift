@@ -507,6 +507,40 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate 
             dispatch_async(dispatch_get_main_queue(), { [weak self] in
                 self?.delegate?.acceptOnUIMachinePaymentIsProcessing?("credit_card")
             })
+            
+            //Assuming they are using stripe
+            let stripePublishableKey = paymentMethods!.stripePublishableKey
+            if let stripePublishableKey = stripePublishableKey {
+                Stripe.setDefaultPublishableKey(stripePublishableKey)
+                
+                let card = STPCardParams()
+                card.number = cardNumFieldValue
+                card.expMonth = UInt(((expMonthFieldValue ?? "") as NSString).intValue)
+                card.expYear = UInt((expYearFieldValue as NSString).intValue)
+                card.cvc = securityFieldValue
+                STPAPIClient.sharedClient().createTokenWithCard(card) { [weak self] token, err in
+                    if let err = err {
+                        self?.delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("credit_card")
+                        self?.delegate?.acceptOnUIMachinePaymentErrorWithMessage?(err.localizedDescription)
+                        return
+                    }
+                    
+                    let tokenId = token!.tokenId
+                    let chargeInfo = AcceptOnAPIChargeInfo(cardToken: tokenId, email: self?.emailFieldValue)
+                    self?.api.chargeWithTransactionId(self?.tokenObject!.id ?? "", andChargeinfo: chargeInfo) { chargeRes, err in
+                        if let err = err {
+                            self?.delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("credit_card")
+                            self?.delegate?.acceptOnUIMachinePaymentErrorWithMessage?(err.localizedDescription)
+                            return
+                        }
+                         
+                        self?.delegate?.acceptOnUIMachinePaymentDidSucceed?()
+                    }
+                }
+            } else {
+                self.delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("credit_card")
+                self.delegate?.acceptOnUIMachinePaymentErrorWithMessage?("Stripe could not be configured")
+            }
         }
     }
     
