@@ -71,10 +71,11 @@ public class AcceptOnUIMachineFormOptions : NSObject {
 }
 
 enum AcceptOnUIMachineState {
-    case Initialized    //begin has not been called
-    case BeginWasCalled //In the middle of the begin
-    case PaymentForm    //begin succeeded
-    case WaitingForPaypal
+    case Initialized      //begin has not been called
+    case BeginWasCalled   //In the middle of the begin
+    case PaymentForm      //begin succeeded
+    case WaitingForPaypal //Paypal dialog is open
+    case PaymentComplete  //Payment has completed
 }
 
 public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate {

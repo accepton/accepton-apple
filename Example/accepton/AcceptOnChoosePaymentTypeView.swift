@@ -67,9 +67,6 @@ class AcceptOnChoosePaymentTypeView: UIView
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        //Animate the payment buttons in on the first load
-        self.animatePaymentButtonsIn()
     }
     
     var constraintsWereUpdated = false

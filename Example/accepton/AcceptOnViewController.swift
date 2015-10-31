@@ -116,8 +116,8 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
             return
         }
         choosePaymentTypeView.delegate = self
-        choosePaymentTypeView.paymentMethods = ["paypal", "credit_card", "apple_pay"]
-        choosePaymentTypeView.layer.cornerRadius = 5
+        
+        showWaitingWithAnimationAndDelay(nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -229,6 +229,15 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
     //AcceptOnUIMachineDelegate Handlers
     //-----------------------------------------------------------------------------------------------------
     func acceptOnUIMachineDidFinishBeginWithFormOptions(options: AcceptOnUIMachineFormOptions) {
+        
+        var paymentMethods: [String] = []
+        if options.hasCreditCardForm { paymentMethods.append("credit_card") }
+        if options.hasPaypalButton { paymentMethods.append("paypal") }
+        choosePaymentTypeView.paymentMethods = paymentMethods
+        choosePaymentTypeView.layer.cornerRadius = 5
+        
+        hideWaitingWithAnimationAndDelay(0);
+        choosePaymentTypeView.animatePaymentButtonsIn()
     }
     
     func acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName(name: String, withMessage msg: String) {
