@@ -13,6 +13,8 @@ import Stripe
     
     //Mid-cycle
     optional func acceptOnUIMachinePaymentIsProcessing(paymentType: String)
+    optional func acceptOnUIMachinePaymentDidAbortPaymentMethodWithName(name: String)
+    optional func acceptOnUIMachinePaymentErrorWithMessage(message: String)
     
     //Spec related
     optional func acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName(name: String, withValue value: String)  //Field updated, no validation error
@@ -36,7 +38,6 @@ public struct AcceptOnUIMachineError {
 public class AcceptOnUIMachineFormOptions : NSObject {
     let token: AcceptOnAPITransactionToken!
     let paymentMethods: AcceptOnAPIPaymentMethodsInfo!
-    
     public var itemDescription: String {
         return token.desc
     }
@@ -73,9 +74,10 @@ enum AcceptOnUIMachineState {
     case Initialized    //begin has not been called
     case BeginWasCalled //In the middle of the begin
     case PaymentForm    //begin succeeded
+    case WaitingForPaypal
 }
 
-public class AcceptOnUIMachine {
+public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate {
     /* ######################################################################################### */
     /* Constructors & Members (Stage I)                                                          */
     /* ######################################################################################### */
@@ -505,14 +507,39 @@ public class AcceptOnUIMachine {
     /* ######################################################################################### */
     /* Paypal specifics                                                                          */
     /* ######################################################################################### */
-    public lazy var paypalDriver: AcceptOnUIMachinePaypalDriver = AcceptOnUIMachinePaypalDriver()
+    lazy var paypalDriver: AcceptOnUIMachinePaypalDriver = AcceptOnUIMachinePaypalDriver()
     public func paypalClicked() {
+        if state != .PaymentForm { return }
+        
+        self.state = .WaitingForPaypal
         //Wait 500ms so there is time to show something like a loading screen to the user
-        let delay = Int64(1) * Int64(NSEC_PER_MSEC/2)
+        let delay = Int64(1500) * Int64(NSEC_PER_MSEC)
         let time = dispatch_time(DISPATCH_TIME_NOW, delay)
         dispatch_after(time, dispatch_get_main_queue()) { [weak self] in
-            self?.delegate?.acceptOnUIMachinePaymentIsProcessing?("paypal")
+            self?.paypalDriver.delegate = self
+            self?.paypalDriver.beginPaypalTransactionWithAmountInDollars(self!.amountInCents!*100, andDescription: self!.itemDescription!)
         }
-        paypalDriver.beginPaypalTransactionWithAmountInDollars(amountInCents!*100, andDescription: itemDescription!)
+        
+        delegate?.acceptOnUIMachinePaymentIsProcessing?("paypal")
+    }
+    
+    //AcceptOnUIMachinePaypalDriverDelegate Handlers
+    func paypalTransactionDidFailWithMessage(message: String) {
+        if state != .WaitingForPaypal { return }
+        state = .PaymentForm
+        
+        delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("paypal")
+        delegate?.acceptOnUIMachinePaymentErrorWithMessage?(message)
+    }
+    
+    func paypalTransactionDidSucceed() {
+        
+    }
+    
+    func paypalTransactionDidCancel() {
+        if state != .WaitingForPaypal { return }
+        state = .PaymentForm
+        
+        delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("paypal")
     }
 }

@@ -8,7 +8,7 @@ import SnapKit
 }
 
 //Works with the AcceptOnUIMachine to manage the UI behaviours
-class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, AcceptOnCreditCardFormDelegate, AcceptOnChoosePaymentTypeViewDelegate, PayPalPaymentDelegate {
+class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, AcceptOnCreditCardFormDelegate, AcceptOnChoosePaymentTypeViewDelegate {
     //-----------------------------------------------------------------------------------------------------
     //Properties
     //-----------------------------------------------------------------------------------------------------
@@ -156,13 +156,72 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
     }
     
     //------------------------------------------------------------------------------------------------------
-    //Animation Helpers
+    //Animation & Drawing Helpers
     //------------------------------------------------------------------------------------------------------
     func animateIn() {
         UIView.animateWithDuration(0.8, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
             self._mainView.effect = UIBlurEffect(style: .Dark)
             }) { (res) -> Void in
                 
+        }
+    }
+    
+    //Show the waiting loader in the center
+    var _waitingView: UIView?
+    var waitingView: UIView {
+        if _waitingView == nil {
+            //Add actual waiting view
+            _waitingView = UIView()
+            self.view?.addSubview(_waitingView!)
+            _waitingView!.snp_makeConstraints { make in
+                make.top.equalTo(self.view.snp_top)
+                make.bottom.equalTo(self.contentView!.snp_bottom)
+                make.width.equalTo(self.view.snp_width)
+                make.centerX.equalTo(self.view.snp_centerX)
+                return
+            }
+            
+            //Add spin loader
+            let spinner = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+            _waitingView!.addSubview(spinner)
+            spinner.snp_makeConstraints { make in
+                make.center.equalTo(_waitingView!.center)
+                make.size.equalTo(_waitingView!.snp_size)
+                return
+            }
+            spinner.startAnimating()
+        }
+        
+        return _waitingView!
+    }
+    
+    func showWaitingWithAnimationAndDelay(delay: Double?) {
+        if let delay = delay {
+            waitingView.alpha = 0
+            waitingView.layer.transform = CATransform3DMakeScale(0.8, 0.8, 1)
+            UIView.animateWithDuration(0.8, delay: delay, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+                self.waitingView.alpha = 1
+                self.waitingView.layer.transform = CATransform3DIdentity
+                }, completion: { res in
+                    
+            })
+        } else {
+            waitingView.alpha = 1
+        }
+    }
+    
+    func hideWaitingWithAnimationAndDelay(delay: Double?) {
+        if let delay = delay {
+            waitingView.alpha = 1
+            waitingView.layer.transform = CATransform3DIdentity
+            UIView.animateWithDuration(0.8, delay: delay, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+                self.waitingView.alpha = 0
+                self.waitingView.layer.transform = CATransform3DMakeScale(0.8, 0.8, 1)
+                }, completion: { res in
+                    
+            })
+        } else {
+            waitingView.alpha = 0
         }
     }
     
@@ -186,6 +245,42 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
     
     func acceptOnUIMachineCreditCardTypeDidChange(type: String) {
         creditCardForm.creditCardNumBrandWasUpdatedWithBrandName(type)
+    }
+    
+    func acceptOnUIMachinePaymentDidAbortPaymentMethodWithName(name: String) {
+        if name == "paypal" {
+            //Animate loading spinner out
+            hideWaitingWithAnimationAndDelay(0.3)
+            
+            //Animate exit button in
+            self.exitButton.userInteractionEnabled = true
+            self.exitButton.layer.transform = CATransform3DMakeTranslation(0, -self.view.bounds.size.height/4, 0)
+            UIView.animateWithDuration(0.8, delay: 0.3, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                self.exitButton.alpha = 1
+                self.exitButton.layer.transform = CATransform3DIdentity
+                }) { (res) -> Void in
+            }
+            
+            //Animate all option buttons back in
+            choosePaymentTypeView.animateButtonsIn()
+        }
+    }
+    
+    func acceptOnUIMachinePaymentIsProcessing(paymentType: String) {
+        //Animate buttons for the selection out
+        choosePaymentTypeView.animateButtonsOutExcept(paymentType)
+        
+        //Animate exit button out
+        self.exitButton.userInteractionEnabled = false
+        UIView.animateWithDuration(0.8, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+            self.exitButton.alpha = 0
+            self.exitButton.layer.transform = CATransform3DMakeTranslation(0, -self.view.bounds.size.height/4, 0)
+            }) { (res) -> Void in
+                self.exitButton.layer.transform = CATransform3DIdentity
+        }
+        
+        //Show waiting loader
+        showWaitingWithAnimationAndDelay(1)
     }
     
     //-----------------------------------------------------------------------------------------------------
@@ -227,48 +322,41 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
     func choosePaymentTypeWasClicked(name: String) {
         if (name == "paypal") {
             uim.paypalClicked()
+            
             return
+        } else if (name == "credit_card") {
+            //As credit-card is a special-case of the UIMachine,
+            //we have to handle that by itself
+            //Animate buttons for the selection out
+            choosePaymentTypeView.animateButtonsOutExcept(name)
+            
+            //Animate exit button out
+            self.exitButton.userInteractionEnabled = false
+            UIView.animateWithDuration(0.8, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                self.exitButton.alpha = 0
+                self.exitButton.layer.transform = CATransform3DMakeTranslation(0, -self.view.bounds.size.height/4, 0)
+                }) { (res) -> Void in
+                    self.exitButton.layer.transform = CATransform3DIdentity
+            }
+            
+            //Add credit-card form
+            let creditCardForm = AcceptOnCreditCardFormView(frame: CGRectZero)
+            self.creditCardForm = creditCardForm
+            self.mainView.addSubview(creditCardForm)
+            creditCardForm.snp_makeConstraints { make in
+                make.margins.equalTo(self.contentView!.snp_margins)
+                return
+            }
+            creditCardForm.delegate = self
+            
+            //Animate back button in
+            self.backButton.layer.transform = CATransform3DMakeTranslation(0, -self.view.bounds.size.height/4, 0)
+            self.backButton.userInteractionEnabled = true
+            UIView.animateWithDuration(0.8, delay: 1, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                self.backButton.alpha = 1
+                self.backButton.layer.transform = CATransform3DIdentity
+                }) { (res) -> Void in
+            }
         }
-        
-        let creditCardForm = AcceptOnCreditCardFormView(frame: CGRectZero)
-        self.creditCardForm = creditCardForm
-        self.mainView.addSubview(creditCardForm)
-        creditCardForm.snp_makeConstraints { make in
-            make.margins.equalTo(self.contentView!.snp_margins)
-            return
-        }
-        
-        creditCardForm.delegate = self
-        
-        //Animate exit button out
-        self.exitButton.userInteractionEnabled = false
-        UIView.animateWithDuration(0.8, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-            self.exitButton.alpha = 0
-            self.exitButton.layer.transform = CATransform3DMakeTranslation(0, -self.view.bounds.size.height/4, 0)
-            }) { (res) -> Void in
-                self.exitButton.layer.transform = CATransform3DIdentity
-        }
-        
-        //Animate back button in
-        self.backButton.layer.transform = CATransform3DMakeTranslation(0, -self.view.bounds.size.height/4, 0)
-        self.backButton.userInteractionEnabled = true
-        UIView.animateWithDuration(0.8, delay: 1, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-            self.backButton.alpha = 1
-            self.backButton.layer.transform = CATransform3DIdentity
-            }) { (res) -> Void in
-        }
-        
-        //Animate buttons for the selection out
-        choosePaymentTypeView.animateButtonsOutExcept(name)
-    }
-    
-    //-----------------------------------------------------------------------------------------------------
-    //PayPalPaymentDelegate Handlers
-    //-----------------------------------------------------------------------------------------------------
-    func payPalPaymentDidCancel(paymentViewController: PayPalPaymentViewController!) {
-        paymentViewController.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    func payPalPaymentViewController(paymentViewController: PayPalPaymentViewController!, didCompletePayment completedPayment: PayPalPayment!) {
     }
 }

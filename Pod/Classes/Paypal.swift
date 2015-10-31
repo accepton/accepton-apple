@@ -4,15 +4,33 @@ import UIKit
 @objc protocol AcceptOnUIMachinePaypalDriverDelegate {
     optional func paypalTransactionDidFailWithMessage(message: String)
     optional func paypalTransactionDidSucceed()
+    optional func paypalTransactionDidCancel()
 }
 
-@objc public class AcceptOnUIMachinePaypalDriver : NSObject, PayPalPaymentDelegate {
+@objc class AcceptOnUIMachinePaypalDriver : NSObject, PayPalPaymentDelegate {
     weak var delegate: AcceptOnUIMachinePaypalDriverDelegate?
     
     //Present using the root view controller
-    var presentingViewController: UIViewController!
+    var _presentingViewController: UIViewController!
+    var presentingViewController: UIViewController! {
+        get {
+            if (_presentingViewController == nil) {
+                _presentingViewController = UIViewController()
+                
+                let rv = UIApplication.sharedApplication().windows.first
+                if rv == nil {
+                    NSException(name:"AcceptOnUIMachinePaypalDriver", reason: "Tried to get the UIApplication.sharedApplication().windows.first to display the paypal view controller off of but this did not exist", userInfo: nil).raise()
+                }
+                
+                rv!.addSubview(_presentingViewController.view)
+                _presentingViewController.view.bounds = UIScreen.mainScreen().bounds
+            }
+            
+            return _presentingViewController
+        }
+    }
     
-    var ppvc: UIViewController?
+    var ppvc: PayPalPaymentViewController!
     func beginPaypalTransactionWithAmountInDollars(amount: Int, andDescription: String) {
         PayPalMobile.initializeWithClientIdsForEnvironments([PayPalEnvironmentSandbox:"EAGEb2Sey28DzhMc4P0PNothBmsJggVKZK9kTBrw5bU_PP5tmRUSFSlPe62K56FGxF8LkmwA3vPn-LGh"])
         let _config = PayPalConfiguration()
@@ -27,20 +45,23 @@ import UIKit
         pp.shippingAddress = PayPalShippingAddress(recipientName: "Test", withLine1: "test", withLine2: "test", withCity: "Tampa", withState: "Florida", withPostalCode: "33612", withCountryCode: "US")
         
         ppvc = PayPalPaymentViewController(payment: pp, configuration: _config, delegate: self)
-        presentingViewController?.view.addSubview(ppvc!.view)
-        presentingViewController?.view.bringSubviewToFront(ppvc!.view)
-        ppvc!.view.bounds = CGRectMake(0, 0, 100, 100)
+        presentingViewController.presentViewController(ppvc, animated: true, completion: nil)
     }
     
-    public func payPalPaymentDidCancel(paymentViewController: PayPalPaymentViewController!) {
+    func payPalPaymentDidCancel(paymentViewController: PayPalPaymentViewController!) {
+        _presentingViewController.dismissViewControllerAnimated(true) { [weak self] in
+            self?._presentingViewController.view.removeFromSuperview()
+            self?._presentingViewController.removeFromParentViewController()
+            self?._presentingViewController = nil
+            self?.delegate?.paypalTransactionDidCancel?()
+        }
+    }
+    
+    func payPalPaymentViewController(paymentViewController: PayPalPaymentViewController!, didCompletePayment completedPayment: PayPalPayment!) {
         
     }
     
-    public func payPalPaymentViewController(paymentViewController: PayPalPaymentViewController!, didCompletePayment completedPayment: PayPalPayment!) {
-        
-    }
-    
-    public func payPalPaymentViewController(paymentViewController: PayPalPaymentViewController!, willCompletePayment completedPayment: PayPalPayment!, completionBlock: PayPalPaymentDelegateCompletionBlock!) {
+    func payPalPaymentViewController(paymentViewController: PayPalPaymentViewController!, willCompletePayment completedPayment: PayPalPayment!, completionBlock: PayPalPaymentDelegateCompletionBlock!) {
         
     }
 }

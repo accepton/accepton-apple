@@ -234,11 +234,16 @@ func acceptOnUIMachinePaymentDidSucceed() {
   showSuccessPage()
 }
 
-//Something went wrong :/ Go back to the payment form and notify the user of what happend
-func acceptOnUIMachinePaymentDidFailWithError(error: NSError) {
+//Something went wrong, e.g. paypal failed to login, or the user cancelled. You will
+//get the error back in the next delegate method below
+func acceptOnUIMachinePaymentDidAbortPaymentMethodWithName(name: String) {
   removePaymentProcessingLoader()
-  
-  //Display the message on the payment form, or you could show a UIAlertView, etc.
-  showErrorOnPaymentForm(error.localizedDescription)
 }
-```
+
+//This is always called right after acceptOnUIMachinePaymentDidAbort if it is applicable (an example
+//of where it is not called is when a user hits cancel on the paypal dialog). You should always
+//drop the loading screen during the DidAbort method and then show the message via this handler
+func acceptOnUIMachinePaymentErrorWithMessage(message: String) {
+  //Display the message on the payment form, or you could show a UIAlertView, etc.
+  showError(message)
+}
