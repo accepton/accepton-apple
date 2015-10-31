@@ -2155,6 +2155,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/accepton/accepton.modulemap";
 				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "-Wl,-U,_OBJC_CLASS_$_PayPalConfiguration,-U,_OBJC_CLASS_$_PayPalMobile,-U,_OBJC_CLASS_$_PayPalPayment,-U,_OBJC_CLASS_$_PayPalPaymentViewController,-U,_OBJC_CLASS_$_PayPalShippingAddress,-U,_PayPalEnvironmentSandbox";
 				PRODUCT_NAME = accepton;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -2345,6 +2346,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MODULEMAP_FILE = "Target Support Files/accepton/accepton.modulemap";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "-Wl,-U,_OBJC_CLASS_$_PayPalConfiguration,-U,_OBJC_CLASS_$_PayPalMobile,-U,_OBJC_CLASS_$_PayPalPayment,-U,_OBJC_CLASS_$_PayPalPaymentViewController,-U,_OBJC_CLASS_$_PayPalShippingAddress,-U,_PayPalEnvironmentSandbox";
 				PRODUCT_NAME = accepton;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
