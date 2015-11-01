@@ -34,9 +34,11 @@ A swift library for processing payments through the AcceptOn API which elegantly
     'accepton' => ['Pod/Assets/*.png']
   }
 
-  #s.public_header_files = 'Pod/Headers/**/*.h'
+  s.public_header_files = 'Pod/Paypal/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'Alamofire', '~> 3.0'
   s.dependency 'SnapKit'
   s.dependency 'Stripe'
+
+  s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-lPayPalMobile', 'LIBRARY_SEARCH_PATHS' => './**/*', 'USER_HEADER_SEARCH_PATHS' => "${PODS_ROOT}/../../Pod/Paypal"}
 end
