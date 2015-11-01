@@ -145,6 +145,11 @@
 		A4997AEF1C4553522D44944232B0A001 /* ConstraintMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2C113116C95C345F9417F2873AD8BA /* ConstraintMaker.swift */; };
 		A7A88A803BAF2C8CAAED032F11ADB755 /* stp_card_visa@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7C0DA76B78DAA42FBE53A1957EFB8623 /* stp_card_visa@3x.png */; };
 		A7D6498A81D8B510C3098D6D3C104EA7 /* STPColorUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F8B2A0EB902112747660ED33705EEC98 /* STPColorUtils.m */; };
+		AA18690C1BE5AF6400CD6455 /* libPayPalMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BAE1368AAD42489AEF06B819577D519 /* libPayPalMobile.a */; };
+		AA1869121BE5AFA200CD6455 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1869111BE5AFA200CD6455 /* SystemConfiguration.framework */; };
+		AA1869141BE5AFAB00CD6455 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1869131BE5AFAB00CD6455 /* MessageUI.framework */; };
+		AA1869151BE5AFB300CD6455 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA18690D1BE5AF7C00CD6455 /* CoreLocation.framework */; };
+		AA1869161BE5B08900CD6455 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA18690F1BE5AF8A00CD6455 /* MobileCoreServices.framework */; };
 		AADE006B1BE429C200912152 /* PayPalConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = AADE00641BE429C200912152 /* PayPalConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AADE006C1BE429C200912152 /* PayPalFuturePaymentViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = AADE00651BE429C200912152 /* PayPalFuturePaymentViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AADE006D1BE429C200912152 /* PayPalMobile.h in Headers */ = {isa = PBXBuildFile; fileRef = AADE00661BE429C200912152 /* PayPalMobile.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -504,6 +509,10 @@
 		A89DB3D2F7391D148632CCF0AE76E41E /* STPAPIClient.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = STPAPIClient.m; path = Stripe/STPAPIClient.m; sourceTree = "<group>"; };
 		A8EB68B6D121D9C805E7FF8A0521833F /* Stripe.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Stripe.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A90BEA77FB0FA3D3BF6F33C5D4C8592D /* NSDictionary+Stripe.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+Stripe.h"; path = "Stripe/NSDictionary+Stripe.h"; sourceTree = "<group>"; };
+		AA18690D1BE5AF7C00CD6455 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
+		AA18690F1BE5AF8A00CD6455 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/System/Library/Frameworks/MobileCoreServices.framework; sourceTree = DEVELOPER_DIR; };
+		AA1869111BE5AFA200CD6455 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
+		AA1869131BE5AFAB00CD6455 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/System/Library/Frameworks/MessageUI.framework; sourceTree = DEVELOPER_DIR; };
 		AADE00641BE429C200912152 /* PayPalConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PayPalConfiguration.h; path = Headers/PayPalConfiguration.h; sourceTree = "<group>"; };
 		AADE00651BE429C200912152 /* PayPalFuturePaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PayPalFuturePaymentViewController.h; path = Headers/PayPalFuturePaymentViewController.h; sourceTree = "<group>"; };
 		AADE00661BE429C200912152 /* PayPalMobile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PayPalMobile.h; path = Headers/PayPalMobile.h; sourceTree = "<group>"; };
@@ -645,6 +654,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA1869161BE5B08900CD6455 /* MobileCoreServices.framework in Frameworks */,
+				AA1869151BE5AFB300CD6455 /* CoreLocation.framework in Frameworks */,
+				AA1869141BE5AFAB00CD6455 /* MessageUI.framework in Frameworks */,
+				AA1869121BE5AFA200CD6455 /* SystemConfiguration.framework in Frameworks */,
+				AA18690C1BE5AF6400CD6455 /* libPayPalMobile.a in Frameworks */,
 				03DE34B2B80471D2B656967B166E5ED9 /* Alamofire.framework in Frameworks */,
 				33AB1D67C12EA289CDD3741DBAC95E37 /* Foundation.framework in Frameworks */,
 				78319D58A5151826CD4F6D2E4678AF56 /* SnapKit.framework in Frameworks */,
@@ -1209,6 +1223,10 @@
 		DCCA9EFFF3974101A000137BED2F3A59 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AA1869131BE5AFAB00CD6455 /* MessageUI.framework */,
+				AA1869111BE5AFA200CD6455 /* SystemConfiguration.framework */,
+				AA18690F1BE5AF8A00CD6455 /* MobileCoreServices.framework */,
+				AA18690D1BE5AF7C00CD6455 /* CoreLocation.framework */,
 				FD26CB7AF6172D2D15E2F27CD3E0DE05 /* Alamofire.framework */,
 				8599C69F08B2EE6FE5F7437284A06A0F /* SnapKit.framework */,
 				A8EB68B6D121D9C805E7FF8A0521833F /* Stripe.framework */,
@@ -2158,6 +2176,10 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/PayPal-iOS-SDK/PayPalMobile",
+				);
 				MODULEMAP_FILE = "Target Support Files/accepton/accepton.modulemap";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "-Wl,-U,_OBJC_CLASS_$_PayPalConfiguration,-U,_OBJC_CLASS_$_PayPalMobile,-U,_OBJC_CLASS_$_PayPalPayment,-U,_OBJC_CLASS_$_PayPalPaymentViewController,-U,_OBJC_CLASS_$_PayPalShippingAddress,-U,_PayPalEnvironmentSandbox";
@@ -2350,6 +2372,10 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/PayPal-iOS-SDK/PayPalMobile",
+				);
 				MODULEMAP_FILE = "Target Support Files/accepton/accepton.modulemap";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-Wl,-U,_OBJC_CLASS_$_PayPalConfiguration,-U,_OBJC_CLASS_$_PayPalMobile,-U,_OBJC_CLASS_$_PayPalPayment,-U,_OBJC_CLASS_$_PayPalPaymentViewController,-U,_OBJC_CLASS_$_PayPalShippingAddress,-U,_PayPalEnvironmentSandbox";
