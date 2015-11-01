@@ -63,8 +63,6 @@ You may create more customized solutions through using the lower level api's:
   * [AcceptOnAPI](./docs/AcceptOnAPI.md) - The raw low-level networking API to talk to *AcceptOn*
   * [AcceptOnUIMachine](./docs/AcceptOnUIMachine.md) - Handles the semantics of the UI
 
-  
-
 ```swift
 import accepton
 ```
@@ -72,6 +70,8 @@ import accepton
 ## Libraries Used
   * [Alamofire](https://github.com/Alamofire/Alamofire/) - Elegant HTTP Networking in Swift
   * [SnapKit](http://snapkit.io) - An Autolayout DSL for iOS & OSX
+  * [Stripe Payment Kit](https://github.com/stripe/PaymentKit) - Easily accept payments through stripe on iOS
+  * [Paypal iOS SDK](https://github.com/paypal/PayPal-iOS-SDK) - See licensing restrictions
 
 ## Special thanks to:
   * [@HelloMany | Flat Credit-Card Icons](https://www.iconfinder.com/HelloMany) - Licensed under [CC Attribution](http://creativecommons.org/licenses/by/2.5/)
