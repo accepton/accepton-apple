@@ -14,6 +14,9 @@
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* AcceptOnAPISpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* AcceptOnAPISpec.swift */; };
 		8CB6C48E20B34F41541EAE71 /* Pods_accepton_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 448DC9D3D8A878B7D61866C6 /* Pods_accepton_Tests.framework */; };
+		AA1869051BE5801100CD6455 /* AcceptOnPriceTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1869041BE5801100CD6455 /* AcceptOnPriceTitleView.swift */; };
+		AA1869081BE5877500CD6455 /* AcceptOnFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1869071BE5877500CD6455 /* AcceptOnFooterView.swift */; };
+		AA18690B1BE5AEDB00CD6455 /* libPayPalMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA18690A1BE5AEDB00CD6455 /* libPayPalMobile.a */; };
 		AA287C0A1BDD73AE00C10DCF /* AcceptOnCreditCardFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA287C091BDD73AE00C10DCF /* AcceptOnCreditCardFormView.swift */; };
 		AA287C0C1BDD744600C10DCF /* AcceptOnCreditCardFormView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA287C0B1BDD744600C10DCF /* AcceptOnCreditCardFormView.xib */; };
 		AA287C121BDD7D7800C10DCF /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = AA287C111BDD7D7800C10DCF /* lock.png */; };
@@ -68,6 +71,9 @@
 		607FACEB1AFB9204008FA782 /* AcceptOnAPISpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptOnAPISpec.swift; sourceTree = "<group>"; };
 		8602CC063BC5F177EA38808C /* Pods-accepton_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-accepton_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-accepton_Example/Pods-accepton_Example.release.xcconfig"; sourceTree = "<group>"; };
 		A275D41E14815B65D4C1E8FB /* accepton.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = accepton.podspec; path = ../accepton.podspec; sourceTree = "<group>"; };
+		AA1869041BE5801100CD6455 /* AcceptOnPriceTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnPriceTitleView.swift; sourceTree = "<group>"; };
+		AA1869071BE5877500CD6455 /* AcceptOnFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnFooterView.swift; sourceTree = "<group>"; };
+		AA18690A1BE5AEDB00CD6455 /* libPayPalMobile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPayPalMobile.a; path = "Pods/PayPal-iOS-SDK/PayPalMobile/libPayPalMobile.a"; sourceTree = "<group>"; };
 		AA287C091BDD73AE00C10DCF /* AcceptOnCreditCardFormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnCreditCardFormView.swift; sourceTree = "<group>"; };
 		AA287C0B1BDD744600C10DCF /* AcceptOnCreditCardFormView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AcceptOnCreditCardFormView.xib; sourceTree = "<group>"; };
 		AA287C111BDD7D7800C10DCF /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock.png; sourceTree = "<group>"; };
@@ -105,6 +111,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA18690B1BE5AEDB00CD6455 /* libPayPalMobile.a in Frameworks */,
 				E8307E9328DEC22B1C53C273 /* Pods_accepton_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -132,6 +139,7 @@
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
+				AA18690A1BE5AEDB00CD6455 /* libPayPalMobile.a */,
 				607FACD21AFB9204008FA782 /* App */,
 				607FACE81AFB9204008FA782 /* Tests */,
 				AADE00511BE3EF1A00912152 /* Config */,
@@ -196,6 +204,16 @@
 				0203B965CEF9DA502F41F09E /* README.md */,
 			);
 			name = "Podspec Metadata";
+			sourceTree = "<group>";
+		};
+		AA1869061BE5801B00CD6455 /* AcceptOnViewController */ = {
+			isa = PBXGroup;
+			children = (
+				607FACD71AFB9204008FA782 /* AcceptOnViewController.swift */,
+				AA1869041BE5801100CD6455 /* AcceptOnPriceTitleView.swift */,
+				AA1869071BE5877500CD6455 /* AcceptOnFooterView.swift */,
+			);
+			name = AcceptOnViewController;
 			sourceTree = "<group>";
 		};
 		AA9016A41BE12D5A00C00E77 /* CreditCardForm */ = {
@@ -271,8 +289,8 @@
 		AADE00501BE3EEFE00912152 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				AA1869061BE5801B00CD6455 /* AcceptOnViewController */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
-				607FACD71AFB9204008FA782 /* AcceptOnViewController.swift */,
 				AA9016B41BE187CE00C00E77 /* ViewController.swift */,
 			);
 			name = Controllers;
@@ -525,9 +543,11 @@
 				AA9016AE1BE13B8200C00E77 /* AcceptOnPopButton.swift in Sources */,
 				AAB4728C1BDE63730071DEBC /* AcceptOnCreditCardCardNumBrandPop.swift in Sources */,
 				AA287C141BDD889E00C10DCF /* AcceptOnCreditCardValidatableField.swift in Sources */,
+				AA1869051BE5801100CD6455 /* AcceptOnPriceTitleView.swift in Sources */,
 				AA287C181BDD97E500C10DCF /* AcceptOnRoundedButton.swift in Sources */,
 				AA9016B51BE187CE00C00E77 /* ViewController.swift in Sources */,
 				AA3857111BE2471E00491040 /* UIImageColor.swift in Sources */,
+				AA1869081BE5877500CD6455 /* AcceptOnFooterView.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -659,9 +679,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
+				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = "$(inherited)/**";
 				INFOPLIST_FILE = accepton/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/PayPal-iOS-SDK/PayPalMobile",
+				);
 				MODULE_NAME = ExampleApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = ./accepton/bridge.h;
@@ -674,9 +699,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
+				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = "$(inherited)/**";
 				INFOPLIST_FILE = accepton/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/PayPal-iOS-SDK/PayPalMobile",
+				);
 				MODULE_NAME = ExampleApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = ./accepton/bridge.h;

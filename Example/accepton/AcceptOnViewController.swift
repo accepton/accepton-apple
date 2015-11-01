@@ -27,6 +27,12 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
     //'Center' conent window where the creditCardForm, choosePaymentTypeView, etc. go
     weak var contentView: UIView?
     
+    //Sits at the bottom with price & title
+    var priceTitleView: AcceptOnPriceTitleView!
+    
+    //Logo & lock at bottom
+    lazy var footer = AcceptOnFooterView()
+    
     //The top-center down-arrow button shown when you open the modal
     var exitButton: AcceptOnPopButton!
     
@@ -98,13 +104,35 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
         backButton.addTarget(self, action: "backWasClicked", forControlEvents: UIControlEvents.TouchUpInside)
         backButton.alpha = 0
         
+        //Footer
+        self.mainView.addSubview(footer)
+        footer.snp_makeConstraints { make in
+            make.bottom.equalTo(self.view.snp_bottom)
+            make.height.equalTo(30)
+            make.centerX.equalTo(self.view.snp_centerX)
+            make.width.equalTo(self.view.snp_width)
+            return
+        }
+        
+        //Show price & description at bottom
+        self.priceTitleView = AcceptOnPriceTitleView()
+        self.mainView.insertSubview(self.priceTitleView, belowSubview: footer)
+        
+        self.priceTitleView.snp_makeConstraints { make in
+            make.width.equalTo(self.view.snp_width)
+            make.height.equalTo(65)
+            make.centerX.equalTo(self.view.snp_centerX)
+            make.bottom.equalTo(self.footer.snp_top)
+            return
+        }
+        
         //Holds all content like form, buttons, etc.
         let contentView = UIView()
         self.contentView = contentView
-        self.mainView.addSubview(contentView)
+        self.mainView.insertSubview(contentView, belowSubview: priceTitleView)
         contentView.snp_makeConstraints { make in
             make.top.equalTo(self.exitButton.snp_bottom)
-            make.bottom.equalTo(self.view.snp_bottom)
+            make.bottom.equalTo(self.priceTitleView.snp_top)
             make.width.equalTo(self.mainView.snp_width)
             make.centerX.equalTo(self.mainView.snp_centerX)
             return
@@ -113,13 +141,14 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
         //Choose paypal, credit-card, etc.
         let choosePaymentTypeView = AcceptOnChoosePaymentTypeView()
         self.choosePaymentTypeView = choosePaymentTypeView
-        self.mainView.addSubview(choosePaymentTypeView)
+        self.contentView!.addSubview(choosePaymentTypeView)
         choosePaymentTypeView.snp_makeConstraints { make in
-            make.margins.equalTo(self.contentView!.snp_margins)
+            make.margins.equalTo(UIEdgeInsetsMake(0, 0, 0, 0))
             return
         }
         choosePaymentTypeView.delegate = self
         
+        //Start with loading spinner at start
         showWaitingWithAnimationAndDelay(nil)
     }
     
@@ -242,6 +271,10 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
         
         hideWaitingWithAnimationAndDelay(0);
         choosePaymentTypeView.animatePaymentButtonsIn()
+        
+        priceTitleView.price = options.uiAmount
+        priceTitleView.desc = options.itemDescription
+        priceTitleView.animateIn()
     }
     
     func acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName(name: String, withMessage msg: String) {
