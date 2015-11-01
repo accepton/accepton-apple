@@ -10,7 +10,7 @@ class ViewController : UIViewController, AcceptOnViewControllerDelegate {
         //Make sure we make ourselves a delegate so we can capture the 'cancel' delegate event
         if let avc = segue.destinationViewController as? AcceptOnViewController {
             avc.delegate = self
-            avc.itemDescription = "aoeuuoaeueoauaeoueoauaeouaoeuoe"
+            avc.itemDescription = "My Item Description"
             avc.amountInCents = 100
             avc.accessToken = "pkey_89f2cc7f2c423553"
         }

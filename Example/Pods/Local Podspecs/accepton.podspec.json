@@ -19,14 +19,18 @@
   "requires_arc": true,
   "source_files": [
     "Pod/Paypal/*.h",
-    "Pod/Classes/**/*.swift"
+    "Pod/CHRTextFieldFormatter/**/*",
+    "Pod/Classes/**/*"
   ],
   "resource_bundles": {
     "accepton": [
       "Pod/Assets/*"
     ]
   },
-  "public_header_files": "Pod/Paypal/**/*.h",
+  "public_header_files": [
+    "Pod/Paypal/**/*.h",
+    "Pod/CHRTextFieldFormatter/**/*.h"
+  ],
   "dependencies": {
     "Alamofire": [
       "~> 3.0"

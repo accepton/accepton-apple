@@ -83,6 +83,9 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate, UIPickerViewDeleg
         self.payButton
     ]
     
+    //Formatting of credit-card number
+    var cardNumberFormatter: CHRTextFieldFormatter!
+    
     //Sends back events to a delegate
     weak var delegate: AcceptOnCreditCardFormDelegate?
     
@@ -134,6 +137,9 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate, UIPickerViewDeleg
         //Make our form area rounded
         self.roundFormArea.layer.cornerRadius = 15
         self.roundFormArea.clipsToBounds = true
+        
+        //Setup credit-card number formatter
+        cardNumberFormatter = CHRTextFieldFormatter(textField: cardNumField, mask: CHRCardNumberMask())
         
         //Hide everything until we animate in
         self.alpha = 0
@@ -222,6 +228,11 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate, UIPickerViewDeleg
         //Re-calculate string of field based on changes (we can't get the current string because it hasn't updated yet)
         let newString = currentString.stringByReplacingCharactersInRange(range, withString: string)
         
+        //Card number formatting
+        if (fieldName == "cardNum") {
+            if !self.cardNumberFormatter.textField(textField, shouldChangeCharactersInRange: range, replacementString: string) { return false }
+        }
+        
         //Field length maximums, prevent further input
         if (fieldName == "security" && (newString as NSString).length > 4) { return false }  //Don't allow security field to be more than 4 chars
         if (fieldName == "expYear" && (newString as NSString).length > 2) { return false }   //Don't allow year field to be more than 2 chars
@@ -240,6 +251,16 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate, UIPickerViewDeleg
         }
     }
     
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        
+        if textField == emailField {
+                self.cardNumValidationView.viewWasTapped()
+        }
+        
+        return true
+    }
+    
     //-----------------------------------------------------------------------------------------------------
     //AcceptOnCreditCardFormDelegate handlers
     //-----------------------------------------------------------------------------------------------------
@@ -247,6 +268,9 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate, UIPickerViewDeleg
     func creditCardNumBrandWasUpdatedWithBrandName(name: String) {
         //Notify the bouncy image
         brandPop.switchToBrandWithName(name)
+        
+        //Changes type of number input based on brand, e.g. amex has 4 6 5
+        (cardNumberFormatter.mask as! CHRCardNumberMask).brand = name
     }
     
     //-----------------------------------------------------------------------------------------------------

@@ -223,6 +223,7 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
         if _waitingView == nil {
             //Add actual waiting view
             _waitingView = UIView()
+            _waitingView?.userInteractionEnabled = false
             self.view?.addSubview(_waitingView!)
             _waitingView!.snp_makeConstraints { make in
                 make.top.equalTo(self.view.snp_top)
@@ -305,7 +306,7 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
     }
     
     public func acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName(name: String, withMessage msg: String) {
-        creditCardForm.emphasizeErrorForFieldWithName(name, withMessage: msg)
+        creditCardForm.emphasizeErrorForFieldWithName(name, withMessage: msg)jjjj
     }
     
     public func acceptOnUIMachineCreditCardTypeDidChange(type: String) {

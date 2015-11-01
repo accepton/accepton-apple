@@ -34,10 +34,7 @@ pod 'Accepton', '~> 0.1'
 After you modify the `Podfile`, run `pod install` in the same directory as your modified `Podfile`.
 
 ### If you don't use CocoaPods, then:
-
-1. Clone or download the SDK, which consists of header files, a static library. It also includes a sample app.
-    * **As of version 2.12.0, the SDK requires Xcode 7 and iOS 8 SDK.**
-2. Add the `PayPalMobile` directory (containing several .h files and libPayPalMobile.a) to your Xcode project. We recommend checking "Copy items..." and selecting "Create groups...".
+1. Add the `AcceptOn` directory (containing several .h files and libPayPalMobile.a) to your Xcode project. We recommend checking "Copy items..." and selecting "Create groups...".
 3. (Optionally) Add the `CardIO` directory (containing several .h files, `libCardIO.a`, `libopencv_core.a`, and `libopencv_imgproc.a`) to your Xcode project. We recommend checking "Copy items..." and selecting "Create groups...". `libCardIO.a`, `libopencv_core.a`, and `libopencv_imgproc.a` adds the functionality to pay by scanning a card.
 4. In your project's **Build Settings** (in the `TARGETS` section, not the `PROJECTS` section):
   * add `-lc++ -ObjC` to `Other Linker Flags`
@@ -55,7 +52,16 @@ After you modify the `Podfile`, run `pod install` in the same directory as your 
   * `SafariServices.framework`
 
 ## Usage
-After choosing one of the above methods to install the Accepton iOS framework, there are two simple methods for getting started.j
+After choosing one of the above methods to install the Accepton iOS framework, there are two simple methods for getting started.
+
+### Storyboard Segues and Code
+
+#### Step 1
+<div style='text-align: center'>
+  <img src='./docs/images/sb_step1.png' style='width:800px;' />
+  <h6>Figure 1</h6>
+</div>
+
 
 ## Low Level Primitives
 You may create more customized solutions through using the lower level api's:
@@ -72,6 +78,7 @@ import accepton
   * [SnapKit](http://snapkit.io) - An Autolayout DSL for iOS & OSX
   * [Stripe Payment Kit](https://github.com/stripe/PaymentKit) - Easily accept payments through stripe on iOS
   * [Paypal iOS SDK](https://github.com/paypal/PayPal-iOS-SDK) - See licensing restrictions
+  * [CHRTextFieldFormatter](https://github.com/chebur/CHRTextFieldFormatter) - Elegant card-number formatting.
 
 ## Special thanks to:
   * [@HelloMany | Flat Credit-Card Icons](https://www.iconfinder.com/HelloMany) - Licensed under [CC Attribution](http://creativecommons.org/licenses/by/2.5/)

@@ -191,7 +191,12 @@ public class AcceptOnAPI {
                     completion(res: nil, error: AcceptOnAPIError.errorWithCode(.MalformedOrNonExistantData, failureReason: "AcceptOn's API returned data that could not be converted into JSON. It may be blank or malformed JSON."))
                 }
             case .Failure(let error):
-                completion(res: nil, error: AcceptOnAPIError.errorWithCode(.NetworkIssues, failureReason: "Could not connect to the network \(error)."))
+                puts("AcceptonAPI connection failed.  Retrying...")
+                let delay = Int64(1000) * Int64(NSEC_PER_MSEC)
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue(), { () -> Void in
+                    requestWithMethod(method, path: path, params: params, completion: completion)
+                })
+//                completion(res: nil, error: AcceptOnAPIError.errorWithCode(.NetworkIssues, failureReason: "Could not connect to the network \(error)."))
             }
         }
     }

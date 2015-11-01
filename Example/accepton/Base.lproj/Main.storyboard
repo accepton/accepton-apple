@@ -69,6 +69,7 @@
         <!--Accept On View Controller-->
         <scene sceneID="o2B-jo-Mvh">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mg6-Ie-vSc" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="3AT-wg-vuu" customClass="AcceptOnViewController" customModule="accepton" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6aK-Pd-vgG"/>
@@ -81,9 +82,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mg6-Ie-vSc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-50" y="85"/>
+            <point key="canvasLocation" x="-178" y="-386"/>
         </scene>
     </scenes>
     <resources>
