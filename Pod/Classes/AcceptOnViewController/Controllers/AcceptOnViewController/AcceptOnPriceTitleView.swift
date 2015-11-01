@@ -80,7 +80,7 @@ class AcceptOnPriceTitleView: UIView
             make.left.equalTo(blurView.snp_left).offset(10)
             make.top.equalTo(blurView.snp_top)
             make.bottom.equalTo(blurView.snp_bottom)
-            make.width.equalTo(100)
+            make.right.equalTo(priceLabel.snp_left).offset(-20)
             return
         }
         

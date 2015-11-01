@@ -45,18 +45,36 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
     var _mainView: UIVisualEffectView!
     var mainView: UIView { return _mainView.contentView }
     
+    //Access token, item description, and amount for AcceptOn transaction
+    public var accessToken: String?
+    public var itemDescription: String?
+    public var amountInCents: Int?
+    
     //-----------------------------------------------------------------------------------------------------
     //Constructors, Initializers, and UIViewController lifecycle
     //-----------------------------------------------------------------------------------------------------
+    
     override public func viewDidLoad() {
+        if accessToken == nil {
+            NSException(name: "AcceptOnViewController", reason: "Please set the accessToken (api key) property to your AcceptOn API key. `acceptOnViewController.accessToken = 'xxx'`", userInfo: nil).raise()
+        }
+        
+        if itemDescription == nil {
+            NSException(name: "AcceptOnViewController", reason: "Please set an itemDescription for what you are selling.  `acceptOnViewController.itemDescription = 'Shoes'`", userInfo: nil).raise()
+        }
+        
+        if amountInCents == nil {
+            NSException(name: "AcceptOnViewController", reason: "Please set an amountInCents for what you are selling.  `acceptOnViewController.amountInCents = 100`", userInfo: nil).raise()
+        }
+        
         //We're presenting over a view-controller, the underlying view-controller
         //should be visible
         self.view.backgroundColor = UIColor.clearColor()
         
         //Create the UIMachine to handle behaviours
-        uim = AcceptOnUIMachine(publicKey: "pkey_89f2cc7f2c423553")
+        uim = AcceptOnUIMachine(publicKey: accessToken!)
         uim.delegate = self
-        uim.beginForItemWithDescription("My Item", forAmountInCents: 125)
+        uim.beginForItemWithDescription(itemDescription!, forAmountInCents: amountInCents!)
         
         //Setup the main blur view, all child-views should go ontop of this view, nothing
         //should go on self.view besides this
