@@ -1,4 +1,5 @@
 import Alamofire
+import PassKit
 
 //See /docs/AcceptOnAPI.md for details of most classes and structs in this file
 
@@ -53,8 +54,9 @@ public struct AcceptOnAPIPaymentMethodsInfo {
     }
     
     public var supportsPaypal: Bool = false
-    public var supportsApplePay: Bool = true
-    
+    public var supportsApplePay: Bool {
+        return true
+    }
     public var processorInfo: [String:AnyObject]?
     
     //Tries to take the /v1/form/configure endpoint JSON info and convert it to

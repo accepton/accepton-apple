@@ -73,17 +73,42 @@ public class AcceptOnUIMachineFormOptions : NSObject {
         self.paymentMethods = paymentMethods
         super.init()
     }
+    
+    func createApplePayPaymentRequest() -> PKPaymentRequest {
+        let request = PKPaymentRequest()
+        request.currencyCode = "USD"
+        request.countryCode = "US"
+        request.merchantIdentifier = "merchant.com.accepton"
+        
+        let total = NSDecimalNumber(mantissa: UInt64(amountInCents), exponent: -2, isNegative: false)
+        let totalSummary = PKPaymentSummaryItem(label: "Total", amount: total)
+        
+        request.paymentSummaryItems = [totalSummary]
+        
+        if #available(iOS 9, *) {
+            request.supportedNetworks = [PKPaymentNetworkAmex, PKPaymentNetworkDiscover, PKPaymentNetworkMasterCard, PKPaymentNetworkVisa]
+            request.merchantCapabilities = [PKMerchantCapability.Capability3DS, PKMerchantCapability.CapabilityCredit, PKMerchantCapability.CapabilityDebit]
+        } else {
+            request.supportedNetworks = [PKPaymentNetworkAmex, PKPaymentNetworkMasterCard, PKPaymentNetworkVisa]
+            request.merchantCapabilities = [PKMerchantCapability.Capability3DS]
+        }
+        
+        
+        
+        return request
+    }
 }
 
 enum AcceptOnUIMachineState {
-    case Initialized      //begin has not been called
-    case BeginWasCalled   //In the middle of the begin
-    case PaymentForm      //begin succeeded
-    case WaitingForPaypal //Paypal dialog is open
-    case PaymentComplete  //Payment has completed
+    case Initialized        //begin has not been called
+    case BeginWasCalled     //In the middle of the begin
+    case PaymentForm        //begin succeeded
+    case WaitingForPaypal   //Paypal dialog is open
+    case WaitingForApplePay //ApplePay dialog is open
+    case PaymentComplete    //Payment has completed
 }
 
-public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate {
+public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate, AcceptOnUIMachineApplePayDriverDelegate {
     /* ######################################################################################### */
     /* Constructors & Members (Stage I)                                                          */
     /* ######################################################################################### */
@@ -169,9 +194,9 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate 
     
     //Called at the end of the beginForItemWithDescription sequence. By now, we've
     //loaded the tokenId & paymentMethods.
+    var options: AcceptOnUIMachineFormOptions!
     func postBegin() {
-        //Get our form options
-        let options = AcceptOnUIMachineFormOptions(token: self.tokenObject!, paymentMethods: self.paymentMethods!)
+        options = AcceptOnUIMachineFormOptions(token: self.tokenObject!, paymentMethods: self.paymentMethods!)
         
         //Signal that we should show the form
         self.delegate?.acceptOnUIMachineDidFinishBeginWithFormOptions?(options)
@@ -586,5 +611,49 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate 
         state = .PaymentForm
         
         delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("paypal")
+    }
+    
+    /* ######################################################################################### */
+    /* ApplePay specifics                                                                        */
+    /* ######################################################################################### */
+    lazy var applePayDriver: AcceptOnUIMachineApplePayDriver = AcceptOnUIMachineApplePayDriver()
+    public func applePayClicked() {
+        if state != .PaymentForm { return }
+        
+        self.state = .WaitingForApplePay
+        //Wait 1500ms so there is time to show something like a loading screen to the user
+        let delay = Int64(1500) * Int64(NSEC_PER_MSEC)
+        let time = dispatch_time(DISPATCH_TIME_NOW, delay)
+        dispatch_after(time, dispatch_get_main_queue()) { [weak self] in
+            self?.applePayDriver.delegate = self
+            self?.applePayDriver.beginApplePayTransactionForPaymentRequest(self!.options.createApplePayPaymentRequest())
+        }
+        
+        delegate?.acceptOnUIMachinePaymentIsProcessing?("apple_pay")
+    }
+    
+    //AcceptOnUIMachinePaypalDriverDelegate Handlers
+    func applePayTransactionDidFailWithMessage(message: String) {
+        if state != .WaitingForApplePay { return }
+        state = .PaymentForm
+        
+        delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("apple_pay")
+        delegate?.acceptOnUIMachinePaymentErrorWithMessage?(message)
+    }
+    
+    func applePayTransactionDidSucceed() {
+        //We could double charge if this goes catastrophically wrong, so let it
+        //trigger the transaction completion under any conditions
+        //        if state != .WaitingForPaypal { return }
+        
+        state = .PaymentComplete
+        delegate?.acceptOnUIMachinePaymentDidSucceed?()
+    }
+    
+    func applePayTransactionDidCancel() {
+        if state != .WaitingForApplePay { return }
+        state = .PaymentForm
+        
+        delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("apple_pay")
     }
 }

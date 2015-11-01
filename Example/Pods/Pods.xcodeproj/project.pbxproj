@@ -168,6 +168,8 @@
 		A2E08E9D5489CBEA513A18FF7529B4BF /* stp_card_amex@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C70B4E1B07EE2DC2E0C4A9B68D259141 /* stp_card_amex@3x.png */; };
 		A611B17F22FDCDDE01D2F2101C7C9249 /* stp_card_cvc_amex@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 061A029E02189B02FC3B93D31157225B /* stp_card_cvc_amex@3x.png */; };
 		A9129AA85A0D54A0EBB8B9FD0F0C47F4 /* AcceptOnFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3C65256FE5F52380BBCF0FCB5BACA2 /* AcceptOnFooterView.swift */; };
+		AA1869DE1BE6754D00CD6455 /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1869DD1BE6754D00CD6455 /* PassKit.framework */; };
+		AA1869E01BE6766800CD6455 /* ApplePay.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1869DF1BE6766800CD6455 /* ApplePay.swift */; };
 		AA3C08F5BB3F339B08CAD27A087E6C50 /* stp_card_placeholder_template.png in Resources */ = {isa = PBXBuildFile; fileRef = C3AF9E9ACB19EFA2FFCBE5D8ED258AC0 /* stp_card_placeholder_template.png */; };
 		AC8CD54E63D780050C078B7BE0F270B5 /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CD3E4634D8D6B9B11AD7FC412899B6 /* Download.swift */; };
 		AD2357C9FB769C64F905B8429B824012 /* stp_card_cvc.png in Resources */ = {isa = PBXBuildFile; fileRef = D8E48CB8457F44D2E22D75066ECF2602 /* stp_card_cvc.png */; };
@@ -558,6 +560,8 @@
 		A742C6E81F61180C8E2BBB5897105274 /* accepton.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = accepton.modulemap; sourceTree = "<group>"; };
 		A8EB68B6D121D9C805E7FF8A0521833F /* Stripe.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Stripe.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A986A2F78D4A96D217E3473E1AC6A896 /* LayoutConstraint.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LayoutConstraint.swift; path = Source/LayoutConstraint.swift; sourceTree = "<group>"; };
+		AA1869DD1BE6754D00CD6455 /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/System/Library/Frameworks/PassKit.framework; sourceTree = DEVELOPER_DIR; };
+		AA1869DF1BE6766800CD6455 /* ApplePay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplePay.swift; sourceTree = "<group>"; };
 		AC888C1402BAE027FCEA96896E41D069 /* PayPalPaymentViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = PayPalPaymentViewController.h; sourceTree = "<group>"; };
 		AD14B27EDF96704B295BF9519C3D97BD /* STPIOSCheckoutWebViewAdapter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = STPIOSCheckoutWebViewAdapter.h; path = Stripe/Checkout/STPIOSCheckoutWebViewAdapter.h; sourceTree = "<group>"; };
 		AD192B896B267078EBF1F539DD297B60 /* STPCardBrand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = STPCardBrand.h; path = Stripe/PublicHeaders/STPCardBrand.h; sourceTree = "<group>"; };
@@ -706,6 +710,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA1869DE1BE6754D00CD6455 /* PassKit.framework in Frameworks */,
 				7B874048B622E22D7B4A920FB492A0D6 /* Alamofire.framework in Frameworks */,
 				5473A43EF0F596023F4A15E6C41F0565 /* Foundation.framework in Frameworks */,
 				74D1183F1AB66221A78AE5AC23E1A60D /* SnapKit.framework in Frameworks */,
@@ -786,6 +791,7 @@
 			isa = PBXGroup;
 			children = (
 				FD560CFE11451B7D7DA32B567B49752C /* Paypal.swift */,
+				AA1869DF1BE6766800CD6455 /* ApplePay.swift */,
 			);
 			path = Drivers;
 			sourceTree = "<group>";
@@ -1309,6 +1315,7 @@
 		DCCA9EFFF3974101A000137BED2F3A59 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AA1869DD1BE6754D00CD6455 /* PassKit.framework */,
 				FD26CB7AF6172D2D15E2F27CD3E0DE05 /* Alamofire.framework */,
 				8599C69F08B2EE6FE5F7437284A06A0F /* SnapKit.framework */,
 				A8EB68B6D121D9C805E7FF8A0521833F /* Stripe.framework */,
@@ -1823,6 +1830,7 @@
 				E817E0143F00683BC6966A238EC2A094 /* AcceptOnBundleHelper.swift in Sources */,
 				FD2F2EB77BAA5F8EF86C9BD2F0D439FF /* AcceptOnChoosePaymentTypeView.swift in Sources */,
 				22C59C110F447630B2D75022D6F6560D /* AcceptOnCreditCardCardNumBrandPop.swift in Sources */,
+				AA1869E01BE6766800CD6455 /* ApplePay.swift in Sources */,
 				F75A04F59239F6E025279A2648424AB3 /* AcceptOnCreditCardFormView.swift in Sources */,
 				A0F95082665B44B25E6A88BEB6415EC2 /* AcceptOnCreditCardValidatableField.swift in Sources */,
 				A9129AA85A0D54A0EBB8B9FD0F0C47F4 /* AcceptOnFooterView.swift in Sources */,

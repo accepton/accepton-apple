@@ -43,7 +43,8 @@
     "MobileCoreServices",
     "MessageUI",
     "CoreLocation",
-    "Accelerate"
+    "Accelerate",
+    "PassKit"
   ],
   "pod_target_xcconfig": {
     "OTHER_LDFLAGS": "-ObjC -lPayPalMobile",

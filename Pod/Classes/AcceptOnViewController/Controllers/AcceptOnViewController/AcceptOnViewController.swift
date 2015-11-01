@@ -293,7 +293,7 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
     }
     
     public func acceptOnUIMachinePaymentDidAbortPaymentMethodWithName(name: String) {
-        if name == "paypal" {
+        if name == "paypal" || name == "apple_pay" {
             //Animate loading spinner out
             hideWaitingWithAnimationAndDelay(0.3)
             
@@ -397,6 +397,8 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
             uim.paypalClicked()
             
             return
+        } else if (name == "apple_pay") {
+            uim.applePayClicked()
         } else if (name == "credit_card") {
             //As credit-card is a special-case of the UIMachine,
             //we have to handle that by itself
