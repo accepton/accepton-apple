@@ -1,5 +1,6 @@
 import UIKit
-import accepton
+import PassKit
+import BUYPaymentButton
 
 @objc protocol AcceptOnChoosePaymentTypeViewDelegate {
     //Returns the payment method chosen such as 'paypal', 'credit_card', etc.
@@ -21,6 +22,12 @@ class AcceptOnChoosePaymentTypeView: UIView
         
         set {
             _paymentMethods = newValue
+            
+            //As per apple docs, apple pay must be first
+            _paymentMethods?.sortInPlace({ (a, b) -> Bool in
+                if a == "apple_pay" { return true }
+                return false
+            })
             updatePaymentMethodsInView()
         }
     }
@@ -102,7 +109,7 @@ class AcceptOnChoosePaymentTypeView: UIView
         paymentMethodButtonsView = UIView()
         self.addSubview(paymentMethodButtonsView!)
         paymentMethodButtonsView!.snp_makeConstraints { make in
-            make.top.equalTo(headerLabel.snp_bottom)
+            make.top.equalTo(headerLabel.snp_bottom).offset(10)
             make.bottom.equalTo(self.snp_bottom)
             make.left.equalTo(self.snp_left)
             make.right.equalTo(self.snp_right)
@@ -198,22 +205,28 @@ class AcceptOnChoosePaymentTypeView: UIView
     }
     
     func addApplePay() {
-        let button = AcceptOnPopButton()
-        paymentMethodButtonsView?.addSubview(button)
+//        paymentMethodButtonsView?.addSubview(button)
+//        let image = AcceptOnBundle.UIImageNamed("checkout_with_apple_pay")
+//        let imageView = UIImageView(image: image)
+//        button.addSubview(imageView)
+//        imageView.snp_makeConstraints { make in
+//            make.margins.equalTo(UIEdgeInsetsMake(0, 0, 0, 0))
+//            return
+//        }
+//        button.innerView = imageView
+//        imageView.contentMode = UIViewContentMode.ScaleAspectFit
         
-        let image = AcceptOnBundle.UIImageNamed("checkout_with_apple_pay")
-        let imageView = UIImageView(image: image)
-        button.addSubview(imageView)
-        imageView.snp_makeConstraints { make in
-            make.margins.equalTo(UIEdgeInsetsMake(0, 0, 0, 0))
-            return
-        }
-        button.innerView = imageView
-        imageView.contentMode = UIViewContentMode.ScaleAspectFit
+        //Add an apple-pay button through the vector artwork
+        let button = AcceptOnPopButton()
+        let applePayImage = BUYPaymentButton(type: .Plain, style: .Black)
+        applePayImage.userInteractionEnabled = false
+        button.addSubview(applePayImage)
+        button.innerView = applePayImage
+        paymentMethodButtonsView?.addSubview(button)
         
         paymentMethodButtons.append(button)
         paymentMethodButtonsToName[button] = "apple_pay"
-        paymentMethodButtonAspectRatios.append(Double(image!.size.width/image!.size.height))
+        paymentMethodButtonAspectRatios.append(2.2)
         button.addTarget(self, action: "paymentMethodButtonWasClicked:", forControlEvents:.TouchUpInside)
     }
     

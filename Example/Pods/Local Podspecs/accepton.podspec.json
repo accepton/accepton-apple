@@ -36,6 +36,9 @@
     ],
     "Stripe": [
 
+    ],
+    "BUYPaymentButton": [
+
     ]
   },
   "weak_frameworks": [

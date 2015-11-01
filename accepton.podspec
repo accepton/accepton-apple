@@ -40,6 +40,7 @@ A swift library for processing payments through the AcceptOn API which elegantly
   s.dependency 'Alamofire', '~> 3.0'
   s.dependency 'SnapKit'
   s.dependency 'Stripe'
+  s.dependency 'BUYPaymentButton'
   s.weak_framework = 'SystemConfiguration', 'MobileCoreServices', 'MessageUI', 'CoreLocation', 'Accelerate', 'PassKit'
   s.resource_bundle = {'accepton' => ['Pod/Assets/*']}
 

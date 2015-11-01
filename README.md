@@ -35,7 +35,7 @@ After you modify the `Podfile`, run `pod install` in the same directory as your 
 
 ### If you don't use CocoaPods, then:
 
-1. Clone or download the SDK, which consists of header files, license acknowledgements, release notes, and a static library. It also includes a sample app.
+1. Clone or download the SDK, which consists of header files, a static library. It also includes a sample app.
     * **As of version 2.12.0, the SDK requires Xcode 7 and iOS 8 SDK.**
 2. Add the `PayPalMobile` directory (containing several .h files and libPayPalMobile.a) to your Xcode project. We recommend checking "Copy items..." and selecting "Create groups...".
 3. (Optionally) Add the `CardIO` directory (containing several .h files, `libCardIO.a`, `libopencv_core.a`, and `libopencv_imgproc.a`) to your Xcode project. We recommend checking "Copy items..." and selecting "Create groups...". `libCardIO.a`, `libopencv_core.a`, and `libopencv_imgproc.a` adds the functionality to pay by scanning a card.
