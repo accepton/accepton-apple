@@ -35,10 +35,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H7I-5r-JIp">
-                    <rect key="frame" x="10" y="30" width="580" height="560"/>
+                    <rect key="frame" x="10" y="10" width="580" height="580"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e8o-Jv-tYk">
-                            <rect key="frame" x="0.0" y="0.0" width="580" height="560"/>
+                            <rect key="frame" x="0.0" y="0.0" width="580" height="580"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OPZ-tw-1lX">
                                     <rect key="frame" x="90" y="0.0" width="400" height="255"/>
@@ -322,11 +322,11 @@
                                     <animations/>
                                     <color key="backgroundColor" red="0.964622641509434" green="0.964622641509434" blue="0.964622641509434" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="1wB-bq-Ufs" secondAttribute="bottom" constant="20" id="8fE-fb-5SZ"/>
-                                        <constraint firstItem="1wB-bq-Ufs" firstAttribute="top" secondItem="OPZ-tw-1lX" secondAttribute="top" constant="20" id="Nvo-dL-wD5"/>
-                                        <constraint firstItem="1wB-bq-Ufs" firstAttribute="leading" secondItem="OPZ-tw-1lX" secondAttribute="leading" constant="20" id="gsV-Xv-aN6"/>
+                                        <constraint firstAttribute="bottom" secondItem="1wB-bq-Ufs" secondAttribute="bottom" priority="999" constant="20" id="8fE-fb-5SZ"/>
+                                        <constraint firstItem="1wB-bq-Ufs" firstAttribute="top" secondItem="OPZ-tw-1lX" secondAttribute="top" priority="999" constant="20" id="Nvo-dL-wD5"/>
+                                        <constraint firstItem="1wB-bq-Ufs" firstAttribute="leading" secondItem="OPZ-tw-1lX" secondAttribute="leading" priority="999" constant="20" id="gsV-Xv-aN6"/>
                                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="400" id="nJL-km-FM8"/>
-                                        <constraint firstAttribute="trailing" secondItem="1wB-bq-Ufs" secondAttribute="trailing" constant="20" id="twm-Z9-pCm"/>
+                                        <constraint firstAttribute="trailing" secondItem="1wB-bq-Ufs" secondAttribute="trailing" priority="999" constant="20" id="twm-Z9-pCm"/>
                                     </constraints>
                                 </view>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eQA-F0-IBu" customClass="AcceptOnRoundedButton" customModule="accepton" customModuleProvider="target">
@@ -352,6 +352,7 @@
                                 <constraint firstItem="OPZ-tw-1lX" firstAttribute="width" relation="lessThanOrEqual" secondItem="e8o-Jv-tYk" secondAttribute="width" id="EbW-gt-b6j"/>
                                 <constraint firstItem="eQA-F0-IBu" firstAttribute="top" secondItem="OPZ-tw-1lX" secondAttribute="bottom" constant="10" id="VxW-fz-ten"/>
                                 <constraint firstItem="eQA-F0-IBu" firstAttribute="centerX" secondItem="e8o-Jv-tYk" secondAttribute="centerX" id="eIK-FB-EVF"/>
+                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="eQA-F0-IBu" secondAttribute="bottom" id="rnl-Ca-vuh"/>
                                 <constraint firstItem="OPZ-tw-1lX" firstAttribute="centerX" secondItem="e8o-Jv-tYk" secondAttribute="centerX" id="tfZ-Js-1mh"/>
                                 <constraint firstItem="OPZ-tw-1lX" firstAttribute="width" secondItem="e8o-Jv-tYk" secondAttribute="width" priority="999" id="zAh-Ev-S8F"/>
                             </constraints>
@@ -369,7 +370,7 @@
             </subviews>
             <animations/>
             <constraints>
-                <constraint firstItem="H7I-5r-JIp" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="30" id="MGv-61-Bdq"/>
+                <constraint firstItem="H7I-5r-JIp" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="MGv-61-Bdq"/>
                 <constraint firstAttribute="bottom" secondItem="H7I-5r-JIp" secondAttribute="bottom" constant="10" id="dXb-TE-i5g"/>
                 <constraint firstItem="H7I-5r-JIp" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="eiL-rc-NEc"/>
                 <constraint firstAttribute="trailing" secondItem="H7I-5r-JIp" secondAttribute="trailing" constant="10" id="u47-bY-C63"/>

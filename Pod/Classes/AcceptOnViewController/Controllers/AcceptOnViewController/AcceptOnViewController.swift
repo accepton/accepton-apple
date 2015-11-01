@@ -132,7 +132,7 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
         self.contentView = contentView
         self.mainView.insertSubview(contentView, belowSubview: priceTitleView)
         contentView.snp_makeConstraints { make in
-            make.top.equalTo(self.exitButton.snp_bottom)
+            make.top.equalTo(self.exitButton.snp_bottom).offset(-10)
             make.bottom.equalTo(self.priceTitleView.snp_top)
             make.width.equalTo(self.mainView.snp_width)
             make.centerX.equalTo(self.mainView.snp_centerX)
@@ -384,8 +384,8 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
             //4s sizes
             let screenHeight = UIScreen.mainScreen().bounds.size.height
             if screenHeight < 500 {
-                self.creditCardForm.layer.transform = CATransform3DMakeTranslation(0, -95, 0)
-                self.creditCardForm.payButton.layer.transform = CATransform3DMakeTranslation(0, -25, 0)
+                self.creditCardForm.layer.transform = CATransform3DMakeTranslation(0, -85, 0)
+                self.creditCardForm.payButton.layer.transform = CATransform3DMakeTranslation(0, -15, 0)
             } else {
                 self.creditCardForm.layer.transform = CATransform3DMakeTranslation(0, -55, 0)
             }
