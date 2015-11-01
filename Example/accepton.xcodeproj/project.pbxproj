@@ -80,7 +80,6 @@
 		AA3857101BE2471E00491040 /* UIImageColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageColor.swift; sourceTree = "<group>"; };
 		AA3857141BE267D400491040 /* blur_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blur_bg.png; sourceTree = "<group>"; };
 		AA3857161BE26A1B00491040 /* accepton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = accepton.png; sourceTree = "<group>"; };
-		AA3857181BE2B9B700491040 /* bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = bridge.h; path = accepton/bridge.h; sourceTree = "<group>"; };
 		AA4950401BDFE78500FE70C7 /* checkout_with_apple_pay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkout_with_apple_pay.png; sourceTree = "<group>"; };
 		AA4950421BDFE78A00FE70C7 /* checkout_with_paypal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkout_with_paypal.png; sourceTree = "<group>"; };
 		AA4950441BDFE78F00FE70C7 /* checkout_with_credit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkout_with_credit.png; sourceTree = "<group>"; };
@@ -295,7 +294,6 @@
 		AADE00511BE3EF1A00912152 /* Config */ = {
 			isa = PBXGroup;
 			children = (
-				AA3857181BE2B9B700491040 /* bridge.h */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACD11AFB9204008FA782 /* Products */,
@@ -684,8 +682,19 @@
 					"$(PROJECT_DIR)/Pods/PayPal-iOS-SDK/PayPalMobile",
 				);
 				MODULE_NAME = ExampleApp;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"SnapKit\"",
+					"-framework",
+					"\"Stripe\"",
+					"-framework",
+					"\"accepton\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = ./accepton/bridge.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Debug;
 		};
@@ -704,8 +713,19 @@
 					"$(PROJECT_DIR)/Pods/PayPal-iOS-SDK/PayPalMobile",
 				);
 				MODULE_NAME = ExampleApp;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"SnapKit\"",
+					"-framework",
+					"\"Stripe\"",
+					"-framework",
+					"\"accepton\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = ./accepton/bridge.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Release;
 		};

@@ -35,9 +35,16 @@
 
     ]
   },
+  "weak_frameworks": [
+    "SystemConfiguration",
+    "MobileCoreServices",
+    "MessageUI",
+    "CoreLocation",
+    "Accelerate"
+  ],
   "pod_target_xcconfig": {
-    "OTHER_LDFLAGS": "-lPayPalMobile",
-    "LIBRARY_SEARCH_PATHS": "./**/*",
+    "OTHER_LDFLAGS": "-ObjC -lPayPalMobile",
+    "LIBRARY_SEARCH_PATHS": "${PODS_ROOT}/../../Pod/Paypal",
     "USER_HEADER_SEARCH_PATHS": "${PODS_ROOT}/../../Pod/Paypal"
   }
 }

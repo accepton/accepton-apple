@@ -145,6 +145,13 @@
 		A7053CD8CA93F1D9DB207EE8875495CA /* stp_card_jcb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44295360BBEBB90B867C462F8C2E8608 /* stp_card_jcb@2x.png */; };
 		A72CBE2F0E5D8F49FEB5B185F4161CF1 /* ConstraintAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593C0353FDA8B1D27B96E66DE144AE0A /* ConstraintAttributes.swift */; };
 		A9B20F1F986132BA3255AF914A313632 /* ResponseSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CFA249AF446DF3BE8C4CA482DD8EE1 /* ResponseSerialization.swift */; };
+		AA1869911BE5CC0800CD6455 /* PayPalConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = AA18698A1BE5CC0800CD6455 /* PayPalConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA1869921BE5CC0800CD6455 /* PayPalFuturePaymentViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = AA18698B1BE5CC0800CD6455 /* PayPalFuturePaymentViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA1869931BE5CC0800CD6455 /* PayPalMobile.h in Headers */ = {isa = PBXBuildFile; fileRef = AA18698C1BE5CC0800CD6455 /* PayPalMobile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA1869941BE5CC0800CD6455 /* PayPalOAuthScopes.h in Headers */ = {isa = PBXBuildFile; fileRef = AA18698D1BE5CC0800CD6455 /* PayPalOAuthScopes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA1869951BE5CC0800CD6455 /* PayPalPayment.h in Headers */ = {isa = PBXBuildFile; fileRef = AA18698E1BE5CC0800CD6455 /* PayPalPayment.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA1869961BE5CC0800CD6455 /* PayPalPaymentViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = AA18698F1BE5CC0800CD6455 /* PayPalPaymentViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA1869971BE5CC0800CD6455 /* PayPalProfileSharingViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = AA1869901BE5CC0800CD6455 /* PayPalProfileSharingViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB330F04F3482FA17163ED12FAE3F70F /* STPFormTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 5500C83CAA94E845B8F973F4DCB9E434 /* STPFormTextField.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		AC07422A3D6ECDAD638505DA0F7DCF31 /* STPOSXCheckoutWebViewAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E716336A71E3BE89E3551AAB0D77B8 /* STPOSXCheckoutWebViewAdapter.m */; };
 		AD3E2EE6A6226C816980B1454135EE0C /* Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5069F70238987AAA3A158F9E3FAA5A0B /* Example.swift */; };
@@ -506,6 +513,13 @@
 		A71349C60BE0646838FEE976D514D0E0 /* Pods-accepton_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-accepton_Example-frameworks.sh"; sourceTree = "<group>"; };
 		A8EB68B6D121D9C805E7FF8A0521833F /* Stripe.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Stripe.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A986A2F78D4A96D217E3473E1AC6A896 /* LayoutConstraint.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LayoutConstraint.swift; path = Source/LayoutConstraint.swift; sourceTree = "<group>"; };
+		AA18698A1BE5CC0800CD6455 /* PayPalConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PayPalConfiguration.h; path = ../../Pod/Paypal/PayPalConfiguration.h; sourceTree = "<group>"; };
+		AA18698B1BE5CC0800CD6455 /* PayPalFuturePaymentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PayPalFuturePaymentViewController.h; path = ../../Pod/Paypal/PayPalFuturePaymentViewController.h; sourceTree = "<group>"; };
+		AA18698C1BE5CC0800CD6455 /* PayPalMobile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PayPalMobile.h; path = ../../Pod/Paypal/PayPalMobile.h; sourceTree = "<group>"; };
+		AA18698D1BE5CC0800CD6455 /* PayPalOAuthScopes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PayPalOAuthScopes.h; path = ../../Pod/Paypal/PayPalOAuthScopes.h; sourceTree = "<group>"; };
+		AA18698E1BE5CC0800CD6455 /* PayPalPayment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PayPalPayment.h; path = ../../Pod/Paypal/PayPalPayment.h; sourceTree = "<group>"; };
+		AA18698F1BE5CC0800CD6455 /* PayPalPaymentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PayPalPaymentViewController.h; path = ../../Pod/Paypal/PayPalPaymentViewController.h; sourceTree = "<group>"; };
+		AA1869901BE5CC0800CD6455 /* PayPalProfileSharingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PayPalProfileSharingViewController.h; path = ../../Pod/Paypal/PayPalProfileSharingViewController.h; sourceTree = "<group>"; };
 		AD14B27EDF96704B295BF9519C3D97BD /* STPIOSCheckoutWebViewAdapter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = STPIOSCheckoutWebViewAdapter.h; path = Stripe/Checkout/STPIOSCheckoutWebViewAdapter.h; sourceTree = "<group>"; };
 		AD192B896B267078EBF1F539DD297B60 /* STPCardBrand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = STPCardBrand.h; path = Stripe/PublicHeaders/STPCardBrand.h; sourceTree = "<group>"; };
 		AD7BDE3DC141A28839AF450329F6CC79 /* ConstraintMaker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintMaker.swift; path = Source/ConstraintMaker.swift; sourceTree = "<group>"; };
@@ -927,6 +941,13 @@
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
+				AA18698A1BE5CC0800CD6455 /* PayPalConfiguration.h */,
+				AA18698B1BE5CC0800CD6455 /* PayPalFuturePaymentViewController.h */,
+				AA18698C1BE5CC0800CD6455 /* PayPalMobile.h */,
+				AA18698D1BE5CC0800CD6455 /* PayPalOAuthScopes.h */,
+				AA18698E1BE5CC0800CD6455 /* PayPalPayment.h */,
+				AA18698F1BE5CC0800CD6455 /* PayPalPaymentViewController.h */,
+				AA1869901BE5CC0800CD6455 /* PayPalProfileSharingViewController.h */,
 				BA6428E9F66FD5A23C0A2E06ED26CD2F /* Podfile */,
 				B257B9DE03D4F3C9EE817EDE9C850B37 /* Development Pods */,
 				DCCA9EFFF3974101A000137BED2F3A59 /* Frameworks */,
@@ -1190,6 +1211,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				74B6D89907B45FEED9DC2F86B26CD80B /* accepton-umbrella.h in Headers */,
+				AA1869911BE5CC0800CD6455 /* PayPalConfiguration.h in Headers */,
+				AA1869921BE5CC0800CD6455 /* PayPalFuturePaymentViewController.h in Headers */,
+				AA1869931BE5CC0800CD6455 /* PayPalMobile.h in Headers */,
+				AA1869941BE5CC0800CD6455 /* PayPalOAuthScopes.h in Headers */,
+				AA1869951BE5CC0800CD6455 /* PayPalPayment.h in Headers */,
+				AA1869961BE5CC0800CD6455 /* PayPalPaymentViewController.h in Headers */,
+				AA1869971BE5CC0800CD6455 /* PayPalProfileSharingViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

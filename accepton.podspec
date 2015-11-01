@@ -39,6 +39,7 @@ A swift library for processing payments through the AcceptOn API which elegantly
   s.dependency 'Alamofire', '~> 3.0'
   s.dependency 'SnapKit'
   s.dependency 'Stripe'
+  s.weak_framework = 'SystemConfiguration', 'MobileCoreServices', 'MessageUI', 'CoreLocation', 'Accelerate'
 
-  s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-lPayPalMobile', 'LIBRARY_SEARCH_PATHS' => './**/*', 'USER_HEADER_SEARCH_PATHS' => "${PODS_ROOT}/../../Pod/Paypal"}
+  s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-ObjC -lPayPalMobile', 'LIBRARY_SEARCH_PATHS' => '${PODS_ROOT}/../../Pod/Paypal', 'USER_HEADER_SEARCH_PATHS' => "${PODS_ROOT}/../../Pod/Paypal"}
 end
