@@ -82,7 +82,7 @@ class AcceptOnChoosePaymentTypeView: UIView
             make.top.equalTo(self.snp_top).offset(0)
             make.centerX.equalTo(self.snp_centerX)
             make.width.equalTo(self.snp_width)
-            make.height.equalTo(90)
+            make.height.equalTo(80)
             return
         }
     }

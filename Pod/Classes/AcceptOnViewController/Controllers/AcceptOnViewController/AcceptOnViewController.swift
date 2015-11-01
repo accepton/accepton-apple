@@ -76,9 +76,11 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
         let exitButtonImageView = UIImageView(image: image)
         exitButton.addSubview(exitButtonImageView)
         exitButton.innerView = exitButtonImageView
+        exitButtonImageView.contentMode = .ScaleAspectFit
+        exitButton.padding = 14
         exitButton.snp_makeConstraints { make in
-            make.width.equalTo(23)
-            make.height.equalTo(23)
+            make.width.equalTo(self.view.snp_width)
+            make.height.equalTo(45)
             make.centerX.equalTo(self.view.snp_centerX)
             make.top.equalTo(self.view.snp_top).offset(30)
             return
