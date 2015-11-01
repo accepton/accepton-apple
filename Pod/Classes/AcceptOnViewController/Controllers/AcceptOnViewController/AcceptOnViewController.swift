@@ -1,5 +1,4 @@
 import UIKit
-import accepton
 import SnapKit
 
 @objc public protocol AcceptOnViewControllerDelegate {
