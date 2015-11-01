@@ -5,7 +5,6 @@
 [![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/sotownsend/accepton-apple/blob/master/LICENSE)
 [![Build Status](https://travis-ci.org/sotownsend/accepton-apple.svg?branch=master)](https://travis-ci.org/sotownsend/)
 [![CocoaPods Version](https://img.shields.io/cocoapods/v/accepton.svg)](https://img.shields.io/cocoapods/v/accepton-apple.svg)
-[![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Platform](https://img.shields.io/badge/Platforms-ios%20%7C%20osx%20%7C%20watchos%20%7C%20tvos-ff69b4.svg)](https://developer.apple.com)
 
 ## What is this?
@@ -34,28 +33,29 @@ pod 'Accepton', '~> 0.1'
 
 After you modify the `Podfile`, run `pod install` in the same directory as your modified `Podfile`.
 
-## Carthage
+### If you don't use CocoaPods, then:
 
-[Carthage](https://github.com/Carthage/Carthage) is a dependency manager focused on simplicity that has no central repository. We rely
-on github to act as our repository for Carthage.
-
-If you haven't already, you may install *Carthage* via [Homebrew](http://brew.sh):
-
-```bash
-$ brew update
-$ brew install carthage
-```
-
-Next, modify your `Cartfile` to include:
-
-```ogdl
-github "AcceptOn/AcceptOn" ~> 0.1
-```
-
-Then run `cartchage` in the same directory as your modified `Cartfile` and drag `AcceptOn.framework` into the `Frameworks` group of your *XCode* project.
+1. Clone or download the SDK, which consists of header files, license acknowledgements, release notes, and a static library. It also includes a sample app.
+    * **As of version 2.12.0, the SDK requires Xcode 7 and iOS 8 SDK.**
+2. Add the `PayPalMobile` directory (containing several .h files and libPayPalMobile.a) to your Xcode project. We recommend checking "Copy items..." and selecting "Create groups...".
+3. (Optionally) Add the `CardIO` directory (containing several .h files, `libCardIO.a`, `libopencv_core.a`, and `libopencv_imgproc.a`) to your Xcode project. We recommend checking "Copy items..." and selecting "Create groups...". `libCardIO.a`, `libopencv_core.a`, and `libopencv_imgproc.a` adds the functionality to pay by scanning a card.
+4. In your project's **Build Settings** (in the `TARGETS` section, not the `PROJECTS` section):
+  * add `-lc++ -ObjC` to `Other Linker Flags`
+  * enable `Enable Modules (C and Objective-C)`
+  * enable `Link Frameworks Automatically`
+5. In your project's **Build Phases**, link your project with these libraries. Weak linking for iOS versions back to 6.0 is supported.
+  * `Accelerate.framework`
+  * `AudioToolbox.framework`
+  * `AVFoundation.framework`
+  * `CoreLocation.framework`
+  * `CoreMedia.framework`
+  * `MessageUI.framework`
+  * `MobileCoreServices.framework`
+  * `SystemConfiguration.framework`
+  * `SafariServices.framework`
 
 ## Usage
-Wip
+After choosing one of the above methods to install the Accepton iOS framework, there are two simple methods for getting started.j
 
 ## Low Level Primitives
 You may create more customized solutions through using the lower level api's:

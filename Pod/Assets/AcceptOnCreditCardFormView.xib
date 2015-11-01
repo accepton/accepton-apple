@@ -40,36 +40,20 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e8o-Jv-tYk">
                             <rect key="frame" x="0.0" y="0.0" width="580" height="560"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eQA-F0-IBu" customClass="AcceptOnRoundedButton" customModule="accepton" customModuleProvider="target">
-                                    <rect key="frame" x="203" y="295" width="175" height="45"/>
-                                    <animations/>
-                                    <color key="backgroundColor" red="0.44505295758300945" green="0.99292452830188682" blue="0.54976678723076067" alpha="1" colorSpace="calibratedRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="45" id="5cY-3y-Gzi"/>
-                                        <constraint firstAttribute="width" constant="175" id="FwP-t3-Yu2"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
-                                    <state key="normal" title="Pay Now">
-                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="payWasClicked:" destination="-1" eventType="touchUpInside" id="A3Z-CB-DRe"/>
-                                    </connections>
-                                </button>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OPZ-tw-1lX">
-                                    <rect key="frame" x="0.0" y="0.0" width="580" height="275"/>
+                                    <rect key="frame" x="90" y="0.0" width="400" height="255"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1wB-bq-Ufs">
-                                            <rect key="frame" x="20" y="20" width="540" height="235"/>
+                                            <rect key="frame" x="20" y="20" width="360" height="215"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0va-aI-YzY">
-                                                    <rect key="frame" x="0.0" y="0.0" width="540" height="65"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="360" height="65"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qTE-L5-tvt" customClass="AcceptOnUICreditCardValidatableField" customModule="accepton" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="23" width="540" height="42"/>
+                                                            <rect key="frame" x="0.0" y="23" width="360" height="42"/>
                                                             <subviews>
                                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="marissa@yahoo.com" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BLC-gE-JbC">
-                                                                    <rect key="frame" x="15" y="5" width="510" height="32"/>
+                                                                    <rect key="frame" x="15" y="5" width="330" height="32"/>
                                                                     <animations/>
                                                                     <color key="textColor" red="0.21933962260000001" green="0.21933962260000001" blue="0.21933962260000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
@@ -89,7 +73,7 @@
                                                             </constraints>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email Address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yn0-N4-hfb">
-                                                            <rect key="frame" x="0.0" y="0.0" width="540" height="20"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="360" height="20"/>
                                                             <animations/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="GpX-PN-HqS"/>
@@ -113,20 +97,20 @@
                                                     </constraints>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tKh-rj-rMZ">
-                                                    <rect key="frame" x="0.0" y="85" width="540" height="65"/>
+                                                    <rect key="frame" x="0.0" y="75" width="360" height="65"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2pn-Ra-KAI" customClass="AcceptOnUICreditCardValidatableField" customModule="accepton" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="23" width="540" height="42"/>
+                                                            <rect key="frame" x="0.0" y="23" width="360" height="42"/>
                                                             <subviews>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FdW-Nc-bnA" customClass="AcceptOnCreditCardNumBrandPop" customModule="accepton" customModuleProvider="target">
-                                                                    <rect key="frame" x="498" y="0.0" width="42" height="42"/>
+                                                                    <rect key="frame" x="318" y="0.0" width="42" height="42"/>
                                                                     <animations/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" secondItem="FdW-Nc-bnA" secondAttribute="height" id="9qI-RF-Dzy"/>
                                                                     </constraints>
                                                                 </view>
                                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1xR-R1-An5">
-                                                                    <rect key="frame" x="15" y="5" width="468" height="32"/>
+                                                                    <rect key="frame" x="15" y="5" width="288" height="32"/>
                                                                     <animations/>
                                                                     <color key="textColor" red="0.21933962260000001" green="0.21933962260000001" blue="0.21933962260000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
@@ -149,7 +133,7 @@
                                                             </constraints>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Card Number" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z6X-QF-IqA">
-                                                            <rect key="frame" x="0.0" y="0.0" width="540" height="20"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="360" height="20"/>
                                                             <animations/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
                                                             <color key="textColor" red="0.23450263560000001" green="0.23502059149999999" blue="0.2429245283" alpha="1" colorSpace="calibratedRGB"/>
@@ -169,16 +153,16 @@
                                                     </constraints>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Po-1B-Jg6">
-                                                    <rect key="frame" x="0.0" y="170" width="540" height="65"/>
+                                                    <rect key="frame" x="0.0" y="150" width="360" height="65"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="baR-QS-RmN">
-                                                            <rect key="frame" x="378" y="0.0" width="162" height="65"/>
+                                                            <rect key="frame" x="252" y="0.0" width="108" height="65"/>
                                                             <subviews>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JnI-io-37g" customClass="AcceptOnUICreditCardValidatableField" customModule="accepton" customModuleProvider="target">
-                                                                    <rect key="frame" x="0.0" y="23" width="162" height="42"/>
+                                                                    <rect key="frame" x="0.0" y="23" width="108" height="42"/>
                                                                     <subviews>
                                                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="1234" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DEx-mD-Pqw">
-                                                                            <rect key="frame" x="15" y="5" width="132" height="32"/>
+                                                                            <rect key="frame" x="15" y="5" width="78" height="32"/>
                                                                             <animations/>
                                                                             <color key="textColor" red="0.21933962260000001" green="0.21933962260000001" blue="0.21933962260000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
@@ -198,7 +182,7 @@
                                                                     </constraints>
                                                                 </view>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Security Code" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zBR-Zo-vPh">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="162" height="20"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="108" height="20"/>
                                                                     <animations/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
                                                                     <color key="textColor" red="0.23450263560000001" green="0.23502059149999999" blue="0.2429245283" alpha="1" colorSpace="calibratedRGB"/>
@@ -217,20 +201,20 @@
                                                             </constraints>
                                                         </view>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wY0-j6-SPz">
-                                                            <rect key="frame" x="0.0" y="0.0" width="324" height="65"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="216" height="65"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Year" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qgh-Iu-o7G">
-                                                                    <rect key="frame" x="172" y="0.0" width="152" height="20"/>
+                                                                    <rect key="frame" x="118" y="0.0" width="98" height="20"/>
                                                                     <animations/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
                                                                     <color key="textColor" red="0.23450263560000001" green="0.23502059149999999" blue="0.2429245283" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s0b-cu-yZA" customClass="AcceptOnUICreditCardValidatableField" customModule="accepton" customModuleProvider="target">
-                                                                    <rect key="frame" x="0.0" y="23" width="162" height="42"/>
+                                                                    <rect key="frame" x="0.0" y="23" width="108" height="42"/>
                                                                     <subviews>
                                                                         <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="MM" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kST-Pj-LHV">
-                                                                            <rect key="frame" x="15" y="2" width="132" height="35"/>
+                                                                            <rect key="frame" x="15" y="2" width="78" height="35"/>
                                                                             <animations/>
                                                                             <color key="textColor" red="0.21933962260000001" green="0.21933962260000001" blue="0.21933962260000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
@@ -249,10 +233,10 @@
                                                                     </constraints>
                                                                 </view>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="imc-AX-pQ0" customClass="AcceptOnUICreditCardValidatableField" customModule="accepton" customModuleProvider="target">
-                                                                    <rect key="frame" x="172" y="20" width="152" height="45"/>
+                                                                    <rect key="frame" x="118" y="20" width="98" height="45"/>
                                                                     <subviews>
                                                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="YY" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="InK-pM-vt4">
-                                                                            <rect key="frame" x="15" y="5" width="122" height="35"/>
+                                                                            <rect key="frame" x="15" y="5" width="68" height="35"/>
                                                                             <animations/>
                                                                             <color key="textColor" red="0.21933962264150941" green="0.21933962264150941" blue="0.21933962264150941" alpha="1" colorSpace="calibratedRGB"/>
                                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
@@ -272,7 +256,7 @@
                                                                     </constraints>
                                                                 </view>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Month" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wRU-XS-B8l">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="162" height="20"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="108" height="20"/>
                                                                     <animations/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
                                                                     <color key="textColor" red="0.23450263560000001" green="0.23502059149999999" blue="0.2429245283" alpha="1" colorSpace="calibratedRGB"/>
@@ -324,13 +308,13 @@
                                                 <constraint firstItem="0va-aI-YzY" firstAttribute="top" secondItem="1wB-bq-Ufs" secondAttribute="top" id="DcY-PK-gS1"/>
                                                 <constraint firstItem="8Po-1B-Jg6" firstAttribute="height" secondItem="tKh-rj-rMZ" secondAttribute="height" id="IrG-Bh-beA"/>
                                                 <constraint firstItem="8Po-1B-Jg6" firstAttribute="centerX" secondItem="tKh-rj-rMZ" secondAttribute="centerX" id="Lr3-gE-DEW"/>
-                                                <constraint firstItem="8Po-1B-Jg6" firstAttribute="top" secondItem="tKh-rj-rMZ" secondAttribute="bottom" constant="20" id="MuB-IZ-hYA"/>
+                                                <constraint firstItem="8Po-1B-Jg6" firstAttribute="top" secondItem="tKh-rj-rMZ" secondAttribute="bottom" constant="10" id="MuB-IZ-hYA"/>
                                                 <constraint firstItem="tKh-rj-rMZ" firstAttribute="height" secondItem="0va-aI-YzY" secondAttribute="height" id="Vtf-fJ-1iP"/>
                                                 <constraint firstItem="tKh-rj-rMZ" firstAttribute="centerX" secondItem="0va-aI-YzY" secondAttribute="centerX" id="YPI-Bq-ux0"/>
                                                 <constraint firstItem="qgh-Iu-o7G" firstAttribute="height" secondItem="Yn0-N4-hfb" secondAttribute="height" id="ZOE-BG-4aZ"/>
                                                 <constraint firstItem="wRU-XS-B8l" firstAttribute="height" secondItem="Yn0-N4-hfb" secondAttribute="height" id="csE-90-s8K"/>
                                                 <constraint firstItem="Z6X-QF-IqA" firstAttribute="height" secondItem="Yn0-N4-hfb" secondAttribute="height" id="eSC-o6-0Ho"/>
-                                                <constraint firstItem="tKh-rj-rMZ" firstAttribute="top" secondItem="0va-aI-YzY" secondAttribute="bottom" constant="20" id="uJO-wK-cCn"/>
+                                                <constraint firstItem="tKh-rj-rMZ" firstAttribute="top" secondItem="0va-aI-YzY" secondAttribute="bottom" constant="10" id="uJO-wK-cCn"/>
                                                 <constraint firstItem="0va-aI-YzY" firstAttribute="centerX" secondItem="1wB-bq-Ufs" secondAttribute="centerX" id="wpr-O3-xrT"/>
                                             </constraints>
                                         </view>
@@ -341,17 +325,35 @@
                                         <constraint firstAttribute="bottom" secondItem="1wB-bq-Ufs" secondAttribute="bottom" constant="20" id="8fE-fb-5SZ"/>
                                         <constraint firstItem="1wB-bq-Ufs" firstAttribute="top" secondItem="OPZ-tw-1lX" secondAttribute="top" constant="20" id="Nvo-dL-wD5"/>
                                         <constraint firstItem="1wB-bq-Ufs" firstAttribute="leading" secondItem="OPZ-tw-1lX" secondAttribute="leading" constant="20" id="gsV-Xv-aN6"/>
+                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="400" id="nJL-km-FM8"/>
                                         <constraint firstAttribute="trailing" secondItem="1wB-bq-Ufs" secondAttribute="trailing" constant="20" id="twm-Z9-pCm"/>
                                     </constraints>
                                 </view>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eQA-F0-IBu" customClass="AcceptOnRoundedButton" customModule="accepton" customModuleProvider="target">
+                                    <rect key="frame" x="203" y="265" width="175" height="45"/>
+                                    <animations/>
+                                    <color key="backgroundColor" red="0.44505295758300945" green="0.99292452830188682" blue="0.54976678723076067" alpha="1" colorSpace="calibratedRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="45" id="5cY-3y-Gzi"/>
+                                        <constraint firstAttribute="width" constant="175" id="FwP-t3-Yu2"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
+                                    <state key="normal" title="Pay Now">
+                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="payWasClicked:" destination="-1" eventType="touchUpInside" id="A3Z-CB-DRe"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <animations/>
                             <constraints>
                                 <constraint firstItem="OPZ-tw-1lX" firstAttribute="top" secondItem="e8o-Jv-tYk" secondAttribute="top" id="EMK-lT-xvB"/>
-                                <constraint firstItem="eQA-F0-IBu" firstAttribute="top" secondItem="OPZ-tw-1lX" secondAttribute="bottom" constant="20" id="VxW-fz-ten"/>
-                                <constraint firstItem="OPZ-tw-1lX" firstAttribute="width" secondItem="e8o-Jv-tYk" secondAttribute="width" id="d7P-gM-t2G"/>
+                                <constraint firstItem="OPZ-tw-1lX" firstAttribute="width" relation="lessThanOrEqual" secondItem="e8o-Jv-tYk" secondAttribute="width" id="EbW-gt-b6j"/>
+                                <constraint firstItem="eQA-F0-IBu" firstAttribute="top" secondItem="OPZ-tw-1lX" secondAttribute="bottom" constant="10" id="VxW-fz-ten"/>
                                 <constraint firstItem="eQA-F0-IBu" firstAttribute="centerX" secondItem="e8o-Jv-tYk" secondAttribute="centerX" id="eIK-FB-EVF"/>
                                 <constraint firstItem="OPZ-tw-1lX" firstAttribute="centerX" secondItem="e8o-Jv-tYk" secondAttribute="centerX" id="tfZ-Js-1mh"/>
+                                <constraint firstItem="OPZ-tw-1lX" firstAttribute="width" secondItem="e8o-Jv-tYk" secondAttribute="width" priority="999" id="zAh-Ev-S8F"/>
                             </constraints>
                         </view>
                     </subviews>
@@ -373,7 +375,7 @@
                 <constraint firstAttribute="trailing" secondItem="H7I-5r-JIp" secondAttribute="trailing" constant="10" id="u47-bY-C63"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
-            <point key="canvasLocation" x="541" y="997"/>
+            <point key="canvasLocation" x="644" y="931"/>
         </view>
     </objects>
 </document>

@@ -58,6 +58,17 @@ extension AcceptOnUIMachineFormOptions {
     
     var pkvc: PKPaymentAuthorizationViewController!
     func beginApplePayTransactionForPaymentRequest(request: PKPaymentRequest) {
+        
+        let availability = AcceptOnUIMachineApplePayDriver.checkAvailability()
+        if (availability == .NotSupported) {
+            self.delegate?.applePayTransactionDidFailWithMessage?("Your device does not support ApplePay")
+            return
+        } else if (availability == AcceptOnUIMachineApplePayDriverAvailability.NeedToSetup) {
+            self.delegate?.applePayTransactionDidFailWithMessage?("You need to set up ApplePay")
+            PKPassLibrary().openPaymentSetup()
+            return
+        }
+        
         pkvc = PKPaymentAuthorizationViewController(paymentRequest: request)
         pkvc.delegate = self
         didHitCancel = true

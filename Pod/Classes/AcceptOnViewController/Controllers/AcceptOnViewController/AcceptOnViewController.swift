@@ -70,7 +70,7 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
         
         //Down-arrow exit button to exit
         exitButton = AcceptOnPopButton()
-        self.view.addSubview(exitButton)
+        self.mainView.addSubview(exitButton)
         var image = AcceptOnBundle.UIImageNamed("down_arrow")
         image = image?.imageWithColor(UIColor.whiteColor())
         let exitButtonImageView = UIImageView(image: image)
@@ -87,7 +87,7 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
         
         //Back arrow
         backButton = AcceptOnPopButton()
-        self.view.addSubview(backButton)
+        self.mainView.addSubview(backButton)
         var backArrowImage = AcceptOnBundle.UIImageNamed("back_arrow")
         backArrowImage = backArrowImage?.imageWithColor(UIColor.whiteColor())
         let backArrowImageView = UIImageView(image: backArrowImage)
@@ -356,6 +356,12 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
         delegate?.acceptOnPaymentDidSucceed?(self)
     }
     
+    public func acceptOnUIMachinePaymentErrorWithMessage(message: String) {
+        let alertView = UIAlertController(title: "Uh oh!", message: message, preferredStyle: .Alert)
+        alertView.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+        presentViewController(alertView, animated: true, completion: nil)
+    }
+    
     //-----------------------------------------------------------------------------------------------------
     //AcceptOnCreditCardFormDelegate Handlers
     //-----------------------------------------------------------------------------------------------------
@@ -372,8 +378,15 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
         
         //Animate view up to make room for keyboard
         UIView.animateWithDuration(0.8, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.5, options: [UIViewAnimationOptions.CurveEaseOut, UIViewAnimationOptions.BeginFromCurrentState, UIViewAnimationOptions.AllowUserInteraction], animations: { () -> Void in
-                self.creditCardForm.layer.transform = CATransform3DMakeTranslation(0, -65, 0)
-            self.creditCardForm.payButton.layer.transform = CATransform3DMakeTranslation(0, -14, 0)
+            
+            //4s sizes
+            let screenHeight = UIScreen.mainScreen().bounds.size.height
+            if screenHeight < 500 {
+                self.creditCardForm.layer.transform = CATransform3DMakeTranslation(0, -95, 0)
+                self.creditCardForm.payButton.layer.transform = CATransform3DMakeTranslation(0, -25, 0)
+            } else {
+                self.creditCardForm.layer.transform = CATransform3DMakeTranslation(0, -55, 0)
+            }
             }) { (res) -> Void in
         }
     }

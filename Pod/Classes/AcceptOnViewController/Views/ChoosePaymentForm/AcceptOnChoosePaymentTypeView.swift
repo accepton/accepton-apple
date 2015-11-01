@@ -102,7 +102,10 @@ class AcceptOnChoosePaymentTypeView: UIView
         paymentMethodButtonsView = UIView()
         self.addSubview(paymentMethodButtonsView!)
         paymentMethodButtonsView!.snp_makeConstraints { make in
-            make.margins.equalTo(UIEdgeInsetsMake(0, 0, 0, 0))
+            make.top.equalTo(headerLabel.snp_bottom)
+            make.bottom.equalTo(self.snp_bottom)
+            make.left.equalTo(self.snp_left)
+            make.right.equalTo(self.snp_right)
             return
         }
         
@@ -127,7 +130,7 @@ class AcceptOnChoosePaymentTypeView: UIView
     //Called near the end of updatePaymentMethodsInView to set constraints of newly added
     //buttons
     func setButtonConstraints() {
-        var lastTop: UIView = self.headerLabel
+        var lastTop: UIView = self.paymentMethodButtonsView!
         let intraButtonVerticalSpace = 10
         for (i, e) in paymentMethodButtons.enumerate() {
             e.alpha = 0
@@ -140,7 +143,7 @@ class AcceptOnChoosePaymentTypeView: UIView
                 make.centerX.equalTo(lastTop.snp_centerX).priority(1000)
                 
                 if i == 0 {
-                    make.top.equalTo(lastTop.snp_bottom)
+                    make.top.equalTo(lastTop.snp_top)
                 } else {
                     make.top.equalTo(lastTop.snp_bottom).offset(intraButtonVerticalSpace)
                 }
@@ -252,7 +255,7 @@ class AcceptOnChoosePaymentTypeView: UIView
         //Animate the selected button to the bottom
         UIView.animateWithDuration(0.8, delay: Double(otherButtons.count)*0.3+0.2, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: {
             var transform = CATransform3DIdentity
-            transform = CATransform3DTranslate(transform, 0, self.bounds.size.height-selectedButton.layer.position.y, 0)
+            transform = CATransform3DTranslate(transform, 0, selectedButton.superview!.bounds.size.height-selectedButton.layer.position.y, 0)
             transform = CATransform3DScale(transform, 1.3, 1.3, 1)
             selectedButton.layer.transform = transform
             }) { res in
