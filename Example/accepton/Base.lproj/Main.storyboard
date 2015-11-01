@@ -69,7 +69,7 @@
         <!--Accept On View Controller-->
         <scene sceneID="o2B-jo-Mvh">
             <objects>
-                <viewController id="3AT-wg-vuu" customClass="AcceptOnViewController" customModule="accepton_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="3AT-wg-vuu" customClass="AcceptOnViewController" customModule="accepton" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6aK-Pd-vgG"/>
                         <viewControllerLayoutGuide type="bottom" id="bxw-v6-mUC"/>

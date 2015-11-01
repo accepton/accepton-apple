@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '0D90497CB90D29AA6D61740B'
+               BlueprintIdentifier = '2D8024BB07AE79A981FF6863'
                BlueprintName = 'accepton'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'accepton.framework'>

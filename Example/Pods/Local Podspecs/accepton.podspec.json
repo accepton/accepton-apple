@@ -19,11 +19,11 @@
   "requires_arc": true,
   "source_files": [
     "Pod/Paypal/*.h",
-    "Pod/Classes/*"
+    "Pod/Classes/**/*.swift"
   ],
   "resource_bundles": {
     "accepton": [
-      "Pod/Assets/*.png"
+      "Pod/Assets/*"
     ]
   },
   "public_header_files": "Pod/Paypal/**/*.h",

@@ -7,7 +7,7 @@
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AcceptOnCreditCardFormView" customModule="accepton_Example" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AcceptOnCreditCardFormView" customModule="accepton" customModuleProvider="target">
             <connections>
                 <outlet property="brandPop" destination="FdW-Nc-bnA" id="JcE-hE-ii4"/>
                 <outlet property="cardNumField" destination="1xR-R1-An5" id="5r2-cN-3s4"/>
@@ -40,7 +40,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e8o-Jv-tYk">
                             <rect key="frame" x="0.0" y="0.0" width="580" height="560"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eQA-F0-IBu" customClass="AcceptOnRoundedButton" customModule="accepton_Example" customModuleProvider="target">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eQA-F0-IBu" customClass="AcceptOnRoundedButton" customModule="accepton" customModuleProvider="target">
                                     <rect key="frame" x="203" y="295" width="175" height="45"/>
                                     <animations/>
                                     <color key="backgroundColor" red="0.44505295758300945" green="0.99292452830188682" blue="0.54976678723076067" alpha="1" colorSpace="calibratedRGB"/>
@@ -65,7 +65,7 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0va-aI-YzY">
                                                     <rect key="frame" x="0.0" y="0.0" width="540" height="65"/>
                                                     <subviews>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qTE-L5-tvt" customClass="AcceptOnUICreditCardValidatableField" customModule="accepton_Example" customModuleProvider="target">
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qTE-L5-tvt" customClass="AcceptOnUICreditCardValidatableField" customModule="accepton" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="23" width="540" height="42"/>
                                                             <subviews>
                                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="marissa@yahoo.com" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BLC-gE-JbC">
@@ -115,10 +115,10 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tKh-rj-rMZ">
                                                     <rect key="frame" x="0.0" y="85" width="540" height="65"/>
                                                     <subviews>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2pn-Ra-KAI" customClass="AcceptOnUICreditCardValidatableField" customModule="accepton_Example" customModuleProvider="target">
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2pn-Ra-KAI" customClass="AcceptOnUICreditCardValidatableField" customModule="accepton" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="23" width="540" height="42"/>
                                                             <subviews>
-                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FdW-Nc-bnA" customClass="AcceptOnCreditCardNumBrandPop" customModule="accepton_Example" customModuleProvider="target">
+                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FdW-Nc-bnA" customClass="AcceptOnCreditCardNumBrandPop" customModule="accepton" customModuleProvider="target">
                                                                     <rect key="frame" x="498" y="0.0" width="42" height="42"/>
                                                                     <animations/>
                                                                     <constraints>
@@ -174,7 +174,7 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="baR-QS-RmN">
                                                             <rect key="frame" x="378" y="0.0" width="162" height="65"/>
                                                             <subviews>
-                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JnI-io-37g" customClass="AcceptOnUICreditCardValidatableField" customModule="accepton_Example" customModuleProvider="target">
+                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JnI-io-37g" customClass="AcceptOnUICreditCardValidatableField" customModule="accepton" customModuleProvider="target">
                                                                     <rect key="frame" x="0.0" y="23" width="162" height="42"/>
                                                                     <subviews>
                                                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="1234" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DEx-mD-Pqw">
@@ -226,7 +226,7 @@
                                                                     <color key="textColor" red="0.23450263560000001" green="0.23502059149999999" blue="0.2429245283" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s0b-cu-yZA" customClass="AcceptOnUICreditCardValidatableField" customModule="accepton_Example" customModuleProvider="target">
+                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s0b-cu-yZA" customClass="AcceptOnUICreditCardValidatableField" customModule="accepton" customModuleProvider="target">
                                                                     <rect key="frame" x="0.0" y="23" width="162" height="42"/>
                                                                     <subviews>
                                                                         <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="MM" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kST-Pj-LHV">
@@ -248,7 +248,7 @@
                                                                         <constraint firstItem="kST-Pj-LHV" firstAttribute="leading" secondItem="s0b-cu-yZA" secondAttribute="leading" constant="15" id="mlz-tG-Hhe"/>
                                                                     </constraints>
                                                                 </view>
-                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="imc-AX-pQ0" customClass="AcceptOnUICreditCardValidatableField" customModule="accepton_Example" customModuleProvider="target">
+                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="imc-AX-pQ0" customClass="AcceptOnUICreditCardValidatableField" customModule="accepton" customModuleProvider="target">
                                                                     <rect key="frame" x="172" y="20" width="152" height="45"/>
                                                                     <subviews>
                                                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="YY" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="InK-pM-vt4">

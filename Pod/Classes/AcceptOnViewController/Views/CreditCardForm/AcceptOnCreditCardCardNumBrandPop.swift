@@ -105,7 +105,7 @@ class AcceptOnCreditCardNumBrandPop: UIView
             //Not cached? Load it synchronously
             if (image == nil) {
                 if let imageName = self?.brandNameToImageName[name] {
-                    image = UIImage(named: imageName)
+                    image = AcceptOnBundle.UIImageNamed(imageName)
                     self?.brandImages[imageName] = image
                 }
             }

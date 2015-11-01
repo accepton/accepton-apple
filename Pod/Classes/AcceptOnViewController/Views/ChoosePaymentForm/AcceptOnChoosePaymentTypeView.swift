@@ -157,7 +157,11 @@ class AcceptOnChoosePaymentTypeView: UIView
         let button = AcceptOnPopButton()
         paymentMethodButtonsView?.addSubview(button)
         
-        let image = UIImage(named: "checkout_with_paypal")
+        let bundlePath = NSBundle(forClass: self.dynamicType).pathForResource("accepton", ofType: "bundle")!
+        puts("Bundle path = \(bundlePath)")
+        let bundle = NSBundle(path: bundlePath)
+        
+        let image = AcceptOnBundle.UIImageNamed("checkout_with_paypal")
         let imageView = UIImageView(image: image)
         button.addSubview(imageView)
         imageView.snp_makeConstraints { make in
@@ -178,7 +182,7 @@ class AcceptOnChoosePaymentTypeView: UIView
         let button = AcceptOnPopButton()
         paymentMethodButtonsView?.addSubview(button)
         
-        let image = UIImage(named: "checkout_with_credit")
+        let image = AcceptOnBundle.UIImageNamed("checkout_with_credit")
         let imageView = UIImageView(image: image)
         button.addSubview(imageView)
         imageView.snp_makeConstraints { make in
@@ -198,7 +202,7 @@ class AcceptOnChoosePaymentTypeView: UIView
         let button = AcceptOnPopButton()
         paymentMethodButtonsView?.addSubview(button)
         
-        let image = UIImage(named: "checkout_with_apple_pay")
+        let image = AcceptOnBundle.UIImageNamed("checkout_with_apple_pay")
         let imageView = UIImageView(image: image)
         button.addSubview(imageView)
         imageView.snp_makeConstraints { make in

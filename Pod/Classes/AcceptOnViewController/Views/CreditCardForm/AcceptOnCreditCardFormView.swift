@@ -108,7 +108,7 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate, UIPickerViewDeleg
     
     func defaultInit() {
         //Initialize AcceptOnCreditCardFormView.xib, sets the alpha to 0
-        let nib = UINib(nibName: "AcceptOnCreditCardFormView", bundle: NSBundle(forClass: self.dynamicType))
+        let nib = UINib(nibName: "AcceptOnCreditCardFormView", bundle: AcceptOnBundle.bundle)
         let nibInstance = nib.instantiateWithOwner(self, options: nil)
         nibView = nibInstance[0] as! UIView
         self.addSubview(nibView)

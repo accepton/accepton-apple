@@ -2,7 +2,7 @@ import UIKit
 import accepton
 import SnapKit
 
-@objc protocol AcceptOnViewControllerDelegate {
+@objc public protocol AcceptOnViewControllerDelegate {
     //You should use this to close the accept-on view controller modal
     optional func acceptOnCancelWasClicked(vc: AcceptOnViewController)
     
@@ -11,7 +11,7 @@ import SnapKit
 }
 
 //Works with the AcceptOnUIMachine to manage the UI behaviours
-class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, AcceptOnCreditCardFormDelegate, AcceptOnChoosePaymentTypeViewDelegate {
+public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, AcceptOnCreditCardFormDelegate, AcceptOnChoosePaymentTypeViewDelegate {
     //-----------------------------------------------------------------------------------------------------
     //Properties
     //-----------------------------------------------------------------------------------------------------
@@ -40,7 +40,7 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
     var backButton: AcceptOnPopButton!
     
     //Receive information back about the payment and when to dismiss this view-controller's modal
-    weak var delegate: AcceptOnViewControllerDelegate?
+    public weak var delegate: AcceptOnViewControllerDelegate?
     
     //All subviews should descend from these two views
     var _mainView: UIVisualEffectView!
@@ -49,7 +49,7 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
     //-----------------------------------------------------------------------------------------------------
     //Constructors, Initializers, and UIViewController lifecycle
     //-----------------------------------------------------------------------------------------------------
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         //We're presenting over a view-controller, the underlying view-controller
         //should be visible
         self.view.backgroundColor = UIColor.clearColor()
@@ -72,7 +72,7 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
         //Down-arrow exit button to exit
         exitButton = AcceptOnPopButton()
         self.view.addSubview(exitButton)
-        var image = UIImage(named: "down_arrow")
+        var image = AcceptOnBundle.UIImageNamed("down_arrow")
         image = image?.imageWithColor(UIColor.whiteColor())
         let exitButtonImageView = UIImageView(image: image)
         exitButton.addSubview(exitButtonImageView)
@@ -89,7 +89,7 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
         //Back arrow
         backButton = AcceptOnPopButton()
         self.view.addSubview(backButton)
-        var backArrowImage = UIImage(named: "back_arrow")
+        var backArrowImage = AcceptOnBundle.UIImageNamed("back_arrow")
         backArrowImage = backArrowImage?.imageWithColor(UIColor.whiteColor())
         let backArrowImageView = UIImageView(image: backArrowImage)
         backButton.addSubview(backArrowImageView)
@@ -152,7 +152,7 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
         showWaitingWithAnimationAndDelay(nil)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override public func viewWillAppear(animated: Bool) {
         self.animateIn()
     }
     
@@ -260,7 +260,7 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
     //-----------------------------------------------------------------------------------------------------
     //AcceptOnUIMachineDelegate Handlers
     //-----------------------------------------------------------------------------------------------------
-    func acceptOnUIMachineDidFinishBeginWithFormOptions(options: AcceptOnUIMachineFormOptions) {
+    public func acceptOnUIMachineDidFinishBeginWithFormOptions(options: AcceptOnUIMachineFormOptions) {
         
         var paymentMethods: [String] = []
         if options.hasPaypalButton { paymentMethods.append("paypal") }
@@ -277,23 +277,23 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
         priceTitleView.animateIn()
     }
     
-    func acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName(name: String, withMessage msg: String) {
+    public func acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName(name: String, withMessage msg: String) {
         creditCardForm.showErrorForFieldWithName(name, withMessage: msg)
     }
     
-    func acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName(name: String) {
+    public func acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName(name: String) {
         creditCardForm.hideErrorForFieldWithName(name)
     }
     
-    func acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName(name: String, withMessage msg: String) {
+    public func acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName(name: String, withMessage msg: String) {
         creditCardForm.emphasizeErrorForFieldWithName(name, withMessage: msg)
     }
     
-    func acceptOnUIMachineCreditCardTypeDidChange(type: String) {
+    public func acceptOnUIMachineCreditCardTypeDidChange(type: String) {
         creditCardForm.creditCardNumBrandWasUpdatedWithBrandName(type)
     }
     
-    func acceptOnUIMachinePaymentDidAbortPaymentMethodWithName(name: String) {
+    public func acceptOnUIMachinePaymentDidAbortPaymentMethodWithName(name: String) {
         if name == "paypal" {
             //Animate loading spinner out
             hideWaitingWithAnimationAndDelay(0.3)
@@ -312,7 +312,7 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
         }
     }
     
-    func acceptOnUIMachinePaymentIsProcessing(paymentType: String) {
+    public func acceptOnUIMachinePaymentIsProcessing(paymentType: String) {
         //Credit-card has a special flow as the UIMachine dosen't have the concept
         //of the credit-card being on a seperate page
         if paymentType == "credit_card" {
@@ -353,7 +353,7 @@ class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, Accep
         showWaitingWithAnimationAndDelay(1)
     }
     
-    func acceptOnUIMachinePaymentDidSucceed() {
+    public func acceptOnUIMachinePaymentDidSucceed() {
         delegate?.acceptOnPaymentDidSucceed?(self)
     }
     

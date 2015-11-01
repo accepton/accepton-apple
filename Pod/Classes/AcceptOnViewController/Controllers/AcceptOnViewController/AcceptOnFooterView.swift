@@ -9,12 +9,12 @@ class AcceptOnFooterView: UIView
     var blurView: UIVisualEffectView!
     
     lazy var securedByView = UIView()
-    lazy var lockImageView = UIImageView(image: UIImage(named: "lock.png"))
+    lazy var lockImageView = UIImageView(image: AcceptOnBundle.UIImageNamed("lock.png"))
         lazy var securedLabel = UILabel()
     
     lazy var poweredByAcceptonView = UIView()
         lazy var poweredByLabel = UILabel()
-        lazy var acceptonLogo = UIImageView(image: UIImage(named: "accepton.png")?.imageWithColor(UIColor.whiteColor()))
+        lazy var acceptonLogo = UIImageView(image: AcceptOnBundle.UIImageNamed("accepton.png")?.imageWithColor(UIColor.whiteColor()))
     
     //-----------------------------------------------------------------------------------------------------
     //Constructors, Initializers, and UIView lifecycle
