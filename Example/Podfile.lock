@@ -21,7 +21,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  accepton: fb75c9007f7d9ca997fb4104cd82d5c713d93da7
+  accepton: e4b81c82a0332f38641bdee8f21a029eb5a441a9
   Alamofire: 9b0a7188b961a03914a99304488bd226b0e46c0e
   Nimble: 472e75466819eb8c06299233e87c694a9b51328a
   Quick: 906d8aa995ee0afa96f1f7f01170f40fccfa5898
