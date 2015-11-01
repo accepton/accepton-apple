@@ -157,10 +157,6 @@ class AcceptOnChoosePaymentTypeView: UIView
         let button = AcceptOnPopButton()
         paymentMethodButtonsView?.addSubview(button)
         
-        let bundlePath = NSBundle(forClass: self.dynamicType).pathForResource("accepton", ofType: "bundle")!
-        puts("Bundle path = \(bundlePath)")
-        let bundle = NSBundle(path: bundlePath)
-        
         let image = AcceptOnBundle.UIImageNamed("checkout_with_paypal")
         let imageView = UIImageView(image: image)
         button.addSubview(imageView)
