@@ -2,13 +2,13 @@
   <img src='./banner.gif' />
 </div>
 
-[![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/sotownsend/accepton-apple/blob/master/LICENSE)
-[![Build Status](https://travis-ci.org/sotownsend/accepton-apple.svg?branch=master)](https://travis-ci.org/sotownsend/)
+[![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/sotownsend/accepton-apple/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/sotownsend/Pully.svg?branch=master)](https://travis-ci.org/sotownsend/)
 [![CocoaPods Version](https://img.shields.io/cocoapods/v/accepton.svg)](https://img.shields.io/cocoapods/v/accepton-apple.svg)
 [![Platform](https://img.shields.io/badge/Platforms-ios%20%7C%20osx%20%7C%20watchos%20%7C%20tvos-ff69b4.svg)](https://developer.apple.com)
 
 ## What is this?
-*accepton-apple* is a swift library for processing payments through the [AcceptOn](http://accepton.com) API which elegantly unifies many payment providers including [PayPal](http://paypal.com), [Stripe](http://stripe.com), and **ApplePay**.  This library provides you with powerful flexibility and ease-of-use by offering both beautiful pre-made payment views and access to the well-engineered low-level primitives for those wanting to have tighter integration into their applications.
+*accepton-apple* is a swift library for processing payments through the [AcceptOn](http://accepton.com) API which elegantly unifies many payment providers including [PayPal](http://paypal.com), [Stripe](http://stripe.com), and **ApplePay** to one transparent backend that aggregates all this information into one API.  This library provides you with powerful flexibility and ease-of-use by offering both beautiful pre-made payment views and access to the well-engineered low-level primitives for those wanting to have tighter integration into their applications.
 
 ## Install via CocoaPods
 
@@ -40,7 +40,7 @@ If you don't use cocoa pods, you may add the pre-built binaries to your XCode pr
 </div>
 
 
-## Usage via `AcceptOnViewController`
+## Use it!
 After choosing one of the above methods to install the Accepton iOS framework, do the following on your storyboard:
 
   1. Add a new view controller at the point where you want to collect a payment
@@ -100,8 +100,6 @@ class ViewController : UIViewController, AcceptOnViewControllerDelegate {
     }
 }
 ```
-
-
 
 ## Low Level Primitives
 You may create more customized solutions through using the lower level api's:
