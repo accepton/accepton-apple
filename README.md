@@ -40,7 +40,7 @@ If you don't use cocoa pods, you may add the pre-built binaries to your XCode pr
 </div>
 
 
-## Usage via `AcceptOnViewController`
+## Use it!
 After choosing one of the above methods to install the Accepton iOS framework, do the following on your storyboard:
 
   1. Add a new view controller at the point where you want to collect a payment
@@ -100,8 +100,6 @@ class ViewController : UIViewController, AcceptOnViewControllerDelegate {
     }
 }
 ```
-
-
 
 ## Low Level Primitives
 You may create more customized solutions through using the lower level api's:
