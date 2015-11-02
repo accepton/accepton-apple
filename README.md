@@ -10,7 +10,7 @@
 ## What is this?
 *accepton-apple* is a swift library for processing payments through the [AcceptOn](http://accepton.com) API which elegantly unifies many payment providers including [PayPal](http://paypal.com), [Stripe](http://stripe.com), and **ApplePay**.  This library provides you with powerful flexibility and ease-of-use by offering both beautiful pre-made payment views and access to the well-engineered low-level primitives for those wanting to have tighter integration into their applications.
 
-## CocoaPods
+## Install via CocoaPods
 
 [CocoaPods](http://cocoapods.org) is a convenient dependency manager for XCode projects. If you haven't already, you may install *CocoaPods*
 with:
@@ -33,34 +33,13 @@ pod 'Accepton', '~> 0.1'
 
 After you modify the `Podfile`, run `pod install` in the same directory as your modified `Podfile`.
 
-### If you don't use CocoaPods, then:
-1. Add the `AcceptOn` directory (containing several .h files and libPayPalMobile.a) to your Xcode project. We recommend checking "Copy items..." and selecting "Create groups...".
-3. (Optionally) Add the `CardIO` directory (containing several .h files, `libCardIO.a`, `libopencv_core.a`, and `libopencv_imgproc.a`) to your Xcode project. We recommend checking "Copy items..." and selecting "Create groups...". `libCardIO.a`, `libopencv_core.a`, and `libopencv_imgproc.a` adds the functionality to pay by scanning a card.
-4. In your project's **Build Settings** (in the `TARGETS` section, not the `PROJECTS` section):
-  * add `-lc++ -ObjC` to `Other Linker Flags`
-  * enable `Enable Modules (C and Objective-C)`
-  * enable `Link Frameworks Automatically`
-5. In your project's **Build Phases**, link your project with these libraries. Weak linking for iOS versions back to 6.0 is supported.
-  * `Accelerate.framework`
-  * `AudioToolbox.framework`
-  * `AVFoundation.framework`
-  * `CoreLocation.framework`
-  * `CoreMedia.framework`
-  * `MessageUI.framework`
-  * `MobileCoreServices.framework`
-  * `SystemConfiguration.framework`
-  * `SafariServices.framework`
+## Install via pre-built binary
+If you don't use cocoa pods, you may add the pre-built binaries to your XCode project.  Download the latest build at [Releases](https://github.com/sotownsend/accepton-apple/releases) and copy 
 
 ## Usage
 After choosing one of the above methods to install the Accepton iOS framework, there are two simple methods for getting started.
 
 ### Storyboard Segues and Code
-
-#### Step 1
-<div style='text-align: center'>
-  <img src='./docs/images/sb_step1.png' style='width:800px;' />
-  <h6>Figure 1</h6>
-</div>
 
 
 ## Low Level Primitives
