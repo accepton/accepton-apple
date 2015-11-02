@@ -1,5 +1,5 @@
 <div style='text-align: center'>
-  <img src='./banner.png' />
+  <img src='./banner.gif' />
 </div>
 
 [![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/sotownsend/accepton-apple/blob/master/LICENSE)

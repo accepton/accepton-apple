@@ -9,7 +9,7 @@ class ViewController : UIViewController, AcceptOnViewControllerDelegate {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         //Make sure we make ourselves a delegate so we can capture the 'cancel' delegate event
         if let avc = segue.destinationViewController as? AcceptOnViewController {
-            avc.delegate = self
+            avc.delegate = self/Users/Seo/Library/Group Containers/WSG985FR47.ScreenFlow/A6D1D801-7C0C-4F15-95E5-7AF9BC37020E.scc
             avc.itemDescription = "My Item Description"
             avc.amountInCents = 100
             avc.accessToken = "pkey_89f2cc7f2c423553"
