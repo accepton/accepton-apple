@@ -44,5 +44,5 @@ A swift library for processing payments through the AcceptOn API which elegantly
   s.weak_framework = 'SystemConfiguration', 'MobileCoreServices', 'MessageUI', 'CoreLocation', 'Accelerate', 'PassKit'
   s.resource_bundle = {'accepton' => ['Pod/Assets/*']}
 
-  s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-ObjC -lPayPalMobile', 'LIBRARY_SEARCH_PATHS' => '${PODS_ROOT}/../../Pod/Paypal', 'USER_HEADER_SEARCH_PATHS' => "${PODS_ROOT}/../../Pod/Paypal"}
+  s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-ObjC -lPayPalMobile', 'LIBRARY_SEARCH_PATHS' => '${PODS_ROOT}/../../Pod/Paypal', 'USER_HEADER_SEARCH_PATHS' => "${PODS_ROOT}/../../Pod/Paypal", 'VALID_ARCHS' => "arm64 armv7 armv7s i386 amd64"}
 end
