@@ -306,7 +306,7 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
     }
     
     public func acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName(name: String, withMessage msg: String) {
-        creditCardForm.emphasizeErrorForFieldWithName(name, withMessage: msg)jjjj
+        creditCardForm.emphasizeErrorForFieldWithName(name, withMessage: msg)
     }
     
     public func acceptOnUIMachineCreditCardTypeDidChange(type: String) {
