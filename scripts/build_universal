@@ -1,0 +1,50 @@
+#!/bin/sh
+
+#Go into root Example of project
+cd `dirname $0`
+cd ../Example
+
+#What configuration mode are we in?
+CONFIGURATION=RELEASE
+
+#Create a temporary directory to build in
+BUILD_DIR=`mktemp -d`
+#BUILD_DIR=/var/folders/l5/jj957cnj5hsdvsdnw07rh8q00000gn/T/tmp.BsfhXvbe
+echo "<<<Building in ${BUILD_DIR}>>>"
+echo ${BUILD_DIR} | pbcopy
+SIM_BUILD_DIR=${BUILD_DIR}/sim
+DEV_BUILD_DIR=${BUILD_DIR}/dev
+UNI_BUILD_DIR=${BUILD_DIR}/uni
+mkdir ${UNI_BUILD_DIR}
+mkdir ${DEV_BUILD_DIR}
+mkdir ${SIM_BUILD_DIR}
+echo "The directory has been copied to your clipboard..."
+
+echo "Building simulator framework..."
+xcodebuild -workspace accepton.xcworkspace -scheme accepton -sdk iphonesimulator -configuration ${CONFIGURATION} build CONFIGURATION_BUILD_DIR=${SIM_BUILD_DIR} 2>&1
+
+echo "Building device framework..."
+xcodebuild -workspace accepton.xcworkspace -scheme accepton -sdk iphoneos -configuration ${CONFIGURATION} build CONFIGURATION_BUILD_DIR=${DEV_BUILD_DIR} 2>&1
+
+FRAMEWORKS=${BUILD_DIR}/sim/*.framework
+for f in $FRAMEWORKS
+do
+  fname=`basename $f .framework`
+
+  #Make our new framework
+  echo "Lipoing $f"
+  mkdir ${UNI_BUILD_DIR}/$fname.framework
+
+  #Copy all things, prioritize device (will override)
+  cp -R ${SIM_BUILD_DIR}/$fname.framework/* ${UNI_BUILD_DIR}/$fname.framework
+  cp -R ${DEV_BUILD_DIR}/$fname.framework/* ${UNI_BUILD_DIR}/$fname.framework
+
+  #Combine two binaries from sim & device
+  lipo "${SIM_BUILD_DIR}/$fname.framework/$fname" "${DEV_BUILD_DIR}/$fname.framework/$fname" -create -output "${UNI_BUILD_DIR}/$fname.framework/$fname" | echo
+done
+
+#Dump all into our binaries folder
+cd `dirname $0`
+cd ../Binaries
+rm -rf *
+cp -R ${UNI_BUILD_DIR}/* .

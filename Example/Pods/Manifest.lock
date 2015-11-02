@@ -23,7 +23,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  accepton: 4992d98867de373dc3f868907b152f54a5f17ad3
+  accepton: 0cdcd3ffb305de2cdbbca5268f31e43514d57e06
   Alamofire: 9b0a7188b961a03914a99304488bd226b0e46c0e
   BUYPaymentButton: 45fa7fa4efc8b7d2121b6ea3f22d92fa9b70ea3a
   Nimble: 472e75466819eb8c06299233e87c694a9b51328a
