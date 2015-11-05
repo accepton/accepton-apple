@@ -57,7 +57,7 @@ public class AcceptOnUIMachineFormOptions : NSObject {
     }
     
     public var hasApplePay: Bool {
-        return paymentMethods.supportsApplePay
+        return paymentMethods.supportsApplePay && AcceptOnUIMachineApplePayDriver.checkAvailability() != .NotSupported
     }
     
     //Converts amountInCents into a $xx.xx style string.  E.g. 349 -> $3.49
