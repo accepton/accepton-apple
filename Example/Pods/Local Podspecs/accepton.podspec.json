@@ -1,6 +1,6 @@
 {
   "name": "accepton",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "summary": "Beautiful payment processing for iOS",
   "description": "A swift library for processing payments through the AcceptOn API which elegantly unifies many payment providers including PayPal, Stripe, and ApplePay. This library provides you with powerful flexibility and ease-of-use by offering both beautiful pre-made payment views and access to the well-engineered low-level primitives for those wanting to have tighter integration into their applications.",
   "homepage": "http://accepton.com",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://github.com/sotownsend/accepton-apple.git",
-    "tag": "0.1.0"
+    "tag": "0.2.0"
   },
   "social_media_url": "https://twitter.com/acceptonhq",
   "platforms": {
@@ -28,8 +28,8 @@
     ]
   },
   "public_header_files": [
-    "Pod/Paypal/**/*.h",
-    "Pod/CHRTextFieldFormatter/**/*.h"
+    "Pod/Paypal/*.h",
+    "Pod/CHRTextFieldFormatter/*.h"
   ],
   "dependencies": {
     "Alamofire": [

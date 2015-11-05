@@ -9,11 +9,13 @@ First we need to create an api helper object bound to either your public or priv
 ```swift
 import accepton
 
-//Create an API with a public key
-let api = AcceptOnAPI(publicKey: "pkey_0d4502a9bf8430ae")
+//Create an API with a public key (staging)
+let api = AcceptOnAPI(publicKey: "pkey_0d4502a9bf8430ae", isProduction: false)
 
-//Create an API with a secret key
-let api = AcceptOnAPI(secretKey: "skey_07e7927212c701b9f25c6ef891ddcdf9")
+//Create an API with a secret key (staging)
+let api = AcceptOnAPI(secretKey: "skey_07e7927212c701b9f25c6ef891ddcdf9", isProduction: false)
+
+If you want to use this in production, you simply make `isProduction` true. If `isProduction` is true, the API will use the production endpoint intsead of the staging endpoint.
 ```
 
 Now we can make requests with this API. You'll want to store the `api` object if you're using it throughout your application.  

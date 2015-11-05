@@ -65,18 +65,18 @@ class AcceptOnUIMachineSpec: QuickSpec {
     override func spec() {
         describe("init") {
             it("can be created with a public or secret key") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "test")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "test", isProduction: false)
                 uim.delegate = delegate
-                let uim2 = AcceptOnUIMachine.init(secretKey: "test2")
+                let uim2 = AcceptOnUIMachine.init(secretKey: "test2", isProduction: false)
                 uim2.delegate = delegate
             }
         }
         
         describe("loading") {
             it("does fail to load with Unauthorized error if given a non-existent key") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "test")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "test", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -87,8 +87,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("does fail to load with DevelopeError error if begin is called twice") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "test")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "test", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -100,8 +100,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("does succeed to load with a good key") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -127,9 +127,9 @@ class AcceptOnUIMachineSpec: QuickSpec {
         
         describe("credit-card email field validation") {
             it("Does not trigger validation error if no email is entered but the focus is not changed") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
+                let delegate = AcceptOnUIMachineSpecDelegate()
                 
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -143,8 +143,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does trigger validation error if no email is entered and the focus is changed") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -160,8 +160,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does not trigger a validation error if a valid email is entered and the focus is changed, and update the field") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -179,8 +179,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does trigger a validation error if an invalid email is entered and the focus is changed, and update the field") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -197,8 +197,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does trigger a validation error if an invalid email is entered and the focus is changed, and update the field, but then hides validation when the email is fixed and the focus is changed") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -222,8 +222,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does trigger a emphasize error if an invalid email is entered and the focus is changed, and update the field, but then hides validation when the email is *not* fixed and the focus is changed") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -249,9 +249,9 @@ class AcceptOnUIMachineSpec: QuickSpec {
         
         describe("credit-card card number field validation") {
             it("Does not trigger validation error if no card number is entered but the focus is not changed") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
+                let delegate = AcceptOnUIMachineSpecDelegate()
                 
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -265,8 +265,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does trigger validation error if no card number is entered and the focus is changed") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -282,8 +282,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does not trigger a validation error if a valid card number is entered and the focus is changed, and update the field") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -301,8 +301,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does trigger a validation error if an invalid card number is entered and the focus is changed, and update the field") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -319,8 +319,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does trigger a validation error if an invalid card number is entered and the focus is changed, and update the field, but then hides validation when the card number is fixed and the focus is changed") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -344,8 +344,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does trigger acceptOnUIMachineCreditCardTypeDidChange when card number can be deduced") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -376,9 +376,9 @@ class AcceptOnUIMachineSpec: QuickSpec {
         
         describe("expMonth field validation") {
             it("Does not trigger validation error if no expMonth is entered but the focus is not changed") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
+                let delegate = AcceptOnUIMachineSpecDelegate()
                 
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -392,8 +392,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does trigger validation error if no expMonth is entered and the focus is changed") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -409,8 +409,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does not trigger a validation error if a valid expMonth is entered and the focus is changed, and update the field") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -428,8 +428,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does trigger a validation error if an invalid expMonth is entered and the focus is changed, and update the field") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -446,8 +446,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does trigger a validation error if an invalid expMonth is entered and the focus is changed, and update the field, but then hides validation when the expMonth is fixed and the focus is changed") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -472,8 +472,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             
             
             it("Does trigger a emphasize error if an invalid expMonth is entered and the focus is changed, and update the field, but then hides validation when the expMonth is *not* fixed and the focus is changed") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -500,9 +500,9 @@ class AcceptOnUIMachineSpec: QuickSpec {
         
         describe("expYear field validation") {
             it("Does not trigger validation error if no expYear is entered but the focus is not changed") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
+                let delegate = AcceptOnUIMachineSpecDelegate()
                 
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -516,8 +516,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does trigger validation error if no expYear is entered and the focus is changed") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -533,8 +533,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does not trigger a validation error if a valid expYear is entered and the focus is changed, and update the field") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -552,8 +552,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does trigger a validation error if an invalid expYear is entered and the focus is changed, and update the field") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -570,8 +570,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does trigger a validation error if an invalid expYear is entered and the focus is changed, and update the field, but then hides validation when the expYear is fixed and the focus is changed") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -595,8 +595,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does trigger a emphasize error if an invalid expYear is entered and the focus is changed, and update the field, but then hides validation when the expYear is *not* fixed and the focus is changed") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -623,9 +623,9 @@ class AcceptOnUIMachineSpec: QuickSpec {
         
         describe("security field validation") {
             it("Does not trigger validation error if no security is entered but the focus is not changed") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
+                let delegate = AcceptOnUIMachineSpecDelegate()
                 
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -639,8 +639,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does trigger validation error if no security is entered and the focus is changed") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -656,8 +656,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does not trigger a validation error if a valid security is entered and the focus is changed, and update the field") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -675,8 +675,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does trigger a validation error if an invalid security is entered and the focus is changed, and update the field") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -693,8 +693,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does trigger a validation error if an invalid security is entered and the focus is changed, and update the field, but then hides validation when the security is fixed and the focus is changed") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -718,8 +718,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does trigger a emphasize error if an invalid security is entered and the focus is changed, and update the field, but then hides validation when the security is *not* fixed and the focus is changed") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -745,8 +745,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
         
         describe("pay button") {
             it("Does trigger validation of all fields") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -775,8 +775,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does trigger emphasize on fields that still have errors") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -804,8 +804,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does trigger hide error on fields that had errors but no longer do") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -839,8 +839,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does call acceptOnUIMachinePaymentIsProcessing when validated information is entered") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -879,7 +879,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 var token = AcceptOnAPITransactionToken()
                 token.amountInCents = 349
                 let paymentMethods = AcceptOnAPIPaymentMethodsInfo()
-                var options = AcceptOnUIMachineFormOptions(token: token, paymentMethods: paymentMethods)
+                let options = AcceptOnUIMachineFormOptions(token: token, paymentMethods: paymentMethods)
                 expect(options.uiAmount).to(equal("$3.49"))
             }
             
@@ -887,15 +887,15 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 var token = AcceptOnAPITransactionToken()
                 token.amountInCents = 0
                 let paymentMethods = AcceptOnAPIPaymentMethodsInfo()
-                var options = AcceptOnUIMachineFormOptions(token: token, paymentMethods: paymentMethods)
+                let options = AcceptOnUIMachineFormOptions(token: token, paymentMethods: paymentMethods)
                 expect(options.uiAmount).to(equal("$0.00"))
             }
         }
         
         describe("creditCardReset") {
             it("Does clear the internal fields associated with the credit-card when the reset is used") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -924,8 +924,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does clear the internal validation statuses with the credit-card when the reset is used") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -964,8 +964,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
             
             it("Does reset the brand type for the credit-card") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
@@ -997,8 +997,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
         
         describe("paypal") {
             it("Does call acceptOnUIMachinePaymentIsProcessing when paypal is clicked") {
-                var delegate = AcceptOnUIMachineSpecDelegate()
-                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553")
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
                 uim.delegate = delegate
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)

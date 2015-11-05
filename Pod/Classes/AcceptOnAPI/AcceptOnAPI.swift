@@ -146,12 +146,21 @@ public class AcceptOnAPI {
     /* Endpoint Communication Helpers                                                            */
     /* ######################################################################################### */
     //The endpoint URL we are communicating with for all API calls
-    static let endpointUrl = "https://staging-checkout.accepton.com"
+    let stagingEndpointURL = "https://staging-checkout.accepton.com"
+    let productionEndpointURL = "https://checkout.accepton.com"
+    
+    let isProduction: Bool
+    var endpointUrl: String {
+        get {
+            return isProduction ? self.productionEndpointURL : self.stagingEndpointURL
+        }
+    }
+    
     
     //Makes an AcceptOnAPI network request to the `path`, e.g. if you passed in `/v1/tokens` for path
     //then you would make a request to something like `https://staging-checkout.accepton.com/v1/tokens`
     //depending on the value of endpoint_url above
-    static public func requestWithMethod(method: Alamofire.Method, path: String, params: [String:AnyObject]?, completion: (res: [String:AnyObject]?, error:NSError?) -> ()) {
+    public func requestWithMethod(method: Alamofire.Method, path: String, params: [String:AnyObject]?, completion: (res: [String:AnyObject]?, error:NSError?) -> ()) {
         //Get the full network request path, e.g. https://staging-checkout.accepton.com + /v1/tokens
         let fullPath = "\(endpointUrl)/\(path)"
         
@@ -191,10 +200,10 @@ public class AcceptOnAPI {
                     completion(res: nil, error: AcceptOnAPIError.errorWithCode(.MalformedOrNonExistantData, failureReason: "AcceptOn's API returned data that could not be converted into JSON. It may be blank or malformed JSON."))
                 }
             case .Failure(let error):
-                puts("AcceptonAPI connection failed.  Retrying...")
+                puts("AcceptonAPI connection failed. \(error) Retrying...")
                 let delay = Int64(1000) * Int64(NSEC_PER_MSEC)
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue(), { () -> Void in
-                    requestWithMethod(method, path: path, params: params, completion: completion)
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue(), { [weak self] () -> Void in
+                    self?.requestWithMethod(method, path: path, params: params, completion: completion)
                 })
 //                completion(res: nil, error: AcceptOnAPIError.errorWithCode(.NetworkIssues, failureReason: "Could not connect to the network \(error)."))
             }
@@ -205,12 +214,14 @@ public class AcceptOnAPI {
     /* Constructors & Members                                                                    */
     /* ######################################################################################### */
     public var accessToken: String!
-    public init(publicKey: String) {
+    public init(publicKey: String, isProduction: Bool) {
         accessToken = publicKey
+        self.isProduction = isProduction
     }
     
-    public init(secretKey: String) {
+    public init(secretKey: String, isProduction: Bool) {
         accessToken = secretKey
+        self.isProduction = isProduction
     }
 
     /* ######################################################################################### */
@@ -219,7 +230,7 @@ public class AcceptOnAPI {
     public func createTransactionTokenWithDescription(description: String, forAmountInCents amount: Int, completion: (token: AcceptOnAPITransactionToken?, error: NSError?) -> ()) {
         let params = ["access_token":self.accessToken, "amount": String(amount), "description": description]
         
-        AcceptOnAPI.requestWithMethod(.POST, path:"/v1/tokens", params: params, completion: { res, err in
+        requestWithMethod(.POST, path:"/v1/tokens", params: params, completion: { res, err in
             if (err != nil) {
                 completion(token: nil, error: err)
             } else {
@@ -236,7 +247,7 @@ public class AcceptOnAPI {
     public func getAvailablePaymentMethodsForTransactionWithId(tid: String, completion: (paymentMethods: AcceptOnAPIPaymentMethodsInfo?, error: NSError?) -> ()) {
         let params = ["access_token":self.accessToken, "token_id": tid]
         
-        AcceptOnAPI.requestWithMethod(.GET, path:"/v1/form/configure", params: params, completion: { res, err in
+        requestWithMethod(.GET, path:"/v1/form/configure", params: params, completion: { res, err in
             if (err != nil) {
                 completion(paymentMethods: nil, error: err)
             } else {
@@ -263,7 +274,7 @@ public class AcceptOnAPI {
         var params = ["access_token":self.accessToken, "token": tid] as [String:AnyObject]
         chargeInfo.mergeIntoParams(&params)
         
-        AcceptOnAPI.requestWithMethod(.POST, path:"/v1/charges", params: params, completion: { res, err in
+        requestWithMethod(.POST, path:"/v1/charges", params: params, completion: { res, err in
             if (err != nil) {
                 completion(chargeRes: nil, error: err)
             } else {
@@ -276,7 +287,7 @@ public class AcceptOnAPI {
     public func refundChargeWithTransactionId(tid: String, andChargeId chargeId: String, forAmountInCents amountInCents: Int, completion: (refundRes: [String: AnyObject]?, error: NSError?) -> ()) {
         let params = ["access_token":self.accessToken, "token": tid, "charge_id": chargeId, "amount": amountInCents] as [String:AnyObject]
         
-        AcceptOnAPI.requestWithMethod(.GET, path:"/v1/refunds", params: params, completion: { res, err in
+        requestWithMethod(.GET, path:"/v1/refunds", params: params, completion: { res, err in
             if (err != nil) {
                 completion(refundRes: nil, error: err)
             } else {

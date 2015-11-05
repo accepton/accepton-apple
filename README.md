@@ -80,6 +80,9 @@ class ViewController : UIViewController, AcceptOnViewControllerDelegate {
             
             //The accessToken
             avc.accessToken = "pkey_xxxxxxxxxxxxxxx"
+
+            //If you're using this in production
+            //avc.isProduction = true
         }
     }
     
@@ -99,6 +102,14 @@ class ViewController : UIViewController, AcceptOnViewControllerDelegate {
         UIAlertView(title: "Hurray!", message: "Your widget was shipped", delegate: nil, cancelButtonTitle: "Ok").show()
     }
 }
+```
+
+> ☃ Pro Tip: You can add `-D PRODUCTION` to your `Swift Compiler - Custom Flags` under **Targets** → **Build Settings** and then add to your view controller:
+
+> ```c
+#if PRODUCTION
+  avc.isProduction = true
+#endif
 ```
 
 ## Low Level Primitives

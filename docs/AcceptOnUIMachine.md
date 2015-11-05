@@ -25,14 +25,17 @@ class MyController : UIViewController, AcceptOnUIMachineDelegate {
   var uim: AcceptOnUIMachine!
   
   func viewDidLoad() {
-    //Create a new AcceptOnUIMachine object and set ourselves as the delegate
-    let uim = AcceptOnUIMachine(publicKey: "pkey_0d4502a9bf8430ae")
+    //Create a new AcceptOnUIMachine object and set ourselves as the delegate for the
+    //staging API
+    let uim = AcceptOnUIMachine(publicKey: "pkey_0d4502a9bf8430ae", isProduction: false)
     uim.delegate = self
   }
 }
 ```
 
 > ☃ You may either pass a `publicKey:`, or `secretKey:`  as a parameter to the AcceptOnUIMachine.  As this only handles payments, and not refunds, etc. both the public and secret provide the same level of functionality
+
+> ☃ The last parameter, `isProduction`, can be set to true if you're using this in production.
 
 Notice that we have declared that our controller has declared that it is complaint with the `AcceptOnUIMachineDelegate` protocol. 
 

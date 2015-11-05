@@ -1,5 +1,4 @@
 import UIKit
-import accepton
 
 //Notifications for all things relating to the credit card form
 @objc protocol AcceptOnCreditCardFormDelegate {

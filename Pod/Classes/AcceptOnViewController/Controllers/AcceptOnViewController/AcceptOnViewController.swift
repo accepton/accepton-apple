@@ -47,6 +47,7 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
     
     //Access token, item description, and amount for AcceptOn transaction
     public var accessToken: String?
+    public var isProduction: Bool = false
     public var itemDescription: String?
     public var amountInCents: Int?
     
@@ -72,7 +73,7 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
         self.view.backgroundColor = UIColor.clearColor()
         
         //Create the UIMachine to handle behaviours
-        uim = AcceptOnUIMachine(publicKey: accessToken!)
+        uim = AcceptOnUIMachine(publicKey: accessToken!, isProduction: isProduction)
         uim.delegate = self
         uim.beginForItemWithDescription(itemDescription!, forAmountInCents: amountInCents!)
         

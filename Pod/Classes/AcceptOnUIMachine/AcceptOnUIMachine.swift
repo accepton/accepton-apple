@@ -112,12 +112,12 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
     /* ######################################################################################### */
     /* Constructors & Members (Stage I)                                                          */
     /* ######################################################################################### */
-    public convenience init(publicKey: String) {
-        self.init(api: AcceptOnAPI(publicKey: publicKey))
+    public convenience init(publicKey: String, isProduction: Bool) {
+        self.init(api: AcceptOnAPI(publicKey: publicKey, isProduction: isProduction))
     }
     
-    public convenience init(secretKey: String) {
-        self.init(api: AcceptOnAPI(secretKey: secretKey))
+    public convenience init(secretKey: String, isProduction: Bool) {
+        self.init(api: AcceptOnAPI(secretKey: secretKey, isProduction: isProduction))
     }
     
     let api: AcceptOnAPI!                          //This is the networking API object
