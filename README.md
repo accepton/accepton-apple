@@ -28,7 +28,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 use_frameworks!
 
-pod 'Accepton', '~> 0.1'
+pod 'Accepton', '~> 0.2'
 ```
 
 After you modify the `Podfile`, run `pod install` in the same directory as your modified `Podfile`.

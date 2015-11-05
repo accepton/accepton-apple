@@ -96,8 +96,8 @@ typedef int swift_int4  __attribute__((__ext_vector_type__(4)));
 
 SWIFT_CLASS("_TtC8accepton17AcceptOnUIMachine")
 @interface AcceptOnUIMachine : NSObject
-- (nonnull instancetype)initWithPublicKey:(NSString * __nonnull)publicKey;
-- (nonnull instancetype)initWithSecretKey:(NSString * __nonnull)secretKey;
+- (nonnull instancetype)initWithPublicKey:(NSString * __nonnull)publicKey isProduction:(BOOL)isProduction;
+- (nonnull instancetype)initWithSecretKey:(NSString * __nonnull)secretKey isProduction:(BOOL)isProduction;
 @property (nonatomic, weak) id <AcceptOnUIMachineDelegate> __nullable delegate;
 - (void)beginForItemWithDescription:(NSString * __nonnull)description forAmountInCents:(NSInteger)amountInCents;
 - (void)creditCardFieldDidFocusWithName:(NSString * __nonnull)name;
@@ -151,6 +151,7 @@ SWIFT_CLASS("_TtC8accepton22AcceptOnViewController")
 @interface AcceptOnViewController : UIViewController <AcceptOnUIMachineDelegate>
 @property (nonatomic, weak) id <AcceptOnViewControllerDelegate> __nullable delegate;
 @property (nonatomic, copy) NSString * __nullable accessToken;
+@property (nonatomic) BOOL isProduction;
 @property (nonatomic, copy) NSString * __nullable itemDescription;
 - (void)viewDidLoad;
 - (void)viewWillAppear:(BOOL)animated;
