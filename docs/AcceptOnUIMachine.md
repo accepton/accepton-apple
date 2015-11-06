@@ -235,7 +235,10 @@ func acceptOnUIMachinePaymentIsProcessing(paymentType: String) {
 //Payment succeeded, you should show a screen to notify the user that the payment went through. 
 //The original payment-form and payment-form loader you pushed ontop during `acceptOnUIMachinePaymentIsProcessing` 
 //should be torn down at this time.
-func acceptOnUIMachinePaymentDidSucceed() {
+func acceptOnUIMachinePaymentDidSucceedWithCharge(chargeInfo: [String:AnyObject]) {
+  //Save this for refunding later, analytics, etc. if you wish
+  let chargeId = chargeInfo["id"] as! String
+
   removePaypmentForm()
   removePaymentProcessingLoader()
   showSuccessPage()
