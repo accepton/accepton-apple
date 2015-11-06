@@ -124,7 +124,7 @@ SWIFT_PROTOCOL("_TtP8accepton25AcceptOnUIMachineDelegate_")
 - (void)acceptOnUIMachinePaymentIsProcessing:(NSString * __nonnull)paymentType;
 - (void)acceptOnUIMachinePaymentDidAbortPaymentMethodWithName:(NSString * __nonnull)name;
 - (void)acceptOnUIMachinePaymentErrorWithMessage:(NSString * __nonnull)message;
-- (void)acceptOnUIMachinePaymentDidSucceed;
+- (void)acceptOnUIMachinePaymentDidSucceedWithCharge:(NSDictionary<NSString *, id> * __nonnull)chargeInfo;
 - (void)acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName:(NSString * __nonnull)name withValue:(NSString * __nonnull)value;
 @end
 
@@ -162,7 +162,7 @@ SWIFT_CLASS("_TtC8accepton22AcceptOnViewController")
 - (void)acceptOnUIMachineCreditCardTypeDidChange:(NSString * __nonnull)type;
 - (void)acceptOnUIMachinePaymentDidAbortPaymentMethodWithName:(NSString * __nonnull)name;
 - (void)acceptOnUIMachinePaymentIsProcessing:(NSString * __nonnull)paymentType;
-- (void)acceptOnUIMachinePaymentDidSucceed;
+- (void)acceptOnUIMachinePaymentDidSucceedWithCharge:(NSDictionary<NSString *, id> * __nonnull)chargeInfo;
 - (void)acceptOnUIMachinePaymentErrorWithMessage:(NSString * __nonnull)message;
 - (nonnull instancetype)initWithNibName:(NSString * __nullable)nibNameOrNil bundle:(NSBundle * __nullable)nibBundleOrNil OBJC_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder * __nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
@@ -173,7 +173,7 @@ SWIFT_PROTOCOL("_TtP8accepton30AcceptOnViewControllerDelegate_")
 @protocol AcceptOnViewControllerDelegate
 @optional
 - (void)acceptOnCancelWasClicked:(AcceptOnViewController * __nonnull)vc;
-- (void)acceptOnPaymentDidSucceed:(AcceptOnViewController * __nonnull)vc;
+- (void)acceptOnPaymentDidSucceed:(AcceptOnViewController * __nonnull)vc withChargeInfo:(NSDictionary<NSString *, id> * __nonnull)chargeInfo;
 @end
 
 
