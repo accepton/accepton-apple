@@ -6,7 +6,7 @@ import SnapKit
     optional func acceptOnCancelWasClicked(vc: AcceptOnViewController)
     
     //You should show the user that the payment was successful
-    optional func acceptOnPaymentDidSucceed(vc: AcceptOnViewController)
+    optional func acceptOnPaymentDidSucceed(vc: AcceptOnViewController, withChargeInfo chargeInfo: [String:AnyObject])
 }
 
 //Works with the AcceptOnUIMachine to manage the UI behaviours
@@ -374,8 +374,8 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
         showWaitingWithAnimationAndDelay(1)
     }
     
-    public func acceptOnUIMachinePaymentDidSucceed() {
-        delegate?.acceptOnPaymentDidSucceed?(self)
+    public func acceptOnUIMachinePaymentDidSucceedWithCharge(chargeInfo: [String:AnyObject]) {
+        delegate?.acceptOnPaymentDidSucceed?(self, withChargeInfo: chargeInfo)
     }
     
     public func acceptOnUIMachinePaymentErrorWithMessage(message: String) {

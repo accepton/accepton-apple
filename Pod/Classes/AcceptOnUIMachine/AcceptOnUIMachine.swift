@@ -15,7 +15,7 @@ import Stripe
     optional func acceptOnUIMachinePaymentIsProcessing(paymentType: String)
     optional func acceptOnUIMachinePaymentDidAbortPaymentMethodWithName(name: String)
     optional func acceptOnUIMachinePaymentErrorWithMessage(message: String)
-    optional func acceptOnUIMachinePaymentDidSucceed()
+    optional func acceptOnUIMachinePaymentDidSucceedWithCharge(chargeInfo: [String:AnyObject])
     
     //Spec related
     optional func acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName(name: String, withValue value: String)  //Field updated, no validation error
@@ -559,7 +559,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
                             return
                         }
                          
-                        self?.delegate?.acceptOnUIMachinePaymentDidSucceed?()
+                        self?.delegate?.acceptOnUIMachinePaymentDidSucceedWithCharge?(chargeRes!)
                     }
                 }
             } else {
@@ -603,7 +603,17 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
 //        if state != .WaitingForPaypal { return }
         
         state = .PaymentComplete
-        delegate?.acceptOnUIMachinePaymentDidSucceed?()
+        //        self?.api.chargeWithTransactionId(self?.tokenObject!.id ?? "", andChargeinfo: chargeInfo) { chargeRes, err in
+        //            if let err = err {
+        //                self?.delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("credit_card")
+        //                self?.delegate?.acceptOnUIMachinePaymentErrorWithMessage?(err.localizedDescription)
+        //                return
+        //            }
+        //
+        //            self?.delegate?.acceptOnUIMachinePaymentDidSucceedWithCharge?(chargeRes!)
+        //        }
+        
+        delegate?.acceptOnUIMachinePaymentDidSucceedWithCharge?(["id":"chg_stub"])
     }
     
     func paypalTransactionDidCancel() {
@@ -647,7 +657,18 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
         //        if state != .WaitingForPaypal { return }
         
         state = .PaymentComplete
-        delegate?.acceptOnUIMachinePaymentDidSucceed?()
+        
+//        self?.api.chargeWithTransactionId(self?.tokenObject!.id ?? "", andChargeinfo: chargeInfo) { chargeRes, err in
+//            if let err = err {
+//                self?.delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("credit_card")
+//                self?.delegate?.acceptOnUIMachinePaymentErrorWithMessage?(err.localizedDescription)
+//                return
+//            }
+//            
+//            self?.delegate?.acceptOnUIMachinePaymentDidSucceedWithCharge?(chargeRes!)
+//        }
+        
+        delegate?.acceptOnUIMachinePaymentDidSucceedWithCharge?(["id":"chg_stub"])
     }
     
     func applePayTransactionDidCancel() {

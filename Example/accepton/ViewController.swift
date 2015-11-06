@@ -25,11 +25,15 @@ class ViewController : UIViewController, AcceptOnViewControllerDelegate {
         }
     }
     
-    func acceptOnPaymentDidSucceed(vc: AcceptOnViewController) {
-        //Hide the accept-on UI
+    func acceptOnPaymentDidSucceed(vc: AcceptOnViewController, withChargeInfo chargeInfo: [String:AnyObject]) {
+        //Save this for refunding later, analytics, etc. if you wish
+        let chargeId = chargeInfo["id"] as! String
+        
+        //Dismiss the modal that we showed in the storyboard
         vc.dismissViewControllerAnimated(true) {
         }
         
         UIAlertView(title: "Hurray!", message: "Your widget was shipped", delegate: nil, cancelButtonTitle: "Ok").show()
     }
+    
 }
