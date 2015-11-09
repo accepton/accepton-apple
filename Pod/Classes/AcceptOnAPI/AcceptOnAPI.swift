@@ -162,7 +162,7 @@ public struct AcceptOnAPIChargeInfo {
     //depending on the value of endpoint_url above
     public func requestWithMethod(method: Alamofire.Method, path: String, params: [String:AnyObject]?, completion: (res: [String:AnyObject]?, error:NSError?) -> ()) {
         //Get the full network request path, e.g. https://staging-checkout.accepton.com + /v1/tokens
-        let fullPath = "\(endpointUrl)/\(path)"
+        let fullPath = "\(endpointUrl)\(path)"
         
         //Make a request
         Alamofire.request(method, fullPath, parameters: params).responseJSON { response in
