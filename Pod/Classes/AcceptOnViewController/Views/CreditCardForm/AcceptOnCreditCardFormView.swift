@@ -236,6 +236,14 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate, UIPickerViewDeleg
         if (fieldName == "security" && (newString as NSString).length > 4) { return false }  //Don't allow security field to be more than 4 chars
         if (fieldName == "expYear" && (newString as NSString).length > 2) { return false }   //Don't allow year field to be more than 2 chars
         
+        //Ensure numeric input only
+        if fieldName == "expYear" || fieldName == "security" {
+            if Int(newString) == nil { return false }
+        }
+        
+        //Don't allow edits through input, only the pop-up
+        if fieldName == "expMonth" { return false }
+        
         //If we reached this point, we can accept the update
         self.delegate?.creditCardFormFieldWithName?(fieldName, wasUpdatedToString: newString)
         return true
