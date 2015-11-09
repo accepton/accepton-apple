@@ -141,7 +141,7 @@ public struct AcceptOnAPIChargeInfo {
 }
 
 //Actual API class
-public class AcceptOnAPI {
+@objc public class AcceptOnAPI: NSObject {
     /* ######################################################################################### */
     /* Endpoint Communication Helpers                                                            */
     /* ######################################################################################### */

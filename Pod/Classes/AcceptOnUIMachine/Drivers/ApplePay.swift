@@ -1,10 +1,13 @@
 import PassKit
 import UIKit
+import Stripe
 
 @objc protocol AcceptOnUIMachineApplePayDriverDelegate {
     optional func applePayTransactionDidFailWithMessage(message: String)
     optional func applePayTransactionDidSucceed()
     optional func applePayTransactionDidCancel()
+    
+    var api: AcceptOnAPI { get }
 }
 
 enum AcceptOnUIMachineApplePayDriverAvailability {
@@ -57,8 +60,11 @@ extension AcceptOnUIMachineFormOptions {
     }
     
     var pkvc: PKPaymentAuthorizationViewController!
-    func beginApplePayTransactionForPaymentRequest(request: PKPaymentRequest) {
+    var formOptions: AcceptOnUIMachineFormOptions!
+    func beginApplePayTransactionForPaymentRequest(request: PKPaymentRequest, withFormOptions formOptions: AcceptOnUIMachineFormOptions) {
+        self.formOptions = formOptions
         
+        didErr = nil
         let availability = AcceptOnUIMachineApplePayDriver.checkAvailability()
         if (availability == .NotSupported) {
             self.delegate?.applePayTransactionDidFailWithMessage?("Your device does not support ApplePay")
@@ -81,6 +87,7 @@ extension AcceptOnUIMachineFormOptions {
     }
     
     var didHitCancel = true
+    var didErr: NSError?  //Used to check stripe successful-ness in processing the token
     func paymentAuthorizationViewControllerDidFinish(controller: PKPaymentAuthorizationViewController) {
         pkvc.dismissViewControllerAnimated(true) { [weak self] in
             self?._presentingViewController.view.removeFromSuperview()
@@ -90,7 +97,12 @@ extension AcceptOnUIMachineFormOptions {
             if (self!.didHitCancel) {
                 self?.delegate?.applePayTransactionDidCancel?()
             } else {
-                self?.delegate?.applePayTransactionDidSucceed?()
+                //Did payment-processor process the payment token?
+                if (self!.didErr != nil) {
+                    self?.delegate?.applePayTransactionDidFailWithMessage?("Could not connect to the payment servers. Please try again later.")
+                } else {
+                    self?.delegate?.applePayTransactionDidSucceed?()
+                }
             }
         }
     }
@@ -98,14 +110,43 @@ extension AcceptOnUIMachineFormOptions {
     func paymentAuthorizationViewController(controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, completion: (PKPaymentAuthorizationStatus) -> Void) {
         didHitCancel = false
         
-        //Send this off to the AcceptOn servers to verify before returning success
-        let paymentToken = payment.token
-        puts("\(paymentToken)")
-        
-        completion(PKPaymentAuthorizationStatus.Success)
+        if self.formOptions.paymentMethods.supportsStripe {
+            guard let stripePublishableKey = formOptions.paymentMethods.stripePublishableKey else {
+                puts("Stripe was enabled but there was no publishable key")
+                completion(PKPaymentAuthorizationStatus.Failure)
+                return
+            }
+            
+            //Attempt to create a transaction with Stripe with the ApplePay token
+            Stripe.setDefaultPublishableKey(stripePublishableKey)
+            STPAPIClient.sharedClient().createTokenWithPayment(payment) { (token, err) -> Void in
+                if err != nil {
+                    puts("Stripe returned an error: \(err)")
+                    completion(PKPaymentAuthorizationStatus.Failure)
+                    return
+                }
+                
+                //Now we talk to accepton-on servers to complete the transaction
+                let tokenId = token!.tokenId
+                let chargeInfo = AcceptOnAPIChargeInfo(cardToken: tokenId, email: "applepay@applepay.com")
+                self.delegate?.api.chargeWithTransactionId(self.formOptions.token!.id ?? "", andChargeinfo: chargeInfo) { chargeRes, err in
+                    if let err = err {
+                        self.didErr = err
+                        puts("AcceptOn failed to charge: \(err)")
+                        completion(PKPaymentAuthorizationStatus.Failure)
+                        return
+                    }
+                    
+                    completion(PKPaymentAuthorizationStatus.Success)
+                }
+            }
+        } else {
+            puts("No payment processor configured that supports apple-pay")
+            completion(PKPaymentAuthorizationStatus.Failure)
+        }
     }
     
     func paymentAuthorizationViewController(controller: PKPaymentAuthorizationViewController, didSelectShippingAddress address: ABRecord, completion: (PKPaymentAuthorizationStatus, [PKShippingMethod], [PKPaymentSummaryItem]) -> Void) {
-        
+        //Depreciated
     }
 }

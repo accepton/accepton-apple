@@ -120,7 +120,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
         self.init(api: AcceptOnAPI(secretKey: secretKey, isProduction: isProduction))
     }
     
-    let api: AcceptOnAPI!                          //This is the networking API object
+    var api: AcceptOnAPI                          //This is the networking API object
     public init(api: AcceptOnAPI) {
         self.api = api
     }
@@ -537,7 +537,6 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
             let stripePublishableKey = paymentMethods!.stripePublishableKey
             if let stripePublishableKey = stripePublishableKey {
                 Stripe.setDefaultPublishableKey(stripePublishableKey)
-                
                 let card = STPCardParams()
                 card.number = cardNumFieldValue
                 card.expMonth = UInt(((expMonthFieldValue ?? "") as NSString).intValue)
@@ -636,7 +635,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
         let time = dispatch_time(DISPATCH_TIME_NOW, delay)
         dispatch_after(time, dispatch_get_main_queue()) { [weak self] in
             self?.applePayDriver.delegate = self
-            self?.applePayDriver.beginApplePayTransactionForPaymentRequest(self!.options.createApplePayPaymentRequest())
+            self?.applePayDriver.beginApplePayTransactionForPaymentRequest(self!.options.createApplePayPaymentRequest(), withFormOptions: self!.options!)
         }
         
         delegate?.acceptOnUIMachinePaymentIsProcessing?("apple_pay")
