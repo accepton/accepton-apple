@@ -92,12 +92,23 @@ typedef int swift_int4  __attribute__((__ext_vector_type__(4)));
 
 #pragma clang diagnostic ignored "-Wproperty-attribute-mismatch"
 #pragma clang diagnostic ignored "-Wduplicate-method-arg"
+@class NSError;
+
+SWIFT_CLASS("_TtC8accepton11AcceptOnAPI")
+@interface AcceptOnAPI : NSObject
+@property (nonatomic, copy) NSString * __null_unspecified accessToken;
+- (nonnull instancetype)initWithPublicKey:(NSString * __nonnull)publicKey isProduction:(BOOL)isProduction OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)initWithSecretKey:(NSString * __nonnull)secretKey isProduction:(BOOL)isProduction OBJC_DESIGNATED_INITIALIZER;
+- (void)refundChargeWithTransactionId:(NSString * __nonnull)tid andChargeId:(NSString * __nonnull)chargeId forAmountInCents:(NSInteger)amountInCents completion:(void (^ __nonnull)(NSDictionary<NSString *, id> * __nullable, NSError * __nullable))completion;
+@end
+
 @protocol AcceptOnUIMachineDelegate;
 
 SWIFT_CLASS("_TtC8accepton17AcceptOnUIMachine")
 @interface AcceptOnUIMachine : NSObject
 - (nonnull instancetype)initWithPublicKey:(NSString * __nonnull)publicKey isProduction:(BOOL)isProduction;
 - (nonnull instancetype)initWithSecretKey:(NSString * __nonnull)secretKey isProduction:(BOOL)isProduction;
+- (nonnull instancetype)initWithApi:(AcceptOnAPI * __nonnull)api OBJC_DESIGNATED_INITIALIZER;
 @property (nonatomic, weak) id <AcceptOnUIMachineDelegate> __nullable delegate;
 - (void)beginForItemWithDescription:(NSString * __nonnull)description forAmountInCents:(NSInteger)amountInCents;
 - (void)creditCardFieldDidFocusWithName:(NSString * __nonnull)name;
@@ -109,7 +120,6 @@ SWIFT_CLASS("_TtC8accepton17AcceptOnUIMachine")
 - (void)applePayClicked;
 @end
 
-@class NSError;
 @class AcceptOnUIMachineFormOptions;
 
 SWIFT_PROTOCOL("_TtP8accepton25AcceptOnUIMachineDelegate_")
