@@ -16,6 +16,12 @@ class ViewController : UIViewController, AcceptOnViewControllerDelegate {
             
             //If you're running in production
             //avc.isProduction = true
+
+            //Optionally, provide an email to use to auto-fill out the email
+            //field in the credit card form
+            //var userInfo = AcceptOnUIMachineOptionalUserInfo()
+            //userInfo.email = "test@test.com"
+            //avc.userInfo = userInfo
         }
     }
     

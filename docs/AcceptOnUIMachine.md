@@ -29,6 +29,13 @@ class MyController : UIViewController, AcceptOnUIMachineDelegate {
     //staging API
     let uim = AcceptOnUIMachine(publicKey: "pkey_0d4502a9bf8430ae", isProduction: false)
     uim.delegate = self
+
+    //You may also provide 'userInfo' which is additional information like a user's email. This
+    //is used in various ways, such as filling out pre-filling-out the credit-card's email field
+    //let userInfo = AcceptOnUIMachineOptionalUserInfo()
+    //userInfo.email = "test@test.com"
+    //let uim = AcceptOnUIMachine(publicKey: "pkey_0d4502a9bf8430ae", isProduction: false, userInfo: userInfo)
+    //uim.delegate = self
   }
 }
 ```
@@ -170,6 +177,20 @@ Our `UIViewController` dosen't implement the *logic* of these behaviours; only w
 >The `name` parameter is the name labeled in the credit-card example form above
 
 ```swift
+//For implementations that show a credit-card form on the initial screen, you must call this in-order to receive things
+//like pre-filled out email fields. For others, you must balance this call with `uim.didSwitchFromCreditCardForm`
+//when you show and hide your credit-card form
+uim.didSwitchToCreditCardForm()
+
+//For some implementations, if you don't want to show the form-screen
+//at the start, you may want to show it after the user clicks a 'credit_card'
+//button. This provides a way to tell the engine that the credit-card
+//view no-longer exists so the entries that the engine believes are in
+//the credit-card view are no longer there and it should consider the
+//credit-card view fresh again. You will not receive any validation
+//events with this.
+uid.didSwitchFromCreditCardForm()
+
 //When a user switches to a field, e.g. clicks and brings up the keyboard, but not when the user pastes something.
 //Multiple focuses will assume that the last focus is no longer active, but you should still
 //call didLoseFocusWithName before calling this function (see below)
@@ -183,15 +204,6 @@ uim.creditCardFieldWithName(name: String, didUpdateWithString string: String)
 
 //When the user hits the pay button
 uim.creditCardPayClicked()
-
-//For some implementations, if you don't want to show the form-screen
-//at the start, you may want to show it after the user clicks a 'credit_card'
-//button. This provides a way to tell the engine that the credit-card
-//view no-longer exists so the entries that the engine believes are in
-//the credit-card view are no longer there and it should consider the
-//credit-card view fresh again. You will not receive any validation
-//events with this.
-uid.creditCardReset()
 ```
 
 In addition to these user actions, you will also need to add the following delegate function handlers (apart of the `AcceptOnUIMachineDelegate` protocol), to your *view-controller* to receive things like field updates and validation errors.
@@ -216,6 +228,11 @@ func acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName(name: String
 //A credit-card number was typed to the point where the type could be
 //deduced.  Types include "visa", "amex", "master_card", "discover" and "unknown"
 func acceptOnUIMachineCreditCardTypeDidChange(type: String) {
+}
+
+//Set the field value for the credit-card form field named `name`. Used to set initial values
+//such as the email if it is provided when the `uim` is initialized with a userInfo. (See intro)
+func acceptOnUIMachineDidSetInitialFieldValueWithName(name: String, withValue value: String) {
 }
 
 ```

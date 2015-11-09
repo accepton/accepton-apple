@@ -10,6 +10,7 @@ import Stripe
     optional func acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName(name: String, withMessage msg: String)
     optional func acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName(name: String)
     optional func acceptOnUIMachineCreditCardTypeDidChange(type: String)
+    optional func acceptOnUIMachineDidSetInitialFieldValueWithName(name: String, withValue value: String)
     
     //Mid-cycle
     optional func acceptOnUIMachinePaymentIsProcessing(paymentType: String)
@@ -108,21 +109,33 @@ enum AcceptOnUIMachineState {
     case PaymentComplete    //Payment has completed
 }
 
+//Various informations about a user like email
+//that can be used for things like pre-populating forms
+public struct AcceptOnUIMachineOptionalUserInfo {
+    public init() {
+        
+    }
+    
+    public var email: String?
+}
+
 public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate, AcceptOnUIMachineApplePayDriverDelegate {
     /* ######################################################################################### */
     /* Constructors & Members (Stage I)                                                          */
     /* ######################################################################################### */
-    public convenience init(publicKey: String, isProduction: Bool) {
-        self.init(api: AcceptOnAPI(publicKey: publicKey, isProduction: isProduction))
+    var userInfo: AcceptOnUIMachineOptionalUserInfo?
+    public convenience init(publicKey: String, isProduction: Bool, userInfo: AcceptOnUIMachineOptionalUserInfo? = nil) {
+        self.init(api: AcceptOnAPI(publicKey: publicKey, isProduction: isProduction), userInfo: userInfo)
     }
     
-    public convenience init(secretKey: String, isProduction: Bool) {
-        self.init(api: AcceptOnAPI(secretKey: secretKey, isProduction: isProduction))
+    public convenience init(secretKey: String, isProduction: Bool, userInfo: AcceptOnUIMachineOptionalUserInfo? = nil) {
+        self.init(api: AcceptOnAPI(secretKey: secretKey, isProduction: isProduction), userInfo: userInfo)
     }
     
     var api: AcceptOnAPI                          //This is the networking API object
-    public init(api: AcceptOnAPI) {
+    public init(api: AcceptOnAPI, userInfo: AcceptOnUIMachineOptionalUserInfo? = nil) {
         self.api = api
+        self.userInfo = userInfo
     }
     
     //Controls the state transitions
@@ -252,7 +265,21 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
         else if (name == "security") { validateCreditCardSecurityField() }
     }
     
-    public func creditCardReset() {
+    //Must be always called, will auto-fill out credit-card form with email if available
+    public func didSwitchToCreditCardForm() {
+        //If user info received email, update the email field
+        if let email = self.userInfo?.email {
+            if self.delegate?.acceptOnUIMachineDidSetInitialFieldValueWithName != nil {
+                self.delegate?.acceptOnUIMachineDidSetInitialFieldValueWithName!("email", withValue: email)
+                updateCreditCardEmailFieldWithString(email)
+                validateCreditCardEmailField()
+            }
+        }
+        
+    }
+    
+    //Optional, allows you to use on apps that contain a payment selection form
+    public func didSwitchFromCreditCardForm() {
         _emailFieldValue = ""
         _cardNumFieldValue = ""
         _expMonthFieldValue = ""

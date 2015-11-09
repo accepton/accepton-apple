@@ -361,4 +361,14 @@ class AcceptOnCreditCardFormView: UIView, UITextFieldDelegate, UIPickerViewDeleg
     func emphasizeErrorForFieldWithName(name: String, withMessage msg: String) {
         nameToValidationView[name]!.error = msg
     }
+    
+    //Set a field value (e.g. default email)
+    func setInitialFieldValueWithName(name: String, withValue value: String) {
+        switch (name) {
+        case "email":
+            emailField.text = value
+        default:
+            puts("Unsupported credit-card form field named: \(name)")
+        }
+    }
 }

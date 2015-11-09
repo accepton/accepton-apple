@@ -106,15 +106,13 @@ SWIFT_CLASS("_TtC8accepton11AcceptOnAPI")
 
 SWIFT_CLASS("_TtC8accepton17AcceptOnUIMachine")
 @interface AcceptOnUIMachine : NSObject
-- (nonnull instancetype)initWithPublicKey:(NSString * __nonnull)publicKey isProduction:(BOOL)isProduction;
-- (nonnull instancetype)initWithSecretKey:(NSString * __nonnull)secretKey isProduction:(BOOL)isProduction;
-- (nonnull instancetype)initWithApi:(AcceptOnAPI * __nonnull)api OBJC_DESIGNATED_INITIALIZER;
 @property (nonatomic, weak) id <AcceptOnUIMachineDelegate> __nullable delegate;
 - (void)beginForItemWithDescription:(NSString * __nonnull)description forAmountInCents:(NSInteger)amountInCents;
 - (void)creditCardFieldDidFocusWithName:(NSString * __nonnull)name;
 - (void)creditCardFieldDidLoseFocus;
 - (void)creditCardFieldWithName:(NSString * __nonnull)name didUpdateWithString:(NSString * __nonnull)string;
-- (void)creditCardReset;
+- (void)didSwitchToCreditCardForm;
+- (void)didSwitchFromCreditCardForm;
 - (void)creditCardPayClicked;
 - (void)paypalClicked;
 - (void)applePayClicked;
@@ -131,6 +129,7 @@ SWIFT_PROTOCOL("_TtP8accepton25AcceptOnUIMachineDelegate_")
 - (void)acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName:(NSString * __nonnull)name withMessage:(NSString * __nonnull)msg;
 - (void)acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName:(NSString * __nonnull)name;
 - (void)acceptOnUIMachineCreditCardTypeDidChange:(NSString * __nonnull)type;
+- (void)acceptOnUIMachineDidSetInitialFieldValueWithName:(NSString * __nonnull)name withValue:(NSString * __nonnull)value;
 - (void)acceptOnUIMachinePaymentIsProcessing:(NSString * __nonnull)paymentType;
 - (void)acceptOnUIMachinePaymentDidAbortPaymentMethodWithName:(NSString * __nonnull)name;
 - (void)acceptOnUIMachinePaymentErrorWithMessage:(NSString * __nonnull)message;
@@ -163,6 +162,7 @@ SWIFT_CLASS("_TtC8accepton22AcceptOnViewController")
 @property (nonatomic, copy) NSString * __nullable accessToken;
 @property (nonatomic) BOOL isProduction;
 @property (nonatomic, copy) NSString * __nullable itemDescription;
+@property (nonatomic, copy) NSString * __nullable creditCardEmail;
 - (void)viewDidLoad;
 - (void)viewWillAppear:(BOOL)animated;
 - (void)acceptOnUIMachineDidFinishBeginWithFormOptions:(AcceptOnUIMachineFormOptions * __nonnull)options;
@@ -170,6 +170,7 @@ SWIFT_CLASS("_TtC8accepton22AcceptOnViewController")
 - (void)acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName:(NSString * __nonnull)name;
 - (void)acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName:(NSString * __nonnull)name withMessage:(NSString * __nonnull)msg;
 - (void)acceptOnUIMachineCreditCardTypeDidChange:(NSString * __nonnull)type;
+- (void)acceptOnUIMachineDidSetInitialFieldValueWithName:(NSString * __nonnull)name withValue:(NSString * __nonnull)value;
 - (void)acceptOnUIMachinePaymentDidAbortPaymentMethodWithName:(NSString * __nonnull)name;
 - (void)acceptOnUIMachinePaymentIsProcessing:(NSString * __nonnull)paymentType;
 - (void)acceptOnUIMachinePaymentDidSucceedWithCharge:(NSDictionary<NSString *, id> * __nonnull)chargeInfo;

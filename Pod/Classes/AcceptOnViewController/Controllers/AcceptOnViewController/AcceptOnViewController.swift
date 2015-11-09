@@ -51,6 +51,12 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
     public var itemDescription: String?
     public var amountInCents: Int?
     
+    //Used to fill out the email field in the credit-card form, optional, etc.
+    public var creditCardEmail: String?
+    
+    //Holds optional user email, etc.
+    public var userInfo: AcceptOnUIMachineOptionalUserInfo?
+    
     //-----------------------------------------------------------------------------------------------------
     //Constructors, Initializers, and UIViewController lifecycle
     //-----------------------------------------------------------------------------------------------------
@@ -73,7 +79,7 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
         self.view.backgroundColor = UIColor.clearColor()
         
         //Create the UIMachine to handle behaviours
-        uim = AcceptOnUIMachine(publicKey: accessToken!, isProduction: isProduction)
+        uim = AcceptOnUIMachine(publicKey: accessToken!, isProduction: isProduction, userInfo: userInfo)
         uim.delegate = self
         uim.beginForItemWithDescription(itemDescription!, forAmountInCents: amountInCents!)
         
@@ -185,7 +191,7 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
     }
     
     func backWasClicked() {
-        uim.creditCardReset()
+        uim.didSwitchFromCreditCardForm()
         self.creditCardForm.removeFromSuperview()
         
         //Animate exit button in
@@ -312,6 +318,15 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
     
     public func acceptOnUIMachineCreditCardTypeDidChange(type: String) {
         creditCardForm.creditCardNumBrandWasUpdatedWithBrandName(type)
+    }
+    
+    public func acceptOnUIMachineDidSetInitialFieldValueWithName(name: String, withValue value: String) {
+        switch name {
+        case "email":
+            creditCardForm.setInitialFieldValueWithName(name, withValue: value)
+        default:
+            puts("Unsupported initial field value: \(name)")
+        }
     }
     
     public func acceptOnUIMachinePaymentDidAbortPaymentMethodWithName(name: String) {
@@ -467,6 +482,8 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
                 self.backButton.layer.transform = CATransform3DIdentity
                 }) { (res) -> Void in
             }
+            
+            uim.didSwitchToCreditCardForm()
         }
     }
 }

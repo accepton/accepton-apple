@@ -59,6 +59,11 @@ import accepton
         delegateEventLog.append("acceptOnUIMachineCreditCardTypeDidChange:\(type)")
         creditCardTypeTransitions.append(type)
     }
+    
+    public var initialFieldValues: [String:String] = [:]
+    public func acceptOnUIMachineDidSetInitialFieldValueWithName(name: String, withValue value: String) {
+        initialFieldValues[name] = value
+    }
 }
 
 class AcceptOnUIMachineSpec: QuickSpec {
@@ -134,6 +139,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
                     uim.creditCardFieldDidFocusWithName("email")
                 }
                 
@@ -150,6 +156,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
                     uim.creditCardFieldDidFocusWithName("email")
                     uim.creditCardFieldDidLoseFocus()
                 }
@@ -167,6 +174,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
                     uim.creditCardFieldDidFocusWithName("email")
                     uim.creditCardFieldWithName("email", didUpdateWithString: "test@test.com")
                     uim.creditCardFieldDidLoseFocus()
@@ -186,6 +194,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
                     uim.creditCardFieldDidFocusWithName("email")
                     uim.creditCardFieldWithName("email", didUpdateWithString: "test")
                     uim.creditCardFieldDidLoseFocus()
@@ -204,6 +213,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
                     //First we enter an invalid email
                     uim.creditCardFieldDidFocusWithName("email")
                     uim.creditCardFieldWithName("email", didUpdateWithString: "test")
@@ -229,6 +239,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
                     //First we enter an invalid email
                     uim.creditCardFieldDidFocusWithName("email")
                     uim.creditCardFieldWithName("email", didUpdateWithString: "test")
@@ -256,6 +267,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
                     uim.creditCardFieldDidFocusWithName("cardNum")
                 }
                 
@@ -272,6 +284,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
                     uim.creditCardFieldDidFocusWithName("cardNum")
                     uim.creditCardFieldDidLoseFocus()
                 }
@@ -289,6 +302,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
                     uim.creditCardFieldDidFocusWithName("cardNum")
                     uim.creditCardFieldWithName("cardNum", didUpdateWithString: "4242424242424242")
                     uim.creditCardFieldDidLoseFocus()
@@ -308,6 +322,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
                     uim.creditCardFieldDidFocusWithName("cardNum")
                     uim.creditCardFieldWithName("cardNum", didUpdateWithString: "test")
                     uim.creditCardFieldDidLoseFocus()
@@ -326,6 +341,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+
                     //First we enter an invalid cardNum
                     uim.creditCardFieldDidFocusWithName("cardNum")
                     uim.creditCardFieldWithName("cardNum", didUpdateWithString: "test")
@@ -351,6 +368,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+
                     //First we enter an invalid cardNum
                     uim.creditCardFieldDidFocusWithName("cardNum")
                     
@@ -383,6 +402,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+
                     uim.creditCardFieldDidFocusWithName("expMonth")
                 }
                 
@@ -399,6 +420,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+
                     uim.creditCardFieldDidFocusWithName("expMonth")
                     uim.creditCardFieldDidLoseFocus()
                 }
@@ -416,6 +439,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+
                     uim.creditCardFieldDidFocusWithName("expMonth")
                     uim.creditCardFieldWithName("expMonth", didUpdateWithString: "08")
                     uim.creditCardFieldDidLoseFocus()
@@ -435,6 +460,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+
                     uim.creditCardFieldDidFocusWithName("expMonth")
                     uim.creditCardFieldWithName("expMonth", didUpdateWithString: "test")
                     uim.creditCardFieldDidLoseFocus()
@@ -453,6 +480,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+
                     //First we enter an invalid expMonth
                     uim.creditCardFieldDidFocusWithName("expMonth")
                     uim.creditCardFieldWithName("expMonth", didUpdateWithString: "test")
@@ -479,6 +508,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+
                     //First we enter an invalid expMonth
                     uim.creditCardFieldDidFocusWithName("expMonth")
                     uim.creditCardFieldWithName("expMonth", didUpdateWithString: "test")
@@ -507,6 +538,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+
                     uim.creditCardFieldDidFocusWithName("expYear")
                 }
                 
@@ -523,6 +556,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+
                     uim.creditCardFieldDidFocusWithName("expYear")
                     uim.creditCardFieldDidLoseFocus()
                 }
@@ -540,6 +575,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+
                     uim.creditCardFieldDidFocusWithName("expYear")
                     uim.creditCardFieldWithName("expYear", didUpdateWithString: "88")
                     uim.creditCardFieldDidLoseFocus()
@@ -559,6 +596,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+
                     uim.creditCardFieldDidFocusWithName("expYear")
                     uim.creditCardFieldWithName("expYear", didUpdateWithString: "test")
                     uim.creditCardFieldDidLoseFocus()
@@ -577,6 +616,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+
                     //First we enter an invalid expYear
                     uim.creditCardFieldDidFocusWithName("expYear")
                     uim.creditCardFieldWithName("expYear", didUpdateWithString: "test")
@@ -602,6 +643,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+
                     //First we enter an invalid expYear
                     uim.creditCardFieldDidFocusWithName("expYear")
                     uim.creditCardFieldWithName("expYear", didUpdateWithString: "test")
@@ -630,6 +673,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+
                     uim.creditCardFieldDidFocusWithName("security")
                 }
                 
@@ -646,6 +691,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+
                     uim.creditCardFieldDidFocusWithName("security")
                     uim.creditCardFieldDidLoseFocus()
                 }
@@ -663,6 +710,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+
                     uim.creditCardFieldDidFocusWithName("security")
                     uim.creditCardFieldWithName("security", didUpdateWithString: "1234")
                     uim.creditCardFieldDidLoseFocus()
@@ -682,6 +731,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+
                     uim.creditCardFieldDidFocusWithName("security")
                     uim.creditCardFieldWithName("security", didUpdateWithString: "test")
                     uim.creditCardFieldDidLoseFocus()
@@ -700,6 +751,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+
                     //First we enter an invalid security
                     uim.creditCardFieldDidFocusWithName("security")
                     uim.creditCardFieldWithName("security", didUpdateWithString: "test")
@@ -725,6 +778,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+
                     //First we enter an invalid security
                     uim.creditCardFieldDidFocusWithName("security")
                     uim.creditCardFieldWithName("security", didUpdateWithString: "test")
@@ -752,6 +807,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+
                     //We enter a valid card number
                     uim.creditCardFieldDidFocusWithName("cardNum")
                     uim.creditCardFieldWithName("cardNum", didUpdateWithString: "4242424242424242")
@@ -782,6 +839,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+
                     //We enter a valid card number
                     uim.creditCardFieldDidFocusWithName("cardNum")
                     uim.creditCardFieldWithName("cardNum", didUpdateWithString: "<invalid card number>")
@@ -811,6 +870,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+
                     //Enter in an invalid card first
                     uim.creditCardFieldDidFocusWithName("cardNum")
                     uim.creditCardFieldWithName("cardNum", didUpdateWithString: "test")
@@ -846,6 +907,8 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+
                     //Enter valid information
                     uim.creditCardFieldDidFocusWithName("cardNum")
                     uim.creditCardFieldWithName("cardNum", didUpdateWithString: "4242424242424242")
@@ -892,6 +955,50 @@ class AcceptOnUIMachineSpec: QuickSpec {
             }
         }
         
+        describe("credit-card initial field values") {
+            it("Does load email if the user info was specified and the didSwitchToCreditCardForm is called") {
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                var userInfo = AcceptOnUIMachineOptionalUserInfo()
+                userInfo.email = "test@test.com"
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false, userInfo: userInfo)
+                uim.delegate = delegate
+                
+                uim.beginForItemWithDescription("test", forAmountInCents: 100)
+                
+                delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+                }
+                
+                //Pay was clicked, so it validated all fields
+                expect {
+                    return delegate.initialFieldValues["email"]
+                }.toEventually(equal("test@test.com"))
+            }
+            
+            it("Does output a validation error if the email is not sane") {
+                let delegate = AcceptOnUIMachineSpecDelegate()
+                var userInfo = AcceptOnUIMachineOptionalUserInfo()
+                userInfo.email = "test"
+                let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false, userInfo: userInfo)
+                uim.delegate = delegate
+                
+                uim.beginForItemWithDescription("test", forAmountInCents: 100)
+                
+                delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
+                }
+                
+                //Pay was clicked, so it validated all fields
+                expect {
+                    return delegate.initialFieldValues["email"]
+                }.toEventually(equal("test"))
+
+                expect {
+                    return delegate.creditCardValidationErrors[0]["name"]
+                }.toEventually(equal("email"))
+            }
+        }
+        
         describe("creditCardReset") {
             it("Does clear the internal fields associated with the credit-card when the reset is used") {
                 let delegate = AcceptOnUIMachineSpecDelegate()
@@ -901,6 +1008,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
                     uim.creditCardFieldDidFocusWithName("email")
                     uim.creditCardFieldWithName("email", didUpdateWithString: "test@test.com")
                     uim.creditCardFieldDidFocusWithName("cardNum")
@@ -911,7 +1019,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                     uim.creditCardFieldWithName("expYear", didUpdateWithString: "20")
                     uim.creditCardFieldDidFocusWithName("security")
                     uim.creditCardFieldWithName("expYear", didUpdateWithString: "1234")
-                    uim.creditCardReset()
+                    uim.didSwitchFromCreditCardForm()
                     
                     //If it didn't reset, then the fields would have been still the same (valid)
                     uim.creditCardPayClicked()
@@ -931,6 +1039,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
                     uim.creditCardFieldDidFocusWithName("email")
                     uim.creditCardFieldWithName("email", didUpdateWithString: "<invalid>")
                     
@@ -947,7 +1056,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                     uim.creditCardFieldWithName("expYear", didUpdateWithString: "<invalid>")
                     uim.creditCardFieldDidLoseFocus()
                     
-                    uim.creditCardReset()
+                    uim.didSwitchFromCreditCardForm()
                     
                     //If it reset, we would get back new 'show' validation errors, not emphasize
                     uim.creditCardPayClicked()
@@ -971,11 +1080,12 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
                     //Set it to visa
                     uim.creditCardFieldDidFocusWithName("cardNum")
                     uim.creditCardFieldWithName("cardNum", didUpdateWithString: "4242424242424242")
                     
-                    uim.creditCardReset()
+                    uim.didSwitchFromCreditCardForm()
                     
                     //It should now trigger a
                     uim.creditCardFieldDidFocusWithName("cardNum")
@@ -1004,6 +1114,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 uim.beginForItemWithDescription("test", forAmountInCents: 100)
                 
                 delegate.whenReady() {
+                    uim.didSwitchToCreditCardForm()
                     uim.paypalClicked()
                 }
                 
