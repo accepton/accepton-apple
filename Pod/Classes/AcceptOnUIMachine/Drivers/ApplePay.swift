@@ -61,9 +61,15 @@ extension AcceptOnUIMachineFormOptions {
     
     var pkvc: PKPaymentAuthorizationViewController!
     var formOptions: AcceptOnUIMachineFormOptions!
+    var shouldComplete: Bool!
     func beginApplePayTransactionForPaymentRequest(request: PKPaymentRequest, withFormOptions formOptions: AcceptOnUIMachineFormOptions) {
         self.formOptions = formOptions
         didErr = nil
+        
+        //Allow the transaction to complete, if the user hits cancel, the multi-stage transaction
+        //will not complete without the user's permission
+        self.shouldComplete = true
+        
         let availability = AcceptOnUIMachineApplePayDriver.checkAvailability()
         if (availability == .NotSupported) {
             self.delegate?.applePayTransactionDidFailWithMessage?("Your device does not support ApplePay")
@@ -88,6 +94,10 @@ extension AcceptOnUIMachineFormOptions {
     var didHitCancel = true
     var didErr: NSError?  //Used to check stripe successful-ness in processing the token
     func paymentAuthorizationViewControllerDidFinish(controller: PKPaymentAuthorizationViewController) {
+        //Disable the rest of the transaction stages.  This handler is called when both
+        //the ApplePay cancel button is clicked or the transaction completes
+        self.shouldComplete = false
+        
         pkvc.dismissViewControllerAnimated(true) { [weak self] in
             self?._presentingViewController.view.removeFromSuperview()
             self?._presentingViewController.removeFromParentViewController()
@@ -107,13 +117,12 @@ extension AcceptOnUIMachineFormOptions {
     }
     
     func paymentAuthorizationViewController(controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, completion: (PKPaymentAuthorizationStatus) -> Void) {
-        didHitCancel = false
-        
         //If we have a stripe payment processor available in the options
         if self.formOptions.paymentMethods.supportsStripe {
             //Set the stripe publishable key
             guard let stripePublishableKey = formOptions.paymentMethods.stripePublishableKey else {
                 puts("AcceptOnUIMachineApplePayDriver: Error, could not complete ApplePay transaction, Stripe was enabled but there was no publishable key")
+                didHitCancel = false
                 completion(PKPaymentAuthorizationStatus.Failure)
                 return
             }
@@ -121,9 +130,11 @@ extension AcceptOnUIMachineFormOptions {
             
             //Attempt to create a transaction with Stripe with the retrieved ApplePay token
             STPAPIClient.sharedClient().createTokenWithPayment(payment) { (token, err) -> Void in
+                if self.shouldComplete == false { return }
                 //Stripe transaction failed, do not continue
                 if let err = err {
                     puts("AcceptOnUIMachineApplePayDriver: Error, could not complete transaction after handing stripe a payment token: \(err.localizedDescription)")
+                    self.didHitCancel = false
                     completion(PKPaymentAuthorizationStatus.Failure)
                     return
                 }
@@ -133,13 +144,16 @@ extension AcceptOnUIMachineFormOptions {
                 let acceptOnTransactionToken = self.formOptions.token.id
                 let chargeInfo = AcceptOnAPIChargeInfo(cardToken: stripeTokenId, email: "applepay@applepay.com")
                 self.delegate?.api.chargeWithTransactionId(acceptOnTransactionToken, andChargeinfo: chargeInfo) { chargeRes, err in
+                    if self.shouldComplete == false { return }
                     if let err = err {
                         self.didErr = err
                         puts("AcceptOnUIMachineApplePayDriver: Error, could not complete transaction, failed to charge stripe token (forged from ApplePay) through to the accepton on servers: \(err.localizedDescription)")
+                        self.didHitCancel = false
                         completion(PKPaymentAuthorizationStatus.Failure)
                         return
                     }
                     
+                    self.didHitCancel = false
                     completion(PKPaymentAuthorizationStatus.Success)
                 }
             }

@@ -625,7 +625,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
     /* ######################################################################################### */
     /* ApplePay specifics                                                                        */
     /* ######################################################################################### */
-    lazy var applePayDriver: AcceptOnUIMachineApplePayDriver = AcceptOnUIMachineApplePayDriver()
+    var applePayDriver: AcceptOnUIMachineApplePayDriver!
     public func applePayClicked() {
         if state != .PaymentForm { return }
         
@@ -634,6 +634,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
         let delay = Int64(1500) * Int64(NSEC_PER_MSEC)
         let time = dispatch_time(DISPATCH_TIME_NOW, delay)
         dispatch_after(time, dispatch_get_main_queue()) { [weak self] in
+            self?.applePayDriver = AcceptOnUIMachineApplePayDriver()
             self?.applePayDriver.delegate = self
             self?.applePayDriver.beginApplePayTransactionForPaymentRequest(self!.options.createApplePayPaymentRequest(), withFormOptions: self!.options!)
         }
@@ -643,6 +644,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
     
     //AcceptOnUIMachinePaypalDriverDelegate Handlers
     func applePayTransactionDidFailWithMessage(message: String) {
+        applePayDriver = nil
         if state != .WaitingForApplePay { return }
         state = .PaymentForm
         
@@ -651,6 +653,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
     }
     
     func applePayTransactionDidSucceed() {
+        applePayDriver = nil
         //We could double charge if this goes catastrophically wrong, so let it
         //trigger the transaction completion under any conditions
         //        if state != .WaitingForPaypal { return }
