@@ -178,7 +178,7 @@ Our `UIViewController` dosen't implement the *logic* of these behaviours; only w
 
 ```swift
 //For implementations that show a credit-card form on the initial screen, you must call this in-order to receive things
-//like pre-filled out email fields. For others, you must balance this call with `uim.didSwitchFromCreditCardForm`
+//like pre-filled out email fields. For other implementations where you show the credit-card form after a user selects the credit-card option, you must balance this call with `uim.didSwitchFromCreditCardForm`
 //when you show and hide your credit-card form
 uim.didSwitchToCreditCardForm()
 
