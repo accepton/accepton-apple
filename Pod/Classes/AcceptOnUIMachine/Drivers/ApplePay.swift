@@ -81,12 +81,12 @@ extension AcceptOnUIMachineFormOptions {
         }
         
         pkvc = PKPaymentAuthorizationViewController(paymentRequest: request)
-        pkvc.delegate = self
-        didHitCancel = true
         if (pkvc == nil) {
             self.delegate?.applePayTransactionDidFailWithMessage?("Could not load ApplePay at this time")
             return
         }
+        pkvc.delegate = self
+        didHitCancel = true
         
         presentingViewController.presentViewController(pkvc, animated: true, completion: nil)
     }
