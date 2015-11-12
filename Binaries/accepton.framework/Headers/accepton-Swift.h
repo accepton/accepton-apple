@@ -106,6 +106,7 @@ SWIFT_CLASS("_TtC8accepton11AcceptOnAPI")
 
 SWIFT_CLASS("_TtC8accepton17AcceptOnUIMachine")
 @interface AcceptOnUIMachine : NSObject
+@property (nonatomic, strong) AcceptOnAPI * __nonnull api;
 @property (nonatomic, weak) id <AcceptOnUIMachineDelegate> __nullable delegate;
 - (void)beginForItemWithDescription:(NSString * __nonnull)description forAmountInCents:(NSInteger)amountInCents;
 - (void)creditCardFieldDidFocusWithName:(NSString * __nonnull)name;

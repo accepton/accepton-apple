@@ -106,6 +106,14 @@ SWIFT_CLASS("_TtC7SnapKit16LayoutConstraint")
 @end
 
 
+@interface NSLayoutAnchor (SWIFT_EXTENSION(SnapKit))
+@end
+
+
+@interface UIView (SWIFT_EXTENSION(SnapKit))
+@end
+
+
 @interface UIView (SWIFT_EXTENSION(SnapKit))
 @property (nonatomic, copy) NSString * __nullable snp_label;
 @end
