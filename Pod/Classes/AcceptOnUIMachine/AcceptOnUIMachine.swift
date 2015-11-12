@@ -69,9 +69,10 @@ public class AcceptOnUIMachineFormOptions : NSObject {
         return formatter.stringFromNumber(Double(amountInCents) / 100.0) ?? "<error>"
     }
     
-    public init(token: AcceptOnAPITransactionToken, paymentMethods: AcceptOnAPIPaymentMethodsInfo) {
+    public init(token: AcceptOnAPITransactionToken, paymentMethods: AcceptOnAPIPaymentMethodsInfo, userInfo: AcceptOnUIMachineOptionalUserInfo?=nil) {
         self.token = token
         self.paymentMethods = paymentMethods
+        self.userInfo = userInfo
         super.init()
     }
     
@@ -98,6 +99,8 @@ public class AcceptOnUIMachineFormOptions : NSObject {
         
         return request
     }
+    
+    public var userInfo: AcceptOnUIMachineOptionalUserInfo?
 }
 
 enum AcceptOnUIMachineState {
@@ -112,9 +115,7 @@ enum AcceptOnUIMachineState {
 //Various informations about a user like email
 //that can be used for things like pre-populating forms
 public struct AcceptOnUIMachineOptionalUserInfo {
-    public init() {
-        
-    }
+    public init() {}
     
     public var email: String?
 }
@@ -132,7 +133,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
         self.init(api: AcceptOnAPI(secretKey: secretKey, isProduction: isProduction), userInfo: userInfo)
     }
     
-    var api: AcceptOnAPI                          //This is the networking API object
+    public var api: AcceptOnAPI                          //This is the networking API object
     public init(api: AcceptOnAPI, userInfo: AcceptOnUIMachineOptionalUserInfo? = nil) {
         self.api = api
         self.userInfo = userInfo
@@ -209,7 +210,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
     //loaded the tokenId & paymentMethods.
     var options: AcceptOnUIMachineFormOptions!
     func postBegin() {
-        options = AcceptOnUIMachineFormOptions(token: self.tokenObject!, paymentMethods: self.paymentMethods!)
+        options = AcceptOnUIMachineFormOptions(token: self.tokenObject!, paymentMethods: self.paymentMethods!, userInfo: userInfo)
         
         //Signal that we should show the form
         self.delegate?.acceptOnUIMachineDidFinishBeginWithFormOptions?(options)
@@ -608,7 +609,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
         let time = dispatch_time(DISPATCH_TIME_NOW, delay)
         dispatch_after(time, dispatch_get_main_queue()) { [weak self] in
             self?.paypalDriver.delegate = self
-            self?.paypalDriver.beginPaypalTransactionWithAmountInCents(NSDecimalNumber(long: self!.amountInCents!), andDescription: self!.itemDescription!)
+            self?.paypalDriver.beginPaypalTransactionWithAmountInCents(NSDecimalNumber(long: self!.amountInCents!), andFormOptions: self!.options)
         }
         
         delegate?.acceptOnUIMachinePaymentIsProcessing?("paypal")
@@ -623,23 +624,14 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
         delegate?.acceptOnUIMachinePaymentErrorWithMessage?(message)
     }
     
-    func paypalTransactionDidSucceed() {
+    func paypalTransactionDidSucceedWithChargeRes(chargeRes: [String:AnyObject]) {
         //We could double charge if this goes catastrophically wrong, so let it
         //trigger the transaction completion under any conditions
 //        if state != .WaitingForPaypal { return }
         
         state = .PaymentComplete
-        //        self?.api.chargeWithTransactionId(self?.tokenObject!.id ?? "", andChargeinfo: chargeInfo) { chargeRes, err in
-        //            if let err = err {
-        //                self?.delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("credit_card")
-        //                self?.delegate?.acceptOnUIMachinePaymentErrorWithMessage?(err.localizedDescription)
-        //                return
-        //            }
-        //
-        //            self?.delegate?.acceptOnUIMachinePaymentDidSucceedWithCharge?(chargeRes!)
-        //        }
         
-        delegate?.acceptOnUIMachinePaymentDidSucceedWithCharge?(["id":"chg_stub"])
+        delegate?.acceptOnUIMachinePaymentDidSucceedWithCharge?(chargeRes)
     }
     
     func paypalTransactionDidCancel() {
@@ -679,7 +671,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
         delegate?.acceptOnUIMachinePaymentErrorWithMessage?(message)
     }
     
-    func applePayTransactionDidSucceed() {
+    func applePayTransactionDidSucceedWithChargeRes(chargeRes: [String:AnyObject]) {
         applePayDriver = nil
         //We could double charge if this goes catastrophically wrong, so let it
         //trigger the transaction completion under any conditions
@@ -687,17 +679,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
         
         state = .PaymentComplete
         
-//        self?.api.chargeWithTransactionId(self?.tokenObject!.id ?? "", andChargeinfo: chargeInfo) { chargeRes, err in
-//            if let err = err {
-//                self?.delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("credit_card")
-//                self?.delegate?.acceptOnUIMachinePaymentErrorWithMessage?(err.localizedDescription)
-//                return
-//            }
-//            
-//            self?.delegate?.acceptOnUIMachinePaymentDidSucceedWithCharge?(chargeRes!)
-//        }
-        
-        delegate?.acceptOnUIMachinePaymentDidSucceedWithCharge?(["id":"chg_stub"])
+        delegate?.acceptOnUIMachinePaymentDidSucceedWithCharge?(chargeRes)
     }
     
     func applePayTransactionDidCancel() {

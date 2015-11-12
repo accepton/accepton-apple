@@ -954,7 +954,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 expect(options.uiAmount).to(equal("$0.00"))
             }
         }
-        
+
         describe("credit-card initial field values") {
             it("Does load email if the user info was specified and the didSwitchToCreditCardForm is called") {
                 let delegate = AcceptOnUIMachineSpecDelegate()

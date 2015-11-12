@@ -4,7 +4,7 @@ import Stripe
 
 @objc protocol AcceptOnUIMachineApplePayDriverDelegate {
     optional func applePayTransactionDidFailWithMessage(message: String)
-    optional func applePayTransactionDidSucceed()
+    optional func applePayTransactionDidSucceedWithChargeRes(chargeRes: [String:AnyObject])
     optional func applePayTransactionDidCancel()
     
     var api: AcceptOnAPI { get }
@@ -62,9 +62,11 @@ extension AcceptOnUIMachineFormOptions {
     var pkvc: PKPaymentAuthorizationViewController!
     var formOptions: AcceptOnUIMachineFormOptions!
     var shouldComplete: Bool!
+    var chargeRes: [String:AnyObject]?
     func beginApplePayTransactionForPaymentRequest(request: PKPaymentRequest, withFormOptions formOptions: AcceptOnUIMachineFormOptions) {
         self.formOptions = formOptions
         didErr = nil
+        chargeRes = nil
         
         //Allow the transaction to complete, if the user hits cancel, the multi-stage transaction
         //will not complete without the user's permission
@@ -110,7 +112,8 @@ extension AcceptOnUIMachineFormOptions {
                 if (self!.didErr != nil) {
                     self?.delegate?.applePayTransactionDidFailWithMessage?("Could not connect to the payment servers. Please try again later.")
                 } else {
-                    self?.delegate?.applePayTransactionDidSucceed?()
+                    assert(self?.chargeRes != nil)
+                    self?.delegate?.applePayTransactionDidSucceedWithChargeRes?(self!.chargeRes!)
                 }
             }
         }
@@ -142,7 +145,11 @@ extension AcceptOnUIMachineFormOptions {
                 //We received a stripe token, notify the AcceptOn servers
                 let stripeTokenId = token!.tokenId
                 let acceptOnTransactionToken = self.formOptions.token.id
-                let chargeInfo = AcceptOnAPIChargeInfo(cardToken: stripeTokenId, email: "applepay@applepay.com")
+                
+                //If there was an email provided in the optional user information on the UIMachine creation, then
+                //pass this along.  Else, pass along nil.
+                let email = self.formOptions.userInfo?.email ?? nil
+                let chargeInfo = AcceptOnAPIChargeInfo(cardToken: stripeTokenId, email: email)
                 self.delegate?.api.chargeWithTransactionId(acceptOnTransactionToken, andChargeinfo: chargeInfo) { chargeRes, err in
                     if self.shouldComplete == false { return }
                     if let err = err {
@@ -154,6 +161,8 @@ extension AcceptOnUIMachineFormOptions {
                     }
                     
                     self.didHitCancel = false
+                    
+                    self.chargeRes = chargeRes!
                     completion(PKPaymentAuthorizationStatus.Success)
                 }
             }

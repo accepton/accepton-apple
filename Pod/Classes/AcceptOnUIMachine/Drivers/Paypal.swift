@@ -3,8 +3,10 @@ import UIKit
 
 @objc protocol AcceptOnUIMachinePaypalDriverDelegate {
     optional func paypalTransactionDidFailWithMessage(message: String)
-    optional func paypalTransactionDidSucceed()
+    optional func paypalTransactionDidSucceedWithChargeRes(chargeRes: [String:AnyObject])
     optional func paypalTransactionDidCancel()
+    
+    var api: AcceptOnAPI { get }
 }
 
 @objc class AcceptOnUIMachinePaypalDriver : NSObject, PayPalPaymentDelegate {
@@ -30,19 +32,27 @@ import UIKit
         }
     }
     
+    var chargeRes: [String:AnyObject]?
     var ppvc: PayPalPaymentViewController!
-    func beginPaypalTransactionWithAmountInCents(amountInCents: NSDecimalNumber, andDescription description: String) {
+    var formOptions: AcceptOnUIMachineFormOptions!
+    var didSucceed = false
+    func beginPaypalTransactionWithAmountInCents(amountInCents: NSDecimalNumber, andFormOptions formOptions: AcceptOnUIMachineFormOptions) {
+        //TODO: retrieve key from accepton API
         PayPalMobile.initializeWithClientIdsForEnvironments([PayPalEnvironmentSandbox:"EAGEb2Sey28DzhMc4P0PNothBmsJggVKZK9kTBrw5bU_PP5tmRUSFSlPe62K56FGxF8LkmwA3vPn-LGh"])
+        
+        self.formOptions = formOptions
+        self.chargeRes = nil
+        self.didSucceed = false
         let _config = PayPalConfiguration()
         _config.acceptCreditCards = false
-        _config.payPalShippingAddressOption = PayPalShippingAddressOption.PayPal
+        _config.payPalShippingAddressOption = PayPalShippingAddressOption.None
         
         let pp = PayPalPayment()
         pp.amount = NSDecimalNumber(double: amountInCents.doubleValue / 100.0)
         pp.currencyCode = "USD"
-        pp.shortDescription = description
+        pp.shortDescription = formOptions.itemDescription
         pp.intent = PayPalPaymentIntent.Sale
-        pp.shippingAddress = PayPalShippingAddress(recipientName: "Test", withLine1: "test", withLine2: "test", withCity: "Tampa", withState: "Florida", withPostalCode: "33612", withCountryCode: "US")
+//        pp.shippingAddress = PayPalShippingAddress(recipientName: "Test", withLine1: "test", withLine2: "test", withCity: "Tampa", withState: "Florida", withPostalCode: "33612", withCountryCode: "US")
         
         ppvc = PayPalPaymentViewController(payment: pp, configuration: _config, delegate: self)
         presentingViewController.presentViewController(ppvc, animated: true, completion: nil)
@@ -63,13 +73,45 @@ import UIKit
             self?._presentingViewController.removeFromParentViewController()
             self?._presentingViewController = nil
             
-            self?.delegate?.paypalTransactionDidSucceed?()
+            if self?.didSucceed ?? false {
+                
+                assert(self?.chargeRes != nil)
+                self?.delegate?.paypalTransactionDidSucceedWithChargeRes?(self?.chargeRes ?? [:])
+            } else {
+                self?.delegate?.paypalTransactionDidFailWithMessage?("Could not charge your PayPal account at this time")
+            }
         }
     }
     
     func payPalPaymentViewController(paymentViewController: PayPalPaymentViewController!, willCompletePayment completedPayment: PayPalPayment!, completionBlock: PayPalPaymentDelegateCompletionBlock!) {
         let confirmation = completedPayment.confirmation
         
+        //Parse response from paypal response
+        if let responseType = confirmation["response_type"] as? String {
+            if responseType == "payment" {
+                let response = confirmation["response"] as! [String:AnyObject]
+                let paypalTokenId = response["id"] as! String
+
+                //Send it up to the AcceptOn servers
+                let email = self.formOptions.userInfo?.email ?? nil
+                let chargeInfo = AcceptOnAPIChargeInfo(cardToken: paypalTokenId, email: email)
+                self.delegate?.api.chargeWithTransactionId(formOptions.token.id, andChargeinfo: chargeInfo) { chargeRes, err in
+                    if let err = err {
+                        puts("AcceptOnUIMachinePayPalDriver: Error, could not complete transaction, failed to charge paypal token through to the accepton on servers: \(err.localizedDescription)")
+                        completionBlock()
+                        return
+                    }
+        
+                    self.didSucceed = true
+                    self.chargeRes = chargeRes!
+                    completionBlock()
+                }
+            }
+            
+            return
+        }
+        
+        //Failed payment, do not set didSucceed
         completionBlock()
     }
 }

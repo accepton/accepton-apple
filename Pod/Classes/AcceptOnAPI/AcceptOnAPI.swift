@@ -156,7 +156,6 @@ public struct AcceptOnAPIChargeInfo {
         }
     }
     
-    
     //Makes an AcceptOnAPI network request to the `path`, e.g. if you passed in `/v1/tokens` for path
     //then you would make a request to something like `https://staging-checkout.accepton.com/v1/tokens`
     //depending on the value of endpoint_url above
