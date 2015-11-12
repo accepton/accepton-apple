@@ -1,14 +1,14 @@
 PODS:
-  - accepton (0.2.0):
+  - accepton (0.2.7):
     - Alamofire (~> 3.0)
     - BUYPaymentButton
     - SnapKit
     - Stripe
-  - Alamofire (3.1.1)
+  - Alamofire (3.1.2)
   - BUYPaymentButton (1.0.4)
   - Nimble (2.0.0)
   - Quick (0.7.0)
-  - SnapKit (0.16.0)
+  - SnapKit (0.17.0)
   - Stripe (6.0.1):
     - Stripe/Core (= 6.0.1)
   - Stripe/Core (6.0.1)
@@ -23,12 +23,12 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  accepton: d40e102f2c0f39d5884ddb52aeea16daf58a78b0
-  Alamofire: 9b0a7188b961a03914a99304488bd226b0e46c0e
+  accepton: 69750e486c7996682ccaf66f6ce9edf1afded232
+  Alamofire: 7c16ca65f3c7e681fd925fd7f2dec7747ff96855
   BUYPaymentButton: 45fa7fa4efc8b7d2121b6ea3f22d92fa9b70ea3a
   Nimble: 472e75466819eb8c06299233e87c694a9b51328a
   Quick: 906d8aa995ee0afa96f1f7f01170f40fccfa5898
-  SnapKit: ddac6b339d571f9d80dbb733585b172ee9eed3cb
+  SnapKit: 49fd7b1b3ff58ab4064004036b8afcfddbd3a4bd
   Stripe: 04f215191702c268b89fe0cdf28dc24a9688a71b
 
 COCOAPODS: 0.39.0

@@ -52,7 +52,6 @@ import UIKit
         pp.currencyCode = "USD"
         pp.shortDescription = formOptions.itemDescription
         pp.intent = PayPalPaymentIntent.Sale
-//        pp.shippingAddress = PayPalShippingAddress(recipientName: "Test", withLine1: "test", withLine2: "test", withCity: "Tampa", withState: "Florida", withPostalCode: "33612", withCountryCode: "US")
         
         ppvc = PayPalPaymentViewController(payment: pp, configuration: _config, delegate: self)
         presentingViewController.presentViewController(ppvc, animated: true, completion: nil)

@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "accepton"
-  s.version          = "0.2.7"
+  s.version          = "0.2.8"
   s.summary          = "Beautiful payment processing for iOS"
 
 # This description is used to generate tags and improve search results.
@@ -26,7 +26,7 @@ A swift library for processing payments through the AcceptOn API which elegantly
   s.source           = { :git => "https://github.com/sotownsend/accepton-apple.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/acceptonhq'
 
-  s.platform     = :ios, '9.0'
+  s.platform     = :ios, '8.3'
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
