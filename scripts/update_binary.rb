@@ -2,7 +2,9 @@
 Dir.chdir File.join(File.dirname(__FILE__), "..")
 
 #Build scripts
-raise "build failed" unless system "./scripts/build_universal"
+Dir.chdir "./scripts" do
+  raise "build failed" unless system "./build_universal"
+end
 
 #Load podspec file
 podspec_src = File.read("accepton.podspec")
