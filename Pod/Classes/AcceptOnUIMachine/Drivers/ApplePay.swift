@@ -110,10 +110,13 @@ extension AcceptOnUIMachineFormOptions {
             } else {
                 //Did payment-processor process the payment token?
                 if (self!.didErr != nil) {
-                    self?.delegate?.applePayTransactionDidFailWithMessage?("Could not connect to the payment servers. Please try again later.")
+                    self?.delegate?.applePayTransactionDidFailWithMessage?("Could not connect to the payment servers. Please try a different payment method.")
                 } else {
-                    assert(self?.chargeRes != nil)
-                    self?.delegate?.applePayTransactionDidSucceedWithChargeRes?(self!.chargeRes!)
+                    if let chargeRes = self?.chargeRes {
+                        self?.delegate?.applePayTransactionDidSucceedWithChargeRes?(chargeRes)
+                    } else {
+                        self?.delegate?.applePayTransactionDidFailWithMessage?("The payment servers will not process charges at this time. Please try a different payment method.")
+                    }
                 }
             }
         }
