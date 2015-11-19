@@ -17,7 +17,6 @@ class AcceptOnPriceTitleView: UIView
         }
         get { return priceLabel.text ?? "" }
     }
-    lazy var priceBlurView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark))
     
     //Description that goes on the right
     lazy var descLabel = UILabel()
@@ -55,20 +54,15 @@ class AcceptOnPriceTitleView: UIView
         }
         
         //Add price label
-        blurView.contentView.addSubview(priceBlurView)
-        priceBlurView.snp_makeConstraints { make in
-            make.width.equalTo(blurView.snp_height)
-            make.height.equalTo(blurView.snp_height)
-            make.right.equalTo(blurView.snp_right)
-            make.top.equalTo(blurView.snp_top)
-            return
-        }
-        priceBlurView.contentView.addSubview(priceLabel)
+        blurView.contentView.addSubview(priceLabel)
         priceLabel.font = UIFont(name: "HelveticaNeue-Medium", size: 20)
         priceLabel.textColor = UIColor.whiteColor()
         priceLabel.textAlignment = NSTextAlignment.Center
         priceLabel.snp_makeConstraints { make in
-            make.margins.equalTo(UIEdgeInsetsMake(0, 0, 0, 0))
+            make.width.equalTo(blurView.snp_height)
+            make.height.equalTo(blurView.snp_height)
+            make.right.equalTo(blurView.snp_right)
+            make.top.equalTo(blurView.snp_top)
             return
         }
         
