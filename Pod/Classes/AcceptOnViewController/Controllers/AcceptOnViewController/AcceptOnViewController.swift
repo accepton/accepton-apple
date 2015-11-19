@@ -191,26 +191,7 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
     }
     
     func backWasClicked() {
-        uim.didSwitchFromCreditCardForm()
-        self.creditCardForm.removeFromSuperview()
-        
-        //Animate exit button in
-        self.exitButton.userInteractionEnabled = true
-        self.exitButton.layer.transform = CATransform3DMakeTranslation(0, -self.view.bounds.size.height/4, 0)
-        UIView.animateWithDuration(0.8, delay: 0.3, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-            self.exitButton.alpha = 1
-            self.exitButton.layer.transform = CATransform3DIdentity
-            }) { (res) -> Void in
-        }
-        
-        //Animate back button out
-        self.backButton.userInteractionEnabled = false
-        UIView.animateWithDuration(0.8, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-            self.backButton.alpha = 0
-            self.backButton.layer.transform = CATransform3DMakeTranslation(0, -self.view.bounds.size.height/4, 0)
-            }) { (res) -> Void in
-        }
-        choosePaymentTypeView.animateButtonsIn()
+        self.dropFromCreditCardFormToPaymentSelection()
     }
     
     //------------------------------------------------------------------------------------------------------
@@ -284,6 +265,29 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
         }
     }
     
+    func dropFromCreditCardFormToPaymentSelection() {
+        uim.didSwitchFromCreditCardForm()
+        self.creditCardForm.removeFromSuperview()
+        
+        //Animate exit button in
+        self.exitButton.userInteractionEnabled = true
+        self.exitButton.layer.transform = CATransform3DMakeTranslation(0, -self.view.bounds.size.height/4, 0)
+        UIView.animateWithDuration(0.8, delay: 0.3, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+            self.exitButton.alpha = 1
+            self.exitButton.layer.transform = CATransform3DIdentity
+            }) { (res) -> Void in
+        }
+        
+        //Animate back button out
+        self.backButton.userInteractionEnabled = false
+        UIView.animateWithDuration(0.8, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+            self.backButton.alpha = 0
+            self.backButton.layer.transform = CATransform3DMakeTranslation(0, -self.view.bounds.size.height/4, 0)
+            }) { (res) -> Void in
+        }
+        choosePaymentTypeView.animateButtonsIn()
+    }
+    
     //-----------------------------------------------------------------------------------------------------
     //AcceptOnUIMachineDelegate Handlers
     //-----------------------------------------------------------------------------------------------------
@@ -330,10 +334,10 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
     }
     
     public func acceptOnUIMachinePaymentDidAbortPaymentMethodWithName(name: String) {
+        //Animate loading spinner out
+        hideWaitingWithAnimationAndDelay(0.3)
+        
         if name == "paypal" || name == "apple_pay" {
-            //Animate loading spinner out
-            hideWaitingWithAnimationAndDelay(0.3)
-            
             //Animate exit button in
             self.exitButton.userInteractionEnabled = true
             self.exitButton.layer.transform = CATransform3DMakeTranslation(0, -self.view.bounds.size.height/4, 0)
@@ -345,6 +349,8 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
             
             //Animate all option buttons back in
             choosePaymentTypeView.animateButtonsIn()
+        } else if name == "credit_card" {
+            dropFromCreditCardFormToPaymentSelection()
         }
     }
     
