@@ -556,10 +556,9 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
         let resCardExpYear = validateCreditCardExpYearField()
         let resCardSecurity = validateCreditCardSecurityField()
 
+        //Are we good on all the validations?
         if (resEmail && resCardNum && resCardExpMonth && resCardExpYear && resCardSecurity == true) {
-            dispatch_async(dispatch_get_main_queue(), { [weak self] in
-                self?.delegate?.acceptOnUIMachinePaymentIsProcessing?("credit_card")
-            })
+            self.delegate?.acceptOnUIMachinePaymentIsProcessing?("credit_card")
             
             //Assuming they are using stripe
             let stripePublishableKey = paymentMethods!.stripePublishableKey

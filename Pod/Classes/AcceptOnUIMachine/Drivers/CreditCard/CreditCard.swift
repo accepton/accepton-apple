@@ -8,7 +8,7 @@ import Stripe
     optional func creditCardTransactionDidCancel()
 }
 
-//Generic credit-card driver
+//Generic credit-card driver interface
 @objc class AcceptOnUIMachineCreditCardDriver: NSObject {
     weak var delegate: AcceptOnUIMachineCreditCardDriverDelegate?
     
