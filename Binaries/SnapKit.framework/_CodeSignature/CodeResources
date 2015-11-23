@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/SnapKit-Swift.h</key>
 		<data>
-		YktgvPovD3MvABdGJpMUCp1AlX8=
+		D94qohqoXWndEWzBkHbxfSFSubU=
 		</data>
 		<key>Headers/SnapKit-umbrella.h</key>
 		<data>
@@ -14,23 +14,23 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		P5z/MXA5vI/eW1MFZLtWqvkRwp4=
+		P1Tqd5xOmlLENZQ4PuY1qsA0s4Y=
 		</data>
 		<key>Modules/SnapKit.swiftmodule/arm.swiftdoc</key>
 		<data>
-		fnBgF6HaM/RWPbhCrwkXM56DLDE=
+		Gqqf/WD2wU26uj6h2UpTu++VFOE=
 		</data>
 		<key>Modules/SnapKit.swiftmodule/arm.swiftmodule</key>
 		<data>
-		cWT49iTEwzgu3Ltyetn8MbYcSzs=
+		9Nm3Tu8uiFKinnLtGUH0DfaTJnk=
 		</data>
 		<key>Modules/SnapKit.swiftmodule/arm64.swiftdoc</key>
 		<data>
-		TVZehqZOmgo/Vt6vL7wMbZS7nuk=
+		Iw/RTcVrD3OY4K943FYRQt4JVdU=
 		</data>
 		<key>Modules/SnapKit.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		/TWE9kWOyjn366rjmyhuE72P8hg=
+		hEb056dTzW7xOA9Z6aEteemOcIA=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -41,7 +41,7 @@
 	<dict>
 		<key>Headers/SnapKit-Swift.h</key>
 		<data>
-		YktgvPovD3MvABdGJpMUCp1AlX8=
+		D94qohqoXWndEWzBkHbxfSFSubU=
 		</data>
 		<key>Headers/SnapKit-umbrella.h</key>
 		<data>
@@ -49,19 +49,19 @@
 		</data>
 		<key>Modules/SnapKit.swiftmodule/arm.swiftdoc</key>
 		<data>
-		fnBgF6HaM/RWPbhCrwkXM56DLDE=
+		Gqqf/WD2wU26uj6h2UpTu++VFOE=
 		</data>
 		<key>Modules/SnapKit.swiftmodule/arm.swiftmodule</key>
 		<data>
-		cWT49iTEwzgu3Ltyetn8MbYcSzs=
+		9Nm3Tu8uiFKinnLtGUH0DfaTJnk=
 		</data>
 		<key>Modules/SnapKit.swiftmodule/arm64.swiftdoc</key>
 		<data>
-		TVZehqZOmgo/Vt6vL7wMbZS7nuk=
+		Iw/RTcVrD3OY4K943FYRQt4JVdU=
 		</data>
 		<key>Modules/SnapKit.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		/TWE9kWOyjn366rjmyhuE72P8hg=
+		hEb056dTzW7xOA9Z6aEteemOcIA=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
