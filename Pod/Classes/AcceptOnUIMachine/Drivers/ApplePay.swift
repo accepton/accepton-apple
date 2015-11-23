@@ -63,7 +63,7 @@ extension AcceptOnUIMachineFormOptions {
     var formOptions: AcceptOnUIMachineFormOptions!
     var shouldComplete: Bool!
     var chargeRes: [String:AnyObject]?
-    func beginApplePayTransactionForPaymentRequest(request: PKPaymentRequest, withFormOptions formOptions: AcceptOnUIMachineFormOptions) {
+    func beginApplePayTransactionWithFormOptions(formOptions: AcceptOnUIMachineFormOptions) {
         self.formOptions = formOptions
         didErr = nil
         chargeRes = nil
@@ -82,7 +82,7 @@ extension AcceptOnUIMachineFormOptions {
             return
         }
         
-        pkvc = PKPaymentAuthorizationViewController(paymentRequest: request)
+        pkvc = PKPaymentAuthorizationViewController(paymentRequest: formOptions.createApplePayPaymentRequest())
         if (pkvc == nil) {
             self.delegate?.applePayTransactionDidFailWithMessage?("Could not load ApplePay at this time")
             return

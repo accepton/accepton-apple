@@ -36,7 +36,7 @@ import UIKit
     var ppvc: PayPalPaymentViewController!
     var formOptions: AcceptOnUIMachineFormOptions!
     var didSucceed = false
-    func beginPaypalTransactionWithAmountInCents(amountInCents: NSDecimalNumber, andFormOptions formOptions: AcceptOnUIMachineFormOptions) {
+    func beginPaypalTransactionWithFormOptions(formOptions: AcceptOnUIMachineFormOptions) {
         //TODO: retrieve key from accepton API
         PayPalMobile.initializeWithClientIdsForEnvironments([PayPalEnvironmentSandbox:"EAGEb2Sey28DzhMc4P0PNothBmsJggVKZK9kTBrw5bU_PP5tmRUSFSlPe62K56FGxF8LkmwA3vPn-LGh"])
         
@@ -48,7 +48,7 @@ import UIKit
         _config.payPalShippingAddressOption = PayPalShippingAddressOption.None
         
         let pp = PayPalPayment()
-        pp.amount = NSDecimalNumber(double: amountInCents.doubleValue / 100.0)
+        pp.amount = NSDecimalNumber(double: Double(formOptions.amountInCents) / 100.0)
         pp.currencyCode = "USD"
         pp.shortDescription = formOptions.itemDescription
         pp.intent = PayPalPaymentIntent.Sale

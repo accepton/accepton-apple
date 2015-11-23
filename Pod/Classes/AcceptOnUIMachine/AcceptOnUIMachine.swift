@@ -609,7 +609,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
         let time = dispatch_time(DISPATCH_TIME_NOW, delay)
         dispatch_after(time, dispatch_get_main_queue()) { [weak self] in
             self?.paypalDriver.delegate = self
-            self?.paypalDriver.beginPaypalTransactionWithAmountInCents(NSDecimalNumber(long: self!.amountInCents!), andFormOptions: self!.options)
+            self?.paypalDriver.beginPaypalTransactionWithFormOptions(self!.options)
         }
         
         delegate?.acceptOnUIMachinePaymentIsProcessing?("paypal")
@@ -655,7 +655,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
         dispatch_after(time, dispatch_get_main_queue()) { [weak self] in
             self?.applePayDriver = AcceptOnUIMachineApplePayDriver()
             self?.applePayDriver.delegate = self
-            self?.applePayDriver.beginApplePayTransactionForPaymentRequest(self!.options.createApplePayPaymentRequest(), withFormOptions: self!.options!)
+            self?.applePayDriver.beginApplePayTransactionWithFormOptions(self!.options!)
         }
         
         delegate?.acceptOnUIMachinePaymentIsProcessing?("apple_pay")

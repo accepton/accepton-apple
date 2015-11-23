@@ -25,18 +25,16 @@ public struct AcceptOnAPIError {
     }
 }
 
-public enum AcceptOnAPIPaymentTypes {
-    case CreditCard
-    case Stripe
-    case Paypal
-    case Applepay
-}
-
 //Returned for the payment methods requests.  Describes what payments are available.
 public struct AcceptOnAPIPaymentMethodsInfo {
     public var supportsCreditCard: Bool = false
     public var supportsStripe: Bool {
         return stripePublishableKey != nil
+    }
+    
+    //TODO
+    public var supportsBraintree: Bool {
+        return true
     }
     
     public var stripePublishableKey: String? {
