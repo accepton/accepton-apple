@@ -86,6 +86,7 @@ strip_invalid_archs() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-accepton_Example/Alamofire.framework"
   install_framework "Pods-accepton_Example/BUYPaymentButton.framework"
+  install_framework "Pods-accepton_Example/Braintree.framework"
   install_framework "Pods-accepton_Example/SnapKit.framework"
   install_framework "Pods-accepton_Example/Stripe.framework"
   install_framework "Pods-accepton_Example/accepton.framework"
@@ -93,6 +94,7 @@ fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-accepton_Example/Alamofire.framework"
   install_framework "Pods-accepton_Example/BUYPaymentButton.framework"
+  install_framework "Pods-accepton_Example/Braintree.framework"
   install_framework "Pods-accepton_Example/SnapKit.framework"
   install_framework "Pods-accepton_Example/Stripe.framework"
   install_framework "Pods-accepton_Example/accepton.framework"

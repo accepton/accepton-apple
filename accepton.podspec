@@ -41,6 +41,7 @@ A swift library for processing payments through the AcceptOn API which elegantly
   s.dependency 'SnapKit'
   s.dependency 'Stripe'
   s.dependency 'BUYPaymentButton'
+  s.dependency 'Braintree'
   s.weak_framework = 'SystemConfiguration', 'MobileCoreServices', 'MessageUI', 'CoreLocation', 'Accelerate', 'PassKit'
   s.resource_bundle = {'accepton' => ['Pod/Assets/*']}
 
