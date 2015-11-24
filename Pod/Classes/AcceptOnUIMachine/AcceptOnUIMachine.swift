@@ -103,13 +103,31 @@ public class AcceptOnUIMachineFormOptions : NSObject {
     public var userInfo: AcceptOnUIMachineOptionalUserInfo?
 }
 
+//Used to pass-around the credit-card form information to drivers
+struct AcceptOnUIMachineCreditCardParams {
+    let number: String
+    let expMonth: String
+    let expYear: String
+    let cvc: String
+    let email: String
+    
+    init(number: String, expMonth: String, expYear: String, cvc: String, email: String) {
+        self.number = number
+        self.expMonth = expMonth
+        self.expYear = expYear
+        self.cvc = cvc
+        self.email = email
+    }
+}
+
 enum AcceptOnUIMachineState {
-    case Initialized        //begin has not been called
-    case BeginWasCalled     //In the middle of the begin
-    case PaymentForm        //begin succeeded
-    case WaitingForPaypal   //Paypal dialog is open
-    case WaitingForApplePay //ApplePay dialog is open
-    case PaymentComplete    //Payment has completed
+    case Initialized          //begin has not been called
+    case BeginWasCalled       //In the middle of the begin
+    case PaymentForm          //begin succeeded
+    case WaitingForPaypal     //Paypal dialog is open
+    case WaitingForApplePay   //ApplePay dialog is open
+    case WaitingForCreditCard //Waiting for credit-card transaction to post
+    case PaymentComplete      //Payment has completed
 }
 
 //Various informations about a user like email
@@ -120,7 +138,7 @@ public struct AcceptOnUIMachineOptionalUserInfo {
     public var email: String?
 }
 
-public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate, AcceptOnUIMachineApplePayDriverDelegate {
+public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate, AcceptOnUIMachineApplePayDriverDelegate, AcceptOnUIMachineCreditCardDriverDelegate {
     /* ######################################################################################### */
     /* Constructors & Members (Stage I)                                                          */
     /* ######################################################################################### */
@@ -546,10 +564,15 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
     }
     /////////////////////////////////////////////////////////////////////
 
-    //User hits the 'pay' button
+    lazy var stripeDriver = AcceptOnUIMachineCreditCardStripeDriver()
+    
+    //User hits the 'pay' button for the credit-card form
     public func creditCardPayClicked() {
-        //Don't use &&: optimizer might attempt short-circuit multi-line
-        //statements and we want all these to execute at the same time
+        if state != .PaymentForm { return }
+        state = .WaitingForCreditCard
+        
+        //Don't use &&: optimizer might attempt short-circuit some
+        //statements and we want all these to execute even if some fail
         let resEmail = validateCreditCardEmailField()
         let resCardNum = validateCreditCardCardNumField()
         let resCardExpMonth = validateCreditCardExpMonthField()
@@ -560,39 +583,31 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
         if (resEmail && resCardNum && resCardExpMonth && resCardExpYear && resCardSecurity == true) {
             self.delegate?.acceptOnUIMachinePaymentIsProcessing?("credit_card")
             
-            //Assuming they are using stripe
-            let stripePublishableKey = paymentMethods!.stripePublishableKey
-            if let stripePublishableKey = stripePublishableKey {
-                Stripe.setDefaultPublishableKey(stripePublishableKey)
-                let card = STPCardParams()
-                card.number = cardNumFieldValue
-                card.expMonth = UInt(((expMonthFieldValue ?? "") as NSString).intValue)
-                card.expYear = UInt((expYearFieldValue as NSString).intValue)
-                card.cvc = securityFieldValue
-                STPAPIClient.sharedClient().createTokenWithCard(card) { [weak self] token, err in
-                    if let err = err {
-                        self?.delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("credit_card")
-                        self?.delegate?.acceptOnUIMachinePaymentErrorWithMessage?(err.localizedDescription)
-                        return
-                    }
-                    
-                    let tokenId = token!.tokenId
-                    let chargeInfo = AcceptOnAPIChargeInfo(cardToken: tokenId, email: self?.emailFieldValue)
-                    self?.api.chargeWithTransactionId(self?.tokenObject!.id ?? "", andChargeinfo: chargeInfo) { chargeRes, err in
-                        if let err = err {
-                            self?.delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("credit_card")
-                            self?.delegate?.acceptOnUIMachinePaymentErrorWithMessage?(err.localizedDescription)
-                            return
-                        }
-                         
-                        self?.delegate?.acceptOnUIMachinePaymentDidSucceedWithCharge?(chargeRes!)
-                    }
-                }
-            } else {
-                self.delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("credit_card")
-                self.delegate?.acceptOnUIMachinePaymentErrorWithMessage?("Stripe could not be configured")
+            //Create our helper struct to pass to our drivers
+            let cardParams = AcceptOnUIMachineCreditCardParams(number: cardNumFieldValue, expMonth: expMonthFieldValue ?? "", expYear: expYearFieldValue, cvc: securityFieldValue, email: emailFieldValue)
+            
+            if paymentMethods!.supportsStripe {
+                stripeDriver.delegate = self
+                stripeDriver.beginCreditCardTransactionRequestWithFormOptions(self.options, andCreditCardParams: cardParams)
             }
         }
+    }
+    
+    //CreditCardDelegate handlers
+    func creditCardTransactionDidFailWithMessage(message: String) {
+        state = .PaymentForm
+        self.delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("credit_card")
+        self.delegate?.acceptOnUIMachinePaymentErrorWithMessage?(message)
+    }
+    
+    func creditCardTransactionDidSucceedWithChargeRes(chargeRes: [String:AnyObject]) {
+        state = .PaymentComplete
+        self.delegate?.acceptOnUIMachinePaymentDidSucceedWithCharge?(chargeRes)
+    }
+    
+    func creditCardTransactionDidCancel() {
+        state = .PaymentForm
+        self.delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("credit_card")
     }
     
     /* ######################################################################################### */
