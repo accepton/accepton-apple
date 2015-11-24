@@ -337,6 +337,7 @@
 		A952E295F0C9CA6883BDEE9DB944473B /* BUYPaymentButton-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 249DE5D17184D320E1DB18B39751EDC7 /* BUYPaymentButton-dummy.m */; };
 		AA21CF401C036DA5009BB13D /* CreditCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA21CF3F1C036DA5009BB13D /* CreditCard.swift */; };
 		AA21CF431C036DBA009BB13D /* Stripe.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA21CF421C036DBA009BB13D /* Stripe.swift */; };
+		AA61117C1C040D6B002377F8 /* Braintree.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA61117B1C040D6B002377F8 /* Braintree.swift */; };
 		AAF0ECCE82CA414E245A6AD05ADF33FF /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B353AEF63A74809F9F80592C97133CDE /* Alamofire.framework */; };
 		AAF3B2D26AF1065974D9F9DCC5E9D0FA /* en_CA.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 98A0F3E5CF980C9E228E18C7F3170EE4 /* en_CA.lproj */; };
 		ABAF24EDD05FD5E81C7D1DF83B9E1BE2 /* Paypal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020C9FC391546097B13A6FD4DF2B5C88 /* Paypal.swift */; };
@@ -1015,6 +1016,7 @@
 		A9EFB4F6457896714408E16013E5E874 /* NSString+QCKSelectorName.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSString+QCKSelectorName.m"; path = "Quick/NSString+QCKSelectorName.m"; sourceTree = "<group>"; };
 		AA21CF3F1C036DA5009BB13D /* CreditCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreditCard.swift; path = CreditCard/CreditCard.swift; sourceTree = "<group>"; };
 		AA21CF421C036DBA009BB13D /* Stripe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stripe.swift; sourceTree = "<group>"; };
+		AA61117B1C040D6B002377F8 /* Braintree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Braintree.swift; sourceTree = "<group>"; };
 		AA76A095162766BC23845D193F8BBA16 /* EdgeInsets.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EdgeInsets.swift; path = Source/EdgeInsets.swift; sourceTree = "<group>"; };
 		AAC4DA8B92E5BAC4AB9FED5DF4A1214B /* Error.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Error.swift; path = Source/Error.swift; sourceTree = "<group>"; };
 		AB23D9696FF84E37301E497C23A73E52 /* ViewController+SnapKit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ViewController+SnapKit.swift"; path = "Source/ViewController+SnapKit.swift"; sourceTree = "<group>"; };
@@ -2026,6 +2028,7 @@
 			children = (
 				AA21CF3F1C036DA5009BB13D /* CreditCard.swift */,
 				AA21CF421C036DBA009BB13D /* Stripe.swift */,
+				AA61117B1C040D6B002377F8 /* Braintree.swift */,
 			);
 			name = CreditCard;
 			sourceTree = "<group>";
@@ -3001,6 +3004,7 @@
 				CD113F5F06B3B63B2E5D56390C70FF6D /* AcceptOnCreditCardFormView.swift in Sources */,
 				9CAD89100A0559FEEEFCD70D60687A06 /* AcceptOnCreditCardValidatableField.swift in Sources */,
 				CD8B10ED0DCDEDB9B4E2FDC0367B5DFF /* AcceptOnFooterView.swift in Sources */,
+				AA61117C1C040D6B002377F8 /* Braintree.swift in Sources */,
 				F31F0FEDC225D422418931A210FC7B5A /* AcceptOnPopButton.swift in Sources */,
 				AA21CF401C036DA5009BB13D /* CreditCard.swift in Sources */,
 				69DAA3908821E9DA6A46AB75B52A0803 /* AcceptOnPriceTitleView.swift in Sources */,

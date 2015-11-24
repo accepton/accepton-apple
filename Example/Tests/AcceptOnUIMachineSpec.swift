@@ -994,7 +994,12 @@ class AcceptOnUIMachineSpec: QuickSpec {
                 }.toEventually(equal("test"))
 
                 expect {
-                    return delegate.creditCardValidationErrors[0]["name"]
+                    if delegate.creditCardValidationErrors.count > 0 {
+                        let res = delegate.creditCardValidationErrors[0] as! NSDictionary
+                        return res["name"] as! String
+                    } else {
+                        return nil
+                    }
                 }.toEventually(equal("email"))
             }
         }

@@ -32,17 +32,22 @@ public struct AcceptOnAPIPaymentMethodsInfo {
         return stripePublishableKey != nil
     }
     
-    //TODO
+    //TODO: Check against accepton API
     public var supportsBraintree: Bool {
-        return true
+        return false
+    }
+    
+    //TODO: Retrieve from accepton API
+    var braintreeNonce: String? {
+        return "TODO: retrieve from accepton API"
     }
     
     public var stripePublishableKey: String? {
-        let creditCardInfo = processorInfo?["credit-card"]
+        let creditCardInfo = processorInfo?["credit-card"] as? [String:AnyObject]
         if let creditCardInfo = creditCardInfo {
-            let stripeInfo = creditCardInfo["stripe"]
+            let stripeInfo = creditCardInfo["stripe"] as? [String:AnyObject]
             if let stripeInfo = stripeInfo {
-                let publishableKey = stripeInfo?["publishable_key"]
+                let publishableKey = stripeInfo["publishable_key"]
                 if let publishableKey = publishableKey {
                     return publishableKey as? String
                 }

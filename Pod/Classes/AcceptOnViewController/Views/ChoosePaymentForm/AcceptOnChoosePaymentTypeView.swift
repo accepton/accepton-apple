@@ -252,6 +252,7 @@ class AcceptOnChoosePaymentTypeView: UIView
     //Animates a single payment button as 'active' and remove all other buttons
     var lastExcept: String!
     func animateButtonsOutExcept(name: String) {
+        self.userInteractionEnabled = false
         //Retrieve the 'other' buttons that aren't the one selected & the selected button
         let otherButtons = paymentMethodButtonsToName.filter {$0.1 != name}
         let selectedButton = paymentMethodButtonsToName.filter {$0.1 == name}[0].0
@@ -286,6 +287,7 @@ class AcceptOnChoosePaymentTypeView: UIView
     
     //Animate all back in
     func animateButtonsIn() {
+        self.userInteractionEnabled = true
         //Retrieve the 'other' buttons that aren't the one selected & the selected button
         let otherButtons = paymentMethodButtonsToName.filter {$0.1 != lastExcept}
         let button = paymentMethodButtonsToName.filter {$0.1 == lastExcept}[0].0

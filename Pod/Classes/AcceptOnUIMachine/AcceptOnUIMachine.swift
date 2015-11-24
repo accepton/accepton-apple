@@ -565,6 +565,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
     /////////////////////////////////////////////////////////////////////
 
     lazy var stripeDriver = AcceptOnUIMachineCreditCardStripeDriver()
+    lazy var braintreeDriver = AcceptOnUIMachineCreditCardBraintreeDriver()
     
     //User hits the 'pay' button for the credit-card form
     public func creditCardPayClicked() {
@@ -586,7 +587,10 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
             //Create our helper struct to pass to our drivers
             let cardParams = AcceptOnUIMachineCreditCardParams(number: cardNumFieldValue, expMonth: expMonthFieldValue ?? "", expYear: expYearFieldValue, cvc: securityFieldValue, email: emailFieldValue)
             
-            if paymentMethods!.supportsStripe {
+            if paymentMethods!.supportsBraintree {
+                braintreeDriver.delegate = self
+                braintreeDriver.beginCreditCardTransactionRequestWithFormOptions(self.options, andCreditCardParams: cardParams)
+            } else if paymentMethods!.supportsStripe {
                 stripeDriver.delegate = self
                 stripeDriver.beginCreditCardTransactionRequestWithFormOptions(self.options, andCreditCardParams: cardParams)
             }
