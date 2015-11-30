@@ -219,7 +219,7 @@ avc.userInfo = userInfo
 
 If you set the shipping and billing information to required via the requisite flags, this information
 will appear in your accepton-on meta-data as:
-```json
+```javascript
 {
   billing_address: {
     line_1: '',
