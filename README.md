@@ -184,7 +184,7 @@ userInfo.requestsAndRequiresBillingAddress = true
 //The billing address to auto-fill the user's fields with. These
 //are still modifiable by the user, and if you do not provide them,
 //the user will have to enter these manually
-userInfo.billingAddressAutofillHints.line_1 = "123 Dale Mabry. Dr"
+userInfo.billingAddressAutofillHints.line_1 = "123 Dale Mabry Dr."
 //userInfo.billingAddressAutofillHints.line_2 = "Optional Second Line"
 userInfo.billingAddressAutofillHints.city = "Tampa"
 userInfo.billingAddressAutofillHints.region = "Florida"  //State/Province
@@ -202,7 +202,7 @@ userInfo.requestsAndRequiresShippingAddress = true
 //The shipping address to auto-fill the user's fields with. These
 //are still modifiable by the user, and if you do not provide them,
 //the user will have to enter these manually
-userInfo.shippingAddressAutofillHints.line_1 = "123 Dale Mabry. Dr"
+userInfo.shippingAddressAutofillHints.line_1 = "123 Dale Mabry Dr."
 //userInfo.shippingAddressAutofillHints.line_2 = "Optional second Line"
 userInfo.shippingAddressAutofillHints.city = "Tampa"
 userInfo.shippingAddressAutofillHints.region = "Florida"  //State/Province
