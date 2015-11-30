@@ -17,6 +17,27 @@ enum AcceptOnUIMachineApplePayDriverAvailability {
 }
 
 extension AcceptOnUIMachineFormOptions {
+    func createApplePayPaymentRequest() -> PKPaymentRequest {
+        let request = PKPaymentRequest()
+        request.currencyCode = "USD"
+        request.countryCode = "US"
+        request.merchantIdentifier = "merchant.com.accepton"
+        
+        let total = NSDecimalNumber(mantissa: UInt64(amountInCents), exponent: -2, isNegative: false)
+        let totalSummary = PKPaymentSummaryItem(label: "Total", amount: total)
+        
+        request.paymentSummaryItems = [totalSummary]
+        
+        if #available(iOS 9, *) {
+            request.supportedNetworks = [PKPaymentNetworkAmex, PKPaymentNetworkDiscover, PKPaymentNetworkMasterCard, PKPaymentNetworkVisa]
+            request.merchantCapabilities = [PKMerchantCapability.Capability3DS, PKMerchantCapability.CapabilityCredit, PKMerchantCapability.CapabilityDebit]
+        } else {
+            request.supportedNetworks = [PKPaymentNetworkAmex, PKPaymentNetworkMasterCard, PKPaymentNetworkVisa]
+            request.merchantCapabilities = [PKMerchantCapability.Capability3DS]
+        }
+        
+        return request
+    }
 }
 
 @objc class AcceptOnUIMachineApplePayDriver: NSObject, PKPaymentAuthorizationViewControllerDelegate {
