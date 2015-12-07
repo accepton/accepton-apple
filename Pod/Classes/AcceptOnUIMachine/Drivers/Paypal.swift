@@ -92,7 +92,7 @@ import UIKit
                 let paypalTokenId = response["id"] as! String
 
                 //Send it up to the AcceptOn servers
-                let email = self.formOptions.userInfo?.email ?? nil
+                let email = self.formOptions.userInfo?.emailAutofillHint ?? nil
                 let chargeInfo = AcceptOnAPIChargeInfo(cardToken: paypalTokenId, email: email)
                 self.delegate?.api.chargeWithTransactionId(formOptions.token.id, andChargeinfo: chargeInfo) { chargeRes, err in
                     if let err = err {

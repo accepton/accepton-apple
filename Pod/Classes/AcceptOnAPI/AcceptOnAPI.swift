@@ -149,16 +149,20 @@ public struct AcceptOnAPIAddress {
     //-----------------------------------------------------------------------------------------------------
     //Properties
     //-----------------------------------------------------------------------------------------------------
-    public var street: String!
+    public var line1: String!
+    public var line2: String!
     public var country: String!
-    public var state: String!
-    public var zip: String!
+    public var city: String!
+    public var region: String!
+    public var postalCode: String!
     
-    init(street: String, country: String, state: String, zip: String) {
-        self.street = street
+    init(line1: String, country: String, region: String, city: String, postalCode: String) {
+        self.line1 = line1
+        self.line2 = ""
         self.country = country
-        self.state = state
-        self.zip = zip
+        self.region = region
+        self.city = city
+        self.postalCode = postalCode
     }
 }
 
@@ -350,11 +354,12 @@ public struct AcceptOnAPIAddress {
             switch response.result {
             case .Success:
                 if let json = response.result.value as? [String:AnyObject] {
-                    let street = json["street"] as! String
+                    let line1 = json["line_1"] as! String
                     let country = json["country"] as! String
-                    let state = json["state"] as! String
-                    let zip = json["zip"] as! String
-                    let address = AcceptOnAPIAddress(street: street, country: country, state: state, zip: zip)
+                    let city = json["city"] as! String
+                    let region = json["region"] as! String
+                    let postalCode = json["postal_code"] as! String
+                    let address = AcceptOnAPIAddress(line1: line1, country: country, region: region, city: city, postalCode: postalCode)
                     completion(address: address, err: nil)
                 } else {
                 }

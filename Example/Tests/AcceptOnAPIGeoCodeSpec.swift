@@ -39,7 +39,7 @@ class AcceptOnAPIGeoCodeSpec: QuickSpec {
                 
                 //Street should have some characters in it
                 expect {
-                    return address?.street.characters.count ?? -1
+                    return address?.line1.characters.count ?? -1
                 }.toEventually(beGreaterThan(0))
             }
         }

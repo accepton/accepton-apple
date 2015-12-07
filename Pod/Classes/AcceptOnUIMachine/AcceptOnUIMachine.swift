@@ -76,30 +76,6 @@ public class AcceptOnUIMachineFormOptions : NSObject {
         super.init()
     }
     
-    func createApplePayPaymentRequest() -> PKPaymentRequest {
-        let request = PKPaymentRequest()
-        request.currencyCode = "USD"
-        request.countryCode = "US"
-        request.merchantIdentifier = "merchant.com.accepton"
-        
-        let total = NSDecimalNumber(mantissa: UInt64(amountInCents), exponent: -2, isNegative: false)
-        let totalSummary = PKPaymentSummaryItem(label: "Total", amount: total)
-        
-        request.paymentSummaryItems = [totalSummary]
-        
-        if #available(iOS 9, *) {
-            request.supportedNetworks = [PKPaymentNetworkAmex, PKPaymentNetworkDiscover, PKPaymentNetworkMasterCard, PKPaymentNetworkVisa]
-            request.merchantCapabilities = [PKMerchantCapability.Capability3DS, PKMerchantCapability.CapabilityCredit, PKMerchantCapability.CapabilityDebit]
-        } else {
-            request.supportedNetworks = [PKPaymentNetworkAmex, PKPaymentNetworkMasterCard, PKPaymentNetworkVisa]
-            request.merchantCapabilities = [PKMerchantCapability.Capability3DS]
-        }
-        
-        
-        
-        return request
-    }
-    
     public var userInfo: AcceptOnUIMachineOptionalUserInfo?
 }
 
@@ -135,7 +111,25 @@ enum AcceptOnUIMachineState {
 public struct AcceptOnUIMachineOptionalUserInfo {
     public init() {}
     
-    public var email: String?
+    //--------------------------------------------------------------------------------
+    //Autofill the user's email address
+    //--------------------------------------------------------------------------------
+    public var emailAutofillHint: String?
+    
+    //--------------------------------------------------------------------------------
+    //Collect, and require, billing address information
+    //--------------------------------------------------------------------------------
+    public var requestsAndRequiresBillingAddress: Bool = false
+    public var billingAddressAutofillHints: AcceptOnAPIAddress?
+    
+    //--------------------------------------------------------------------------------
+    //Collect, and require, shipping information. For payment systems that require
+    //that shipping costs be provided, such as apple-pay, we automatically
+    //set these as "Shipping Included" and set the shipping fee to `$0` on
+    //any necessary shipping information fields.
+    //--------------------------------------------------------------------------------
+    public var requestsAndRequiresShippingAddress: Bool = false
+    public var shippingAddressAutofillHints: AcceptOnAPIAddress?
 }
 
 public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate, AcceptOnUIMachineApplePayDriverDelegate, AcceptOnUIMachineCreditCardDriverDelegate {
@@ -287,7 +281,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
     //Must be always called, will auto-fill out credit-card form with email if available
     public func didSwitchToCreditCardForm() {
         //If user info received email, update the email field
-        if let email = self.userInfo?.email {
+        if let email = self.userInfo?.emailAutofillHint {
             if self.delegate?.acceptOnUIMachineDidSetInitialFieldValueWithName != nil {
                 self.delegate?.acceptOnUIMachineDidSetInitialFieldValueWithName!("email", withValue: email)
                 updateCreditCardEmailFieldWithString(email)

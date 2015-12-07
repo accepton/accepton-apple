@@ -959,7 +959,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
             it("Does load email if the user info was specified and the didSwitchToCreditCardForm is called") {
                 let delegate = AcceptOnUIMachineSpecDelegate()
                 var userInfo = AcceptOnUIMachineOptionalUserInfo()
-                userInfo.email = "test@test.com"
+                userInfo.emailAutofillHint = "test@test.com"
                 let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false, userInfo: userInfo)
                 uim.delegate = delegate
                 
@@ -978,7 +978,7 @@ class AcceptOnUIMachineSpec: QuickSpec {
             it("Does output a validation error if the email is not sane") {
                 let delegate = AcceptOnUIMachineSpecDelegate()
                 var userInfo = AcceptOnUIMachineOptionalUserInfo()
-                userInfo.email = "test"
+                userInfo.emailAutofillHint = "test"
                 let uim = AcceptOnUIMachine.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false, userInfo: userInfo)
                 uim.delegate = delegate
                 

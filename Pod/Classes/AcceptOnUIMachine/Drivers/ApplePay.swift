@@ -17,6 +17,27 @@ enum AcceptOnUIMachineApplePayDriverAvailability {
 }
 
 extension AcceptOnUIMachineFormOptions {
+    func createApplePayPaymentRequest() -> PKPaymentRequest {
+        let request = PKPaymentRequest()
+        request.currencyCode = "USD"
+        request.countryCode = "US"
+        request.merchantIdentifier = "merchant.com.accepton"
+        
+        let total = NSDecimalNumber(mantissa: UInt64(amountInCents), exponent: -2, isNegative: false)
+        let totalSummary = PKPaymentSummaryItem(label: "Total", amount: total)
+        
+        request.paymentSummaryItems = [totalSummary]
+        
+        if #available(iOS 9, *) {
+            request.supportedNetworks = [PKPaymentNetworkAmex, PKPaymentNetworkDiscover, PKPaymentNetworkMasterCard, PKPaymentNetworkVisa]
+            request.merchantCapabilities = [PKMerchantCapability.Capability3DS, PKMerchantCapability.CapabilityCredit, PKMerchantCapability.CapabilityDebit]
+        } else {
+            request.supportedNetworks = [PKPaymentNetworkAmex, PKPaymentNetworkMasterCard, PKPaymentNetworkVisa]
+            request.merchantCapabilities = [PKMerchantCapability.Capability3DS]
+        }
+        
+        return request
+    }
 }
 
 @objc class AcceptOnUIMachineApplePayDriver: NSObject, PKPaymentAuthorizationViewControllerDelegate {
@@ -151,7 +172,7 @@ extension AcceptOnUIMachineFormOptions {
                 
                 //If there was an email provided in the optional user information on the UIMachine creation, then
                 //pass this along.  Else, pass along nil.
-                let email = self.formOptions.userInfo?.email ?? nil
+                let email = self.formOptions.userInfo?.emailAutofillHint ?? nil
                 let chargeInfo = AcceptOnAPIChargeInfo(cardToken: stripeTokenId, email: email)
                 self.delegate?.api.chargeWithTransactionId(acceptOnTransactionToken, andChargeinfo: chargeInfo) { chargeRes, err in
                     if self.shouldComplete == false { return }
