@@ -91,6 +91,7 @@ public struct AcceptOnAPIPaymentMethodsInfo {
     public init() {}
 }
 
+
 //Helper struct that converts the original dictionary returned from the transaction creation into a
 //swift object
 public struct AcceptOnAPITransactionToken {
@@ -140,6 +141,24 @@ public struct AcceptOnAPIChargeInfo {
             dict["card_token"] = cardToken
             dict["email"] = email ?? ""
         }
+    }
+}
+
+//Used for auto-completion results
+public struct AcceptOnAPIAddress {
+    //-----------------------------------------------------------------------------------------------------
+    //Properties
+    //-----------------------------------------------------------------------------------------------------
+    public var street: String!
+    public var country: String!
+    public var state: String!
+    public var zip: String!
+    
+    init(street: String, country: String, state: String, zip: String) {
+        self.street = street
+        self.country = country
+        self.state = state
+        self.zip = zip
     }
 }
 
@@ -296,5 +315,53 @@ public struct AcceptOnAPIChargeInfo {
                 completion(refundRes: res, error: nil)
             }
         })
+    }
+    
+    //-----------------------------------------------------------------------------------------------------
+    //Relating to geo-location (for auto-completing addresses)
+    //-----------------------------------------------------------------------------------------------------
+    public func autoCompleteAddress(input: String, completion: (addressResults: [(description: String, placeId: String)]?, err: NSError?)->()) {
+        //Make a request
+        Alamofire.request(.GET, "http://localhost:5555/places/autocomplete", parameters: ["input":input]).responseJSON { response in
+            switch response.result {
+            case .Success:
+                if let json = response.result.value as? [String:AnyObject] {
+                    let results = json["results"] as! [[String:AnyObject]]
+                    var options: [(description: String, placeId: String)] = []
+                    for e in results {
+                        let description = e["description"] as! String
+                        let placeId = e["place_id"] as! String
+                        options.append((description: description, placeId: placeId))
+                    }
+                    
+                    completion(addressResults: options, err: nil)
+                } else {
+                }
+            case .Failure(let error):
+                puts("\(error)")
+                break
+            }
+        }
+    }
+    
+    public func convertPlaceIdToAddress(placeId: String, completion: (address: AcceptOnAPIAddress, err: NSError?)->()) {
+        //Make a request
+        Alamofire.request(.GET, "http://localhost:5555/places/convert_place_id_to_address", parameters: ["place_id":placeId]).responseJSON { response in
+            switch response.result {
+            case .Success:
+                if let json = response.result.value as? [String:AnyObject] {
+                    let street = json["street"] as! String
+                    let country = json["country"] as! String
+                    let state = json["state"] as! String
+                    let zip = json["zip"] as! String
+                    let address = AcceptOnAPIAddress(street: street, country: country, state: state, zip: zip)
+                    completion(address: address, err: nil)
+                } else {
+                }
+            case .Failure(let error):
+                puts("\(error)")
+                break
+            }
+        }
     }
 }

@@ -4,7 +4,8 @@ import Quick
 import Nimble
 import accepton
 
-class AcceptOnAPISpec: QuickSpec {
+//Relating to transactions & payments
+class AcceptOnAPITransactionsSpec: QuickSpec {
     override func spec() {
         describe("init") {
             it("can be created with a public or secret key") {

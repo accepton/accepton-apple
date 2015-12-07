@@ -126,6 +126,9 @@ class ViewController : UIViewController, AcceptOnViewControllerDelegate {
             //userInfo.email = "test@test.com"
             //avc.userInfo = userInfo
 
+            //Optionally, collect shipping information.
+            avc.collectShippingInformation = false
+
             //If you're using this in production
             //avc.isProduction = true
         }
