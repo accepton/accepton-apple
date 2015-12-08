@@ -307,6 +307,7 @@
 		A6DE9C6C8D5C8BC49930948BA9D5446F /* FABKitProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 429F573497E0FEFE6A469A649961E8D8 /* FABKitProtocol.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		A7FA47FCE6823C6671A669C4F320312F /* View+SnapKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6203C9F7F2203A03F635A12DF43C4CB2 /* View+SnapKit.swift */; };
 		A9F9D8719AD2B08121EC6CE1DDE28E97 /* SnapKit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A1AF3B8CDFB9E2D244F1362778F77E07 /* SnapKit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA2BF9111C160FA900904C31 /* AcceptOnAddressPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2BF9101C160FA900904C31 /* AcceptOnAddressPickerView.swift */; };
 		AC486EA3D864D388EBAD9BE62D35D521 /* STPCheckoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2020B5E5EA5A4C912BCCFCB52299865 /* STPCheckoutViewController.m */; };
 		ACD815162021264682203B1AC0BD3FC0 /* STPCheckoutOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = DFBBD040B86F73882140AFBEB6DC91D3 /* STPCheckoutOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AD0A86740B8F3EB22B867BCACD8920B1 /* BTUIVisaVectorArtView.h in Headers */ = {isa = PBXBuildFile; fileRef = 74E853C7707C60037B8C2BF446B88986 /* BTUIVisaVectorArtView.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -1017,6 +1018,7 @@
 		A9D0A9A7D0ABBC0BAC62815657EDCA58 /* STPBankAccountParams.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = STPBankAccountParams.h; path = Stripe/PublicHeaders/STPBankAccountParams.h; sourceTree = "<group>"; };
 		A9E0D9282478D0EB7A9E17FFA1565AFA /* BTUIPayPalMonogramCardView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = BTUIPayPalMonogramCardView.m; path = "BraintreeUI/Views/Vector Art/BTUIPayPalMonogramCardView.m"; sourceTree = "<group>"; };
 		A9EFB4F6457896714408E16013E5E874 /* NSString+QCKSelectorName.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSString+QCKSelectorName.m"; path = "Quick/NSString+QCKSelectorName.m"; sourceTree = "<group>"; };
+		AA2BF9101C160FA900904C31 /* AcceptOnAddressPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnAddressPickerView.swift; sourceTree = "<group>"; };
 		AA76A095162766BC23845D193F8BBA16 /* EdgeInsets.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EdgeInsets.swift; path = Source/EdgeInsets.swift; sourceTree = "<group>"; };
 		AAC4DA8B92E5BAC4AB9FED5DF4A1214B /* Error.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Error.swift; path = Source/Error.swift; sourceTree = "<group>"; };
 		AB23D9696FF84E37301E497C23A73E52 /* ViewController+SnapKit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "ViewController+SnapKit.swift"; path = "Source/ViewController+SnapKit.swift"; sourceTree = "<group>"; };
@@ -1898,6 +1900,7 @@
 				77F26D23F7D10250B269142304CAA861 /* AcceptOnFooterView.swift */,
 				2B3EA29CAF28A2407916ADA6C5DB578E /* AcceptOnPriceTitleView.swift */,
 				04C098F2B3183D1DAAE1DC6B40A83EB0 /* AcceptOnViewController.swift */,
+				AA2BF9101C160FA900904C31 /* AcceptOnAddressPickerView.swift */,
 			);
 			path = AcceptOnViewController;
 			sourceTree = "<group>";
@@ -3277,6 +3280,7 @@
 				87D809DA148CCE93D63FE5492EC5D1E4 /* AcceptOnChoosePaymentTypeView.swift in Sources */,
 				D2FF030802C905DCB3505015B14985F3 /* AcceptOnCreditCardCardNumBrandPop.swift in Sources */,
 				35A8F177675877122802572F6644D6FB /* AcceptOnCreditCardFormView.swift in Sources */,
+				AA2BF9111C160FA900904C31 /* AcceptOnAddressPickerView.swift in Sources */,
 				3F0EF00F0F74B09D9F48A0434D1486DF /* AcceptOnCreditCardValidatableField.swift in Sources */,
 				DC722ECED624403185204D7EA0DE4DB4 /* AcceptOnFooterView.swift in Sources */,
 				802E71D625D77E5FDD0B27F1F0003BAF /* AcceptOnPopButton.swift in Sources */,

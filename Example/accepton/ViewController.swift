@@ -2,8 +2,45 @@ import UIKit
 import accepton
 
 //This contains the 'buy the watch for $10' page on the Main.storyboard
-class ViewController : UIViewController, AcceptOnViewControllerDelegate {
+class ViewController : UIViewController, AcceptOnViewControllerDelegate, AcceptOnAddressPickerViewDelegate {
+    var picker = AcceptOnAddressPickerView()
+    
     override func viewDidLoad() {
+        
+        let view = UIView()
+        view.backgroundColor = UIColor.whiteColor()
+        self.view.addSubview(view)
+        view.snp_makeConstraints {
+            $0.left.top.bottom.right.equalTo(0)
+        }
+        
+//        self.view.addSubview(picker)
+//        picker.snp_makeConstraints {
+//            $0.size.equalTo(self.view.snp_size)
+//            $0.center.equalTo(self.view.snp_center)
+//            return
+//        }
+//        
+//        picker.delegate = self
+
+        
+    }
+    
+    func addressInputDidUpdate(picker: AcceptOnAddressPickerView, text: String) {
+        let api = AcceptOnAPI.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
+        var address: AcceptOnAPIAddress?
+        
+        api.autoCompleteAddress(text) { _addresses, err in
+            var addresses: [(description: String, tag: String)] = []
+            for e in _addresses! {
+                addresses.append((description: e.description, tag: e.placeId))
+            }
+            picker.updateAddressList(addresses)
+        }
+    }
+    
+    func addressWasSelected(picker: AcceptOnAddressPickerView, tag: String) {
+        
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
