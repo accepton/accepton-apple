@@ -52,7 +52,7 @@ class AcceptOnPopButton: UIButton {
     //------------------------------------------------------------------------------------------------------
     func buttonDidTouchDown() {
         self.layoutSubviewsIsDisabled = true
-        UIView.animateWithDuration(0.8, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: [UIViewAnimationOptions.CurveEaseOut, UIViewAnimationOptions.AllowUserInteraction], animations: { () in
+        UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: [UIViewAnimationOptions.CurveEaseOut, UIViewAnimationOptions.AllowUserInteraction], animations: { () in
             self.innerView.layer.transform = CATransform3DMakeScale(self.scale, self.scale, 1)
             }, completion: {res in
         })

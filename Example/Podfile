@@ -3,6 +3,8 @@ use_frameworks!
 
 target 'accepton_Example', :exclusive => true do
   pod "accepton", :path => "../"
+  pod 'Reveal-iOS-SDK', :configurations => ['Debug']
+
 end
 
 target 'accepton_Tests', :exclusive => true do

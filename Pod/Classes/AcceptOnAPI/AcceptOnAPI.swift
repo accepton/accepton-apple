@@ -149,20 +149,29 @@ public struct AcceptOnAPIAddress {
     //-----------------------------------------------------------------------------------------------------
     //Properties
     //-----------------------------------------------------------------------------------------------------
-    public var line1: String!
-    public var line2: String!
-    public var country: String!
-    public var city: String!
-    public var region: String!
-    public var postalCode: String!
+    public var line1: String?
+    public var line2: String?
+    public var country: String?
+    public var city: String?
+    public var region: String?
+    public var postalCode: String?
     
-    init(line1: String, country: String, region: String, city: String, postalCode: String) {
+    init(line1: String?, country: String?, region: String?, city: String?, postalCode: String?) {
         self.line1 = line1
-        self.line2 = ""
         self.country = country
         self.region = region
         self.city = city
         self.postalCode = postalCode
+    }
+    
+    //The address refers to one location.  Used to verify that address returned from place id
+    //dosen't refer to a general region
+    var isFullyQualified: Bool {
+        let c = [line1, country, city, region, postalCode]
+        for e in c {
+            if e == nil { return false }
+        }
+        return true
     }
 }
 
@@ -348,17 +357,18 @@ public struct AcceptOnAPIAddress {
         }
     }
     
-    public func convertPlaceIdToAddress(placeId: String, completion: (address: AcceptOnAPIAddress, err: NSError?)->()) {
+    public func convertPlaceIdToAddress(placeId: String, completion: (address: AcceptOnAPIAddress?, err: NSError?)->()) {
         //Make a request
         Alamofire.request(.GET, "http://localhost:5555/places/convert_place_id_to_address", parameters: ["place_id":placeId]).responseJSON { response in
             switch response.result {
             case .Success:
                 if let json = response.result.value as? [String:AnyObject] {
-                    let line1 = json["line_1"] as! String
-                    let country = json["country"] as! String
-                    let city = json["city"] as! String
-                    let region = json["region"] as! String
-                    let postalCode = json["postal_code"] as! String
+                    let line1 = json["line_1"] as? String
+                    let country = json["country"] as? String
+                    let city = json["city"] as? String
+                    let region = json["region"] as? String
+                    let postalCode = json["postal_code"] as? String
+                    
                     let address = AcceptOnAPIAddress(line1: line1, country: country, region: region, city: city, postalCode: postalCode)
                     completion(address: address, err: nil)
                 } else {

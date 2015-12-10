@@ -6,22 +6,23 @@ PODS:
     - SnapKit
     - Stripe
   - Alamofire (3.1.3)
-  - Braintree (4.0.2):
-    - Braintree/Card (= 4.0.2)
-    - Braintree/Core (= 4.0.2)
-    - Braintree/PayPal (= 4.0.2)
-    - Braintree/UI (= 4.0.2)
-  - Braintree/Card (4.0.2):
+  - Braintree (4.1.0):
+    - Braintree/Card (= 4.1.0)
+    - Braintree/Core (= 4.1.0)
+    - Braintree/PayPal (= 4.1.0)
+    - Braintree/UI (= 4.1.0)
+  - Braintree/Card (4.1.0):
     - Braintree/Core
-  - Braintree/Core (4.0.2)
-  - Braintree/PayPal (4.0.2):
+  - Braintree/Core (4.1.0)
+  - Braintree/PayPal (4.1.0):
     - Braintree/Core
-  - Braintree/UI (4.0.2):
+  - Braintree/UI (4.1.0):
     - Braintree/Card
     - Braintree/Core
   - BUYPaymentButton (1.0.4)
   - Nimble (2.0.0)
   - Quick (0.7.0)
+  - Reveal-iOS-SDK (1.6.2)
   - SnapKit (0.18.0)
   - Stripe (6.0.1):
     - Stripe/Core (= 6.0.1)
@@ -31,6 +32,7 @@ DEPENDENCIES:
   - accepton (from `../`)
   - Nimble (~> 2.0.0)
   - Quick (~> 0.7.0)
+  - Reveal-iOS-SDK
 
 EXTERNAL SOURCES:
   accepton:
@@ -39,10 +41,11 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   accepton: 7ecdaac51f2e0a1e6cca70047a47e240ab80e76a
   Alamofire: 9f93b56389e48def9220dd57d1f44b1927229a5a
-  Braintree: aa2430e72a38635b5e9e8a54ef3cfd8a8159e4a3
+  Braintree: b144f554f0b234b194bf3821428ed4602b144fbe
   BUYPaymentButton: 45fa7fa4efc8b7d2121b6ea3f22d92fa9b70ea3a
   Nimble: 472e75466819eb8c06299233e87c694a9b51328a
   Quick: 906d8aa995ee0afa96f1f7f01170f40fccfa5898
+  Reveal-iOS-SDK: e2250b3c155bcfac53ae223ddc1f76d08f206c33
   SnapKit: e1f090a6d47b1dd4bd89b73f72b6746a7835ef3c
   Stripe: 04f215191702c268b89fe0cdf28dc24a9688a71b
 

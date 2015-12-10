@@ -1,5 +1,5 @@
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/accepton" "${PODS_ROOT}/Headers/Public"
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/accepton" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Reveal-iOS-SDK"
 LIBRARY_SEARCH_PATHS = ${PODS_ROOT}/../../Pod/Paypal
 OTHER_LDFLAGS = -ObjC -l"PayPalMobile" -weak_framework "Accelerate" -weak_framework "CoreLocation" -weak_framework "MessageUI" -weak_framework "MobileCoreServices" -weak_framework "PassKit" -weak_framework "SystemConfiguration"
 OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
