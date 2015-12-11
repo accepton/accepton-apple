@@ -6,6 +6,20 @@ public enum AcceptOnFillOutRemainingOption: Int {
     case ShippingAddress = 0
 }
 
+@objc public class AcceptOnFillOutRemainingOptions : NSObject {
+    var options: [AcceptOnFillOutRemainingOption]
+    
+    //Show these first to the user
+    var billingAutocompleteSuggested: AcceptOnAPIAddress?
+    var shippingAutocompleteSuggested: AcceptOnAPIAddress?
+    
+    public init(options: [AcceptOnFillOutRemainingOption], billingAutocompleteSuggested: AcceptOnAPIAddress?, shippingAutocompleteSuggested: AcceptOnAPIAddress?) {
+        self.options = options
+        self.billingAutocompleteSuggested = billingAutocompleteSuggested
+        self.shippingAutocompleteSuggested = shippingAutocompleteSuggested
+    }
+}
+
 public protocol AcceptOnFillOutRemainingSubForm {
     weak var delegate: AcceptOnFillOutRemainingSubFormDelegate? { get }
     
@@ -29,7 +43,7 @@ public protocol AcceptOnFillOutRemainingSubFormDelegate: class {
 public protocol AcceptOnFillOutRemainingViewDelegate: class {
     var api: AcceptOnAPI { get }
     
-    func fillOutRemainingDidProvideInformation(info: [AcceptOnFillOutRemainingOption:Any?])
+    func fillOutRemainingDidProvideInformation(userInfo: AcceptOnUIMachineUserInfo)
     func fillOutRemainingDidCancel()
 }
 
@@ -60,7 +74,7 @@ public class AcceptOnFillOutRemainingView: UIView, AcceptOnFillOutAddressViewDel
     var submitButtonArea = UIView()
     var submitButton = AcceptOnOblongButton()
     
-    var remainingOptions: [AcceptOnFillOutRemainingOption]!
+    var remainingOptions: AcceptOnFillOutRemainingOptions!
     
     //Text at top
     let titleLabel = UILabel()
@@ -79,11 +93,12 @@ public class AcceptOnFillOutRemainingView: UIView, AcceptOnFillOutAddressViewDel
     }
     
     //Give a list of things that still need to be filled out
-    public convenience init(var remainingOptions: [AcceptOnFillOutRemainingOption]) {
+    public convenience init(remainingOptions: AcceptOnFillOutRemainingOptions) {
         self.init(frame: CGRectZero)
         
         
-        remainingOptions.sortInPlace { (a, b) -> Bool in
+        var options = remainingOptions.options
+        options.sortInPlace { (a, b) -> Bool in
             a.rawValue < b.rawValue
         }
         self.remainingOptions = remainingOptions
@@ -152,7 +167,7 @@ public class AcceptOnFillOutRemainingView: UIView, AcceptOnFillOutAddressViewDel
         content.delaysContentTouches = false
         
         //Add options
-        for e in remainingOptions {
+        for e in remainingOptions.options {
             addSubForm(e, form: formForOption(e))
         }
         self.finishedAddingSubForms()
@@ -221,9 +236,10 @@ public class AcceptOnFillOutRemainingView: UIView, AcceptOnFillOutAddressViewDel
             address.addressDelegate = self
             address.delegate = self
             address.title = "Billing Address"
+            address.setSuggestedAddress(self.remainingOptions.billingAutocompleteSuggested)
             
             //If there is a billing address, activate the 'same' toggle switch
-            if self.remainingOptions.filter({$0 == .ShippingAddress}).first != nil {
+            if self.remainingOptions.options.filter({$0 == .ShippingAddress}).first != nil {
                 address.showToggleWithText("Billing address is same as shipping")
             }
             
@@ -233,6 +249,7 @@ public class AcceptOnFillOutRemainingView: UIView, AcceptOnFillOutAddressViewDel
             address.delegate = self
             address.addressDelegate = self
             address.title = "Shipping Address"
+            address.setSuggestedAddress(self.remainingOptions.shippingAutocompleteSuggested)
             return address
         }
         return AcceptOnFillOutAddressView()
@@ -250,7 +267,21 @@ public class AcceptOnFillOutRemainingView: UIView, AcceptOnFillOutAddressViewDel
         for e in self.subForms {
             res[e.option] = e.form.value
         }
-        self.delegate.fillOutRemainingDidProvideInformation(res)
+        
+        var userInfo = AcceptOnUIMachineUserInfo()
+        if let billing = res[.BillingAddress] {
+            //Toggle switch for 'same as shipping'?
+            if let caseResponse = billing as? AcceptOnFillOutAddressViewCaseResponses {
+                userInfo.billingSameAsShipping = true
+            } else {
+                userInfo.billingAddress = billing as! AcceptOnAPIAddress
+            }
+        }
+        if let shipping = res[.ShippingAddress] as? AcceptOnAPIAddress {
+            userInfo.shippingAddress = shipping
+        }
+        
+        self.delegate.fillOutRemainingDidProvideInformation(userInfo)
     }
     
     func backWasClicked() {

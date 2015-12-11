@@ -1,6 +1,5 @@
 import UIKit
 import PassKit
-import BUYPaymentButton
 
 @objc protocol AcceptOnChoosePaymentTypeViewDelegate {
     //Returns the payment method chosen such as 'paypal', 'credit_card', etc.

@@ -1,5 +1,4 @@
 import UIKit
-import SnapKit
 
 @objc public protocol AcceptOnViewControllerDelegate {
     //You should use this to close the accept-on view controller modal
@@ -10,7 +9,7 @@ import SnapKit
 }
 
 //Works with the AcceptOnUIMachine to manage the UI behaviours
-public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, AcceptOnCreditCardFormDelegate, AcceptOnChoosePaymentTypeViewDelegate {
+public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate, AcceptOnCreditCardFormDelegate, AcceptOnChoosePaymentTypeViewDelegate, AcceptOnFillOutRemainingViewDelegate {
     //-----------------------------------------------------------------------------------------------------
     //Properties
     //-----------------------------------------------------------------------------------------------------
@@ -56,6 +55,10 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
     
     //Holds optional user email, etc.
     public var userInfo: AcceptOnUIMachineOptionalUserInfo?
+    
+    public var api: AcceptOnAPI {
+        return uim.api
+    }
     
     //-----------------------------------------------------------------------------------------------------
     //Constructors, Initializers, and UIViewController lifecycle
@@ -403,6 +406,61 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
         let alertView = UIAlertController(title: "Uh oh!", message: message, preferredStyle: .Alert)
         alertView.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
         presentViewController(alertView, animated: true, completion: nil)
+    }
+    
+    var fillOutView: AcceptOnFillOutRemainingView?
+    var fillOutViewCompletion: ((Bool, AcceptOnUIMachineUserInfo?)->())?
+    //Present using a specially created view controller applied to the root window
+    var _fillOutRemainingViewController: UIViewController!
+    var fillOutRemainingViewController: UIViewController! {
+        get {
+            if (_fillOutRemainingViewController == nil) {
+                _fillOutRemainingViewController = UIViewController()
+                
+                let rv = UIApplication.sharedApplication().windows.first
+                if rv == nil {
+                    NSException(name:"AcceptOnUIViewController", reason: "Tried to get the UIApplication.sharedApplication().windows.first to display the paypal view controller off of but this did not exist", userInfo: nil).raise()
+                }
+                
+                rv!.addSubview(_fillOutRemainingViewController.view)
+                _fillOutRemainingViewController.view.bounds = UIScreen.mainScreen().bounds
+            }
+            
+            return _fillOutRemainingViewController
+        }
+    }
+    
+    public func acceptOnUIMachineDidRequestAdditionalUserInfo(remainingOptions: AcceptOnFillOutRemainingOptions, completion: (Bool, AcceptOnUIMachineUserInfo?) -> ()) {
+        let vc = fillOutRemainingViewController
+        fillOutView = AcceptOnFillOutRemainingView(remainingOptions: remainingOptions)
+        vc.view.addSubview(fillOutView!)
+        fillOutView!.snp_makeConstraints {
+            $0.top.left.right.bottom.equalTo(0)
+            return
+        }
+        fillOutView!.delegate = self
+        fillOutViewCompletion = completion
+        
+        self.presentViewController(vc, animated: true, completion: nil)
+    }
+    
+    
+    //-----------------------------------------------------------------------------------------------------
+    //AcceptOnFillOutRemainingView
+    //-----------------------------------------------------------------------------------------------------
+    public func fillOutRemainingDidCancel() {
+        fillOutRemainingViewController.dismissViewControllerAnimated(true) {
+            self._fillOutRemainingViewController.view.removeFromSuperview()
+            self._fillOutRemainingViewController = nil
+        }
+    }
+    
+    public func fillOutRemainingDidProvideInformation(userInfo: AcceptOnUIMachineUserInfo) {
+        fillOutRemainingViewController.dismissViewControllerAnimated(true) {
+            self._fillOutRemainingViewController.view.removeFromSuperview()
+            self._fillOutRemainingViewController = nil
+        }
+        
     }
     
     //-----------------------------------------------------------------------------------------------------

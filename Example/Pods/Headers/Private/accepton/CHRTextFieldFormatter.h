@@ -1,1 +1,1 @@
-../../../../../Pod/CHRTextFieldFormatter/CHRTextFieldFormatter.h
+../../../../../Pod/Vendor/CHRTextFieldFormatter/CHRTextFieldFormatter.h

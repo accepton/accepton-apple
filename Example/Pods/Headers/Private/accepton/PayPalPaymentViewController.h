@@ -1,1 +1,1 @@
-../../../../../Pod/Paypal/PayPalPaymentViewController.h
+../../../../../Pod/Vendor/Paypal/PayPalPaymentViewController.h

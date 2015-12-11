@@ -1,1 +1,1 @@
-../../../../../Pod/Paypal/PayPalProfileSharingViewController.h
+../../../../../Pod/Vendor/Paypal/PayPalProfileSharingViewController.h

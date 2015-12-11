@@ -64,6 +64,10 @@ import accepton
     public func acceptOnUIMachineDidSetInitialFieldValueWithName(name: String, withValue value: String) {
         initialFieldValues[name] = value
     }
+    
+    public func acceptOnUIMachineDidRequestAdditionalUserInfo(remainingOptions: AcceptOnFillOutRemainingOptions, completion: (Bool, AcceptOnUIMachineUserInfo?) -> ()) {
+        
+    }
 }
 
 class AcceptOnUIMachineSpec: QuickSpec {

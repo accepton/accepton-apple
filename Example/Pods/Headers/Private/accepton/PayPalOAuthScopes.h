@@ -1,1 +1,1 @@
-../../../../../Pod/Paypal/PayPalOAuthScopes.h
+../../../../../Pod/Vendor/Paypal/PayPalOAuthScopes.h

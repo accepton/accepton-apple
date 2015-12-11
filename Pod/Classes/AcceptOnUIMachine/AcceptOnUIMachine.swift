@@ -18,6 +18,8 @@ import Stripe
     optional func acceptOnUIMachinePaymentErrorWithMessage(message: String)
     optional func acceptOnUIMachinePaymentDidSucceedWithCharge(chargeInfo: [String:AnyObject])
     
+    func acceptOnUIMachineDidRequestAdditionalUserInfo(remainingOptions: AcceptOnFillOutRemainingOptions, completion: (Bool, AcceptOnUIMachineUserInfo?)->())
+    
     //Spec related
     optional func acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName(name: String, withValue value: String)  //Field updated, no validation error
 }
@@ -108,8 +110,8 @@ enum AcceptOnUIMachineState {
 
 //Various informations about a user like email
 //that can be used for things like pre-populating forms
-public struct AcceptOnUIMachineOptionalUserInfo {
-    public init() {}
+@objc public class AcceptOnUIMachineOptionalUserInfo: NSObject {
+    public override init() {}
     
     //--------------------------------------------------------------------------------
     //Autofill the user's email address
@@ -132,7 +134,19 @@ public struct AcceptOnUIMachineOptionalUserInfo {
     public var shippingAddressAutofillHints: AcceptOnAPIAddress?
 }
 
-public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate, AcceptOnUIMachineApplePayDriverDelegate, AcceptOnUIMachineCreditCardDriverDelegate {
+//Various informations about a user like email
+//that can be used for things like pre-populating forms
+@objc public class AcceptOnUIMachineUserInfo: NSObject {
+    public override init() {}
+
+    public var email: String?
+    public var billingAddress: AcceptOnAPIAddress?
+    public var shippingAddress: AcceptOnAPIAddress?
+    public var billingSameAsShipping: Bool?
+}
+
+
+public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate, AcceptOnUIMachineApplePayDriverDelegate, AcceptOnUIMachineCreditCardDriverDelegate, AcceptOnUIMachinePaymentDriverDelegate {
     /* ######################################################################################### */
     /* Constructors & Members (Stage I)                                                          */
     /* ######################################################################################### */
@@ -667,37 +681,63 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
         dispatch_after(time, dispatch_get_main_queue()) { [weak self] in
             self?.applePayDriver = AcceptOnUIMachineApplePayDriver()
             self?.applePayDriver.delegate = self
-            self?.applePayDriver.beginApplePayTransactionWithFormOptions(self!.options!)
+            self?.applePayDriver.beginTransactionWithFormOptions(self!.options!)
         }
         
         delegate?.acceptOnUIMachinePaymentIsProcessing?("apple_pay")
     }
     
-    //AcceptOnUIMachinePaypalDriverDelegate Handlers
-    func applePayTransactionDidFailWithMessage(message: String) {
-        applePayDriver = nil
-        if state != .WaitingForApplePay { return }
+   //-----------------------------------------------------------------------------------------------------
+   //AcceptOnUIMachinePaymentDriverDelegate
+   //-----------------------------------------------------------------------------------------------------
+    func transactionDidCancelForDriver(driver: AnyObject) {
+        if driver.name == "apple_pay" {
+            if state != .WaitingForApplePay { return }
+        }
         state = .PaymentForm
         
         delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("apple_pay")
+    }
+    
+    func transactionDidFailForDriver(driver: AnyObject, withMessage message: String) {
+        if driver.name == "apple_pay" {
+            applePayDriver = nil
+            if state != .WaitingForApplePay { return }
+        }
+        state = .PaymentForm
+        
+        delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?(driver.name)
         delegate?.acceptOnUIMachinePaymentErrorWithMessage?(message)
     }
     
-    func applePayTransactionDidSucceedWithChargeRes(chargeRes: [String:AnyObject]) {
-        applePayDriver = nil
-        //We could double charge if this goes catastrophically wrong, so let it
-        //trigger the transaction completion under any conditions
-        //        if state != .WaitingForPaypal { return }
+    func transactionDidSucceedForDriver(driver: AnyObject, withChargeRes chargeRes: [String : AnyObject]) {
+        if driver.name == "apple_pay" {
+            applePayDriver = nil
+        }
         
         state = .PaymentComplete
         
         delegate?.acceptOnUIMachinePaymentDidSucceedWithCharge?(chargeRes)
     }
     
-    func applePayTransactionDidCancel() {
-        if state != .WaitingForApplePay { return }
-        state = .PaymentForm
+    func transactionDidFillOutUserInfoForDriver(driver: AnyObject, userInfo: AcceptOnUIMachineOptionalUserInfo, completion: (Bool, AcceptOnUIMachineUserInfo?) -> ()) {
+        var options: [AcceptOnFillOutRemainingOption] = []
+        if userInfo.requestsAndRequiresBillingAddress {
+            options.append(.BillingAddress)
+        }
+        if userInfo.requestsAndRequiresShippingAddress {
+            options.append(.ShippingAddress)
+        }
         
-        delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("apple_pay")
+        //Find out what we need
+        if options.count > 0 {
+            var remainingOptions = AcceptOnFillOutRemainingOptions(options: options, billingAutocompleteSuggested: userInfo.billingAddressAutofillHints, shippingAutocompleteSuggested: userInfo.shippingAddressAutofillHints)
+            self.delegate?.acceptOnUIMachineDidRequestAdditionalUserInfo(remainingOptions, completion: { (success, userInfo) -> () in
+                completion(success, userInfo)
+            })
+        } else {
+            let userInfo = AcceptOnUIMachineUserInfo()
+            completion(true, userInfo)
+        }
     }
 }

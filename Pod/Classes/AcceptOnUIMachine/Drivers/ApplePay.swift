@@ -40,7 +40,7 @@ extension AcceptOnUIMachineFormOptions {
     }
 }
 
-@objc class AcceptOnUIMachineApplePayDriver: NSObject, PKPaymentAuthorizationViewControllerDelegate {
+@objc class AcceptOnUIMachineApplePayDriver: AcceptOnUIMachinePaymentDriver, PKPaymentAuthorizationViewControllerDelegate {
     class func checkAvailability() -> AcceptOnUIMachineApplePayDriverAvailability {
         let enabled = PKPaymentAuthorizationViewController.canMakePayments()
         if (!enabled) { return .NotSupported }
@@ -58,7 +58,10 @@ extension AcceptOnUIMachineFormOptions {
         return .NeedToSetup
     }
     
-    weak var delegate: AcceptOnUIMachineApplePayDriverDelegate?
+    override var name: String {
+        return "apple_pay"
+    }
+    
     
     //Present using a specially created view controller applied to the root window
     var _presentingViewController: UIViewController!
@@ -84,7 +87,7 @@ extension AcceptOnUIMachineFormOptions {
     var formOptions: AcceptOnUIMachineFormOptions!
     var shouldComplete: Bool!
     var chargeRes: [String:AnyObject]?
-    func beginApplePayTransactionWithFormOptions(formOptions: AcceptOnUIMachineFormOptions) {
+    override func beginTransactionWithFormOptions(formOptions: AcceptOnUIMachineFormOptions) {
         self.formOptions = formOptions
         didErr = nil
         chargeRes = nil
@@ -95,17 +98,17 @@ extension AcceptOnUIMachineFormOptions {
         
         let availability = AcceptOnUIMachineApplePayDriver.checkAvailability()
         if (availability == .NotSupported) {
-            self.delegate?.applePayTransactionDidFailWithMessage?("Your device does not support ApplePay")
+            self.delegate.transactionDidFailForDriver(self, withMessage: "Your device does not support ApplePay")
             return
         } else if (availability == AcceptOnUIMachineApplePayDriverAvailability.NeedToSetup) {
-            self.delegate?.applePayTransactionDidFailWithMessage?("You need to set up ApplePay")
+            self.delegate.transactionDidFailForDriver(self, withMessage: "You need to setup ApplePay")
             PKPassLibrary().openPaymentSetup()
             return
         }
         
         pkvc = PKPaymentAuthorizationViewController(paymentRequest: formOptions.createApplePayPaymentRequest())
         if (pkvc == nil) {
-            self.delegate?.applePayTransactionDidFailWithMessage?("Could not load ApplePay at this time")
+            self.delegate.transactionDidFailForDriver(self, withMessage: "Could not load ApplePay")
             return
         }
         pkvc.delegate = self
@@ -126,17 +129,17 @@ extension AcceptOnUIMachineFormOptions {
             self?._presentingViewController.removeFromParentViewController()
             self?._presentingViewController = nil
             
-            if (self!.didHitCancel) {
-                self?.delegate?.applePayTransactionDidCancel?()
+            if (self?.didHitCancel ?? false) {
+                self?.delegate.transactionDidCancelForDriver(self!)
             } else {
                 //Did payment-processor process the payment token?
                 if (self!.didErr != nil) {
-                    self?.delegate?.applePayTransactionDidFailWithMessage?("Could not connect to the payment servers. Please try a different payment method.")
+                    self?.delegate?.transactionDidFailForDriver(self!, withMessage:"Could not connect to the payment servers. Please try a different payment method.")
                 } else {
                     if let chargeRes = self?.chargeRes {
-                        self?.delegate?.applePayTransactionDidSucceedWithChargeRes?(chargeRes)
+                        self?.delegate?.transactionDidSucceedForDriver(self!, withChargeRes: chargeRes)
                     } else {
-                        self?.delegate?.applePayTransactionDidFailWithMessage?("The payment servers will not process charges at this time. Please try a different payment method.")
+                        self?.delegate?.transactionDidFailForDriver(self!, withMessage:"The payment servers will not process charges at this time. Please try a different payment method.")
                     }
                 }
             }
@@ -144,55 +147,65 @@ extension AcceptOnUIMachineFormOptions {
     }
     
     func paymentAuthorizationViewController(controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, completion: (PKPaymentAuthorizationStatus) -> Void) {
-        //If we have a stripe payment processor available in the options
-        if self.formOptions.paymentMethods.supportsStripe {
-            //Set the stripe publishable key
-            guard let stripePublishableKey = formOptions.paymentMethods.stripePublishableKey else {
-                puts("AcceptOnUIMachineApplePayDriver: Error, could not complete ApplePay transaction, Stripe was enabled but there was no publishable key")
-                didHitCancel = false
+        let userInfo = self.formOptions.userInfo ?? AcceptOnUIMachineOptionalUserInfo()
+        self.delegate.transactionDidFillOutUserInfoForDriver(self, userInfo: userInfo) { success, userInfo in
+            //User may have hit back when filling out extra information, abort
+            if !success {
+                self.didHitCancel = true
                 completion(PKPaymentAuthorizationStatus.Failure)
                 return
             }
-            Stripe.setDefaultPublishableKey(stripePublishableKey)
             
-            //Attempt to create a transaction with Stripe with the retrieved ApplePay token
-            STPAPIClient.sharedClient().createTokenWithPayment(payment) { (token, err) -> Void in
-                if self.shouldComplete == false { return }
-                //Stripe transaction failed, do not continue
-                if let err = err {
-                    puts("AcceptOnUIMachineApplePayDriver: Error, could not complete transaction after handing stripe a payment token: \(err.localizedDescription)")
+            //If we have a stripe payment processor available in the options
+            if self.formOptions.paymentMethods.supportsStripe {
+                //Set the stripe publishable key
+                guard let stripePublishableKey = self.formOptions.paymentMethods.stripePublishableKey else {
+                    puts("AcceptOnUIMachineApplePayDriver: Error, could not complete ApplePay transaction, Stripe was enabled but there was no publishable key")
                     self.didHitCancel = false
                     completion(PKPaymentAuthorizationStatus.Failure)
                     return
                 }
+                Stripe.setDefaultPublishableKey(stripePublishableKey)
                 
-                //We received a stripe token, notify the AcceptOn servers
-                let stripeTokenId = token!.tokenId
-                let acceptOnTransactionToken = self.formOptions.token.id
-                
-                //If there was an email provided in the optional user information on the UIMachine creation, then
-                //pass this along.  Else, pass along nil.
-                let email = self.formOptions.userInfo?.emailAutofillHint ?? nil
-                let chargeInfo = AcceptOnAPIChargeInfo(cardToken: stripeTokenId, email: email)
-                self.delegate?.api.chargeWithTransactionId(acceptOnTransactionToken, andChargeinfo: chargeInfo) { chargeRes, err in
+                //Attempt to create a transaction with Stripe with the retrieved ApplePay token
+                STPAPIClient.sharedClient().createTokenWithPayment(payment) { (token, err) -> Void in
                     if self.shouldComplete == false { return }
+                    //Stripe transaction failed, do not continue
                     if let err = err {
-                        self.didErr = err
-                        puts("AcceptOnUIMachineApplePayDriver: Error, could not complete transaction, failed to charge stripe token (forged from ApplePay) through to the accepton on servers: \(err.localizedDescription)")
+                        puts("AcceptOnUIMachineApplePayDriver: Error, could not complete transaction after handing stripe a payment token: \(err.localizedDescription)")
                         self.didHitCancel = false
                         completion(PKPaymentAuthorizationStatus.Failure)
                         return
                     }
                     
-                    self.didHitCancel = false
+                    //We received a stripe token, notify the AcceptOn servers
+                    let stripeTokenId = token!.tokenId
+                    let acceptOnTransactionToken = self.formOptions.token.id
                     
-                    self.chargeRes = chargeRes!
-                    completion(PKPaymentAuthorizationStatus.Success)
+                    //If there was an email provided in the optional user information on the UIMachine creation, then
+                    //pass this along.  Else, pass along nil.
+                    let email = self.formOptions.userInfo?.emailAutofillHint ?? nil
+                    let chargeInfo = AcceptOnAPIChargeInfo(cardToken: stripeTokenId, email: email)
+                    self.delegate?.api.chargeWithTransactionId(acceptOnTransactionToken, andChargeinfo: chargeInfo) { chargeRes, err in
+                        if self.shouldComplete == false { return }
+                        if let err = err {
+                            self.didErr = err
+                            puts("AcceptOnUIMachineApplePayDriver: Error, could not complete transaction, failed to charge stripe token (forged from ApplePay) through to the accepton on servers: \(err.localizedDescription)")
+                            self.didHitCancel = false
+                            completion(PKPaymentAuthorizationStatus.Failure)
+                            return
+                        }
+                        
+                        self.didHitCancel = false
+                        
+                        self.chargeRes = chargeRes!
+                        completion(PKPaymentAuthorizationStatus.Success)
+                    }
                 }
+            } else {
+                puts("AcceptOnUIMachineApplePayDriver: Error, did retrieve ApplePay token, but there was no payment processor configured to accept ApplePay")
+                completion(PKPaymentAuthorizationStatus.Failure)
             }
-        } else {
-            puts("AcceptOnUIMachineApplePayDriver: Error, did retrieve ApplePay token, but there was no payment processor configured to accept ApplePay")
-            completion(PKPaymentAuthorizationStatus.Failure)
         }
     }
     

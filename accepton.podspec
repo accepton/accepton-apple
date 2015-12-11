@@ -34,16 +34,14 @@ A swift library for processing payments through the AcceptOn API which elegantly
     'accepton' => ['Pod/Assets/*.png']
   }
 
-  s.public_header_files = 'Pod/Paypal/*.h', 'Pod/CHRTextFieldFormatter/*.h'
-  s.source_files = 'Pod/Paypal/*.h', 'Pod/CHRTextFieldFormatter/**/*', 'Pod/Classes/**/*'
+  s.public_header_files = 'Pod/Vendor/Paypal/*.h', 'Pod/Vendor/CHRTextFieldFormatter/*.h', 'Pod/Vendor/BUYPaymentButton/*.h'
+  s.source_files = 'Pod/Vendor/Paypal/*.h', 'Pod/Vendor/CHRTextFieldFormatter/**/*', 'Pod/Classes/**/*', 'Pod/Vendor/BUYPaymentButton/**/*', 'Pod/Vendor/Snapkit/**/*'
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'Alamofire', '~> 3.0'
-  s.dependency 'SnapKit'
   s.dependency 'Stripe'
-  s.dependency 'BUYPaymentButton'
   s.dependency 'Braintree'
   s.weak_framework = 'SystemConfiguration', 'MobileCoreServices', 'MessageUI', 'CoreLocation', 'Accelerate', 'PassKit'
   s.resource_bundle = {'accepton' => ['Pod/Assets/*']}
 
-  s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-ObjC -lPayPalMobile', 'LIBRARY_SEARCH_PATHS' => '${PODS_ROOT}/../../Pod/Paypal', 'USER_HEADER_SEARCH_PATHS' => "${PODS_ROOT}/../../Pod/Paypal"}
+  s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-ObjC -lPayPalMobile', 'LIBRARY_SEARCH_PATHS' => '${PODS_ROOT}/../../Pod/Vendor/Paypal', 'USER_HEADER_SEARCH_PATHS' => "${PODS_ROOT}/../../Pod/Vendor/Paypal"}
 end

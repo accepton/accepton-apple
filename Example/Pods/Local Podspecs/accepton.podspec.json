@@ -18,9 +18,11 @@
   },
   "requires_arc": true,
   "source_files": [
-    "Pod/Paypal/*.h",
-    "Pod/CHRTextFieldFormatter/**/*",
-    "Pod/Classes/**/*"
+    "Pod/Vendor/Paypal/*.h",
+    "Pod/Vendor/CHRTextFieldFormatter/**/*",
+    "Pod/Classes/**/*",
+    "Pod/Vendor/BUYPaymentButton/**/*",
+    "Pod/Vendor/Snapkit/**/*"
   ],
   "resource_bundles": {
     "accepton": [
@@ -28,20 +30,15 @@
     ]
   },
   "public_header_files": [
-    "Pod/Paypal/*.h",
-    "Pod/CHRTextFieldFormatter/*.h"
+    "Pod/Vendor/Paypal/*.h",
+    "Pod/Vendor/CHRTextFieldFormatter/*.h",
+    "Pod/Vendor/BUYPaymentButton/*.h"
   ],
   "dependencies": {
     "Alamofire": [
       "~> 3.0"
     ],
-    "SnapKit": [
-
-    ],
     "Stripe": [
-
-    ],
-    "BUYPaymentButton": [
 
     ],
     "Braintree": [
@@ -58,7 +55,7 @@
   ],
   "pod_target_xcconfig": {
     "OTHER_LDFLAGS": "-ObjC -lPayPalMobile",
-    "LIBRARY_SEARCH_PATHS": "${PODS_ROOT}/../../Pod/Paypal",
-    "USER_HEADER_SEARCH_PATHS": "${PODS_ROOT}/../../Pod/Paypal"
+    "LIBRARY_SEARCH_PATHS": "${PODS_ROOT}/../../Pod/Vendor/Paypal",
+    "USER_HEADER_SEARCH_PATHS": "${PODS_ROOT}/../../Pod/Vendor/Paypal"
   }
 }

@@ -1,1 +1,1 @@
-../../../../../Pod/Paypal/PayPalConfiguration.h
+../../../../../Pod/Vendor/Paypal/PayPalConfiguration.h

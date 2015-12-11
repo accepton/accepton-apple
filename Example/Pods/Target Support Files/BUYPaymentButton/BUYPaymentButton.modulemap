@@ -1,6 +1,0 @@
-framework module BUYPaymentButton {
-  umbrella header "BUYPaymentButton-umbrella.h"
-
-  export *
-  module * { export * }
-}

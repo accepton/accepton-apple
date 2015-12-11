@@ -1,5 +1,4 @@
 import UIKit
-import SnapKit
 
 //This view supports showing an address or just gray boxes where the address fields would go
 class AcceptOnAddressPreview: UIView

@@ -1,5 +1,4 @@
 import UIKit
-import SnapKit
 
 protocol AcceptOnFillOutAddressViewDelegate: class {
     func presentAddressPickerView(view: UIView)
@@ -240,6 +239,14 @@ class AcceptOnFillOutAddressView: UIView, AcceptOnFillOutRemainingSubForm, Accep
         label.alpha = 0
         self.readyStatus = true
         self.delegate?.subFormDidUpdateReadyStatus(self)
+    }
+    
+    func setSuggestedAddress(address: AcceptOnAPIAddress?) {
+        if let address = address where address.isFullyQualified {
+            self.addressBox.address = address
+            self.readyStatus = true
+            self.delegate?.subFormDidUpdateReadyStatus(self)
+        }
     }
     
     //-----------------------------------------------------------------------------------------------------

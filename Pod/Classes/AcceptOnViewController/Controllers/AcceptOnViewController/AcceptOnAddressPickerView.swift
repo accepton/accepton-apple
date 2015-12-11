@@ -1,5 +1,4 @@
 import UIKit
-import SnapKit
 
 public protocol AcceptOnAddressPickerViewDelegate: class {
     //The current address the user has typed in, assume it's blank at the start,

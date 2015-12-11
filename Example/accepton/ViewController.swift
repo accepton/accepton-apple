@@ -18,7 +18,8 @@ class ViewController : UIViewController, AcceptOnViewControllerDelegate, AcceptO
             $0.left.top.bottom.right.equalTo(0)
         }
         
-        let fillOutRemaining = AcceptOnFillOutRemainingView(remainingOptions: [.BillingAddress, .ShippingAddress])
+        var remainingOptions = AcceptOnFillOutRemainingOptions(options: [.ShippingAddress, .BillingAddress], billingAutocompleteSuggested: nil, shippingAutocompleteSuggested: nil)
+        let fillOutRemaining = AcceptOnFillOutRemainingView(remainingOptions: remainingOptions)
         
         view.addSubview(fillOutRemaining)
         fillOutRemaining.snp_makeConstraints {
@@ -40,6 +41,10 @@ class ViewController : UIViewController, AcceptOnViewControllerDelegate, AcceptO
         
     }
     
+    func fillOutRemainingDidProvideInformation(userInfo: AcceptOnUIMachineUserInfo) {
+        
+    }
+    
 //    func addressInputDidUpdate(picker: AcceptOnAddressPickerView, text: String) {
 //        let api = AcceptOnAPI.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
 //        var address: AcceptOnAPIAddress?
@@ -58,7 +63,6 @@ class ViewController : UIViewController, AcceptOnViewControllerDelegate, AcceptO
     }
     
     func fillOutRemainingDidCancel() {
-        
     }
     
     func fillOutRemainingDidProvideInformation(info: [AcceptOnFillOutRemainingOption : Any?]) {
@@ -79,9 +83,9 @@ class ViewController : UIViewController, AcceptOnViewControllerDelegate, AcceptO
 
             //Optionally, provide an email to use to auto-fill out the email
             //field in the credit card form
-            //var userInfo = AcceptOnUIMachineOptionalUserInfo()
-            //userInfo.email = "test@test.com"
-            //avc.userInfo = userInfo
+            var userInfo = AcceptOnUIMachineOptionalUserInfo()
+            userInfo.requestsAndRequiresShippingAddress = true
+            avc.userInfo = userInfo
         }
     }
     
