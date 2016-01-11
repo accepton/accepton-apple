@@ -78,11 +78,15 @@ public class AcceptOnUIMachineFormOptions : NSObject {
         super.init()
     }
     
+    //Additional user information
     public var userInfo: AcceptOnUIMachineOptionalUserInfo?
+    
+    //Credit card transactions post the email & all fields of the credit-card
+    public var creditCardParams: AcceptOnUIMachineCreditCardParams?
 }
 
 //Used to pass-around the credit-card form information to drivers
-struct AcceptOnUIMachineCreditCardParams {
+public struct AcceptOnUIMachineCreditCardParams {
     let number: String
     let expMonth: String
     let expYear: String
@@ -99,13 +103,11 @@ struct AcceptOnUIMachineCreditCardParams {
 }
 
 enum AcceptOnUIMachineState {
-    case Initialized          //begin has not been called
-    case BeginWasCalled       //In the middle of the begin
-    case PaymentForm          //begin succeeded
-    case WaitingForPaypal     //Paypal dialog is open
-    case WaitingForApplePay   //ApplePay dialog is open
-    case WaitingForCreditCard //Waiting for credit-card transaction to post
-    case PaymentComplete      //Payment has completed
+    case Initialized           //begin has not been called
+    case BeginWasCalled        //In the middle of the begin
+    case PaymentForm           //begin succeeded
+    case WaitingForTransaction //In the middle of a transaction request (like apple-pay, credit-card, paypal, etc)
+    case PaymentComplete       //Payment has completed
 }
 
 //Various informations about a user like email
@@ -132,6 +134,12 @@ enum AcceptOnUIMachineState {
     //--------------------------------------------------------------------------------
     public var requestsAndRequiresShippingAddress: Bool = false
     public var shippingAddressAutofillHints: AcceptOnAPIAddress?
+    
+    //--------------------------------------------------------------------------------
+    //Additional metadata to pass in, this will just be passed through to the final
+    //output and placed into the metadata field
+    //--------------------------------------------------------------------------------
+    public var metadata: [String:AnyObject]?
 }
 
 //Various informations about a user like email
@@ -139,14 +147,45 @@ enum AcceptOnUIMachineState {
 @objc public class AcceptOnUIMachineUserInfo: NSObject {
     public override init() {}
 
+    //Additional metadata
+    public var metadata: [String:AnyObject]?
+    
     public var email: String?
     public var billingAddress: AcceptOnAPIAddress?
     public var shippingAddress: AcceptOnAPIAddress?
     public var billingSameAsShipping: Bool?
+    
+    func toDictionary() -> [String:AnyObject] {
+        var out: [String:AnyObject] = [:]
+        
+        if let email = email {
+            out["email"] = email
+        }
+        
+        if let billingAddress = billingAddress {
+            out["billing_address"] = billingAddress.toDictionary()
+        }
+        
+        if let shippingAddress = shippingAddress {
+            out["shipping_address"] = shippingAddress.toDictionary()
+        }
+        
+        if let billingSameAsShipping = billingSameAsShipping {
+            out["billing_same_as_shipping"] = billingSameAsShipping
+        }
+        
+        if let metadata = metadata {
+            for (k, v) in metadata {
+                out[k] = v
+            }
+        }
+        
+        return out
+    }
 }
 
 
-public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate, AcceptOnUIMachineApplePayDriverDelegate, AcceptOnUIMachineCreditCardDriverDelegate, AcceptOnUIMachinePaymentDriverDelegate {
+public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate, AcceptOnUIMachinePaymentDriverDelegate {
     /* ######################################################################################### */
     /* Constructors & Members (Stage I)                                                          */
     /* ######################################################################################### */
@@ -571,14 +610,10 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
         securityFieldValue = string
     }
     /////////////////////////////////////////////////////////////////////
-
-    lazy var stripeDriver = AcceptOnUIMachineCreditCardStripeDriver()
-    lazy var braintreeDriver = AcceptOnUIMachineCreditCardBraintreeDriver()
-    
     //User hits the 'pay' button for the credit-card form
     public func creditCardPayClicked() {
+        //startTransaction changes the state
         if state != .PaymentForm { return }
-        state = .WaitingForCreditCard
         
         //Don't use &&: optimizer might attempt short-circuit some
         //statements and we want all these to execute even if some fail
@@ -594,32 +629,9 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
             
             //Create our helper struct to pass to our drivers
             let cardParams = AcceptOnUIMachineCreditCardParams(number: cardNumFieldValue, expMonth: expMonthFieldValue ?? "", expYear: expYearFieldValue, cvc: securityFieldValue, email: emailFieldValue)
-            
-            if paymentMethods!.supportsBraintree {
-                braintreeDriver.delegate = self
-                braintreeDriver.beginCreditCardTransactionRequestWithFormOptions(self.options, andCreditCardParams: cardParams)
-            } else if paymentMethods!.supportsStripe {
-                stripeDriver.delegate = self
-                stripeDriver.beginCreditCardTransactionRequestWithFormOptions(self.options, andCreditCardParams: cardParams)
-            }
+            self.options!.creditCardParams = cardParams
+            self.startTransactionWithDriverOfClass(AcceptOnUIMachineCreditCardDriver.self)
         }
-    }
-    
-    //CreditCardDelegate handlers
-    func creditCardTransactionDidFailWithMessage(message: String) {
-        state = .PaymentForm
-        self.delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("credit_card")
-        self.delegate?.acceptOnUIMachinePaymentErrorWithMessage?(message)
-    }
-    
-    func creditCardTransactionDidSucceedWithChargeRes(chargeRes: [String:AnyObject]) {
-        state = .PaymentComplete
-        self.delegate?.acceptOnUIMachinePaymentDidSucceedWithCharge?(chargeRes)
-    }
-    
-    func creditCardTransactionDidCancel() {
-        state = .PaymentForm
-        self.delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("credit_card")
     }
     
     /* ######################################################################################### */
@@ -629,7 +641,6 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
     public func paypalClicked() {
         if state != .PaymentForm { return }
         
-        self.state = .WaitingForPaypal
         //Wait 1500ms so there is time to show something like a loading screen to the user
         let delay = Int64(1500) * Int64(NSEC_PER_MSEC)
         let time = dispatch_time(DISPATCH_TIME_NOW, delay)
@@ -643,7 +654,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
     
     //AcceptOnUIMachinePaypalDriverDelegate Handlers
     func paypalTransactionDidFailWithMessage(message: String) {
-        if state != .WaitingForPaypal { return }
+//        if state != .WaitingForPaypal { return }
         state = .PaymentForm
         
         delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("paypal")
@@ -661,7 +672,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
     }
     
     func paypalTransactionDidCancel() {
-        if state != .WaitingForPaypal { return }
+//        if state != .WaitingForPaypal { return }
         state = .PaymentForm
         
         delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("paypal")
@@ -674,36 +685,22 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
     public func applePayClicked() {
         if state != .PaymentForm { return }
         
-        self.state = .WaitingForApplePay
-        //Wait 1500ms so there is time to show something like a loading screen to the user
-        let delay = Int64(1500) * Int64(NSEC_PER_MSEC)
-        let time = dispatch_time(DISPATCH_TIME_NOW, delay)
-        dispatch_after(time, dispatch_get_main_queue()) { [weak self] in
-            self?.applePayDriver = AcceptOnUIMachineApplePayDriver()
-            self?.applePayDriver.delegate = self
-            self?.applePayDriver.beginTransactionWithFormOptions(self!.options!)
-        }
-        
-        delegate?.acceptOnUIMachinePaymentIsProcessing?("apple_pay")
+        //Wait 1.5 seconds so it has time to show a loading screen of sorts
+        startTransactionWithDriverOfClass(AcceptOnUIMachineApplePayDriver.self, withDelay: 1.5)
     }
     
    //-----------------------------------------------------------------------------------------------------
    //AcceptOnUIMachinePaymentDriverDelegate
    //-----------------------------------------------------------------------------------------------------
     func transactionDidCancelForDriver(driver: AnyObject) {
-        if driver.name == "apple_pay" {
-            if state != .WaitingForApplePay { return }
-        }
+        if state != .WaitingForTransaction { return }
         state = .PaymentForm
         
-        delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("apple_pay")
+        delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?(driver.name)
     }
     
     func transactionDidFailForDriver(driver: AnyObject, withMessage message: String) {
-        if driver.name == "apple_pay" {
-            applePayDriver = nil
-            if state != .WaitingForApplePay { return }
-        }
+        if state != .WaitingForTransaction { return }
         state = .PaymentForm
         
         delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?(driver.name)
@@ -711,10 +708,6 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
     }
     
     func transactionDidSucceedForDriver(driver: AnyObject, withChargeRes chargeRes: [String : AnyObject]) {
-        if driver.name == "apple_pay" {
-            applePayDriver = nil
-        }
-        
         state = .PaymentComplete
         
         delegate?.acceptOnUIMachinePaymentDidSucceedWithCharge?(chargeRes)
@@ -731,13 +724,40 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
         
         //Find out what we need
         if options.count > 0 {
-            var remainingOptions = AcceptOnFillOutRemainingOptions(options: options, billingAutocompleteSuggested: userInfo.billingAddressAutofillHints, shippingAutocompleteSuggested: userInfo.shippingAddressAutofillHints)
+            let remainingOptions = AcceptOnFillOutRemainingOptions(options: options, billingAutocompleteSuggested: userInfo.billingAddressAutofillHints, shippingAutocompleteSuggested: userInfo.shippingAddressAutofillHints)
             self.delegate?.acceptOnUIMachineDidRequestAdditionalUserInfo(remainingOptions, completion: { (success, userInfo) -> () in
                 completion(success, userInfo)
             })
-        } else {
-            let userInfo = AcceptOnUIMachineUserInfo()
-            completion(true, userInfo)
+            return
         }
+        
+        let userInfo = AcceptOnUIMachineUserInfo()
+        completion(true, userInfo)
+    }
+    
+    //-----------------------------------------------------------------------------------------------------
+    //Starts the transaction process for a driver
+    //-----------------------------------------------------------------------------------------------------
+    var activeDriver: AcceptOnUIMachinePaymentDriver!
+    func startTransactionWithDriverOfClass(driverClass: AcceptOnUIMachinePaymentDriver.Type, withDelay delay: Double=0.0) {
+        self.state = .WaitingForTransaction
+        activeDriver = driverClass.init(formOptions: self.options!)
+        let block = { [weak self] in
+            if self == nil { return }
+            self!.activeDriver.delegate = self
+            self!.activeDriver.beginTransaction()
+        }
+        
+        if delay == 0 {
+            block()
+        } else {
+            let delay = Int64(delay*1000) * Int64(NSEC_PER_MSEC)
+            let time = dispatch_time(DISPATCH_TIME_NOW, delay)
+            dispatch_after(time, dispatch_get_main_queue()) {
+                block()
+            }
+        }
+        
+        self.delegate?.acceptOnUIMachinePaymentIsProcessing?(activeDriver.name)
     }
 }

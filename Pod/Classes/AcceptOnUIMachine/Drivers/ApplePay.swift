@@ -2,14 +2,6 @@ import PassKit
 import UIKit
 import Stripe
 
-@objc protocol AcceptOnUIMachineApplePayDriverDelegate {
-    optional func applePayTransactionDidFailWithMessage(message: String)
-    optional func applePayTransactionDidSucceedWithChargeRes(chargeRes: [String:AnyObject])
-    optional func applePayTransactionDidCancel()
-    
-    var api: AcceptOnAPI { get }
-}
-
 enum AcceptOnUIMachineApplePayDriverAvailability {
     case NotSupported  //Not supported (parental controls, etc).
     case NeedToSetup   //User has no cards setup
@@ -84,10 +76,9 @@ extension AcceptOnUIMachineFormOptions {
     }
     
     var pkvc: PKPaymentAuthorizationViewController!
-    var formOptions: AcceptOnUIMachineFormOptions!
     var shouldComplete: Bool!
     var chargeRes: [String:AnyObject]?
-    override func beginTransactionWithFormOptions(formOptions: AcceptOnUIMachineFormOptions) {
+    override func beginTransaction() {
         self.formOptions = formOptions
         didErr = nil
         chargeRes = nil
@@ -185,7 +176,7 @@ extension AcceptOnUIMachineFormOptions {
                     //If there was an email provided in the optional user information on the UIMachine creation, then
                     //pass this along.  Else, pass along nil.
                     let email = self.formOptions.userInfo?.emailAutofillHint ?? nil
-                    let chargeInfo = AcceptOnAPIChargeInfo(cardToken: stripeTokenId, email: email)
+                    let chargeInfo = AcceptOnAPIChargeInfo(cardTokens: [stripeTokenId], metadata: ["email":email ?? ""])
                     self.delegate?.api.chargeWithTransactionId(acceptOnTransactionToken, andChargeinfo: chargeInfo) { chargeRes, err in
                         if self.shouldComplete == false { return }
                         if let err = err {

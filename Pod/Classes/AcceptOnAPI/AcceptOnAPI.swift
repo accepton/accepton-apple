@@ -125,21 +125,27 @@ public struct AcceptOnAPITransactionToken {
 
 //Helper struct for the charge methods (which have a lot of parameters and variations of parameters)
 public struct AcceptOnAPIChargeInfo {
-    var cardToken: String?
-    var email: String?
+    var cardTokens: [String]?
+    var metadata: [String:AnyObject]?
     
-    public init(cardToken: String, email: String?) {
-        self.cardToken = cardToken
-        self.email = email
+    public init(cardTokens: [String], metadata: [String:AnyObject]?=nil) {
+        self.cardTokens = cardTokens
+        self.metadata = metadata
     }
     
     //Places all necessary info into an already created params struct (usually this would
     //have the session key already in it, so we place all the requisite fields for the
     //charge request)
     public func mergeIntoParams(inout dict: [String:AnyObject]) {
-        if let cardToken = cardToken {
-            dict["card_token"] = cardToken
-            dict["email"] = email ?? ""
+        if let cardTokens = cardTokens {
+            if let cardToken = cardTokens.first {
+                dict["card_token"] = cardToken
+            }
+            
+            //Email is a special case
+            dict["email"] = metadata?["email"] ?? ""
+            
+            dict["metadata"] = metadata ?? [:]
         }
     }
 }
@@ -172,6 +178,37 @@ public struct AcceptOnAPIAddress {
             if e == nil { return false }
         }
         return true
+    }
+    
+    func toDictionary() -> [String:AnyObject] {
+        var out: [String:AnyObject] = [:]
+        
+        if let line1 = line1 {
+            out["line1"] = line1
+        }
+
+        if let line2 = line2 {
+            out["line2"] = line2 
+        } 
+
+        if let country = country {
+            out["country"] = country 
+        } 
+
+        if let city = city {
+            out["city"] = city 
+        } 
+
+        if let region = region {
+            out["region"] = region 
+        } 
+
+        if let postalCode = postalCode {
+            out["postalCode"] = postalCode 
+        } 
+
+        
+        return out
     }
 }
 
@@ -307,6 +344,8 @@ public struct AcceptOnAPIAddress {
         //actual credit card numbers.
         var params = ["access_token":self.accessToken, "token": tid] as [String:AnyObject]
         chargeInfo.mergeIntoParams(&params)
+        
+        puts("\(params)")
         
         requestWithMethod(.POST, path:"/v1/charges", params: params, completion: { res, err in
             if (err != nil) {

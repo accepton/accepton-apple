@@ -2,35 +2,70 @@ import PassKit
 import UIKit
 import Stripe
 
-protocol AcceptOnUIMachineCreditCardDriverDelegate: class {
-    func creditCardTransactionDidFailWithMessage(message: String)
-    func creditCardTransactionDidSucceedWithChargeRes(chargeRes: [String:AnyObject])
-    func creditCardTransactionDidCancel()
-    
-    var api: AcceptOnAPI { get }
-}
-
-
 //Generic credit-card driver interface
-@objc class AcceptOnUIMachineCreditCardDriver: NSObject {
-    weak var delegate: AcceptOnUIMachineCreditCardDriverDelegate!
+@objc class AcceptOnUIMachineCreditCardDriver: AcceptOnUIMachinePaymentDriver, AcceptOnUIMachineCreditCardDriverPluginDelegate {
+    //List of drivers that you want available
+    let pluginClasses: [AcceptOnUIMachineCreditCardDriverPlugin.Type] = [
+        AcceptOnUIMachineCreditCardBraintreePlugin.self,
+        AcceptOnUIMachineCreditCardStripePlugin.self]
     
-    var formOptions: AcceptOnUIMachineFormOptions!
-    var creditCardParams: AcceptOnUIMachineCreditCardParams!
-    func beginCreditCardTransactionRequestWithFormOptions(formOptions: AcceptOnUIMachineFormOptions, andCreditCardParams creditCardParams: AcceptOnUIMachineCreditCardParams) {
-        self.formOptions = formOptions
-        self.creditCardParams = creditCardParams
+    //Driver instances that were created
+    var plugins: [AcceptOnUIMachineCreditCardDriverPlugin] = []
+    
+    override var name: String {
+        return "credit_card"
+    }
+    
+    override func beginTransaction() {
+        for pluginClass in pluginClasses {
+            let plugin = pluginClass.init()
+            plugin.delegate = self
+            plugins.append(plugin)
+        }
         
-        //We don't want this to execute on the same thread of execution in-case
-        //we fail right away. This would cause multiple messages to be dispatched
-        //within the same frame of execution and the UI could glitch out (e.g.
-        //client may get a hide/show request in the same frame of executuion)
-        dispatch_async(dispatch_get_main_queue()) {
-            self.startCreditCardTransaction()
+        for plugin in plugins {
+            plugin.beginTransactionWithFormOptions(formOptions)
         }
     }
     
-    func startCreditCardTransaction() {
-        //Override this function
+    //Called after a plugin succeeds of fails.  Removes plugin from list of plugins and then
+    //checks if we've looked at all the plugins
+    func markPluginFinished(plugin: AcceptOnUIMachineCreditCardDriverPlugin) {
+        plugins.removeAtIndex(plugins.indexOf(plugin)!)
+        
+        //Ready to submit to accepton's API, all plugins returned something (success or failure)
+        if plugins.count == 0 {
+            readyToCompleteTransaction()
+        }
+    }
+    
+    //-----------------------------------------------------------------------------------------------------
+    //AcceptOnUIMachineCreditCardDriverPluginDelegate
+    //-----------------------------------------------------------------------------------------------------
+    func creditCardPlugin(plugin: AcceptOnUIMachineCreditCardDriverPlugin, didFailWithMessage message: String) {
+        puts("[\(self.dynamicType).\(plugin.dynamicType)] did fail with message: \(message)")
+        markPluginFinished(plugin)
+    }
+    
+    func creditCardPlugin(plugin: AcceptOnUIMachineCreditCardDriverPlugin, didSucceedWithNonce nonce: String) {
+        nonceTokens.append(nonce)
+        markPluginFinished(plugin)
+    }
+}
+
+protocol AcceptOnUIMachineCreditCardDriverPluginDelegate: class {
+    func creditCardPlugin(plugin: AcceptOnUIMachineCreditCardDriverPlugin, didFailWithMessage message: String)
+    func creditCardPlugin(plugin: AcceptOnUIMachineCreditCardDriverPlugin, didSucceedWithNonce nonce: String)
+}
+
+//Plugins are things like braintree, stripe, etc
+class AcceptOnUIMachineCreditCardDriverPlugin: NSObject {
+    weak var delegate: AcceptOnUIMachineCreditCardDriverPluginDelegate!
+    
+    //Start a transaction attempt
+    func beginTransactionWithFormOptions(formOptions: AcceptOnUIMachineFormOptions) {}
+    
+    override required init() {
+        
     }
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="tdS-p0-NIu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="tdS-p0-NIu">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -22,11 +22,9 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blur_bg.png" translatesAutoresizingMaskIntoConstraints="NO" id="9xZ-uF-SjX">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <animations/>
                             </imageView>
                             <button opaque="NO" alpha="0.84999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZjS-un-bJd">
                                 <rect key="frame" x="180" y="325" width="240" height="60"/>
-                                <animations/>
                                 <color key="backgroundColor" red="0.9929245283" green="0.83717140318433869" blue="0.49894712192971064" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="240" id="3Fq-EO-qSi"/>
@@ -42,14 +40,12 @@
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="watch.png" translatesAutoresizingMaskIntoConstraints="NO" id="5Qk-Dr-dS6">
                                 <rect key="frame" x="200" y="50" width="200" height="200"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="5Qk-Dr-dS6" secondAttribute="height" multiplier="1:1" id="Zhl-si-6vD"/>
                                     <constraint firstAttribute="width" constant="200" id="sbX-vQ-7G7"/>
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <animations/>
                         <constraints>
                             <constraint firstItem="9xZ-uF-SjX" firstAttribute="height" secondItem="hip-Cb-hVZ" secondAttribute="height" id="5GM-5t-GPS"/>
                             <constraint firstItem="ZjS-un-bJd" firstAttribute="centerX" secondItem="hip-Cb-hVZ" secondAttribute="centerX" id="NdM-6v-5du"/>
@@ -69,7 +65,6 @@
         <!--Accept On View Controller-->
         <scene sceneID="o2B-jo-Mvh">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mg6-Ie-vSc" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="3AT-wg-vuu" customClass="AcceptOnViewController" customModule="accepton" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6aK-Pd-vgG"/>
@@ -78,10 +73,10 @@
                     <view key="view" contentMode="scaleToFill" id="xMB-2E-PoB">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mg6-Ie-vSc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-178" y="-386"/>
         </scene>

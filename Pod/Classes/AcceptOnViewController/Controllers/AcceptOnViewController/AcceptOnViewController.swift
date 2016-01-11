@@ -417,20 +417,23 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
             if (_fillOutRemainingViewController == nil) {
                 _fillOutRemainingViewController = UIViewController()
                 
-                let rv = UIApplication.sharedApplication().windows.first
-                if rv == nil {
-                    NSException(name:"AcceptOnUIViewController", reason: "Tried to get the UIApplication.sharedApplication().windows.first to display the paypal view controller off of but this did not exist", userInfo: nil).raise()
-                }
-                
-                rv!.addSubview(_fillOutRemainingViewController.view)
-                _fillOutRemainingViewController.view.bounds = UIScreen.mainScreen().bounds
+//                let rv = UIApplication.sharedApplication().windows.first
+//                if rv == nil {
+//                    NSException(name:"AcceptOnUIViewController", reason: "Tried to get the UIApplication.sharedApplication().windows.first to display the paypal view controller off of but this did not exist", userInfo: nil).raise()
+//                }
+//                
+//                rv!.addSubview(_fillOutRemainingViewController.view)
+//                _fillOutRemainingViewController.view.bounds = UIScreen.mainScreen().bounds
             }
             
             return _fillOutRemainingViewController
         }
     }
     
+    var fillOutRemainingCompletion: ((Bool, AcceptOnUIMachineUserInfo?)->())!
     public func acceptOnUIMachineDidRequestAdditionalUserInfo(remainingOptions: AcceptOnFillOutRemainingOptions, completion: (Bool, AcceptOnUIMachineUserInfo?) -> ()) {
+        fillOutRemainingCompletion = completion
+        
         let vc = fillOutRemainingViewController
         fillOutView = AcceptOnFillOutRemainingView(remainingOptions: remainingOptions)
         vc.view.addSubview(fillOutView!)
@@ -452,6 +455,8 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
         fillOutRemainingViewController.dismissViewControllerAnimated(true) {
             self._fillOutRemainingViewController.view.removeFromSuperview()
             self._fillOutRemainingViewController = nil
+            self.fillOutRemainingCompletion(false, nil)
+            self.fillOutRemainingCompletion = nil
         }
     }
     
@@ -459,6 +464,8 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
         fillOutRemainingViewController.dismissViewControllerAnimated(true) {
             self._fillOutRemainingViewController.view.removeFromSuperview()
             self._fillOutRemainingViewController = nil
+            self.fillOutRemainingCompletion(true, userInfo)
+            self.fillOutRemainingCompletion = nil
         }
         
     }

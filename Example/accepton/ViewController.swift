@@ -6,27 +6,27 @@ class ViewController : UIViewController, AcceptOnViewControllerDelegate, AcceptO
     var picker = AcceptOnAddressPickerView()
     
     var api: AcceptOnAPI {
-        return AcceptOnAPI.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
+        return AcceptOnAPI.init(publicKey: "pkey_764c2015019272e2", isProduction: false)
     }
     
     override func viewDidLoad() {
         
-        let view = UIView()
-        view.backgroundColor = UIColor.whiteColor()
-        self.view.addSubview(view)
-        view.snp_makeConstraints {
-            $0.left.top.bottom.right.equalTo(0)
-        }
-        
-        var remainingOptions = AcceptOnFillOutRemainingOptions(options: [.ShippingAddress, .BillingAddress], billingAutocompleteSuggested: nil, shippingAutocompleteSuggested: nil)
-        let fillOutRemaining = AcceptOnFillOutRemainingView(remainingOptions: remainingOptions)
-        
-        view.addSubview(fillOutRemaining)
-        fillOutRemaining.snp_makeConstraints {
-            $0.left.top.right.bottom.equalTo(0)
-            return
-        }
-        fillOutRemaining.delegate = self
+//        let view = UIView()
+//        view.backgroundColor = UIColor.whiteColor()
+//        self.view.addSubview(view)
+//        view.snp_makeConstraints {
+//            $0.left.top.bottom.right.equalTo(0)
+//        }
+//        
+//        var remainingOptions = AcceptOnFillOutRemainingOptions(options: [.ShippingAddress, .BillingAddress], billingAutocompleteSuggested: nil, shippingAutocompleteSuggested: nil)
+//        let fillOutRemaining = AcceptOnFillOutRemainingView(remainingOptions: remainingOptions)
+//        
+//        view.addSubview(fillOutRemaining)
+//        fillOutRemaining.snp_makeConstraints {
+//            $0.left.top.right.bottom.equalTo(0)
+//            return
+//        }
+//        fillOutRemaining.delegate = self
         
         
 //        self.view.addSubview(picker)
@@ -75,15 +75,15 @@ class ViewController : UIViewController, AcceptOnViewControllerDelegate, AcceptO
             avc.delegate = self
             avc.itemDescription = "My Item Description"
             avc.amountInCents = 100
-            avc.accessToken = "pkey_0d4502a9bf8430ae"
-            avc.isProduction = true
+            avc.accessToken = "pkey_89f2cc7f2c423553"
+            avc.isProduction = false
             
             //If you're running in production
             //avc.isProduction = true
 
             //Optionally, provide an email to use to auto-fill out the email
             //field in the credit card form
-            var userInfo = AcceptOnUIMachineOptionalUserInfo()
+            let userInfo = AcceptOnUIMachineOptionalUserInfo()
             userInfo.requestsAndRequiresShippingAddress = true
             avc.userInfo = userInfo
         }
@@ -104,6 +104,7 @@ class ViewController : UIViewController, AcceptOnViewControllerDelegate, AcceptO
         }
         
         UIAlertView(title: "Hurray!", message: "Your widget was shipped", delegate: nil, cancelButtonTitle: "Ok").show()
+        puts("\(chargeInfo)")
     }
     
 }

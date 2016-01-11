@@ -106,7 +106,7 @@ public class AcceptOnFillOutRemainingView: UIView, AcceptOnFillOutAddressViewDel
     }
     
     public func defaultInit() {
-        
+        self.backgroundColor = UIColor.whiteColor()
         //Add title label
         self.addSubview(titleLabel)
         titleLabel.text = "Just a few last questions"

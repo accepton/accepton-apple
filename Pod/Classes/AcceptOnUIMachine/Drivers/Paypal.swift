@@ -93,7 +93,7 @@ import UIKit
 
                 //Send it up to the AcceptOn servers
                 let email = self.formOptions.userInfo?.emailAutofillHint ?? nil
-                let chargeInfo = AcceptOnAPIChargeInfo(cardToken: paypalTokenId, email: email)
+                let chargeInfo = AcceptOnAPIChargeInfo(cardTokens: [paypalTokenId], metadata: ["email":email ?? ""])
                 self.delegate?.api.chargeWithTransactionId(formOptions.token.id, andChargeinfo: chargeInfo) { chargeRes, err in
                     if let err = err {
                         puts("AcceptOnUIMachinePayPalDriver: Error, could not complete transaction, failed to charge paypal token through to the accepton on servers: \(err.localizedDescription)")
