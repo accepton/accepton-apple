@@ -641,7 +641,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
         if state != .PaymentForm { return }
         
         //Wait 1.5 seconds so it has time to show a loading screen of sorts
-        startTransactionWithDriverOfClass(AcceptOnUIMachinePayPalDriver.self, withDelay: 1.5)
+        startTransactionWithDriverOfClass(AcceptOnUIMachinePayPalDriver.self, withDelay: 1.3)
     }
     
     /* ######################################################################################### */
@@ -651,7 +651,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
         if state != .PaymentForm { return }
         
         //Wait 1.5 seconds so it has time to show a loading screen of sorts
-        startTransactionWithDriverOfClass(AcceptOnUIMachineApplePayDriver.self, withDelay: 1.5)
+        startTransactionWithDriverOfClass(AcceptOnUIMachineApplePayDriver.self, withDelay: 1.3)
     }
     
     
