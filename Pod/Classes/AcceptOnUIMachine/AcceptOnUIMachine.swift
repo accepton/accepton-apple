@@ -185,7 +185,7 @@ enum AcceptOnUIMachineState {
 }
 
 
-public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate, AcceptOnUIMachinePaymentDriverDelegate {
+public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate {
     /* ######################################################################################### */
     /* Constructors & Members (Stage I)                                                          */
     /* ######################################################################################### */
@@ -637,57 +637,23 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaypalDriverDelegate,
     /* ######################################################################################### */
     /* Paypal specifics                                                                          */
     /* ######################################################################################### */
-    lazy var paypalDriver: AcceptOnUIMachinePaypalDriver = AcceptOnUIMachinePaypalDriver()
     public func paypalClicked() {
         if state != .PaymentForm { return }
         
-        //Wait 1500ms so there is time to show something like a loading screen to the user
-        let delay = Int64(1500) * Int64(NSEC_PER_MSEC)
-        let time = dispatch_time(DISPATCH_TIME_NOW, delay)
-        dispatch_after(time, dispatch_get_main_queue()) { [weak self] in
-            self?.paypalDriver.delegate = self
-            self?.paypalDriver.beginPaypalTransactionWithFormOptions(self!.options)
-        }
-        
-        delegate?.acceptOnUIMachinePaymentIsProcessing?("paypal")
-    }
-    
-    //AcceptOnUIMachinePaypalDriverDelegate Handlers
-    func paypalTransactionDidFailWithMessage(message: String) {
-//        if state != .WaitingForPaypal { return }
-        state = .PaymentForm
-        
-        delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("paypal")
-        delegate?.acceptOnUIMachinePaymentErrorWithMessage?(message)
-    }
-    
-    func paypalTransactionDidSucceedWithChargeRes(chargeRes: [String:AnyObject]) {
-        //We could double charge if this goes catastrophically wrong, so let it
-        //trigger the transaction completion under any conditions
-//        if state != .WaitingForPaypal { return }
-        
-        state = .PaymentComplete
-        
-        delegate?.acceptOnUIMachinePaymentDidSucceedWithCharge?(chargeRes)
-    }
-    
-    func paypalTransactionDidCancel() {
-//        if state != .WaitingForPaypal { return }
-        state = .PaymentForm
-        
-        delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?("paypal")
+        //Wait 1.5 seconds so it has time to show a loading screen of sorts
+        startTransactionWithDriverOfClass(AcceptOnUIMachinePayPalDriver.self, withDelay: 1.5)
     }
     
     /* ######################################################################################### */
     /* ApplePay specifics                                                                        */
     /* ######################################################################################### */
-    var applePayDriver: AcceptOnUIMachineApplePayDriver!
     public func applePayClicked() {
         if state != .PaymentForm { return }
         
         //Wait 1.5 seconds so it has time to show a loading screen of sorts
         startTransactionWithDriverOfClass(AcceptOnUIMachineApplePayDriver.self, withDelay: 1.5)
     }
+    
     
    //-----------------------------------------------------------------------------------------------------
    //AcceptOnUIMachinePaymentDriverDelegate

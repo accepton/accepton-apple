@@ -1,17 +1,7 @@
 import Foundation
 import UIKit
 
-@objc protocol AcceptOnUIMachinePaypalDriverDelegate {
-    optional func paypalTransactionDidFailWithMessage(message: String)
-    optional func paypalTransactionDidSucceedWithChargeRes(chargeRes: [String:AnyObject])
-    optional func paypalTransactionDidCancel()
-    
-    var api: AcceptOnAPI { get }
-}
-
-@objc class AcceptOnUIMachinePaypalDriver : NSObject, PayPalPaymentDelegate {
-    weak var delegate: AcceptOnUIMachinePaypalDriverDelegate?
-    
+@objc class AcceptOnUIMachinePayPalDriver : AcceptOnUIMachinePaymentDriver, PayPalPaymentDelegate {
     //Present using a specially created view controller applied to the root window
     var _presentingViewController: UIViewController!
     var presentingViewController: UIViewController! {
@@ -32,11 +22,13 @@ import UIKit
         }
     }
     
+    override var name: String {
+        return "paypal"
+    }
     var chargeRes: [String:AnyObject]?
     var ppvc: PayPalPaymentViewController!
-    var formOptions: AcceptOnUIMachineFormOptions!
     var didSucceed = false
-    func beginPaypalTransactionWithFormOptions(formOptions: AcceptOnUIMachineFormOptions) {
+    override func beginTransaction() {
         //TODO: retrieve key from accepton API
         PayPalMobile.initializeWithClientIdsForEnvironments([PayPalEnvironmentSandbox:"EAGEb2Sey28DzhMc4P0PNothBmsJggVKZK9kTBrw5bU_PP5tmRUSFSlPe62K56FGxF8LkmwA3vPn-LGh"])
         
@@ -62,7 +54,7 @@ import UIKit
             self?._presentingViewController.view.removeFromSuperview()
             self?._presentingViewController.removeFromParentViewController()
             self?._presentingViewController = nil
-            self?.delegate?.paypalTransactionDidCancel?()
+            self?.delegate.transactionDidCancelForDriver(self!)
         }
     }
     
@@ -73,11 +65,15 @@ import UIKit
             self?._presentingViewController = nil
             
             if self?.didSucceed ?? false {
-                
                 assert(self?.chargeRes != nil)
-                self?.delegate?.paypalTransactionDidSucceedWithChargeRes?(self?.chargeRes ?? [:])
+                
+                if let chargeRes = self?.chargeRes {
+                    self?.delegate.transactionDidSucceedForDriver(self!, withChargeRes: chargeRes)
+                } else {
+                    self?.delegate.transactionDidFailForDriver(self!, withMessage: "Could not charge your PayPal account at this time")
+                }
             } else {
-                self?.delegate?.paypalTransactionDidFailWithMessage?("Could not charge your PayPal account at this time")
+                self?.delegate.transactionDidFailForDriver(self!, withMessage: "Could not charge your PayPal account at this time")
             }
         }
     }
