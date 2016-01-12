@@ -672,28 +672,6 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
         delegate?.acceptOnUIMachinePaymentDidSucceedWithCharge?(chargeRes)
     }
     
-//    func transactionDidFillOutUserInfoForDriver(driver: AnyObject, userInfo: AcceptOnUIMachineOptionalUserInfo, completion: (Bool, AcceptOnUIMachineUserInfo?) -> ()) {
-//        var options: [AcceptOnFillOutRemainingOption] = []
-//        if userInfo.requestsAndRequiresBillingAddress {
-//            options.append(.BillingAddress)
-//        }
-//        if userInfo.requestsAndRequiresShippingAddress {
-//            options.append(.ShippingAddress)
-//        }
-//        
-//        //Find out what we need
-//        if options.count > 0 {
-//            let remainingOptions = AcceptOnFillOutRemainingOptions(options: options, billingAutocompleteSuggested: userInfo.billingAddressAutofillHints, shippingAutocompleteSuggested: userInfo.shippingAddressAutofillHints)
-//            self.delegate?.acceptOnUIMachineDidRequestAdditionalUserInfo(remainingOptions, completion: { (success, userInfo) -> () in
-//                completion(success, userInfo)
-//            })
-//            return
-//        }
-//        
-//        let userInfo = AcceptOnUIMachineUserInfo()
-//        completion(true, userInfo)
-//    }
-    
     //-----------------------------------------------------------------------------------------------------
     //Starts the transaction process for a driver
     //-----------------------------------------------------------------------------------------------------
