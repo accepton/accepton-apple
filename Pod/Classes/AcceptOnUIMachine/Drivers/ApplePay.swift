@@ -84,6 +84,7 @@ extension AcceptOnUIMachineFormOptions {
         case CompletingTransactionWithAccepton                //Now we are completing the transaction with accepton
         case TransactionWithAcceptonDidFail                   //stateInfo is the error message
         case TransactionWithAcceptonDidSucceed                //stateInfo is the charge information
+        case UIDidFinish                                      //UI did close (failure or completion)
     }
     var state: State = .NotStarted {
         didSet {
@@ -114,28 +115,33 @@ extension AcceptOnUIMachineFormOptions {
         presentingViewController.presentViewController(pkvc, animated: true, completion: nil)
     }
     
-    var didErr: NSError?  //Used to check stripe successful-ness in processing the token
     func paymentAuthorizationViewControllerDidFinish(controller: PKPaymentAuthorizationViewController) {
-        switch state {
-        //User hit 'cancel' on ApplePay because we never got a nonce back from it
-        case .WaitingForApplePayToSendNonce:
-            self.delegate.transactionDidCancelForDriver(self)
-        case .TransactionWithAcceptonDidFail:
-            self.delegate.transactionDidFailForDriver(self, withMessage: stateInfo as! String)
-        case .TransactionWithAcceptonDidSucceed:
-            self.delegate.transactionDidSucceedForDriver(self, withChargeRes: stateInfo as! [String:AnyObject])
-        default:
-            break
-        }
-        
-        pkvc.dismissViewControllerAnimated(true) { [weak self] in
-            self?._presentingViewController.view.removeFromSuperview()
-            self?._presentingViewController.removeFromParentViewController()
-            self?._presentingViewController = nil
+        if state == .UIDidFinish { return }
+        dispatch_async(dispatch_get_main_queue()) {
+            switch self.state {
+            //User hit 'cancel' on ApplePay because we never got a nonce back from it
+            case .WaitingForApplePayToSendNonce:
+                self.delegate.transactionDidCancelForDriver(self)
+            case .TransactionWithAcceptonDidFail:
+                self.delegate.transactionDidFailForDriver(self, withMessage: self.stateInfo as! String)
+            case .TransactionWithAcceptonDidSucceed:
+                self.delegate.transactionDidSucceedForDriver(self, withChargeRes: self.stateInfo as! [String:AnyObject])
+            default:
+                break
+            }
+            
+            self.state = .UIDidFinish
+            
+            self.pkvc.dismissViewControllerAnimated(true) {
+                self._presentingViewController.view.removeFromSuperview()
+                self._presentingViewController.removeFromParentViewController()
+                self._presentingViewController = nil
+            }
         }
     }
     
     func paymentAuthorizationViewController(controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, completion: (PKPaymentAuthorizationStatus) -> Void) {
+        if state != .WaitingForApplePayToSendNonce { return }
         state = .WaitingForPaymentProcessorNonceFromApplePayNonce
         //If we have a stripe payment processor available in the options
         if self.formOptions.paymentMethods.supportsStripe {
@@ -149,6 +155,7 @@ extension AcceptOnUIMachineFormOptions {
             
             //Attempt to create a transaction with Stripe with the retrieved ApplePay token
             STPAPIClient.sharedClient().createTokenWithPayment(payment) { (token, err) -> Void in
+                if self.state != .WaitingForPaymentProcessorNonceFromApplePayNonce { return }
                 self.state = .CompletingTransactionWithAccepton
                 
                 //Stripe transaction failed, do not continue

@@ -64,11 +64,15 @@ class AcceptOnUIMachinePaymentDriver: NSObject {
     //Override these functions to add behaviours to the AcceptOn API transaction stage
     ////////////////////////////////////////////////////////////////////////////////////
     func readyToCompleteTransactionDidFail(userInfo: Any?, withMessage message: String) {
-        self.delegate.transactionDidFailForDriver(self, withMessage: message)
+        dispatch_async(dispatch_get_main_queue()) {
+            self.delegate.transactionDidFailForDriver(self, withMessage: message)
+        }
     }
 
     func readyToCompleteTransactionDidSucceed(userInfo: Any?, withChargeRes chargeRes: [String:AnyObject]) {
-        self.delegate.transactionDidSucceedForDriver(self, withChargeRes: chargeRes)
+        dispatch_async(dispatch_get_main_queue()) {
+            self.delegate.transactionDidSucceedForDriver(self, withChargeRes: chargeRes)
+        }
     }
     ////////////////////////////////////////////////////////////////////////////////////
 }
