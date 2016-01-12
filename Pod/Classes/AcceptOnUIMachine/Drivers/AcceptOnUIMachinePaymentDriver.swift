@@ -3,12 +3,12 @@ import UIKit
 //A payment driver is a generic interface for one payment processor
 protocol AcceptOnUIMachinePaymentDriverDelegate: class {
     
-    func transactionDidFailForDriver(driver: AnyObject, withMessage message: String)
+    func transactionDidFailForDriver(driver: AcceptOnUIMachinePaymentDriver, withMessage message: String)
     
     //Transaction has completed
-    func transactionDidSucceedForDriver(driver: AnyObject, withChargeRes chargeRes: [String:AnyObject])
+    func transactionDidSucceedForDriver(driver: AcceptOnUIMachinePaymentDriver, withChargeRes chargeRes: [String:AnyObject])
     
-    func transactionDidCancelForDriver(driver: AnyObject)
+    func transactionDidCancelForDriver(driver: AcceptOnUIMachinePaymentDriver)
     
     var api: AcceptOnAPI { get }
 }
@@ -19,12 +19,20 @@ class AcceptOnUIMachinePaymentDriver: NSObject {
     //-----------------------------------------------------------------------------------------------------
     weak var delegate: AcceptOnUIMachinePaymentDriverDelegate!
     
-    var name: String {
+    class var name: String {
         return "<unnamed>"
     }
     
     //Tokens that were retrieved from the drivers
     var nonceTokens: [String] = []
+    
+    //Email is only for credit-card forms
+    var email: String?
+    
+    //Meta-data is passed through from formOptions
+    var metadata: [String:AnyObject] {
+        return self.formOptions.metadata
+    }
     
     //-----------------------------------------------------------------------------------------------------
     //Constructors
@@ -39,15 +47,14 @@ class AcceptOnUIMachinePaymentDriver: NSObject {
     
     //At this point, you should have filled out the nonceTokens and optionally 'email' properties.  The
     //'email' property is passed as part of the transaction and is used for credit-card transactions
-    //only.  For some drivers that carry semantics like ApplePay, use the additional functions of
-    //readyToCompleteTransactionDidFail and readyToCompleteTransactionDidSucceed to message the UI with any additional  information
-    //it may need. In the case of ApplePay, that means calling apple pay's completion() handler inside
-    //your overwritten readyToCompleteTransactionDidFail function
+    //only.  For drivers that have more complex semantics, e.g. ApplePay, where you need to interleave
+    //actions within the transaction handshake, override the readyToCompleteTransactionDidFail and
+    //readyToCompleteTransactionDidSucceed to modify that behaviour.
     func readyToCompleteTransaction(userInfo: Any?=nil) {
         if nonceTokens.count > 0 {
-            let chargeInfo = AcceptOnAPIChargeInfo(cardTokens: self.nonceTokens, metadata: [:])
+            let chargeInfo = AcceptOnAPIChargeInfo(cardTokens: self.nonceTokens, email: email, metadata: self.metadata)
             
-            self.delegate.api.chargeWithTransactionId(self.formOptions.token.id ?? "", andChargeinfo: chargeInfo) { chargeRes, err in
+            self.delegate.api.chargeWithTransactionId(self.formOptions.token.id, andChargeinfo: chargeInfo) { chargeRes, err in
                 if let err = err {
                     self.readyToCompleteTransactionDidFail(userInfo, withMessage: err.localizedDescription)
                     return
@@ -61,7 +68,8 @@ class AcceptOnUIMachinePaymentDriver: NSObject {
         
     }
     
-    //Override these functions to add behaviours to the AcceptOn API transaction stage
+    //Override these functions if you need to interleave actions in the transaction stage. E.g. Dismiss
+    //a 3rd party UI or a 3-way handshake
     ////////////////////////////////////////////////////////////////////////////////////
     func readyToCompleteTransactionDidFail(userInfo: Any?, withMessage message: String) {
         dispatch_async(dispatch_get_main_queue()) {

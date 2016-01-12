@@ -50,7 +50,7 @@ extension AcceptOnUIMachineFormOptions {
         return .NeedToSetup
     }
     
-    override var name: String {
+    override class var name: String {
         return "apple_pay"
     }
     
@@ -121,6 +121,8 @@ extension AcceptOnUIMachineFormOptions {
             switch self.state {
             //User hit 'cancel' on ApplePay because we never got a nonce back from it
             case .WaitingForApplePayToSendNonce:
+                fallthrough
+            case .WaitingForPaymentProcessorNonceFromApplePayNonce:
                 self.delegate.transactionDidCancelForDriver(self)
             case .TransactionWithAcceptonDidFail:
                 self.delegate.transactionDidFailForDriver(self, withMessage: self.stateInfo as! String)

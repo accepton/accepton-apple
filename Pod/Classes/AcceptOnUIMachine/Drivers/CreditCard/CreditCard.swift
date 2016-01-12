@@ -12,11 +12,14 @@ import Stripe
     //Driver instances that were created
     var plugins: [AcceptOnUIMachineCreditCardDriverPlugin] = []
     
-    override var name: String {
+    override class var name: String {
         return "credit_card"
     }
     
     override func beginTransaction() {
+        //Credit card transactions set the email
+        self.email = formOptions.creditCardParams?.email
+        
         for pluginClass in pluginClasses {
             let plugin = pluginClass.init()
             plugin.delegate = self

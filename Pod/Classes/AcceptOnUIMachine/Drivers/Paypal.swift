@@ -22,7 +22,7 @@ import UIKit
         }
     }
     
-    override var name: String {
+    override class var name: String {
         return "paypal"
     }
     var ppvc: PayPalPaymentViewController!

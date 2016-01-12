@@ -83,6 +83,10 @@ public class AcceptOnUIMachineFormOptions : NSObject {
     
     //Credit card transactions post the email & all fields of the credit-card
     public var creditCardParams: AcceptOnUIMachineCreditCardParams?
+    
+    //Extra information, either provided by the 'extra' enabled fields
+    //or user added
+    public var metadata: [String:AnyObject] = [:]
 }
 
 //Used to pass-around the credit-card form information to drivers
@@ -106,6 +110,7 @@ enum AcceptOnUIMachineState {
     case Initialized           //begin has not been called
     case BeginWasCalled        //In the middle of the begin
     case PaymentForm           //begin succeeded
+    case ExtraFields           //Showing extra fields dialog
     case WaitingForTransaction //In the middle of a transaction request (like apple-pay, credit-card, paypal, etc)
     case PaymentComplete       //Payment has completed
 }
@@ -205,16 +210,12 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
     }
     
     //Controls the state transitions
-    var state: AcceptOnUIMachineState {
-        get {
-            return _state
-        }
-        
-        set (newState) {
-            _state = newState
+    var state: AcceptOnUIMachineState = .Initialized {
+        didSet {
+            self.stateInfo = nil
         }
     }
-    var _state: AcceptOnUIMachineState = .Initialized
+    var stateInfo: Any?
     
     //This is typically the vc that created us
     public weak var delegate: AcceptOnUIMachineDelegate?
@@ -233,7 +234,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
         //Prevent race-conditions on didBegin check
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
             //Can only be called at the start once.  It's a stage II initializer
-            if (self?._state != .Initialized) {
+            if (self?.state != .Initialized) {
                 self?.delegate?.acceptOnUIMachineDidFailBegin?(AcceptOnUIMachineError.errorWithCode(.DeveloperError, failureReason: "You already called beginForItemWithDescription; this should have been called once at the start.  You will have to make a new AcceptOnUIMachine for a new form"))
                 return
             }
@@ -310,7 +311,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
     }
     
     public func creditCardFieldDidLoseFocus() {
-        guard _state == .PaymentForm else { return }
+        guard state == .PaymentForm else { return }
         
         currentFocusedCreditCardFieldName = nil
     }
@@ -658,22 +659,22 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
    //-----------------------------------------------------------------------------------------------------
    //AcceptOnUIMachinePaymentDriverDelegate
    //-----------------------------------------------------------------------------------------------------
-    func transactionDidCancelForDriver(driver: AnyObject) {
+    func transactionDidCancelForDriver(driver: AcceptOnUIMachinePaymentDriver) {
         if state != .WaitingForTransaction { return }
         state = .PaymentForm
         
-        delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?(driver.name)
+        delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?(driver.dynamicType.name)
     }
     
-    func transactionDidFailForDriver(driver: AnyObject, withMessage message: String) {
+    func transactionDidFailForDriver(driver: AcceptOnUIMachinePaymentDriver, withMessage message: String) {
         if state != .WaitingForTransaction { return }
         state = .PaymentForm
         
-        delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?(driver.name)
+        delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?(driver.dynamicType.name)
         delegate?.acceptOnUIMachinePaymentErrorWithMessage?(message)
     }
     
-    func transactionDidSucceedForDriver(driver: AnyObject, withChargeRes chargeRes: [String : AnyObject]) {
+    func transactionDidSucceedForDriver(driver: AcceptOnUIMachinePaymentDriver, withChargeRes chargeRes: [String : AnyObject]) {
         state = .PaymentComplete
         
         delegate?.acceptOnUIMachinePaymentDidSucceedWithCharge?(chargeRes)
@@ -706,12 +707,16 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
     //-----------------------------------------------------------------------------------------------------
     var activeDriver: AcceptOnUIMachinePaymentDriver!
     func startTransactionWithDriverOfClass(driverClass: AcceptOnUIMachinePaymentDriver.Type, withDelay delay: Double=0.0) {
-        self.state = .WaitingForTransaction
-        activeDriver = driverClass.init(formOptions: self.options!)
+        self.delegate?.acceptOnUIMachinePaymentIsProcessing?(driverClass.name)
+        
+        //Switch to 'extra fields', store the parameters to use when extra fields completes
+        self.state = .ExtraFields
+        
         let block = { [weak self] in
             if self == nil { return }
-            self!.activeDriver.delegate = self
-            self!.activeDriver.beginTransaction()
+            
+            if self?.state != .ExtraFields { return }
+            self?.displayExtraFieldsIfNecessaryAndCompleteByTransactingWithDriver(driverClass)  //Loads the 'metadata' information
         }
         
         if delay == 0 {
@@ -723,7 +728,13 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
                 block()
             }
         }
+    }
+    
+    func displayExtraFieldsIfNecessaryAndCompleteByTransactingWithDriver(driverClass: AcceptOnUIMachinePaymentDriver.Type) {
+        self.state = .WaitingForTransaction
         
-        self.delegate?.acceptOnUIMachinePaymentIsProcessing?(activeDriver.name)
+        activeDriver = driverClass.init(formOptions: self.options!)
+        self.activeDriver.delegate = self
+        self.activeDriver.beginTransaction()
     }
 }

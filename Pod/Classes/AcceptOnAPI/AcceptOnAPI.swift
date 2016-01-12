@@ -125,12 +125,18 @@ public struct AcceptOnAPITransactionToken {
 
 //Helper struct for the charge methods (which have a lot of parameters and variations of parameters)
 public struct AcceptOnAPIChargeInfo {
+    //An array of tokens to charge
     var cardTokens: [String]?
+    
+    //'Extra' Metadata the user may pass in
     var metadata: [String:AnyObject]?
     
-    public init(cardTokens: [String], metadata: [String:AnyObject]?=nil) {
+    var email: String?
+    
+    public init(cardTokens: [String], email: String?=nil, metadata: [String:AnyObject]?=nil) {
         self.cardTokens = cardTokens
         self.metadata = metadata
+        self.email = email
     }
     
     //Places all necessary info into an already created params struct (usually this would
@@ -142,8 +148,7 @@ public struct AcceptOnAPIChargeInfo {
                 dict["card_token"] = cardToken
             }
             
-            //Email is a special case
-            dict["email"] = metadata?["email"] ?? ""
+            dict["email"] = email ?? ""
             
             dict["metadata"] = metadata ?? [:]
         }
