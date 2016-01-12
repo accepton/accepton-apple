@@ -409,7 +409,6 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
     }
     
     var fillOutView: AcceptOnFillOutRemainingView?
-    var fillOutViewCompletion: ((Bool, AcceptOnUIMachineUserInfo?)->())?
     //Present using a specially created view controller applied to the root window
     var _fillOutRemainingViewController: UIViewController!
     var fillOutRemainingViewController: UIViewController! {
@@ -430,23 +429,21 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
         }
     }
     
-    var fillOutRemainingCompletion: ((Bool, AcceptOnUIMachineUserInfo?)->())!
-    public func acceptOnUIMachineDidRequestAdditionalUserInfo(remainingOptions: AcceptOnFillOutRemainingOptions, completion: (Bool, AcceptOnUIMachineUserInfo?) -> ()) {
+    var fillOutRemainingCompletion: ((wasCancelled: Bool, info: AcceptOnUIMachineExtraFieldsMetadataInfo?)->())!
+    public func acceptOnUIMachineDidRequestAdditionalUserInfo(userInfo: AcceptOnUIMachineOptionalUserInfo, completion: (wasCancelled: Bool, info: AcceptOnUIMachineExtraFieldsMetadataInfo?)->()) {
         fillOutRemainingCompletion = completion
         
         let vc = fillOutRemainingViewController
-        fillOutView = AcceptOnFillOutRemainingView(remainingOptions: remainingOptions)
+        fillOutView = AcceptOnFillOutRemainingView(options: userInfo)
         vc.view.addSubview(fillOutView!)
         fillOutView!.snp_makeConstraints {
             $0.top.left.right.bottom.equalTo(0)
             return
         }
         fillOutView!.delegate = self
-        fillOutViewCompletion = completion
         
         self.presentViewController(vc, animated: true, completion: nil)
     }
-    
     
     //-----------------------------------------------------------------------------------------------------
     //AcceptOnFillOutRemainingView
@@ -455,16 +452,16 @@ public class AcceptOnViewController: UIViewController, AcceptOnUIMachineDelegate
         fillOutRemainingViewController.dismissViewControllerAnimated(true) {
             self._fillOutRemainingViewController.view.removeFromSuperview()
             self._fillOutRemainingViewController = nil
-            self.fillOutRemainingCompletion(false, nil)
+            self.fillOutRemainingCompletion(wasCancelled: true, info: nil)
             self.fillOutRemainingCompletion = nil
         }
     }
     
-    public func fillOutRemainingDidProvideInformation(userInfo: AcceptOnUIMachineUserInfo) {
+    public func fillOutRemainingDidProvideInformation(info: AcceptOnUIMachineExtraFieldsMetadataInfo) {
         fillOutRemainingViewController.dismissViewControllerAnimated(true) {
             self._fillOutRemainingViewController.view.removeFromSuperview()
             self._fillOutRemainingViewController = nil
-            self.fillOutRemainingCompletion(true, userInfo)
+            self.fillOutRemainingCompletion(wasCancelled: false, info: info)
             self.fillOutRemainingCompletion = nil
         }
         

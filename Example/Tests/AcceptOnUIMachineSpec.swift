@@ -65,7 +65,11 @@ import accepton
         initialFieldValues[name] = value
     }
     
-    public func acceptOnUIMachineDidRequestAdditionalUserInfo(remainingOptions: AcceptOnFillOutRemainingOptions, completion: (Bool, AcceptOnUIMachineUserInfo?) -> ()) {
+//    public func acceptOnUIMachineDidRequestAdditionalUserInfo(remainingOptions: AcceptOnFillOutRemainingOptions, completion: (Bool, AcceptOnUIMachineUserInfo?) -> ()) {
+//        
+//    }
+    
+    public func acceptOnUIMachineDidRequestAdditionalUserInfo(userInfo: AcceptOnUIMachineOptionalUserInfo, completion: (wasCancelled: Bool, info: AcceptOnUIMachineExtraFieldsMetadataInfo?) -> ()) {
         
     }
 }

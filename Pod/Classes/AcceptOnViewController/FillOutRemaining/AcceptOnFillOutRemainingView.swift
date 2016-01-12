@@ -13,10 +13,19 @@ public enum AcceptOnFillOutRemainingOption: Int {
     var billingAutocompleteSuggested: AcceptOnAPIAddress?
     var shippingAutocompleteSuggested: AcceptOnAPIAddress?
     
-    public init(options: [AcceptOnFillOutRemainingOption], billingAutocompleteSuggested: AcceptOnAPIAddress?, shippingAutocompleteSuggested: AcceptOnAPIAddress?) {
-        self.options = options
-        self.billingAutocompleteSuggested = billingAutocompleteSuggested
-        self.shippingAutocompleteSuggested = shippingAutocompleteSuggested
+    public init(_ optionInfo: AcceptOnUIMachineOptionalUserInfo) {
+        self.options = []
+        
+        if optionInfo.requestsAndRequiresShippingAddress {
+            options.append(.ShippingAddress)
+        }
+        
+        if optionInfo.requestsAndRequiresBillingAddress {
+            options.append(.BillingAddress)
+        }
+        
+        self.billingAutocompleteSuggested = optionInfo.billingAddressAutofillHints
+        self.shippingAutocompleteSuggested = optionInfo.shippingAddressAutofillHints
     }
 }
 
@@ -43,7 +52,7 @@ public protocol AcceptOnFillOutRemainingSubFormDelegate: class {
 public protocol AcceptOnFillOutRemainingViewDelegate: class {
     var api: AcceptOnAPI { get }
     
-    func fillOutRemainingDidProvideInformation(userInfo: AcceptOnUIMachineUserInfo)
+    func fillOutRemainingDidProvideInformation(info: AcceptOnUIMachineExtraFieldsMetadataInfo)
     func fillOutRemainingDidCancel()
 }
 
@@ -74,7 +83,11 @@ public class AcceptOnFillOutRemainingView: UIView, AcceptOnFillOutAddressViewDel
     var submitButtonArea = UIView()
     var submitButton = AcceptOnOblongButton()
     
-    var remainingOptions: AcceptOnFillOutRemainingOptions!
+    var remainingOptions: AcceptOnFillOutRemainingOptions {
+        return AcceptOnFillOutRemainingOptions(self.options)
+    }
+    
+    var options: AcceptOnUIMachineOptionalUserInfo!
     
     //Text at top
     let titleLabel = UILabel()
@@ -93,15 +106,15 @@ public class AcceptOnFillOutRemainingView: UIView, AcceptOnFillOutAddressViewDel
     }
     
     //Give a list of things that still need to be filled out
-    public convenience init(remainingOptions: AcceptOnFillOutRemainingOptions) {
+    public convenience init(options: AcceptOnUIMachineOptionalUserInfo) {
         self.init(frame: CGRectZero)
+        self.options = options
         
         
         var options = remainingOptions.options
         options.sortInPlace { (a, b) -> Bool in
             a.rawValue < b.rawValue
         }
-        self.remainingOptions = remainingOptions
         self.defaultInit()
     }
     
@@ -268,7 +281,7 @@ public class AcceptOnFillOutRemainingView: UIView, AcceptOnFillOutAddressViewDel
             res[e.option] = e.form.value
         }
         
-        var userInfo = AcceptOnUIMachineUserInfo()
+        var userInfo = AcceptOnUIMachineExtraFieldsMetadataInfo()
         if let billing = res[.BillingAddress] {
             //Toggle switch for 'same as shipping'?
             if let caseResponse = billing as? AcceptOnFillOutAddressViewCaseResponses {

@@ -2,7 +2,7 @@ import UIKit
 import accepton
 
 //This contains the 'buy the watch for $10' page on the Main.storyboard
-class ViewController : UIViewController, AcceptOnViewControllerDelegate, AcceptOnFillOutRemainingViewDelegate {
+class ViewController : UIViewController, AcceptOnViewControllerDelegate {
     var picker = AcceptOnAddressPickerView()
     
     var api: AcceptOnAPI {
@@ -40,10 +40,10 @@ class ViewController : UIViewController, AcceptOnViewControllerDelegate, AcceptO
 
         
     }
-    
-    func fillOutRemainingDidProvideInformation(userInfo: AcceptOnUIMachineUserInfo) {
-        
-    }
+//    
+//    func fillOutRemainingDidProvideInformation(userInfo: AcceptOnUIMachineUserInfo) {
+//        
+//    }
     
 //    func addressInputDidUpdate(picker: AcceptOnAddressPickerView, text: String) {
 //        let api = AcceptOnAPI.init(publicKey: "pkey_89f2cc7f2c423553", isProduction: false)
@@ -85,6 +85,7 @@ class ViewController : UIViewController, AcceptOnViewControllerDelegate, AcceptO
             //field in the credit card form
             let userInfo = AcceptOnUIMachineOptionalUserInfo()
             userInfo.requestsAndRequiresShippingAddress = true
+            userInfo.emailAutofillHint = "test@test.com"
             avc.userInfo = userInfo
         }
     }

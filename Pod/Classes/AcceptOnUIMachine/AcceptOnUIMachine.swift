@@ -18,7 +18,9 @@ import Stripe
     optional func acceptOnUIMachinePaymentErrorWithMessage(message: String)
     optional func acceptOnUIMachinePaymentDidSucceedWithCharge(chargeInfo: [String:AnyObject])
     
-    func acceptOnUIMachineDidRequestAdditionalUserInfo(remainingOptions: AcceptOnFillOutRemainingOptions, completion: (Bool, AcceptOnUIMachineUserInfo?)->())
+    //Requests showing additional fields based on the requirements dictated by the userInfo structure. On as successful completion (i.e. wasCancelled is false)
+    //the metadata returned is merged into the formOptions.metadata
+    func acceptOnUIMachineDidRequestAdditionalUserInfo(userInfo: AcceptOnUIMachineOptionalUserInfo, completion: (wasCancelled: Bool, info: AcceptOnUIMachineExtraFieldsMetadataInfo?)->())
     
     //Spec related
     optional func acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName(name: String, withValue value: String)  //Field updated, no validation error
@@ -144,16 +146,12 @@ enum AcceptOnUIMachineState {
     //Additional metadata to pass in, this will just be passed through to the final
     //output and placed into the metadata field
     //--------------------------------------------------------------------------------
-    public var metadata: [String:AnyObject]?
+    public var extraMetadata: [String:AnyObject]?
 }
 
-//Various informations about a user like email
-//that can be used for things like pre-populating forms
-@objc public class AcceptOnUIMachineUserInfo: NSObject {
+//Provided on completion of 'extra fields'
+@objc public class AcceptOnUIMachineExtraFieldsMetadataInfo: NSObject {
     public override init() {}
-
-    //Additional metadata
-    public var metadata: [String:AnyObject]?
     
     public var email: String?
     public var billingAddress: AcceptOnAPIAddress?
@@ -177,12 +175,6 @@ enum AcceptOnUIMachineState {
         
         if let billingSameAsShipping = billingSameAsShipping {
             out["billing_same_as_shipping"] = billingSameAsShipping
-        }
-        
-        if let metadata = metadata {
-            for (k, v) in metadata {
-                out[k] = v
-            }
         }
         
         return out
@@ -680,27 +672,27 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
         delegate?.acceptOnUIMachinePaymentDidSucceedWithCharge?(chargeRes)
     }
     
-    func transactionDidFillOutUserInfoForDriver(driver: AnyObject, userInfo: AcceptOnUIMachineOptionalUserInfo, completion: (Bool, AcceptOnUIMachineUserInfo?) -> ()) {
-        var options: [AcceptOnFillOutRemainingOption] = []
-        if userInfo.requestsAndRequiresBillingAddress {
-            options.append(.BillingAddress)
-        }
-        if userInfo.requestsAndRequiresShippingAddress {
-            options.append(.ShippingAddress)
-        }
-        
-        //Find out what we need
-        if options.count > 0 {
-            let remainingOptions = AcceptOnFillOutRemainingOptions(options: options, billingAutocompleteSuggested: userInfo.billingAddressAutofillHints, shippingAutocompleteSuggested: userInfo.shippingAddressAutofillHints)
-            self.delegate?.acceptOnUIMachineDidRequestAdditionalUserInfo(remainingOptions, completion: { (success, userInfo) -> () in
-                completion(success, userInfo)
-            })
-            return
-        }
-        
-        let userInfo = AcceptOnUIMachineUserInfo()
-        completion(true, userInfo)
-    }
+//    func transactionDidFillOutUserInfoForDriver(driver: AnyObject, userInfo: AcceptOnUIMachineOptionalUserInfo, completion: (Bool, AcceptOnUIMachineUserInfo?) -> ()) {
+//        var options: [AcceptOnFillOutRemainingOption] = []
+//        if userInfo.requestsAndRequiresBillingAddress {
+//            options.append(.BillingAddress)
+//        }
+//        if userInfo.requestsAndRequiresShippingAddress {
+//            options.append(.ShippingAddress)
+//        }
+//        
+//        //Find out what we need
+//        if options.count > 0 {
+//            let remainingOptions = AcceptOnFillOutRemainingOptions(options: options, billingAutocompleteSuggested: userInfo.billingAddressAutofillHints, shippingAutocompleteSuggested: userInfo.shippingAddressAutofillHints)
+//            self.delegate?.acceptOnUIMachineDidRequestAdditionalUserInfo(remainingOptions, completion: { (success, userInfo) -> () in
+//                completion(success, userInfo)
+//            })
+//            return
+//        }
+//        
+//        let userInfo = AcceptOnUIMachineUserInfo()
+//        completion(true, userInfo)
+//    }
     
     //-----------------------------------------------------------------------------------------------------
     //Starts the transaction process for a driver
@@ -730,11 +722,45 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
         }
     }
     
+    //Show extra fields and load the formOptions.metadata if necessary.  Then continue on with the transaction
     func displayExtraFieldsIfNecessaryAndCompleteByTransactingWithDriver(driverClass: AcceptOnUIMachinePaymentDriver.Type) {
         self.state = .WaitingForTransaction
         
-        activeDriver = driverClass.init(formOptions: self.options!)
-        self.activeDriver.delegate = self
-        self.activeDriver.beginTransaction()
+        //Executing this block would begin the driver transaction, but we want to check
+        //to see if we need to show any extra fields first
+        let startDriverTransaction = {
+            self.activeDriver = driverClass.init(formOptions: self.options!)
+            self.activeDriver.delegate = self
+            self.activeDriver.beginTransaction()
+        }
+        
+        
+        //if userInfo was provided which holds things like 'should we show address'
+        if let userInfo = self.userInfo {
+            //Append any extra metadata
+            if let extraMetaData = userInfo.extraMetadata {
+                self.options.metadata = extraMetaData
+            }
+            
+            //Call up to retrieve any more metadata
+            self.delegate?.acceptOnUIMachineDidRequestAdditionalUserInfo(userInfo, completion: { wasCancelled, extraFieldInfo in
+                if wasCancelled {
+                    self.state = .PaymentForm
+                    self.delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?(driverClass.name)
+                } else {
+                    if let extraFieldInfo = extraFieldInfo {
+                        for (k, v) in extraFieldInfo.toDictionary() {
+                            self.options.metadata[k] = v
+                        }
+                    }
+                    //Start rest of driver transaction
+                    startDriverTransaction()
+                }
+            })
+        } else {
+            //No requirements or additional information provided.  Show no fields, start the driver transaction now
+            startDriverTransaction()
+        }
+        
     }
 }
