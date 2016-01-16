@@ -248,7 +248,7 @@ class AcceptOnChoosePaymentTypeView: UIView
         }
     }
     
-    //Animates a single payment button as 'active' and remove all other buttons
+    //Animates a single payment button as 'active' to the bottom and remove all other buttons
     var lastExcept: String!
     func animateButtonsOutExcept(name: String) {
         self.userInteractionEnabled = false
@@ -265,19 +265,32 @@ class AcceptOnChoosePaymentTypeView: UIView
             }
         }
         
-        //Animate the selected button to the bottom
-        UIView.animateWithDuration(0.8, delay: Double(otherButtons.count)*0.3+0.2, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: {
-            var transform = CATransform3DIdentity
-            transform = CATransform3DTranslate(transform, 0, selectedButton.superview!.bounds.size.height-selectedButton.layer.position.y, 0)
-            transform = CATransform3DScale(transform, 1.3, 1.3, 1)
-            selectedButton.layer.transform = transform
-            }) { res in
-        }
-        
         //Animate the header label out top
         UIView.animateWithDuration(0.8, delay: 0.1, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: {
             self.headerLabel.alpha = 0
             self.headerLabel.layer.transform = CATransform3DMakeTranslation(0, -self.bounds.size.height/4, 0)
+            }) { res in
+        }
+        
+        //Animate the selected button to the bottom
+        UIView.animateWithDuration(0.8, delay: Double(otherButtons.count)*0.3+0.2, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+            //We need to adjust the button so that it's exactly half way to the bottom of this view and it's size is equal to some fraction of the total views width
+            //so first we get the bounds on the view so we can make calculations
+            let selectedButtonBounds = selectedButton.bounds
+            
+            //We need to find the scaling factor of this button's width to make it X% of the total width of us (ChoosePaymentForm) because the button can be any size depending
+            //on the number of buttons that were shown but when the selected button comes up, it should always be the same size regardless of the number of buttons.
+            let selectedButtonScale = Double(selectedButtonBounds.size.width / self.bounds.size.width) //Will be < 1
+            
+            //Now let's find the factor we need to scale selectedButtonScale by to yield X%.  I.e. Find selectedButtonScale*scaleFactor = xPercent
+            let xPercent = 0.7
+            let selectedButtonScaleMultiplier = CGFloat(xPercent / selectedButtonScale)
+            
+            //First apply the translation and then scale in place
+            var transform = CATransform3DIdentity
+            transform = CATransform3DTranslate(transform, 0, selectedButton.superview!.bounds.size.height-selectedButton.layer.position.y, 0)
+            transform = CATransform3DScale(transform, selectedButtonScaleMultiplier, selectedButtonScaleMultiplier, 1)
+            selectedButton.layer.transform = transform
             }) { res in
         }
         

@@ -24,6 +24,7 @@ public class AcceptOnAddressPickerView: UIView, UITableViewDataSource, UITableVi
     
     //Table view of options
     let selectionTable = UITableView()
+    var selectionTableBottomConstraint: Constraint! //Adjusted for keyboard
     
     //Text to show when first starting or when no results return
     let blankResultsText = UILabel()
@@ -74,7 +75,8 @@ public class AcceptOnAddressPickerView: UIView, UITableViewDataSource, UITableVi
             make.width.equalTo(self.snp_width)
             make.height.equalTo(45)
             make.centerX.equalTo(self.snp_centerX)
-            make.top.equalTo(self.snp_top).offset(30)
+            make.top.equalTo(self.snp_top).offset(30).priority(999)
+            make.top.greaterThanOrEqualTo(self.snp_top)
             return
         }
         exitButton.addTarget(self, action: "exitWasClicked", forControlEvents: UIControlEvents.TouchUpInside)
@@ -83,7 +85,8 @@ public class AcceptOnAddressPickerView: UIView, UITableViewDataSource, UITableVi
         inputText.snp_makeConstraints {
             $0.top.equalTo(exitButton.snp_bottom)
             $0.left.right.equalTo(0)
-            $0.height.equalTo(80)
+            $0.height.equalTo(80).priority(999)
+            $0.height.greaterThanOrEqualTo(40)
             return
         }
         inputText.font = UIFont(name:"HelveticaNeue-Light", size: 20)
@@ -96,7 +99,9 @@ public class AcceptOnAddressPickerView: UIView, UITableViewDataSource, UITableVi
         self.addSubview(selectionTable)
         selectionTable.snp_makeConstraints {
             $0.top.equalTo(inputText.snp_bottom)
-            $0.left.right.bottom.equalTo(0)
+            $0.left.right.equalTo(0)
+            $0.height.greaterThanOrEqualTo(150)
+            self.selectionTableBottomConstraint = $0.bottom.equalTo(0).constraint
             return
         }
         selectionTable.alpha = 0
@@ -106,7 +111,11 @@ public class AcceptOnAddressPickerView: UIView, UITableViewDataSource, UITableVi
         blankResultsText.font = UIFont(name:"HelveticaNeue-Light", size:20)
         blankResultsText.text = "Search above to see results"
         blankResultsText.snp_makeConstraints {
-            $0.center.equalTo(0)
+            //Center in middle, or in table view if it's size constrained
+            $0.centerY.lessThanOrEqualTo(self.selectionTable.snp_centerY)
+            $0.centerY.equalTo(self.snp_centerY).priority(999)
+            
+            $0.centerX.equalTo(0)
             $0.left.right.equalTo(0)
             return
         }
@@ -116,12 +125,31 @@ public class AcceptOnAddressPickerView: UIView, UITableViewDataSource, UITableVi
         self.addSubview(spinner)
         spinner.color = UIColor(white: 0.5, alpha: 1)
         spinner.snp_makeConstraints {
-            $0.center.equalTo(0)
+            $0.center.equalTo(self.blankResultsText.snp_center)
             $0.size.equalTo(100)
             return
         }
         spinner.startAnimating()
         spinner.alpha = 0
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        let height = notification.userInfo![UIKeyboardFrameEndUserInfoKey]?.CGRectValue.height ?? 0
+        
+        selectionTableBottomConstraint.updateOffset(-height)
+        UIView.animateWithDuration(0.7, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: [], animations: { () -> Void in
+            self.layoutIfNeeded()
+            }, completion: nil)
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        selectionTableBottomConstraint.updateOffset(0)
+        UIView.animateWithDuration(0.7, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: [], animations: { () -> Void in
+            self.layoutIfNeeded()
+            }, completion: nil)
     }
     
     override public func layoutSubviews() {
@@ -203,6 +231,8 @@ public class AcceptOnAddressPickerView: UIView, UITableViewDataSource, UITableVi
     }
     
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        
         return 100
     }
     
@@ -273,6 +303,7 @@ class AddressExtraLineQuestionView: UIView
     }
     
     func defaultInit() {
+        self.backgroundColor = UIColor.whiteColor()
         self.addSubview(label)
         label.snp_makeConstraints {
             $0.top.equalTo(0)

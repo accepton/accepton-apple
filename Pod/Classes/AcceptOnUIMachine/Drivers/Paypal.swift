@@ -45,7 +45,8 @@ import UIKit
     override func beginTransaction() {
         self.state = .WaitingForPaypalToSendToken
         //TODO: retrieve key from accepton API
-    PayPalMobile.initializeWithClientIdsForEnvironments([PayPalEnvironmentSandbox:"EAGEb2Sey28DzhMc4P0PNothBmsJggVKZK9kTBrw5bU_PP5tmRUSFSlPe62K56FGxF8LkmwA3vPn-LGh"])
+        PayPalMobile.initializeWithClientIdsForEnvironments([PayPalEnvironmentSandbox:"Ab70mPDg9HPDJRGavtsg-OmhoLH2xSHbCiw6G9e9d_wmwVBkbKWEybaZxyQMX3K3x6h89oFa9HWhrH31"])
+        PayPalMobile.preconnectWithEnvironment(PayPalEnvironmentSandbox)
         
         let _config = PayPalConfiguration()
         _config.acceptCreditCards = false
@@ -125,6 +126,24 @@ import UIKit
             
             self.state = .CompletingTransactionWithAccepton
             self.readyToCompleteTransaction(completionBlock)
+        }
+    }
+    
+    //Currently, PayPal verifies using a different endpoint then the rest of the tokenizers
+    override func readyToCompleteTransaction(userInfo: Any?=nil) {
+        if nonceTokens.count > 0 {
+            let chargeInfo = AcceptOnAPIChargeInfo(cardTokens: self.nonceTokens, email: email, metadata: self.metadata)
+            
+            self.delegate.api.verifyPaypalWithTransactionId(self.formOptions.token.id, andChargeInfo: chargeInfo) { chargeRes, err in
+                if let err = err {
+                    self.readyToCompleteTransactionDidFail(userInfo, withMessage: err.localizedDescription)
+                    return
+                }
+                
+                self.readyToCompleteTransactionDidSucceed(userInfo, withChargeRes: chargeRes!)
+            }
+        } else {
+            self.readyToCompleteTransactionDidFail(userInfo, withMessage: "Could not connect to any payment processing services")
         }
     }
     

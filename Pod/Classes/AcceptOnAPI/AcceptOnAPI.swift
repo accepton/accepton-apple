@@ -56,7 +56,22 @@ public struct AcceptOnAPIPaymentMethodsInfo {
         return nil
     }
     
-    public var supportsPaypal: Bool = false
+    public var paypalRestClientId: String? {
+        guard let paypalInfo = processorInfo?["paypal_rest"] as? [String:AnyObject] else {
+            return nil
+        }
+        
+        guard let paypalClientId = paypalInfo["client_id"] as? String else {
+            return nil
+        }
+        
+        return paypalClientId
+    }
+    
+    public var supportsPaypal: Bool {
+//        return paypalRestClientId != nil
+        return true
+    }
     public var supportsApplePay: Bool {
         return true
     }
@@ -68,10 +83,6 @@ public struct AcceptOnAPIPaymentMethodsInfo {
         var info: AcceptOnAPIPaymentMethodsInfo = AcceptOnAPIPaymentMethodsInfo()
         
         if let paymentMethods = config["payment_methods"] as? [String] {
-            if paymentMethods.contains("paypal") {
-                info.supportsPaypal = true
-            }
-            
             if paymentMethods.contains("credit-card") {
                 info.supportsCreditCard = true
             }
@@ -167,8 +178,17 @@ public struct AcceptOnAPIAddress {
     public var region: String?
     public var postalCode: String?
     
-    init(line1: String?, country: String?, region: String?, city: String?, postalCode: String?) {
+    public init(line1: String?, country: String?, region: String?, city: String?, postalCode: String?) {
         self.line1 = line1
+        self.country = country
+        self.region = region
+        self.city = city
+        self.postalCode = postalCode
+    }
+    
+    public init(line1: String?, line2: String?, country: String?, region: String?, city: String?, postalCode: String?) {
+        self.line1 = line1
+        self.line2 = line2
         self.country = country
         self.region = region
         self.city = city
@@ -350,8 +370,6 @@ public struct AcceptOnAPIAddress {
         var params = ["access_token":self.accessToken, "token": tid] as [String:AnyObject]
         chargeInfo.mergeIntoParams(&params)
         
-        puts("\(params)")
-        
         requestWithMethod(.POST, path:"/v1/charges", params: params, completion: { res, err in
             if (err != nil) {
                 completion(chargeRes: nil, error: err)
@@ -370,6 +388,26 @@ public struct AcceptOnAPIAddress {
                 completion(refundRes: nil, error: err)
             } else {
                 completion(refundRes: res, error: nil)
+            }
+        })
+    }
+    
+    //-----------------------------------------------------------------------------------------------------
+    //PayPal verification endpoint, the first card token should be the paypal payment token
+    //-----------------------------------------------------------------------------------------------------
+    public func verifyPaypalWithTransactionId(tid: String, andChargeInfo chargeInfo: AcceptOnAPIChargeInfo, completion: (chargeRes: [String: AnyObject]?, error: NSError?) -> ()) {
+        //Place the requisite authentication and token parameters in, and then
+        //merge the charge information setup in the AcceptOnAPIChargeInfo struct.
+        //The merge contains things like the 'card_token' or in some cases the
+        //actual credit card numbers.
+        var params = ["access_token":self.accessToken, "token": tid] as [String:AnyObject]
+        chargeInfo.mergeIntoParams(&params)
+        
+        requestWithMethod(.POST, path:"/v1/mobile/paypal/verify", params: params, completion: { res, err in
+            if (err != nil) {
+                completion(chargeRes: nil, error: err)
+            } else {
+                completion(chargeRes: res, error: nil)
             }
         })
     }

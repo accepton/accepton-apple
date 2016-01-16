@@ -65,7 +65,6 @@ class AcceptOnUIMachinePaymentDriver: NSObject {
         } else {
             self.readyToCompleteTransactionDidFail(userInfo, withMessage: "Could not connect to any payment processing services")
         }
-        
     }
     
     //Override these functions if you need to interleave actions in the transaction stage. E.g. Dismiss

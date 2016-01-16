@@ -720,6 +720,13 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
                 self.options.metadata = extraMetaData
             }
             
+            //Determine if we should show the extra fields form by looking at the provided userInfo
+            //Credit-card transactions don't require credit-card fields
+            if (userInfo.requestsAndRequiresBillingAddress || userInfo.requestsAndRequiresShippingAddress) != true {
+                startDriverTransaction()
+                return
+            }
+    
             //Call up to retrieve any more metadata
             self.delegate?.acceptOnUIMachineDidRequestAdditionalUserInfo(userInfo, completion: { wasCancelled, extraFieldInfo in
                 if wasCancelled {
@@ -739,6 +746,5 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
             //No requirements or additional information provided.  Show no fields, start the driver transaction now
             startDriverTransaction()
         }
-        
     }
 }

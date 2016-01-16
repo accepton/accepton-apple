@@ -18,6 +18,8 @@
 		AA558C8D1BD954D1003A7929 /* AcceptOnUIMachineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA558C8B1BD95485003A7929 /* AcceptOnUIMachineSpec.swift */; };
 		AA9016B51BE187CE00C00E77 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9016B41BE187CE00C00E77 /* ViewController.swift */; };
 		AADE004E1BE3EE6900912152 /* watch.png in Resources */ = {isa = PBXBuildFile; fileRef = AADE004D1BE3EE6900912152 /* watch.png */; };
+		AAE940D41C47F014008D6450 /* AcceptOnAPIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE940D21C47F007008D6450 /* AcceptOnAPIKeys.swift */; };
+		AAE940D51C47F016008D6450 /* AcceptOnPaymentProcessorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE940D01C47EFD9008D6450 /* AcceptOnPaymentProcessorSpec.swift */; };
 		E8307E9328DEC22B1C53C273 /* Pods_accepton_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EEB34365484DD019D518191 /* Pods_accepton_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +53,8 @@
 		AA558C8B1BD95485003A7929 /* AcceptOnUIMachineSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnUIMachineSpec.swift; sourceTree = "<group>"; };
 		AA9016B41BE187CE00C00E77 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		AADE004D1BE3EE6900912152 /* watch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = watch.png; sourceTree = "<group>"; };
+		AAE940D01C47EFD9008D6450 /* AcceptOnPaymentProcessorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnPaymentProcessorSpec.swift; sourceTree = "<group>"; };
+		AAE940D21C47F007008D6450 /* AcceptOnAPIKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnAPIKeys.swift; sourceTree = "<group>"; };
 		CB2386879C9FC7B1B2B10C0A /* Pods-accepton_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-accepton_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-accepton_Example/Pods-accepton_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		CFCA9927F0EED72BDD3B3097 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		D1DE597F06ED87415E6E57BA /* Pods-accepton_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-accepton_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-accepton_Tests/Pods-accepton_Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -127,6 +131,7 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				AAE940D21C47F007008D6450 /* AcceptOnAPIKeys.swift */,
 				AA2BF90C1C15F6B300904C31 /* API */,
 				AA558C8B1BD95485003A7929 /* AcceptOnUIMachineSpec.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
@@ -156,6 +161,7 @@
 		AA2BF90C1C15F6B300904C31 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				AAE940D01C47EFD9008D6450 /* AcceptOnPaymentProcessorSpec.swift */,
 				607FACEB1AFB9204008FA782 /* AcceptOnAPITransactionsSpec.swift */,
 				AA2BF90D1C15F6C400904C31 /* AcceptOnAPIGeoCodeSpec.swift */,
 			);
@@ -343,7 +349,7 @@
 		};
 		7AAE1B3656354C6D694A47FB /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -351,7 +357,7 @@
 			name = "Copy Pods Resources";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-accepton_Example/Pods-accepton_Example-resources.sh\"\n";
 			showEnvVarsInLog = 0;
@@ -388,7 +394,7 @@
 		};
 		F2042F98CC8798C14252501F /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -396,7 +402,7 @@
 			name = "Copy Pods Resources";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-accepton_Tests/Pods-accepton_Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
@@ -420,6 +426,8 @@
 				AA2BF90F1C15F96400904C31 /* AcceptOnAPIGeoCodeSpec.swift in Sources */,
 				AA558C8D1BD954D1003A7929 /* AcceptOnUIMachineSpec.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* AcceptOnAPITransactionsSpec.swift in Sources */,
+				AAE940D41C47F014008D6450 /* AcceptOnAPIKeys.swift in Sources */,
+				AAE940D51C47F016008D6450 /* AcceptOnPaymentProcessorSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
