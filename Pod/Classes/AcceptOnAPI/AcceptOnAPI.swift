@@ -26,37 +26,23 @@ public struct AcceptOnAPIError {
 }
 
 //Returned for the payment methods requests.  Describes what payments are available.
-public struct AcceptOnAPIPaymentMethodsInfo {
-    public var supportsCreditCard: Bool = false
+public class AcceptOnAPIPaymentMethodsInfo {
     public var supportsStripe: Bool {
         return stripePublishableKey != nil
     }
     
     //TODO: Check against accepton API
     public var supportsBraintree: Bool {
-        return false
+        return braintreeNonce != nil
     }
     
     //TODO: Retrieve from accepton API
     var braintreeNonce: String? {
-        return "TODO: retrieve from accepton API"
-    }
-    
-    public var stripePublishableKey: String? {
-        let creditCardInfo = processorInfo?["credit-card"] as? [String:AnyObject]
-        if let creditCardInfo = creditCardInfo {
-            let stripeInfo = creditCardInfo["stripe"] as? [String:AnyObject]
-            if let stripeInfo = stripeInfo {
-                let publishableKey = stripeInfo["publishable_key"]
-                if let publishableKey = publishableKey {
-                    return publishableKey as? String
-                }
-            }
-        }
         return nil
     }
     
     public var paypalRestClientId: String? {
+        puts("\(processorInfo)")
         guard let paypalInfo = processorInfo?["paypal_rest"] as? [String:AnyObject] else {
             return nil
         }
@@ -69,37 +55,76 @@ public struct AcceptOnAPIPaymentMethodsInfo {
     }
     
     public var supportsPaypal: Bool {
-//        return paypalRestClientId != nil
-        return true
+        return paypalRestClientId != nil
     }
+    
     public var supportsApplePay: Bool {
         return true
     }
-    public var processorInfo: [String:AnyObject]?
     
-    //Tries to take the /v1/form/configure endpoint JSON info and convert it to
-    //a info object. Returns nil if failed to parse correctly.
-    static public func parseConfig(config: [String: AnyObject]) -> AcceptOnAPIPaymentMethodsInfo? {
-        var info: AcceptOnAPIPaymentMethodsInfo = AcceptOnAPIPaymentMethodsInfo()
-        
-        if let paymentMethods = config["payment_methods"] as? [String] {
-            if paymentMethods.contains("credit-card") {
-                info.supportsCreditCard = true
-            }
-        } else {
+    //Stripe-id
+    public var stripePublishableKey: String? {
+        guard let stripeInfo = creditCardProcessorInfo?["stripe"] as? [String:AnyObject] else {
             return nil
         }
         
-        if let processorInfo = config["processor_information"] as? [String:AnyObject] {
-            info.processorInfo = processorInfo
-        } else {
+        guard let publishKey = stripeInfo["publishable_key"] as? String else {
             return nil
         }
         
-        return info
+        return publishKey
+    }
+    
+    //List of methods acceptod, e.g. paypal, credit_card
+    public var paymentMethods: [String]? {
+        return config["payment_methods"] as? [String]
+    }
+    
+    //Can process credit-cards
+    public var supportsCreditCard: Bool {
+        return paymentMethods?.contains("credit-card") ?? false
+    }
+    
+    //Processor specific information
+    public var processorInfo: [String:AnyObject]? {
+        return config["processor_information"] as? [String:AnyObject]
+    }
+    
+    //Credit-card specific processor info
+    public var creditCardProcessorInfo: [String:AnyObject]? {
+        return processorInfo?["credit-card"] as? [String:AnyObject]
+    }
+    
+    //Loaded directly from server response on form configuration
+    var config: [String:AnyObject]!
+    
+    //For testing purposes
+    func addMocksToConfig() {
+        guard var processorInfo = config["processor_information"] as? [String:AnyObject]  else {
+            return
+        }
+        
+        processorInfo["paypal_rest"] = [
+            "client_id": "Ab70mPDg9HPDJRGavtsg-OmhoLH2xSHbCiw6G9e9d_wmwVBkbKWEybaZxyQMX3K3x6h89oFa9HWhrH31"
+        ]
+        
+        //CoW
+        config["processor_information"] = processorInfo
     }
     
     public init() {}
+    
+    static public func parseConfig(config: [String: AnyObject]) -> AcceptOnAPIPaymentMethodsInfo? {
+        var info = AcceptOnAPIPaymentMethodsInfo()
+        info.config = config
+        info.addMocksToConfig()
+        
+        //Config must contain payment methods or processor information
+        if info.paymentMethods == nil { return nil }
+        if info.processorInfo == nil { return nil }
+        
+        return info
+    }
 }
 
 

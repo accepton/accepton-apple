@@ -209,6 +209,10 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
     }
     var stateInfo: Any?
     
+    public var isProduction: Bool {
+        return api.isProduction
+    }
+    
     //This is typically the vc that created us
     public weak var delegate: AcceptOnUIMachineDelegate?
 

@@ -45,8 +45,14 @@ import UIKit
     override func beginTransaction() {
         self.state = .WaitingForPaypalToSendToken
         //TODO: retrieve key from accepton API
-        PayPalMobile.initializeWithClientIdsForEnvironments([PayPalEnvironmentSandbox:"Ab70mPDg9HPDJRGavtsg-OmhoLH2xSHbCiw6G9e9d_wmwVBkbKWEybaZxyQMX3K3x6h89oFa9HWhrH31"])
-        PayPalMobile.preconnectWithEnvironment(PayPalEnvironmentSandbox)
+        
+        if delegate.api.isProduction {
+            PayPalMobile.initializeWithClientIdsForEnvironments([PayPalEnvironmentProduction:self.formOptions.paymentMethods.paypalRestClientId!])
+            PayPalMobile.preconnectWithEnvironment(PayPalEnvironmentProduction)
+        } else {
+            PayPalMobile.initializeWithClientIdsForEnvironments([PayPalEnvironmentSandbox:self.formOptions.paymentMethods.paypalRestClientId!])
+            PayPalMobile.preconnectWithEnvironment(PayPalEnvironmentSandbox)
+        }
         
         let _config = PayPalConfiguration()
         _config.acceptCreditCards = false
