@@ -162,14 +162,14 @@ public struct AcceptOnAPITransactionToken {
 //Helper struct for the charge methods (which have a lot of parameters and variations of parameters)
 public struct AcceptOnAPIChargeInfo {
     //An array of tokens to charge
-    var cardTokens: [String]?
+    var cardTokens: [String:AnyObject]?
     
     //'Extra' Metadata the user may pass in
     var metadata: [String:AnyObject]?
     
     var email: String?
     
-    public init(cardTokens: [String], email: String?=nil, metadata: [String:AnyObject]?=nil) {
+    public init(cardTokens: [String:AnyObject], email: String?=nil, metadata: [String:AnyObject]?=nil) {
         self.cardTokens = cardTokens
         self.metadata = metadata
         self.email = email
@@ -180,9 +180,7 @@ public struct AcceptOnAPIChargeInfo {
     //charge request)
     public func mergeIntoParams(inout dict: [String:AnyObject]) {
         if let cardTokens = cardTokens {
-            if let cardToken = cardTokens.first {
-                dict["card_token"] = cardToken
-            }
+            dict["card_tokens"] = cardTokens
             
             dict["email"] = email ?? ""
             

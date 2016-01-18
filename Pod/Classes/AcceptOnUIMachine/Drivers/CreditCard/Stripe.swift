@@ -13,6 +13,10 @@ extension STPCardParams {
 
 
 class AcceptOnUIMachineCreditCardStripePlugin: AcceptOnUIMachineCreditCardDriverPlugin {
+    override var name: String {
+        return "stripe"
+    }
+    
     override func beginTransactionWithFormOptions(formOptions: AcceptOnUIMachineFormOptions) {
         //Assuming they are using stripe
         let stripePublishableKey = formOptions.paymentMethods.stripePublishableKey

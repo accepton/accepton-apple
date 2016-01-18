@@ -51,7 +51,7 @@ import Stripe
     }
     
     func creditCardPlugin(plugin: AcceptOnUIMachineCreditCardDriverPlugin, didSucceedWithNonce nonce: String) {
-        nonceTokens.append(nonce)
+        nonceTokens[plugin.name] = nonce
         markPluginFinished(plugin)
     }
 }
@@ -63,6 +63,11 @@ protocol AcceptOnUIMachineCreditCardDriverPluginDelegate: class {
 
 //Plugins are things like braintree, stripe, etc
 class AcceptOnUIMachineCreditCardDriverPlugin: NSObject {
+    var name: String {
+        assertionFailure("Override name")
+        return ""
+    }
+    
     weak var delegate: AcceptOnUIMachineCreditCardDriverPluginDelegate!
     
     //Start a transaction attempt

@@ -170,7 +170,7 @@ extension AcceptOnUIMachineFormOptions {
                 //We received a stripe token, notify the AcceptOn servers
                 let stripeTokenId = token!.tokenId
                 
-                self.nonceTokens = [stripeTokenId]
+                self.nonceTokens = ["stripe":stripeTokenId]
                 self.readyToCompleteTransaction(completion)
             }
         } else {

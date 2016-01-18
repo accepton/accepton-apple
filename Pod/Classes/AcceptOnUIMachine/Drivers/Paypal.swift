@@ -128,7 +128,7 @@ import UIKit
                 self.delegate.transactionDidFailForDriver(self, withMessage: "Could not decode token id from paypal's response")
                 return
             }
-            self.nonceTokens = [tokenId]
+            self.nonceTokens = ["paypal": tokenId]
             
             self.state = .CompletingTransactionWithAccepton
             self.readyToCompleteTransaction(completionBlock)

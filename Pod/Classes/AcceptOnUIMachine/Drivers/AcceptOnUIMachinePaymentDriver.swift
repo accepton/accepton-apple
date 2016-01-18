@@ -24,7 +24,7 @@ class AcceptOnUIMachinePaymentDriver: NSObject {
     }
     
     //Tokens that were retrieved from the drivers
-    var nonceTokens: [String] = []
+    var nonceTokens: [String:AnyObject] = [:]
     
     //Email is only for credit-card forms
     var email: String?

@@ -11,6 +11,10 @@ extension BTCard {
 }
 
 class AcceptOnUIMachineCreditCardBraintreePlugin: AcceptOnUIMachineCreditCardDriverPlugin {
+    override var name: String {
+        return "braintree"
+    }
+    
     override func beginTransactionWithFormOptions(formOptions: AcceptOnUIMachineFormOptions) {
         if let nonce = formOptions.paymentMethods.braintreeNonce {
             guard let api = BTAPIClient(authorization: nonce) else {
