@@ -25,6 +25,12 @@ There are multiple ways to install this library.  The easiest method is via `Coc
 </div>
 </a>
 
+<a href='./docs/install/carthage.md'>
+<div style='text-align: center'>
+  <img src='./docs/images/install_by_carthage_button.png' />
+</div>
+</a>
+
   * [Binary](./docs/install/binary.md)
   * [CocoaPods](./docs/install/cocoa_pods.md)
   * [Carthage](./docs/install/carthage.md)
