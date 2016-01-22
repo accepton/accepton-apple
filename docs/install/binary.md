@@ -1,6 +1,12 @@
 ## Install via pre-built binary
 
 ### 1) Add the pre-build frameworks to your project:
+<a href='./docs/install/carthage.md'>
+<div style='text-align: center'>
+  <img src='../images/download_framework.png' />
+</div>
+</a>
+
 <div style='text-align: center'>
   <img src='../images/prebuilt_binaries.gif' width="900" />
 </div>
