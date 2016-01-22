@@ -10,7 +10,7 @@
 ## What is this?
 *accepton-apple* is a swift library for processing payments through the [AcceptOn](http://accepton.com) API which elegantly unifies many payment providers including [PayPal](http://paypal.com), [Stripe](http://stripe.com), and **ApplePay** to one transparent backend that aggregates all this information into one API.  This library provides you with powerful flexibility and ease-of-use by offering both beautiful pre-made payment views and access to the well-engineered low-level primitives for those wanting to have tighter integration into their applications.
 
-## 1. Installation (Choose a method)
+## 1. Installation
 <a href='./docs/install/binary.md'>
 <div style='text-align: center'>
   <img src='./docs/images/install_by_binary_framework_button.png' />
@@ -29,7 +29,20 @@
 </div>
 </a>
 
-## Use it!
+## 2. Usage
+<a href='./docs/use/use_with_storyboard.md'>
+<div style='text-align: center'>
+  <img src='./docs/images/use_with_storyboard.png' />
+</div>
+</a>
+
+<a href='./docs/use/use_with_only_code.md'>
+<div style='text-align: center'>
+  <img src='./docs/images/use_with_only_code.png' />
+</div>
+</a>
+
+
 After choosing one of the above methods to install the Accepton iOS framework, do the following on your storyboard:
 
   1. Add a new view controller at the point where you want to collect a payment
@@ -211,6 +224,7 @@ You may create more customized solutions through using the lower level api's:
 ## Special thanks to:
   * [@HelloMany | Flat Credit-Card Icons](https://www.iconfinder.com/HelloMany) - Licensed under [CC Attribution](http://creativecommons.org/licenses/by/2.5/)
   * [Daniel Kennett](http://ikennd.ac/blog/2015/02/stripping-unwanted-architectures-from-dynamic-libraries-in-xcode/) - Build script for stripping un-needing architectures from fat binary
+  * [JustUI | Code Flat Icon](https://www.iconfinder.com/justui) - Licensed under [CC Attribution](http://creativecommons.org/licenses/by/3.0/)
 
 ## License
 *accepton-apple* is released under the MIT license. See LICENSE for details.
