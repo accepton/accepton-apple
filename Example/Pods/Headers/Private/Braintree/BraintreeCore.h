@@ -1,1 +1,0 @@
-../../../Braintree/BraintreeCore/Public/BraintreeCore.h

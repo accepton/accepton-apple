@@ -1,1 +1,0 @@
-../../../Braintree/BraintreeUI/Views/Vector Art/BTUIDinersClubVectorArtView.h

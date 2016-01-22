@@ -1,1 +1,0 @@
-../../../Braintree/BraintreeUI/Views/Collection Views/BTUIPaymentButtonCollectionViewCell.h

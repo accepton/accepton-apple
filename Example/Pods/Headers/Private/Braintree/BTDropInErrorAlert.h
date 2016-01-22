@@ -1,1 +1,0 @@
-../../../Braintree/BraintreeUI/Drop-In/BTDropInErrorAlert.h

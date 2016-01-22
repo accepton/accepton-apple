@@ -1,0 +1,1 @@
+../../../../../Pod/Vendor/Braintree/BraintreeCore/Braintree-Version.h

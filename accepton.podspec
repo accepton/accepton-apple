@@ -35,10 +35,9 @@ A swift library for processing payments through the AcceptOn API which elegantly
   }
 
   s.public_header_files = 'Pod/Vendor/Paypal/*.h', 'Pod/Vendor/CHRTextFieldFormatter/*.h', 'Pod/Vendor/BUYPaymentButton/*.h'
-  s.source_files = 'Pod/Vendor/Paypal/*.h', 'Pod/Vendor/CHRTextFieldFormatter/**/*', 'Pod/Classes/**/*', 'Pod/Vendor/BUYPaymentButton/**/*', 'Pod/Vendor/Snapkit/**/*', 'Pod/Vendor/Alamofire/**/*'
+  s.source_files = 'Pod/Vendor/Paypal/*.h', 'Pod/Vendor/CHRTextFieldFormatter/**/*', 'Pod/Classes/**/*', 'Pod/Vendor/BUYPaymentButton/**/*', 'Pod/Vendor/Snapkit/**/*', 'Pod/Vendor/Alamofire/**/*', 'Pod/Vendor/Braintree/BraintreeCore/**/*'
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'Stripe'
-  s.dependency 'Braintree'
   s.weak_framework = 'SystemConfiguration', 'MobileCoreServices', 'MessageUI', 'CoreLocation', 'Accelerate', 'PassKit'
   s.resource_bundle = {'accepton' => ['Pod/Assets/*']}
   s.vendored_libraries = 'Pod/Vendor/Paypal/libPayPalMobile.a'

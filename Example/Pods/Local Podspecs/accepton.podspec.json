@@ -23,7 +23,8 @@
     "Pod/Classes/**/*",
     "Pod/Vendor/BUYPaymentButton/**/*",
     "Pod/Vendor/Snapkit/**/*",
-    "Pod/Vendor/Alamofire/**/*"
+    "Pod/Vendor/Alamofire/**/*",
+    "Pod/Vendor/Braintree/BraintreeCore/**/*"
   ],
   "resource_bundles": {
     "accepton": [
@@ -37,9 +38,6 @@
   ],
   "dependencies": {
     "Stripe": [
-
-    ],
-    "Braintree": [
 
     ]
   },
