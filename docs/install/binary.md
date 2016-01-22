@@ -1,5 +1,4 @@
 ## Install via pre-built binary
-If you don't use cocoa pods, you may add the pre-built binaries to your XCode project.
 
 ### 1) Add the pre-build frameworks to your project:
 <div style='text-align: center'>
@@ -7,7 +6,10 @@ If you don't use cocoa pods, you may add the pre-built binaries to your XCode pr
 </div>
 
 ### 2) Add the `Run Script`
-Add the following run script as shown to your **Build Phases**:
+Add the following run script as shown to your **Build Phases**.  
+
+> ☃ The build script strips the framework of any architectures not in use by the build-phase.  Apple will reject apps that contain architectures tha
+> aren't used in production devices (x86).
 
 ```sh
 #Run script to strip extraneous architectures from binaries
