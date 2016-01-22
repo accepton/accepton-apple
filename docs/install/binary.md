@@ -2,7 +2,7 @@
 
 ### 1) Add the pre-build frameworks to your project:
 <div style='text-align: center'>
-  <img src='../docs/images/prebuilt_binaries.gif' width="900" />
+  <img src='../images/prebuilt_binaries.gif' width="900" />
 </div>
 
 ### 2) Add the `Run Script`
@@ -43,6 +43,6 @@ mv "$FRAMEWORK_EXECUTABLE_PATH-merged" "$FRAMEWORK_EXECUTABLE_PATH"
 done
 ```
 <div style='text-align: center'>
-  <img src='../docs/images/run_script.gif' width="900" />
+  <img src='../images/run_script.gif' width="900" />
 </div>
 
