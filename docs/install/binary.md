@@ -2,13 +2,13 @@
 
 ### 1) Add the pre-build frameworks to your project:
 <div style='text-align: center'>
-  <img src='./docs/images/prebuilt_binaries.gif' width="900" />
+  <img src='../docs/images/prebuilt_binaries.gif' width="900" />
 </div>
 
 ### 2) Add the `Run Script`
 Add the following run script as shown to your **Build Phases**.  
 
-> ☃ The build script strips the framework of any architectures not in use by the build-phase.  Apple will reject apps that contain architectures tha
+> ☃ The build script strips the framework of any architectures not in use by the build-phase.  Apple will reject apps that contain architectures that
 > aren't used in production devices (x86).
 
 ```sh
@@ -43,6 +43,6 @@ mv "$FRAMEWORK_EXECUTABLE_PATH-merged" "$FRAMEWORK_EXECUTABLE_PATH"
 done
 ```
 <div style='text-align: center'>
-  <img src='./docs/images/run_script.gif' width="900" />
+  <img src='../docs/images/run_script.gif' width="900" />
 </div>
 
