@@ -52,7 +52,9 @@ Coming soon: we will be offering a static library of the Braintree SDK.
 
 ### Manual Integration
 
-Follow the [manual integration instructions](https://github.braintreeps.com/braintree/braintree-ios/blob/master/Docs/Manual%20Integration.md).
+For v3 integrations, please follow the [v3 manual integration instructions](https://github.com/braintree/braintree_ios/blob/3.x/Docs/Manual%20Integration.md).
+
+Complete v4 manual integration instructions are still in-progress. Note that for apps targeting iOS 8+, you may add `Braintree.xcodeproj` to your Xcode workspace and add the frameworks to the app target **Embedded Binaries** section.
 
 ## Supporting iOS 9
 
@@ -73,6 +75,9 @@ If your app is compiled with iOS 9 SDK and integrates payment options with an ap
 If your app supports payments from PayPal:
 * `com.paypal.ppclient.touch.v1`
 * `com.paypal.ppclient.touch.v2`
+
+If your app supports payments from Venmo:
+* `com.venmo.touch.v2`
 
 For example, if your app supports PayPal, you could add the following:
 ```

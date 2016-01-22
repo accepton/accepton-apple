@@ -43,6 +43,7 @@ typedef NS_ENUM(NSUInteger, BTPayPalPaymentType) {
         [[BTTokenizationService sharedService] registerType:@"PayPal" withTokenizationBlock:^(BTAPIClient *apiClient, __unused NSDictionary *options, void (^completionBlock)(BTPaymentMethodNonce *paymentMethodNonce, NSError *error)) {
             BTPayPalDriver *driver = [[BTPayPalDriver alloc] initWithAPIClient:apiClient];
             driver.viewControllerPresentingDelegate = options[BTTokenizationServiceViewPresentingDelegateOption];
+            driver.appSwitchDelegate = options[BTTokenizationServiceAppSwitchDelegateOption];
             [driver authorizeAccountWithAdditionalScopes:options[BTTokenizationServicePayPalScopesOption] completion:completionBlock];
         }];
         
@@ -120,15 +121,8 @@ typedef NS_ENUM(NSUInteger, BTPayPalPaymentType) {
             self.clientMetadataId = clientMetadataId;
             
             [self sendAnalyticsEventForInitiatingOneTouchForPaymentType:BTPayPalPaymentTypeFuturePayments withSuccess:success target:target];
-            
-            if (success) {
-                [self performSwitchRequest:url];
-                if (![SFSafariViewController class]) {
-                    [self informDelegateDidPerformAppSwitchToTarget:target];
-                }
-            } else {
-                if (completionBlock) completionBlock(nil, error);
-            }
+
+            [self handlePayPalRequestWithSuccess:success error:error requestURL:url target:target paymentType:BTPayPalPaymentTypeFuturePayments completion:completionBlock];
         }];
     }];
 }
@@ -154,7 +148,7 @@ typedef NS_ENUM(NSUInteger, BTPayPalPaymentType) {
     [self requestExpressCheckout:request isBillingAgreement:NO completion:completionBlock];
 }
 
-- (void)setExpressCheckoutAppSwitchReturnBlock:(void (^)(BTPayPalAccountNonce *tokenizedAccount, NSError *error))completionBlock {
+- (void)setOneTimePaymentAppSwitchReturnBlock:(void (^)(BTPayPalAccountNonce *tokenizedAccount, NSError *error))completionBlock {
     [self setAppSwitchReturnBlock:completionBlock forPaymentType:BTPayPalPaymentTypeCheckout];
 }
 
@@ -268,7 +262,7 @@ typedef NS_ENUM(NSUInteger, BTPayPalPaymentType) {
                       if (isBillingAgreement) {
                           [self setBillingAgreementAppSwitchReturnBlock:completionBlock];
                       } else {
-                          [self setExpressCheckoutAppSwitchReturnBlock:completionBlock];
+                          [self setOneTimePaymentAppSwitchReturnBlock:completionBlock];
                       }
                       
                       NSString *payPalClientID = [configuration.json[@"paypal"][@"clientId"] asString];
@@ -306,14 +300,13 @@ typedef NS_ENUM(NSUInteger, BTPayPalPaymentType) {
                           } else {
                               [self sendAnalyticsEventForInitiatingOneTouchForPaymentType:BTPayPalPaymentTypeCheckout withSuccess:success target:target];
                           }
-                          if (success) {
-                              [self performSwitchRequest:url];
-                              if (![SFSafariViewController class]) {
-                                  [self informDelegateDidPerformAppSwitchToTarget:target];
-                              }
-                          } else {
-                              if (completionBlock) completionBlock(nil, error);
-                          }
+
+                          [self handlePayPalRequestWithSuccess:success
+                                                         error:error
+                                                    requestURL:url
+                                                        target:target
+                                                   paymentType:isBillingAgreement ? BTPayPalPaymentTypeBillingAgreement : BTPayPalPaymentTypeCheckout
+                                                    completion:completionBlock];
                       }];
                   }];
     }];
@@ -393,6 +386,35 @@ typedef NS_ENUM(NSUInteger, BTPayPalPaymentType) {
     };
 }
 
+- (void)handlePayPalRequestWithSuccess:(BOOL)success
+                                 error:(NSError *)error
+                            requestURL:(NSURL *)url
+                                target:(PayPalOneTouchRequestTarget)target
+                           paymentType:(BTPayPalPaymentType)paymentType
+                            completion:(void (^)(BTPayPalAccountNonce *, NSError *))completionBlock
+{
+    if (success) {
+        // Defensive programming in case PayPal One Touch returns a non-HTTP URL so that SFSafariViewController doesn't crash
+        if ([SFSafariViewController class] && ![url.scheme.lowercaseString hasPrefix:@"http"]) {
+            NSError *urlError = [NSError errorWithDomain:BTPayPalDriverErrorDomain
+                                                    code:BTPayPalDriverErrorTypeUnknown
+                                                userInfo:@{ NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Attempted to open an invalid URL in SFSafariViewController: %@://", url.scheme],
+                                                            NSLocalizedRecoverySuggestionErrorKey: @"Try again or contact Braintree Support." }];
+            if (completionBlock) completionBlock(nil, urlError);
+
+            NSString *eventName = [NSString stringWithFormat:@"ios.%@.%@.error.safariviewcontrollerbadscheme.%@", [self.class eventStringForPaymentType:paymentType], [self.class eventStringForRequestTarget:target], url.scheme];
+            [self.apiClient sendAnalyticsEvent:eventName];
+
+            return;
+        }
+        [self performSwitchRequest:url];
+        if (![SFSafariViewController class]) {
+            [self informDelegateDidPerformAppSwitchToTarget:target];
+        }
+    } else {
+        if (completionBlock) completionBlock(nil, error);
+    }
+}
 
 - (void)performSwitchRequest:(NSURL *)appSwitchURL {
     if ([SFSafariViewController class]) {

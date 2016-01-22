@@ -1,20 +1,18 @@
 PODS:
-  - accepton (0.2.13):
-    - Alamofire (~> 3.0)
+  - accepton (0.3.1):
     - Braintree
     - Stripe
-  - Alamofire (3.1.4)
-  - Braintree (4.1.2):
-    - Braintree/Card (= 4.1.2)
-    - Braintree/Core (= 4.1.2)
-    - Braintree/PayPal (= 4.1.2)
-    - Braintree/UI (= 4.1.2)
-  - Braintree/Card (4.1.2):
+  - Braintree (4.1.3):
+    - Braintree/Card (= 4.1.3)
+    - Braintree/Core (= 4.1.3)
+    - Braintree/PayPal (= 4.1.3)
+    - Braintree/UI (= 4.1.3)
+  - Braintree/Card (4.1.3):
     - Braintree/Core
-  - Braintree/Core (4.1.2)
-  - Braintree/PayPal (4.1.2):
+  - Braintree/Core (4.1.3)
+  - Braintree/PayPal (4.1.3):
     - Braintree/Core
-  - Braintree/UI (4.1.2):
+  - Braintree/UI (4.1.3):
     - Braintree/Card
     - Braintree/Core
   - Nimble (2.0.0)
@@ -35,9 +33,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  accepton: 23fad2271121be71f90af23c8edaf9039c6ba091
-  Alamofire: fbc829692f351fa1d8a31dd75fd7f7f56fea31fb
-  Braintree: bb66f0a87e9809d36da89e698455e7e902aaeef6
+  accepton: b399a76ca9dd905a1a4350fd8cc1af7979c6fbc1
+  Braintree: fcbadcdbaae84a82e5e69e10c021af3c403cbe08
   Nimble: 472e75466819eb8c06299233e87c694a9b51328a
   Quick: 906d8aa995ee0afa96f1f7f01170f40fccfa5898
   Reveal-iOS-SDK: e2250b3c155bcfac53ae223ddc1f76d08f206c33
