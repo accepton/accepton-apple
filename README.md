@@ -1,6 +1,8 @@
+<a href="./docs/install/binary.md">
 <div style='text-align: center'>
   <img src='./header.gif' />
 </div>
+</a>
 
 [![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/sotownsend/accepton-apple/blob/master/LICENSE)
 [![Build Status](https://travis-ci.org/sotownsend/Pully.svg?branch=master)](https://travis-ci.org/sotownsend/)
@@ -9,6 +11,17 @@
 
 ## What is this?
 *accepton-apple* is a swift library for processing payments through the [AcceptOn](http://accepton.com) API which elegantly unifies many payment providers including [PayPal](http://paypal.com), [Stripe](http://stripe.com), and **ApplePay** to one transparent backend that aggregates all this information into one API.  This library provides you with powerful flexibility and ease-of-use by offering both beautiful pre-made payment views and access to the well-engineered low-level primitives for those wanting to have tighter integration into their applications.
+
+## Installation
+There are multiple ways to install this library.  The easiest method is via `CocoaPods`:
+
+  * [Binary](./docs/install/binary.md) - 
+  * [CocoaPods](./docs/install/cocoa_pods.md)
+  * [Carthage](./docs/install/carthage.md)
+
+<div style='text-align: center'>
+  <img src='./header.gif' />
+</div>
 
 ## Install via CocoaPods
 
