@@ -1,8 +1,9 @@
-<a href="./docs/install/binary.md">
 <div style='text-align: center'>
+<a href="./docs/install/binary.md">
   <img src='./header.gif' />
-</div>
 </a>
+</div>
+
 
 [![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/sotownsend/accepton-apple/blob/master/LICENSE)
 [![Build Status](https://travis-ci.org/sotownsend/Pully.svg?branch=master)](https://travis-ci.org/sotownsend/)
