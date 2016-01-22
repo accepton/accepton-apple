@@ -30,13 +30,13 @@
 </a>
 
 ## 2. Use it via storyboard or pure code
-<a href='./docs/configure/use_with_storyboard.md'>
+<a href='./docs/use/use_with_storyboard.md'>
 <div style='text-align: center'>
   <img src='./docs/images/use_with_storyboard.png' />
 </div>
 </a>
 
-<a href='./docs/configure/use_with_only_code.md'>
+<a href='./docs/use/use_with_only_code.md'>
 <div style='text-align: center'>
   <img src='./docs/images/use_with_only_code.png' />
 </div>
