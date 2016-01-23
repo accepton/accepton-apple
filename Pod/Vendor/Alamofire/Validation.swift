@@ -30,7 +30,7 @@ extension Request {
         - Success: The validation was successful.
         - Failure: The validation failed encountering the provided error.
     */
-    public enum ValidationResult {
+    enum ValidationResult {
         case Success
         case Failure(NSError)
     }
@@ -39,7 +39,7 @@ extension Request {
         A closure used to validate a request that takes a URL request and URL response, and returns whether the 
         request was valid.
     */
-    public typealias Validation = (NSURLRequest?, NSHTTPURLResponse) -> ValidationResult
+    typealias Validation = (NSURLRequest?, NSHTTPURLResponse) -> ValidationResult
 
     /**
         Validates the request, using the specified closure.
@@ -50,7 +50,7 @@ extension Request {
 
         - returns: The request.
     */
-    public func validate(validation: Validation) -> Self {
+    func validate(validation: Validation) -> Self {
         delegate.queue.addOperationWithBlock {
             if let
                 response = self.response where self.delegate.error == nil,
@@ -74,7 +74,7 @@ extension Request {
 
         - returns: The request.
     */
-    public func validate<S: SequenceType where S.Generator.Element == Int>(statusCode acceptableStatusCode: S) -> Self {
+    func validate<S: SequenceType where S.Generator.Element == Int>(statusCode acceptableStatusCode: S) -> Self {
         return validate { _, response in
             if acceptableStatusCode.contains(response.statusCode) {
                 return .Success
@@ -128,7 +128,7 @@ extension Request {
 
         - returns: The request.
     */
-    public func validate<S : SequenceType where S.Generator.Element == String>(contentType acceptableContentTypes: S) -> Self {
+    func validate<S : SequenceType where S.Generator.Element == String>(contentType acceptableContentTypes: S) -> Self {
         return validate { _, response in
             guard let validData = self.delegate.data where validData.length > 0 else { return .Success }
 
@@ -174,7 +174,7 @@ extension Request {
 
         - returns: The request.
     */
-    public func validate() -> Self {
+    func validate() -> Self {
         let acceptableStatusCodes: Range<Int> = 200..<300
         let acceptableContentTypes: [String] = {
             if let accept = request?.valueForHTTPHeaderField("Accept") {

@@ -23,23 +23,23 @@
 import Foundation
 
 /// Responsible for managing the mapping of `ServerTrustPolicy` objects to a given host.
-public class ServerTrustPolicyManager {
+class ServerTrustPolicyManager {
     /// The dictionary of policies mapped to a particular host.
-    public let policies: [String: ServerTrustPolicy]
+    let policies: [String: ServerTrustPolicy]
 
     /**
         Initializes the `ServerTrustPolicyManager` instance with the given policies.
 
         Since different servers and web services can have different leaf certificates, intermediate and even root 
         certficates, it is important to have the flexibility to specify evaluation policies on a per host basis. This 
-        allows for scenarios such as using default evaluation for host1, certificate pinning for host2, public key 
+        allows for scenarios such as using default evaluation for host1, certificate pinning for host2, key 
         pinning for host3 and disabling evaluation for host4.
 
         - parameter policies: A dictionary of all policies mapped to a particular host.
 
         - returns: The new `ServerTrustPolicyManager` instance.
     */
-    public init(policies: [String: ServerTrustPolicy]) {
+    init(policies: [String: ServerTrustPolicy]) {
         self.policies = policies
     }
 
@@ -53,7 +53,7 @@ public class ServerTrustPolicyManager {
 
         - returns: The server trust policy for the given host if found.
     */
-    public func serverTrustPolicyForHost(host: String) -> ServerTrustPolicy? {
+    func serverTrustPolicyForHost(host: String) -> ServerTrustPolicy? {
         return policies[host]
     }
 }
@@ -82,7 +82,7 @@ extension NSURLSession {
     connecting to a server over a secure HTTPS connection. The policy configuration then evaluates the server trust 
     with a given set of criteria to determine whether the server trust is valid and the connection should be made.
 
-    Using pinned certificates or public keys for evaluation helps prevent man-in-the-middle (MITM) attacks and other 
+    Using pinned certificates or keys for evaluation helps prevent man-in-the-middle (MITM) attacks and other 
     vulnerabilities. Applications dealing with sensitive customer data or financial information are strongly encouraged 
     to route all communication over an HTTPS connection with pinning enabled.
 
@@ -98,9 +98,9 @@ extension NSURLSession {
                                 Applications are encouraged to always validate the host and require a valid certificate 
                                 chain in production environments.
 
-    - PinPublicKeys:            Uses the pinned public keys to validate the server trust. The server trust is considered
-                                valid if one of the pinned public keys match one of the server certificate public keys. 
-                                By validating both the certificate chain and host, public key pinning provides a very 
+    - PinPublicKeys:            Uses the pinned keys to validate the server trust. The server trust is considered
+                                valid if one of the pinned keys match one of the server certificate keys. 
+                                By validating both the certificate chain and host, key pinning provides a very 
                                 secure form of server trust validation mitigating most, if not all, MITM attacks. 
                                 Applications are encouraged to always validate the host and require a valid certificate 
                                 chain in production environments.
@@ -109,7 +109,7 @@ extension NSURLSession {
 
     - CustomEvaluation:         Uses the associated closure to evaluate the validity of the server trust.
 */
-public enum ServerTrustPolicy {
+enum ServerTrustPolicy {
     case PerformDefaultEvaluation(validateHost: Bool)
     case PinCertificates(certificates: [SecCertificate], validateCertificateChain: Bool, validateHost: Bool)
     case PinPublicKeys(publicKeys: [SecKey], validateCertificateChain: Bool, validateHost: Bool)
@@ -125,7 +125,7 @@ public enum ServerTrustPolicy {
 
         - returns: All certificates within the given bundle.
     */
-    public static func certificatesInBundle(bundle: NSBundle = NSBundle.mainBundle()) -> [SecCertificate] {
+    static func certificatesInBundle(bundle: NSBundle = NSBundle.mainBundle()) -> [SecCertificate] {
         var certificates: [SecCertificate] = []
 
         let paths = Set([".cer", ".CER", ".crt", ".CRT", ".der", ".DER"].map { fileExtension in
@@ -145,13 +145,13 @@ public enum ServerTrustPolicy {
     }
 
     /**
-        Returns all public keys within the given bundle with a `.cer` file extension.
+        Returns all keys within the given bundle with a `.cer` file extension.
 
         - parameter bundle: The bundle to search for all `*.cer` files.
 
-        - returns: All public keys within the given bundle.
+        - returns: All keys within the given bundle.
     */
-    public static func publicKeysInBundle(bundle: NSBundle = NSBundle.mainBundle()) -> [SecKey] {
+    static func publicKeysInBundle(bundle: NSBundle = NSBundle.mainBundle()) -> [SecKey] {
         var publicKeys: [SecKey] = []
 
         for certificate in certificatesInBundle(bundle) {
@@ -173,7 +173,7 @@ public enum ServerTrustPolicy {
 
         - returns: Whether the server trust is valid.
     */
-    public func evaluateServerTrust(serverTrust: SecTrust, isValidForHost host: String) -> Bool {
+    func evaluateServerTrust(serverTrust: SecTrust, isValidForHost host: String) -> Bool {
         var serverTrustIsValid = false
 
         switch self {
@@ -269,7 +269,7 @@ public enum ServerTrustPolicy {
         return certificates.map { SecCertificateCopyData($0) as NSData }
     }
 
-    // MARK: - Private - Public Key Extraction
+    // MARK: - Private - Key Extraction
 
     private static func publicKeysForTrust(trust: SecTrust) -> [SecKey] {
         var publicKeys: [SecKey] = []

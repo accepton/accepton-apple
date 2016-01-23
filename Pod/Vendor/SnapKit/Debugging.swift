@@ -30,9 +30,9 @@ import AppKit
 /**
     Used to allow adding a snp_label to a View for debugging purposes
 */
-public extension View {
+extension View {
     
-    public var snp_label: String? {
+    var snp_label: String? {
         get {
             return objc_getAssociatedObject(self, &labelKey) as? String
         }
@@ -46,9 +46,9 @@ public extension View {
 /**
     Used to allow adding a snp_label to a LayoutConstraint for debugging purposes
 */
-public extension LayoutConstraint {
+extension LayoutConstraint {
     
-    public var snp_label: String? {
+    var snp_label: String? {
         get {
             return objc_getAssociatedObject(self, &labelKey) as? String
         }
@@ -57,7 +57,7 @@ public extension LayoutConstraint {
         }
     }
 
-    override public var description: String {
+    override var description: String {
         var description = "<"
         
         description += descriptionForObject(self)

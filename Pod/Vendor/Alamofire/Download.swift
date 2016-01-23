@@ -76,7 +76,7 @@ extension Manager {
 
         - returns: The created download request.
     */
-    public func download(
+    func download(
         method: Method,
         _ URLString: URLStringConvertible,
         parameters: [String: AnyObject]? = nil,
@@ -101,7 +101,7 @@ extension Manager {
 
         - returns: The created download request.
     */
-    public func download(URLRequest: URLRequestConvertible, destination: Request.DownloadFileDestination) -> Request {
+    func download(URLRequest: URLRequestConvertible, destination: Request.DownloadFileDestination) -> Request {
         return download(.Request(URLRequest.URLRequest), destination: destination)
     }
 
@@ -119,7 +119,7 @@ extension Manager {
 
         - returns: The created download request.
     */
-    public func download(resumeData: NSData, destination: Request.DownloadFileDestination) -> Request {
+    func download(resumeData: NSData, destination: Request.DownloadFileDestination) -> Request {
         return download(.ResumeData(resumeData), destination: destination)
     }
 }
@@ -132,7 +132,7 @@ extension Request {
         file written to during the download process. The closure takes two arguments: the temporary file URL and the URL 
         response, and returns a single argument: the file URL where the temporary file should be moved.
     */
-    public typealias DownloadFileDestination = (NSURL, NSHTTPURLResponse) -> NSURL
+    typealias DownloadFileDestination = (NSURL, NSHTTPURLResponse) -> NSURL
 
     /**
         Creates a download file destination closure which uses the default file manager to move the temporary file to a 
@@ -143,7 +143,7 @@ extension Request {
 
         - returns: A download file destination closure.
     */
-    public class func suggestedDownloadDestination(
+    class func suggestedDownloadDestination(
         directory directory: NSSearchPathDirectory = .DocumentDirectory,
         domain: NSSearchPathDomainMask = .UserDomainMask)
         -> DownloadFileDestination
@@ -160,7 +160,7 @@ extension Request {
     }
 
     /// The resume data of the underlying download task if available after a failure.
-    public var resumeData: NSData? {
+    var resumeData: NSData? {
         var data: NSData?
 
         if let delegate = delegate as? DownloadTaskDelegate {

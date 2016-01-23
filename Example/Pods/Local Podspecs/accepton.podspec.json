@@ -23,7 +23,7 @@
     "Pod/Classes/**/*",
     "Pod/Vendor/BUYPaymentButton/**/*",
     "Pod/Vendor/Snapkit/**/*",
-    "Pod/Vendor/Alamofire/**/*",
+    "Pod/Vendor/Alamofire/*",
     "Pod/Vendor/Braintree/*",
     "Pod/Vendor/Stripe/*",
     "Pod/Vendor/stub.h"

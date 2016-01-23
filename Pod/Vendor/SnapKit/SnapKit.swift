@@ -23,20 +23,20 @@
 
 #if os(iOS) || os(tvOS)
 import UIKit
-public typealias InterfaceLayoutDirection = UIUserInterfaceLayoutDirection
-public typealias LayoutSupport = UILayoutSupport
+typealias InterfaceLayoutDirection = UIUserInterfaceLayoutDirection
+typealias LayoutSupport = UILayoutSupport
 #else
 import AppKit
-public typealias InterfaceLayoutDirection = NSUserInterfaceLayoutDirection
-public class LayoutSupport {}
+typealias InterfaceLayoutDirection = NSUserInterfaceLayoutDirection
+class LayoutSupport {}
 #endif
 
 /**
     Used to configure different parts of SnapKit
 */
-public struct Config {
+struct Config {
     
     /// The interface layout direction
-    public static var interfaceLayoutDirection = InterfaceLayoutDirection.LeftToRight
+    static var interfaceLayoutDirection = InterfaceLayoutDirection.LeftToRight
     
 }

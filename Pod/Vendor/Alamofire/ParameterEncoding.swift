@@ -27,7 +27,7 @@ import Foundation
 
     See https://tools.ietf.org/html/rfc7231#section-4.3
 */
-public enum Method: String {
+enum Method: String {
     case OPTIONS, GET, HEAD, POST, PUT, PATCH, DELETE, TRACE, CONNECT
 }
 
@@ -59,7 +59,7 @@ public enum Method: String {
     - `Custom`:          Uses the associated closure value to construct a new request given an existing request and
                          parameters.
 */
-public enum ParameterEncoding {
+enum ParameterEncoding {
     case URL
     case URLEncodedInURL
     case JSON
@@ -75,7 +75,7 @@ public enum ParameterEncoding {
         - returns: A tuple containing the constructed request and the error that occurred during parameter encoding, 
                    if any.
     */
-    public func encode(
+    func encode(
         URLRequest: URLRequestConvertible,
         parameters: [String: AnyObject]?)
         -> (NSMutableURLRequest, NSError?)
@@ -173,7 +173,7 @@ public enum ParameterEncoding {
 
         - returns: The percent-escaped, URL encoded query string components.
     */
-    public func queryComponents(key: String, _ value: AnyObject) -> [(String, String)] {
+    func queryComponents(key: String, _ value: AnyObject) -> [(String, String)] {
         var components: [(String, String)] = []
 
         if let dictionary = value as? [String: AnyObject] {
@@ -207,7 +207,7 @@ public enum ParameterEncoding {
 
         - returns: The percent-escaped string.
     */
-    public func escape(string: String) -> String {
+    func escape(string: String) -> String {
         let generalDelimitersToEncode = ":#[]@" // does not include "?" or "/" due to RFC 3986 - Section 3.4
         let subDelimitersToEncode = "!$&'()*+,;="
 

@@ -259,6 +259,36 @@ public struct AcceptOnAPIAddress {
     }
 }
 
+//The name for the Alamofire request is 'Method' which is too likely to collide
+//with some other name.  This is aliasing that
+public enum AcceptOnAPIRequestMethod: String {
+    case OPTIONS, GET, HEAD, POST, PUT, PATCH, DELETE, TRACE, CONNECT
+}
+extension Method {
+    init(_ method: AcceptOnAPIRequestMethod) {
+        switch method {
+        case .OPTIONS:
+            self = .OPTIONS
+        case .GET:
+            self = .GET
+        case .HEAD:
+            self = .HEAD
+        case .POST:
+            self = .POST
+        case .PUT:
+            self = .PUT
+        case .PATCH:
+            self = .PATCH
+        case .DELETE:
+            self = .DELETE
+        case .TRACE:
+            self = .TRACE
+        case .CONNECT:
+            self = .CONNECT
+        }
+    }
+}
+
 //Actual API class
 @objc public class AcceptOnAPI: NSObject {
     /* ######################################################################################### */
@@ -278,12 +308,12 @@ public struct AcceptOnAPIAddress {
     //Makes an AcceptOnAPI network request to the `path`, e.g. if you passed in `/v1/tokens` for path
     //then you would make a request to something like `https://staging-checkout.accepton.com/v1/tokens`
     //depending on the value of endpoint_url above
-    public func requestWithMethod(method: Method, path: String, params: [String:AnyObject]?, completion: (res: [String:AnyObject]?, error:NSError?) -> ()) {
+    public func requestWithMethod(method: AcceptOnAPIRequestMethod, path: String, params: [String:AnyObject]?, completion: (res: [String:AnyObject]?, error:NSError?) -> ()) {
         //Get the full network request path, e.g. https://staging-checkout.accepton.com + /v1/tokens
         let fullPath = "\(endpointUrl)\(path)"
         
         //Make a request
-        request(method, fullPath, parameters: params).responseJSON { response in
+        request(Method(method), fullPath, parameters: params).responseJSON { response in
             switch response.result {
             case .Success:
                 //If the status code isn't a 200, return an error

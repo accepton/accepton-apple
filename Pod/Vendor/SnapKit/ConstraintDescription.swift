@@ -30,7 +30,7 @@ import AppKit
 /**
     Used to expose the final API of a `ConstraintDescription` which allows getting a constraint from it
  */
-public protocol ConstraintDescriptionFinalizable: class {
+protocol ConstraintDescriptionFinalizable: class {
     
     var constraint: Constraint { get }
     
@@ -39,7 +39,7 @@ public protocol ConstraintDescriptionFinalizable: class {
 /**
     Used to expose priority APIs
  */
-public protocol ConstraintDescriptionPriortizable: ConstraintDescriptionFinalizable {
+protocol ConstraintDescriptionPriortizable: ConstraintDescriptionFinalizable {
     
     func priority(priority: Float) -> ConstraintDescriptionFinalizable
     func priority(priority: Double) -> ConstraintDescriptionFinalizable
@@ -55,7 +55,7 @@ public protocol ConstraintDescriptionPriortizable: ConstraintDescriptionFinaliza
 /**
     Used to expose multiplier & constant APIs
 */
-public protocol ConstraintDescriptionEditable: ConstraintDescriptionPriortizable {
+protocol ConstraintDescriptionEditable: ConstraintDescriptionPriortizable {
 
     func multipliedBy(amount: Float) -> ConstraintDescriptionEditable
     func multipliedBy(amount: Double) -> ConstraintDescriptionEditable
@@ -89,7 +89,7 @@ public protocol ConstraintDescriptionEditable: ConstraintDescriptionPriortizable
 /**
     Used to expose relation APIs
 */
-public protocol ConstraintDescriptionRelatable: class {
+protocol ConstraintDescriptionRelatable: class {
     
     func equalTo(other: ConstraintItem) -> ConstraintDescriptionEditable
     func equalTo(other: View) -> ConstraintDescriptionEditable
@@ -141,7 +141,7 @@ public protocol ConstraintDescriptionRelatable: class {
 /**
     Used to expose chaining APIs
 */
-public protocol ConstraintDescriptionExtendable: ConstraintDescriptionRelatable {
+protocol ConstraintDescriptionExtendable: ConstraintDescriptionRelatable {
     
     var left: ConstraintDescriptionExtendable { get }
     var top: ConstraintDescriptionExtendable { get }

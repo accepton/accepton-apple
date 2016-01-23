@@ -30,12 +30,12 @@ import Foundation
     - Failure: The request encountered an error resulting in a failure. The associated values are the original data 
                provided by the server as well as the error that caused the failure.
 */
-public enum Result<Value, Error: ErrorType> {
+enum Result<Value, Error: ErrorType> {
     case Success(Value)
     case Failure(Error)
 
     /// Returns `true` if the result is a success, `false` otherwise.
-    public var isSuccess: Bool {
+    var isSuccess: Bool {
         switch self {
         case .Success:
             return true
@@ -45,12 +45,12 @@ public enum Result<Value, Error: ErrorType> {
     }
 
     /// Returns `true` if the result is a failure, `false` otherwise.
-    public var isFailure: Bool {
+    var isFailure: Bool {
         return !isSuccess
     }
 
     /// Returns the associated value if the result is a success, `nil` otherwise.
-    public var value: Value? {
+    var value: Value? {
         switch self {
         case .Success(let value):
             return value
@@ -60,7 +60,7 @@ public enum Result<Value, Error: ErrorType> {
     }
 
     /// Returns the associated error value if the result is a failure, `nil` otherwise.
-    public var error: Error? {
+    var error: Error? {
         switch self {
         case .Success:
             return nil
@@ -75,7 +75,7 @@ public enum Result<Value, Error: ErrorType> {
 extension Result: CustomStringConvertible {
     /// The textual representation used when written to an output stream, which includes whether the result was a 
     /// success or failure.
-    public var description: String {
+    var description: String {
         switch self {
         case .Success:
             return "SUCCESS"
@@ -90,7 +90,7 @@ extension Result: CustomStringConvertible {
 extension Result: CustomDebugStringConvertible {
     /// The debug textual representation used when written to an output stream, which includes whether the result was a
     /// success or failure in addition to the value or error.
-    public var debugDescription: String {
+    var debugDescription: String {
         switch self {
         case .Success(let value):
             return "SUCCESS: \(value)"

@@ -26,27 +26,27 @@ import Foundation
     Responsible for sending a request and receiving the response and associated data from the server, as well as 
     managing its underlying `NSURLSessionTask`.
 */
-public class Request {
+class Request {
 
     // MARK: - Properties
 
     /// The delegate for the underlying task.
-    public let delegate: TaskDelegate
+    let delegate: TaskDelegate
 
     /// The underlying task.
-    public var task: NSURLSessionTask { return delegate.task }
+    var task: NSURLSessionTask { return delegate.task }
 
     /// The session belonging to the underlying task.
-    public let session: NSURLSession
+    let session: NSURLSession
 
     /// The request sent or to be sent to the server.
-    public var request: NSURLRequest? { return task.originalRequest }
+    var request: NSURLRequest? { return task.originalRequest }
 
     /// The response received from the server, if any.
-    public var response: NSHTTPURLResponse? { return task.response as? NSHTTPURLResponse }
+    var response: NSHTTPURLResponse? { return task.response as? NSHTTPURLResponse }
 
     /// The progress of the request lifecycle.
-    public var progress: NSProgress { return delegate.progress }
+    var progress: NSProgress { return delegate.progress }
 
     // MARK: - Lifecycle
 
@@ -76,7 +76,7 @@ public class Request {
 
         - returns: The request.
     */
-    public func authenticate(
+    func authenticate(
         user user: String,
         password: String,
         persistence: NSURLCredentialPersistence = .ForSession)
@@ -94,7 +94,7 @@ public class Request {
 
         - returns: The request.
     */
-    public func authenticate(usingCredential credential: NSURLCredential) -> Self {
+    func authenticate(usingCredential credential: NSURLCredential) -> Self {
         delegate.credential = credential
 
         return self
@@ -115,7 +115,7 @@ public class Request {
 
         - returns: The request.
     */
-    public func progress(closure: ((Int64, Int64, Int64) -> Void)? = nil) -> Self {
+    func progress(closure: ((Int64, Int64, Int64) -> Void)? = nil) -> Self {
         if let uploadDelegate = delegate as? UploadTaskDelegate {
             uploadDelegate.uploadProgress = closure
         } else if let dataDelegate = delegate as? DataTaskDelegate {
@@ -138,7 +138,7 @@ public class Request {
 
         - returns: The request.
     */
-    public func stream(closure: (NSData -> Void)? = nil) -> Self {
+    func stream(closure: (NSData -> Void)? = nil) -> Self {
         if let dataDelegate = delegate as? DataTaskDelegate {
             dataDelegate.dataStream = closure
         }
@@ -151,21 +151,21 @@ public class Request {
     /**
         Suspends the request.
     */
-    public func suspend() {
+    func suspend() {
         task.suspend()
     }
 
     /**
         Resumes the request.
     */
-    public func resume() {
+    func resume() {
         task.resume()
     }
 
     /**
         Cancels the request.
     */
-    public func cancel() {
+    func cancel() {
         if let
             downloadDelegate = delegate as? DownloadTaskDelegate,
             downloadTask = downloadDelegate.downloadTask
@@ -184,10 +184,10 @@ public class Request {
         The task delegate is responsible for handling all delegate callbacks for the underlying task as well as 
         executing all operations attached to the serial operation queue upon task completion.
     */
-    public class TaskDelegate: NSObject {
+    class TaskDelegate: NSObject {
 
         /// The serial operation queue used to execute all operations after the task completes.
-        public let queue: NSOperationQueue
+        let queue: NSOperationQueue
 
         let task: NSURLSessionTask
         let progress: NSProgress
@@ -429,7 +429,7 @@ extension Request: CustomStringConvertible {
         The textual representation used when written to an output stream, which includes the HTTP method and URL, as 
         well as the response status code if a response has been received.
     */
-    public var description: String {
+    var description: String {
         var components: [String] = []
 
         if let HTTPMethod = request?.HTTPMethod {
@@ -530,7 +530,7 @@ extension Request: CustomDebugStringConvertible {
     }
 
     /// The textual representation used when written to an output stream, in the form of a cURL command.
-    public var debugDescription: String {
+    var debugDescription: String {
         return cURLRepresentation()
     }
 }

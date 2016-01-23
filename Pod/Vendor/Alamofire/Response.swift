@@ -23,18 +23,18 @@
 import Foundation
 
 /// Used to store all response data returned from a completed `Request`.
-public struct Response<Value, Error: ErrorType> {
+struct Response<Value, Error: ErrorType> {
     /// The URL request sent to the server.
-    public let request: NSURLRequest?
+    let request: NSURLRequest?
 
     /// The server's response to the URL request.
-    public let response: NSHTTPURLResponse?
+    let response: NSHTTPURLResponse?
 
     /// The data returned by the server.
-    public let data: NSData?
+    let data: NSData?
 
     /// The result of response serialization.
-    public let result: Result<Value, Error>
+    let result: Result<Value, Error>
 
     /**
         Initializes the `Response` instance with the specified URL request, URL response, server data and response
@@ -47,7 +47,7 @@ public struct Response<Value, Error: ErrorType> {
     
         - returns: the new `Response` instance.
     */
-    public init(request: NSURLRequest?, response: NSHTTPURLResponse?, data: NSData?, result: Result<Value, Error>) {
+    init(request: NSURLRequest?, response: NSHTTPURLResponse?, data: NSData?, result: Result<Value, Error>) {
         self.request = request
         self.response = response
         self.data = data
@@ -60,7 +60,7 @@ public struct Response<Value, Error: ErrorType> {
 extension Response: CustomStringConvertible {
     /// The textual representation used when written to an output stream, which includes whether the result was a
     /// success or failure.
-    public var description: String {
+    var description: String {
         return result.debugDescription
     }
 }
@@ -70,7 +70,7 @@ extension Response: CustomStringConvertible {
 extension Response: CustomDebugStringConvertible {
     /// The debug textual representation used when written to an output stream, which includes the URL request, the URL
     /// response, the server data and the response serialization result.
-    public var debugDescription: String {
+    var debugDescription: String {
         var output: [String] = []
 
         output.append(request != nil ? "[Request]: \(request!)" : "[Request]: nil")

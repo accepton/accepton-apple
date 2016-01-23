@@ -79,7 +79,7 @@ extension Manager {
 
         - returns: The created upload request.
     */
-    public func upload(URLRequest: URLRequestConvertible, file: NSURL) -> Request {
+    func upload(URLRequest: URLRequestConvertible, file: NSURL) -> Request {
         return upload(.File(URLRequest.URLRequest, file))
     }
 
@@ -95,7 +95,7 @@ extension Manager {
 
         - returns: The created upload request.
     */
-    public func upload(
+    func upload(
         method: Method,
         _ URLString: URLStringConvertible,
         headers: [String: String]? = nil,
@@ -118,7 +118,7 @@ extension Manager {
 
         - returns: The created upload request.
     */
-    public func upload(URLRequest: URLRequestConvertible, data: NSData) -> Request {
+    func upload(URLRequest: URLRequestConvertible, data: NSData) -> Request {
         return upload(.Data(URLRequest.URLRequest, data))
     }
 
@@ -134,7 +134,7 @@ extension Manager {
 
         - returns: The created upload request.
     */
-    public func upload(
+    func upload(
         method: Method,
         _ URLString: URLStringConvertible,
         headers: [String: String]? = nil,
@@ -158,7 +158,7 @@ extension Manager {
 
         - returns: The created upload request.
     */
-    public func upload(URLRequest: URLRequestConvertible, stream: NSInputStream) -> Request {
+    func upload(URLRequest: URLRequestConvertible, stream: NSInputStream) -> Request {
         return upload(.Stream(URLRequest.URLRequest, stream))
     }
 
@@ -174,7 +174,7 @@ extension Manager {
 
         - returns: The created upload request.
     */
-    public func upload(
+    func upload(
         method: Method,
         _ URLString: URLStringConvertible,
         headers: [String: String]? = nil,
@@ -189,7 +189,7 @@ extension Manager {
     // MARK: MultipartFormData
 
     /// Default memory threshold used when encoding `MultipartFormData`.
-    public static let MultipartFormDataEncodingMemoryThreshold: UInt64 = 10 * 1024 * 1024
+    static let MultipartFormDataEncodingMemoryThreshold: UInt64 = 10 * 1024 * 1024
 
     /**
         Defines whether the `MultipartFormData` encoding was successful and contains result of the encoding as 
@@ -200,7 +200,7 @@ extension Manager {
         - Failure: Used to represent a failure in the `MultipartFormData` encoding and also contains the encoding 
                    error.
     */
-    public enum MultipartFormDataEncodingResult {
+    enum MultipartFormDataEncodingResult {
         case Success(request: Request, streamingFromDisk: Bool, streamFileURL: NSURL?)
         case Failure(ErrorType)
     }
@@ -231,7 +231,7 @@ extension Manager {
                                              `MultipartFormDataEncodingMemoryThreshold` by default.
         - parameter encodingCompletion:      The closure called when the `MultipartFormData` encoding is complete.
     */
-    public func upload(
+    func upload(
         method: Method,
         _ URLString: URLStringConvertible,
         headers: [String: String]? = nil,
@@ -273,7 +273,7 @@ extension Manager {
                                              `MultipartFormDataEncodingMemoryThreshold` by default.
         - parameter encodingCompletion:      The closure called when the `MultipartFormData` encoding is complete.
     */
-    public func upload(
+    func upload(
         URLRequest: URLRequestConvertible,
         multipartFormData: MultipartFormData -> Void,
         encodingMemoryThreshold: UInt64 = Manager.MultipartFormDataEncodingMemoryThreshold,

@@ -28,7 +28,7 @@ import Foundation
     Types adopting the `URLStringConvertible` protocol can be used to construct URL strings, which are then used to 
     construct URL requests.
 */
-public protocol URLStringConvertible {
+protocol URLStringConvertible {
     /**
         A URL that conforms to RFC 2396.
 
@@ -42,25 +42,25 @@ public protocol URLStringConvertible {
 }
 
 extension String: URLStringConvertible {
-    public var URLString: String {
+    var URLString: String {
         return self
     }
 }
 
 extension NSURL: URLStringConvertible {
-    public var URLString: String {
+    var URLString: String {
         return absoluteString
     }
 }
 
 extension NSURLComponents: URLStringConvertible {
-    public var URLString: String {
+    var URLString: String {
         return URL!.URLString
     }
 }
 
 extension NSURLRequest: URLStringConvertible {
-    public var URLString: String {
+    var URLString: String {
         return URL!.URLString
     }
 }
@@ -70,13 +70,13 @@ extension NSURLRequest: URLStringConvertible {
 /**
     Types adopting the `URLRequestConvertible` protocol can be used to construct URL requests.
 */
-public protocol URLRequestConvertible {
+protocol URLRequestConvertible {
     /// The URL request.
     var URLRequest: NSMutableURLRequest { get }
 }
 
 extension NSURLRequest: URLRequestConvertible {
-    public var URLRequest: NSMutableURLRequest {
+    var URLRequest: NSMutableURLRequest {
         return self.mutableCopy() as! NSMutableURLRequest
     }
 }
@@ -115,7 +115,7 @@ func URLRequest(
 
     - returns: The created request.
 */
-public func request(
+func request(
     method: Method,
     _ URLString: URLStringConvertible,
     parameters: [String: AnyObject]? = nil,
@@ -141,7 +141,7 @@ public func request(
 
     - returns: The created request.
 */
-public func request(URLRequest: URLRequestConvertible) -> Request {
+func request(URLRequest: URLRequestConvertible) -> Request {
     return Manager.sharedInstance.request(URLRequest.URLRequest)
 }
 
@@ -159,7 +159,7 @@ public func request(URLRequest: URLRequestConvertible) -> Request {
 
     - returns: The created upload request.
 */
-public func upload(
+func upload(
     method: Method,
     _ URLString: URLStringConvertible,
     headers: [String: String]? = nil,
@@ -177,7 +177,7 @@ public func upload(
 
     - returns: The created upload request.
 */
-public func upload(URLRequest: URLRequestConvertible, file: NSURL) -> Request {
+func upload(URLRequest: URLRequestConvertible, file: NSURL) -> Request {
     return Manager.sharedInstance.upload(URLRequest, file: file)
 }
 
@@ -193,7 +193,7 @@ public func upload(URLRequest: URLRequestConvertible, file: NSURL) -> Request {
 
     - returns: The created upload request.
 */
-public func upload(
+func upload(
     method: Method,
     _ URLString: URLStringConvertible,
     headers: [String: String]? = nil,
@@ -211,7 +211,7 @@ public func upload(
 
     - returns: The created upload request.
 */
-public func upload(URLRequest: URLRequestConvertible, data: NSData) -> Request {
+func upload(URLRequest: URLRequestConvertible, data: NSData) -> Request {
     return Manager.sharedInstance.upload(URLRequest, data: data)
 }
 
@@ -227,7 +227,7 @@ public func upload(URLRequest: URLRequestConvertible, data: NSData) -> Request {
 
     - returns: The created upload request.
 */
-public func upload(
+func upload(
     method: Method,
     _ URLString: URLStringConvertible,
     headers: [String: String]? = nil,
@@ -245,7 +245,7 @@ public func upload(
 
     - returns: The created upload request.
 */
-public func upload(URLRequest: URLRequestConvertible, stream: NSInputStream) -> Request {
+func upload(URLRequest: URLRequestConvertible, stream: NSInputStream) -> Request {
     return Manager.sharedInstance.upload(URLRequest, stream: stream)
 }
 
@@ -262,7 +262,7 @@ public func upload(URLRequest: URLRequestConvertible, stream: NSInputStream) -> 
                                          `MultipartFormDataEncodingMemoryThreshold` by default.
     - parameter encodingCompletion:      The closure called when the `MultipartFormData` encoding is complete.
 */
-public func upload(
+func upload(
     method: Method,
     _ URLString: URLStringConvertible,
     headers: [String: String]? = nil,
@@ -289,7 +289,7 @@ public func upload(
                                          `MultipartFormDataEncodingMemoryThreshold` by default.
     - parameter encodingCompletion:      The closure called when the `MultipartFormData` encoding is complete.
 */
-public func upload(
+func upload(
     URLRequest: URLRequestConvertible,
     multipartFormData: MultipartFormData -> Void,
     encodingMemoryThreshold: UInt64 = Manager.MultipartFormDataEncodingMemoryThreshold,
@@ -319,7 +319,7 @@ public func upload(
 
     - returns: The created download request.
 */
-public func download(
+func download(
     method: Method,
     _ URLString: URLStringConvertible,
     parameters: [String: AnyObject]? = nil,
@@ -346,7 +346,7 @@ public func download(
 
     - returns: The created download request.
 */
-public func download(URLRequest: URLRequestConvertible, destination: Request.DownloadFileDestination) -> Request {
+func download(URLRequest: URLRequestConvertible, destination: Request.DownloadFileDestination) -> Request {
     return Manager.sharedInstance.download(URLRequest, destination: destination)
 }
 
@@ -363,6 +363,6 @@ public func download(URLRequest: URLRequestConvertible, destination: Request.Dow
 
     - returns: The created download request.
 */
-public func download(resumeData data: NSData, destination: Request.DownloadFileDestination) -> Request {
+func download(resumeData data: NSData, destination: Request.DownloadFileDestination) -> Request {
     return Manager.sharedInstance.download(data, destination: destination)
 }

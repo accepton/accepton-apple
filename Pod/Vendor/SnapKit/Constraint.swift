@@ -30,33 +30,33 @@ import AppKit
 /**
     Used to expose API's for a Constraint
 */
-public class Constraint {
+class Constraint {
     
-    public func install() -> [LayoutConstraint] { fatalError("Must be implemented by Concrete subclass.") }
-    public func uninstall() -> Void { fatalError("Must be implemented by Concrete subclass.") }
-    public func activate() -> Void { fatalError("Must be implemented by Concrete subclass.") }
-    public func deactivate() -> Void { fatalError("Must be implemented by Concrete subclass.") }
+    func install() -> [LayoutConstraint] { fatalError("Must be implemented by Concrete subclass.") }
+    func uninstall() -> Void { fatalError("Must be implemented by Concrete subclass.") }
+    func activate() -> Void { fatalError("Must be implemented by Concrete subclass.") }
+    func deactivate() -> Void { fatalError("Must be implemented by Concrete subclass.") }
     
-    public func updateOffset(amount: Float) -> Void { fatalError("Must be implemented by Concrete subclass.") }
-    public func updateOffset(amount: Double) -> Void { fatalError("Must be implemented by Concrete subclass.") }
-    public func updateOffset(amount: CGFloat) -> Void { fatalError("Must be implemented by Concrete subclass.") }
-    public func updateOffset(amount: Int) -> Void { fatalError("Must be implemented by Concrete subclass.") }
-    public func updateOffset(amount: UInt) -> Void { fatalError("Must be implemented by Concrete subclass.") }
-    public func updateOffset(amount: CGPoint) -> Void { fatalError("Must be implemented by Concrete subclass.") }
-    public func updateOffset(amount: CGSize) -> Void { fatalError("Must be implemented by Concrete subclass.") }
-    public func updateOffset(amount: EdgeInsets) -> Void { fatalError("Must be implemented by Concrete subclass.") }
+    func updateOffset(amount: Float) -> Void { fatalError("Must be implemented by Concrete subclass.") }
+    func updateOffset(amount: Double) -> Void { fatalError("Must be implemented by Concrete subclass.") }
+    func updateOffset(amount: CGFloat) -> Void { fatalError("Must be implemented by Concrete subclass.") }
+    func updateOffset(amount: Int) -> Void { fatalError("Must be implemented by Concrete subclass.") }
+    func updateOffset(amount: UInt) -> Void { fatalError("Must be implemented by Concrete subclass.") }
+    func updateOffset(amount: CGPoint) -> Void { fatalError("Must be implemented by Concrete subclass.") }
+    func updateOffset(amount: CGSize) -> Void { fatalError("Must be implemented by Concrete subclass.") }
+    func updateOffset(amount: EdgeInsets) -> Void { fatalError("Must be implemented by Concrete subclass.") }
     
-    public func updateInsets(amount: EdgeInsets) -> Void { fatalError("Must be implemented by Concrete subclass.") }
+    func updateInsets(amount: EdgeInsets) -> Void { fatalError("Must be implemented by Concrete subclass.") }
     
-    public func updatePriority(priority: Float) -> Void { fatalError("Must be implemented by Concrete subclass.") }
-    public func updatePriority(priority: Double) -> Void { fatalError("Must be implemented by Concrete subclass.") }
-    public func updatePriority(priority: CGFloat) -> Void { fatalError("Must be implemented by Concrete subclass.") }
-    public func updatePriority(priority: UInt) -> Void { fatalError("Must be implemented by Concrete subclass.") }
-    public func updatePriority(priority: Int) -> Void { fatalError("Must be implemented by Concrete subclass.") }
-    public func updatePriorityRequired() -> Void { fatalError("Must be implemented by Concrete subclass.") }
-    public func updatePriorityHigh() -> Void { fatalError("Must be implemented by Concrete subclass.") }
-    public func updatePriorityMedium() -> Void { fatalError("Must be implemented by Concrete subclass.") }
-    public func updatePriorityLow() -> Void { fatalError("Must be implemented by Concrete subclass.") }
+    func updatePriority(priority: Float) -> Void { fatalError("Must be implemented by Concrete subclass.") }
+    func updatePriority(priority: Double) -> Void { fatalError("Must be implemented by Concrete subclass.") }
+    func updatePriority(priority: CGFloat) -> Void { fatalError("Must be implemented by Concrete subclass.") }
+    func updatePriority(priority: UInt) -> Void { fatalError("Must be implemented by Concrete subclass.") }
+    func updatePriority(priority: Int) -> Void { fatalError("Must be implemented by Concrete subclass.") }
+    func updatePriorityRequired() -> Void { fatalError("Must be implemented by Concrete subclass.") }
+    func updatePriorityHigh() -> Void { fatalError("Must be implemented by Concrete subclass.") }
+    func updatePriorityMedium() -> Void { fatalError("Must be implemented by Concrete subclass.") }
+    func updatePriorityLow() -> Void { fatalError("Must be implemented by Concrete subclass.") }
     
     internal var makerFile: String = "Unknown"
     internal var makerLine: UInt = 0
