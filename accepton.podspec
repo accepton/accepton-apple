@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "accepton"
-  s.version          = "0.4.1"
+  s.version          = "0.4.2"
   s.summary          = "Beautiful payment processing for iOS"
 
 # This description is used to generate tags and improve search results.
@@ -44,11 +44,11 @@ A swift library for processing payments through the AcceptOn API which elegantly
 
   # Things we have slip-streamed into Pod/Vendor/* and added a modulemap to
   vendor_modules = %w(
-    Braintree 
     BUYPaymentButton
     CHRTextFieldFormatter
     PayPal
     Stripe
+    Braintree 
   )
   swift_include_paths = vendor_modules.map {|e| "${PODS_ROOT}/../../Pod/Vendor/#{e}/#{e}Private"}.join(" ")
 
