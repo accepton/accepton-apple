@@ -1,18 +1,18 @@
-## Install via pre-built binary
+# Install via binary
 
-### 1) Download the pre-built framework
+## 1) Download the pre-built framework
 <a href='https://raw.github.com/accepton/accepton-apple/master/Binaries/accepton.framework.zip'>
 <div style='text-align: center'>
   <img src='../images/download_framework.png' />
 </div>
 </a>
 
-### 2) Add the framework to your `Embedded Binaries`
+## 2) Add the framework to your `Embedded Binaries`
 <div style='text-align: center'>
   <img src='../images/embed_binary.gif' width="900" />
 </div>
 
-### 3) Add a `Run Script`
+## 3) Add a `Run Script`
 Add the following run script as shown to your **Build Phases**.  
 
 > ☃ The build script strips the framework of any architectures not in use by the build-phase.  Apple will reject apps that contain architectures that
