@@ -1,5 +1,5 @@
 import Foundation
-import Stripe
+import StripePrivate
 
 extension STPCardParams {
     convenience init(_ creditCardParams: AcceptOnUIMachineCreditCardParams) {

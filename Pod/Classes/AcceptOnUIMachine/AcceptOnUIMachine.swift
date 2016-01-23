@@ -1,4 +1,4 @@
-import Stripe
+import StripePrivate
 
 @objc public protocol AcceptOnUIMachineDelegate {
     //Start-up

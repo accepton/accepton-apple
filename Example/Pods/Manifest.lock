@@ -1,12 +1,8 @@
 PODS:
-  - accepton (0.3.1):
-    - Stripe
+  - accepton (0.3.1)
   - Nimble (2.0.0)
   - Quick (0.7.0)
   - Reveal-iOS-SDK (1.6.2)
-  - Stripe (6.0.1):
-    - Stripe/Core (= 6.0.1)
-  - Stripe/Core (6.0.1)
 
 DEPENDENCIES:
   - accepton (from `../`)
@@ -19,10 +15,9 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  accepton: 0d50323aa5941a0d4a44b31daf3402c267053269
+  accepton: 69e863830b7c29930f383a6a9ec151dc8bde2223
   Nimble: 472e75466819eb8c06299233e87c694a9b51328a
   Quick: 906d8aa995ee0afa96f1f7f01170f40fccfa5898
   Reveal-iOS-SDK: e2250b3c155bcfac53ae223ddc1f76d08f206c33
-  Stripe: 04f215191702c268b89fe0cdf28dc24a9688a71b
 
 COCOAPODS: 0.39.0

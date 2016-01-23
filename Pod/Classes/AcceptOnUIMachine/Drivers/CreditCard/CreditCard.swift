@@ -1,6 +1,5 @@
 import PassKit
 import UIKit
-import Stripe
 
 //Generic credit-card driver interface
 @objc class AcceptOnUIMachineCreditCardDriver: AcceptOnUIMachinePaymentDriver, AcceptOnUIMachineCreditCardDriverPluginDelegate {

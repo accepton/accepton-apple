@@ -1,0 +1,8 @@
+module StripePrivate {
+    header "../STPCardParams.h"
+    header "../STPCardValidator.h"
+    header "../STPAPIClient.h"
+    header "../STPAPIClient+ApplePay.h"
+    header "../Stripe+ApplePay.h"
+    export *
+}

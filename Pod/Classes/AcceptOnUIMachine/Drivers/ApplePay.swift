@@ -1,6 +1,6 @@
 import PassKit
 import UIKit
-import Stripe
+import StripePrivate
 
 enum AcceptOnUIMachineApplePayDriverAvailability {
     case NotSupported  //Not supported (parental controls, etc).
