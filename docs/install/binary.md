@@ -1,7 +1,7 @@
 ## Install via pre-built binary
 
 ### 1) Add the pre-build frameworks to your project:
-<a href='./docs/install/carthage.md'>
+<a href='https://raw.github.com/accepton/accepton-apple/master/Binaries/accepton.framework.zip'>
 <div style='text-align: center'>
   <img src='../images/download_framework.png' />
 </div>

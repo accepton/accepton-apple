@@ -48,3 +48,4 @@ done
 cd ../Binaries
 rm -rf *
 cp -R ${UNI_BUILD_DIR}/* .
+zip -r accepton.framework.zip accepton.framework
