@@ -14,7 +14,7 @@
   },
   "social_media_url": "https://twitter.com/acceptonhq",
   "platforms": {
-    "ios": "8.3"
+    "ios": "9.0"
   },
   "requires_arc": true,
   "source_files": [
@@ -23,8 +23,7 @@
     "Pod/Classes/**/*",
     "Pod/Vendor/BUYPaymentButton/**/*",
     "Pod/Vendor/Snapkit/**/*",
-    "Pod/Vendor/Alamofire/**/*",
-    "Pod/Vendor/Braintree/BraintreeCore/**/*"
+    "Pod/Vendor/Alamofire/**/*"
   ],
   "resource_bundles": {
     "accepton": [

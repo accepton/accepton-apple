@@ -1,4 +1,3 @@
-import Alamofire
 import PassKit
 
 //See /docs/AcceptOnAPI.md for details of most classes and structs in this file
@@ -279,12 +278,12 @@ public struct AcceptOnAPIAddress {
     //Makes an AcceptOnAPI network request to the `path`, e.g. if you passed in `/v1/tokens` for path
     //then you would make a request to something like `https://staging-checkout.accepton.com/v1/tokens`
     //depending on the value of endpoint_url above
-    public func requestWithMethod(method: Alamofire.Method, path: String, params: [String:AnyObject]?, completion: (res: [String:AnyObject]?, error:NSError?) -> ()) {
+    public func requestWithMethod(method: Method, path: String, params: [String:AnyObject]?, completion: (res: [String:AnyObject]?, error:NSError?) -> ()) {
         //Get the full network request path, e.g. https://staging-checkout.accepton.com + /v1/tokens
         let fullPath = "\(endpointUrl)\(path)"
         
         //Make a request
-        Alamofire.request(method, fullPath, parameters: params).responseJSON { response in
+        request(method, fullPath, parameters: params).responseJSON { response in
             switch response.result {
             case .Success:
                 //If the status code isn't a 200, return an error
@@ -440,7 +439,7 @@ public struct AcceptOnAPIAddress {
     //-----------------------------------------------------------------------------------------------------
     public func autoCompleteAddress(input: String, completion: (addressResults: [(description: String, placeId: String)]?, err: NSError?)->()) {
         //Make a request
-        Alamofire.request(.GET, "http://localhost:5555/places/autocomplete", parameters: ["input":input]).responseJSON { response in
+        request(.GET, "http://localhost:5555/places/autocomplete", parameters: ["input":input]).responseJSON { response in
             switch response.result {
             case .Success:
                 if let json = response.result.value as? [String:AnyObject] {
@@ -464,7 +463,7 @@ public struct AcceptOnAPIAddress {
     
     public func convertPlaceIdToAddress(placeId: String, completion: (address: AcceptOnAPIAddress?, err: NSError?)->()) {
         //Make a request
-        Alamofire.request(.GET, "http://localhost:5555/places/convert_place_id_to_address", parameters: ["place_id":placeId]).responseJSON { response in
+        request(.GET, "http://localhost:5555/places/convert_place_id_to_address", parameters: ["place_id":placeId]).responseJSON { response in
             switch response.result {
             case .Success:
                 if let json = response.result.value as? [String:AnyObject] {

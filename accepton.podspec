@@ -26,7 +26,7 @@ A swift library for processing payments through the AcceptOn API which elegantly
   s.source           = { :git => "https://github.com/accepton/accepton-apple.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/acceptonhq'
 
-  s.platform     = :ios, '8.3'
+  s.platform     = :ios, '9.0'
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
@@ -35,7 +35,7 @@ A swift library for processing payments through the AcceptOn API which elegantly
   }
 
   s.public_header_files = 'Pod/Vendor/Paypal/*.h', 'Pod/Vendor/CHRTextFieldFormatter/*.h', 'Pod/Vendor/BUYPaymentButton/*.h'
-  s.source_files = 'Pod/Vendor/Paypal/*.h', 'Pod/Vendor/CHRTextFieldFormatter/**/*', 'Pod/Classes/**/*', 'Pod/Vendor/BUYPaymentButton/**/*', 'Pod/Vendor/Snapkit/**/*', 'Pod/Vendor/Alamofire/**/*', 'Pod/Vendor/Braintree/BraintreeCore/**/*'
+  s.source_files = 'Pod/Vendor/Paypal/*.h', 'Pod/Vendor/CHRTextFieldFormatter/**/*', 'Pod/Classes/**/*', 'Pod/Vendor/BUYPaymentButton/**/*', 'Pod/Vendor/Snapkit/**/*', 'Pod/Vendor/Alamofire/**/*'
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'Stripe'
   s.weak_framework = 'SystemConfiguration', 'MobileCoreServices', 'MessageUI', 'CoreLocation', 'Accelerate', 'PassKit'

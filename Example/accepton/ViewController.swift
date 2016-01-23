@@ -10,6 +10,7 @@ class ViewController : UIViewController, AcceptOnViewControllerDelegate {
     }
     
     override func viewDidLoad() {
+//        BTCard()
         
 //        let view = UIView()
 //        view.backgroundColor = UIColor.whiteColor()

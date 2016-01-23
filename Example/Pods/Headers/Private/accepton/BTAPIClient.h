@@ -1,1 +1,0 @@
-../../../../../Pod/Vendor/Braintree/BraintreeCore/Public/BTAPIClient.h

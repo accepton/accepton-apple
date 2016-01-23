@@ -13,6 +13,7 @@
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* AcceptOnAPITransactionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* AcceptOnAPITransactionsSpec.swift */; };
 		8CB6C48E20B34F41541EAE71 /* Pods_accepton_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 448DC9D3D8A878B7D61866C6 /* Pods_accepton_Tests.framework */; };
+		8DF6FEFB9A8E719E1788BFB7 /* Pods_accepton_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24E4E46E39510A32F34424D0 /* Pods_accepton_Example.framework */; };
 		AA2BF90F1C15F96400904C31 /* AcceptOnAPIGeoCodeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2BF90D1C15F6C400904C31 /* AcceptOnAPIGeoCodeSpec.swift */; };
 		AA3857151BE267D400491040 /* blur_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = AA3857141BE267D400491040 /* blur_bg.png */; };
 		AA558C8D1BD954D1003A7929 /* AcceptOnUIMachineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA558C8B1BD95485003A7929 /* AcceptOnUIMachineSpec.swift */; };
@@ -20,7 +21,6 @@
 		AADE004E1BE3EE6900912152 /* watch.png in Resources */ = {isa = PBXBuildFile; fileRef = AADE004D1BE3EE6900912152 /* watch.png */; };
 		AAE940D41C47F014008D6450 /* AcceptOnAPIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE940D21C47F007008D6450 /* AcceptOnAPIKeys.swift */; };
 		AAE940D51C47F016008D6450 /* AcceptOnPaymentProcessorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE940D01C47EFD9008D6450 /* AcceptOnPaymentProcessorSpec.swift */; };
-		E8307E9328DEC22B1C53C273 /* Pods_accepton_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EEB34365484DD019D518191 /* Pods_accepton_Example.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,8 +33,22 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		AA7A66F81C52FAE6003842A1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0203B965CEF9DA502F41F09E /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		24E4E46E39510A32F34424D0 /* Pods_accepton_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_accepton_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EEB34365484DD019D518191 /* Pods_accepton_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_accepton_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		448DC9D3D8A878B7D61866C6 /* Pods_accepton_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_accepton_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD01AFB9204008FA782 /* accepton_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = accepton_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -66,7 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E8307E9328DEC22B1C53C273 /* Pods_accepton_Example.framework in Frameworks */,
+				8DF6FEFB9A8E719E1788BFB7 /* Pods_accepton_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +111,8 @@
 				607FACE81AFB9204008FA782 /* Tests */,
 				AADE00511BE3EF1A00912152 /* Config */,
 				AAB4728D1BDE66850071DEBC /* Assets */,
+				EECEF021A224CA391B44E60D /* Pods */,
+				89E970F8CBD7EE5D9CEED28B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -158,6 +174,14 @@
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
 		};
+		89E970F8CBD7EE5D9CEED28B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				24E4E46E39510A32F34424D0 /* Pods_accepton_Example.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		AA2BF90C1C15F6B300904C31 /* API */ = {
 			isa = PBXGroup;
 			children = (
@@ -211,6 +235,13 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		EECEF021A224CA391B44E60D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -224,6 +255,7 @@
 				607FACCE1AFB9204008FA782 /* Resources */,
 				ECF54DBDFF7B63360E4CD452 /* Embed Pods Frameworks */,
 				7AAE1B3656354C6D694A47FB /* Copy Pods Resources */,
+				AA7A66F81C52FAE6003842A1 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -550,9 +582,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				HEADER_SEARCH_PATHS = "$(inherited)/**";
 				INFOPLIST_FILE = accepton/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -561,8 +597,6 @@
 				MODULE_NAME = ExampleApp;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
-					"-framework",
-					"\"Alamofire\"",
 					"-framework",
 					"\"Stripe\"",
 					"-framework",
@@ -582,9 +616,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				HEADER_SEARCH_PATHS = "$(inherited)/**";
 				INFOPLIST_FILE = accepton/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -593,8 +631,6 @@
 				MODULE_NAME = ExampleApp;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
-					"-framework",
-					"\"Alamofire\"",
 					"-framework",
 					"\"Stripe\"",
 					"-framework",
@@ -621,6 +657,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -641,6 +678,7 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos9.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/accepton_Example.app/accepton_Example";
 			};
 			name = Debug;
@@ -659,6 +697,7 @@
 					"COCOAPODS=1",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -679,6 +718,7 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos9.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/accepton_Example.app/accepton_Example";
 			};
 			name = Release;
