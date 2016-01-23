@@ -4,77 +4,37 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Headers/CHRCardNumberMask.h</key>
-		<data>
-		p4oFlwyXCG/jdpQLDzqKc1Lg9Us=
-		</data>
-		<key>Headers/CHRPhoneNumberMask.h</key>
-		<data>
-		zn3LlpDchZtljxPU4VrdRpN28KI=
-		</data>
-		<key>Headers/CHRTextFieldFormatter.h</key>
-		<data>
-		jdc7imTqc30PcikOnkvSTifOU90=
-		</data>
-		<key>Headers/CHRTextMask.h</key>
-		<data>
-		dfb7U0S07XwkjfifS2Mt6GvXUh8=
-		</data>
-		<key>Headers/PayPalConfiguration.h</key>
-		<data>
-		ce3TtkThB7d6z3M4Xuhzij/N/AA=
-		</data>
-		<key>Headers/PayPalFuturePaymentViewController.h</key>
-		<data>
-		9ja4N0nM+yJKsTyuFs8Cqxcjs8U=
-		</data>
-		<key>Headers/PayPalMobile.h</key>
-		<data>
-		HrOeh1VChjpNvM/9FubFSCBmdi0=
-		</data>
-		<key>Headers/PayPalOAuthScopes.h</key>
-		<data>
-		dcbJ+4wcg9QCy0l3xKh0a2PuDQk=
-		</data>
-		<key>Headers/PayPalPayment.h</key>
-		<data>
-		sRYYm5QONke0d582B++ZGSAQH74=
-		</data>
-		<key>Headers/PayPalPaymentViewController.h</key>
-		<data>
-		9h/ISakJYnpWLjKe8bOYOnZ1OTQ=
-		</data>
-		<key>Headers/PayPalProfileSharingViewController.h</key>
-		<data>
-		1ukkvsUVshp1/BM3qwaSglIfJak=
-		</data>
 		<key>Headers/accepton-Swift.h</key>
 		<data>
-		gyLlBKf45Fiwek6DeRB6gcBmqgc=
+		6ux6Yj/VZBLOIS7fPZjehmVm17Q=
 		</data>
 		<key>Headers/accepton-umbrella.h</key>
 		<data>
-		57FlmBU9OvVVJgciC/znN3sLPtw=
+		Vqeeq4jfwO/HTEBq0bGjTVCQt9U=
+		</data>
+		<key>Headers/stub.h</key>
+		<data>
+		RCa98u3M7HaFAcVl91o+sgPfRx0=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		0+UsTMO8y/3/w8eV+yktj0BNvnY=
+		p/PMJKp19Ne1ko51C5M95bQevN4=
 		</data>
 		<key>Modules/accepton.swiftmodule/arm.swiftdoc</key>
 		<data>
-		P+9yHhRUY7h+1tWgB+yZUXBeQxk=
+		QSAHc910MGs9V0U9rE++dDUgBf8=
 		</data>
 		<key>Modules/accepton.swiftmodule/arm.swiftmodule</key>
 		<data>
-		5EW+3RhELfdf9AHzU9D/nFyEBbg=
+		JnZ2JtHqkzPeFWZL0fZZRtsteUs=
 		</data>
 		<key>Modules/accepton.swiftmodule/arm64.swiftdoc</key>
 		<data>
-		iUCaru4p/69JfK4Cwh8NEErilYY=
+		6BQwW9eR91CVVQnql+J/jzEMcys=
 		</data>
 		<key>Modules/accepton.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		UdOVu8hk5Xq7rp7WTMzMMdL20Nk=
+		Auu08tRDK6XIv9s/tlzyBQGmXF4=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -82,7 +42,7 @@
 		</data>
 		<key>accepton.bundle/AcceptOnCreditCardFormView.nib</key>
 		<data>
-		FRbOculpsAyWf9y8nh+tqbUrzoc=
+		BOlcbZf9RcH/L8ffUs1QneNfUL4=
 		</data>
 		<key>accepton.bundle/accepton.png</key>
 		<data>
@@ -131,73 +91,33 @@
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Headers/CHRCardNumberMask.h</key>
-		<data>
-		p4oFlwyXCG/jdpQLDzqKc1Lg9Us=
-		</data>
-		<key>Headers/CHRPhoneNumberMask.h</key>
-		<data>
-		zn3LlpDchZtljxPU4VrdRpN28KI=
-		</data>
-		<key>Headers/CHRTextFieldFormatter.h</key>
-		<data>
-		jdc7imTqc30PcikOnkvSTifOU90=
-		</data>
-		<key>Headers/CHRTextMask.h</key>
-		<data>
-		dfb7U0S07XwkjfifS2Mt6GvXUh8=
-		</data>
-		<key>Headers/PayPalConfiguration.h</key>
-		<data>
-		ce3TtkThB7d6z3M4Xuhzij/N/AA=
-		</data>
-		<key>Headers/PayPalFuturePaymentViewController.h</key>
-		<data>
-		9ja4N0nM+yJKsTyuFs8Cqxcjs8U=
-		</data>
-		<key>Headers/PayPalMobile.h</key>
-		<data>
-		HrOeh1VChjpNvM/9FubFSCBmdi0=
-		</data>
-		<key>Headers/PayPalOAuthScopes.h</key>
-		<data>
-		dcbJ+4wcg9QCy0l3xKh0a2PuDQk=
-		</data>
-		<key>Headers/PayPalPayment.h</key>
-		<data>
-		sRYYm5QONke0d582B++ZGSAQH74=
-		</data>
-		<key>Headers/PayPalPaymentViewController.h</key>
-		<data>
-		9h/ISakJYnpWLjKe8bOYOnZ1OTQ=
-		</data>
-		<key>Headers/PayPalProfileSharingViewController.h</key>
-		<data>
-		1ukkvsUVshp1/BM3qwaSglIfJak=
-		</data>
 		<key>Headers/accepton-Swift.h</key>
 		<data>
-		gyLlBKf45Fiwek6DeRB6gcBmqgc=
+		6ux6Yj/VZBLOIS7fPZjehmVm17Q=
 		</data>
 		<key>Headers/accepton-umbrella.h</key>
 		<data>
-		57FlmBU9OvVVJgciC/znN3sLPtw=
+		Vqeeq4jfwO/HTEBq0bGjTVCQt9U=
+		</data>
+		<key>Headers/stub.h</key>
+		<data>
+		RCa98u3M7HaFAcVl91o+sgPfRx0=
 		</data>
 		<key>Modules/accepton.swiftmodule/arm.swiftdoc</key>
 		<data>
-		P+9yHhRUY7h+1tWgB+yZUXBeQxk=
+		QSAHc910MGs9V0U9rE++dDUgBf8=
 		</data>
 		<key>Modules/accepton.swiftmodule/arm.swiftmodule</key>
 		<data>
-		5EW+3RhELfdf9AHzU9D/nFyEBbg=
+		JnZ2JtHqkzPeFWZL0fZZRtsteUs=
 		</data>
 		<key>Modules/accepton.swiftmodule/arm64.swiftdoc</key>
 		<data>
-		iUCaru4p/69JfK4Cwh8NEErilYY=
+		6BQwW9eR91CVVQnql+J/jzEMcys=
 		</data>
 		<key>Modules/accepton.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		UdOVu8hk5Xq7rp7WTMzMMdL20Nk=
+		Auu08tRDK6XIv9s/tlzyBQGmXF4=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -205,7 +125,7 @@
 		</data>
 		<key>accepton.bundle/AcceptOnCreditCardFormView.nib</key>
 		<data>
-		FRbOculpsAyWf9y8nh+tqbUrzoc=
+		BOlcbZf9RcH/L8ffUs1QneNfUL4=
 		</data>
 		<key>accepton.bundle/accepton.png</key>
 		<data>

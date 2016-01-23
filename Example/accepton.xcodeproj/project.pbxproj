@@ -584,7 +584,6 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)/**";
 				INFOPLIST_FILE = accepton/Info.plist;
@@ -616,7 +615,6 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)/**";
 				INFOPLIST_FILE = accepton/Info.plist;

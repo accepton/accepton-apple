@@ -21,11 +21,12 @@ mkdir ${SIM_BUILD_DIR}
 echo "The directory has been copied to your clipboard..."
 
 echo "Building simulator framework..."
-xcodebuild -workspace accepton.xcworkspace -scheme accepton -sdk iphonesimulator -configuration ${CONFIGURATION} build CONFIGURATION_BUILD_DIR=${SIM_BUILD_DIR} 2>&1
+xcodebuild -workspace accepton.xcworkspace -scheme accepton -destination platform='iOS Simulator,name=iPhone 5s' -configuration ${CONFIGURATION} build CONFIGURATION_BUILD_DIR=${SIM_BUILD_DIR} build 2>&1
 
 echo "Building device framework..."
 xcodebuild -workspace accepton.xcworkspace -scheme accepton -sdk iphoneos -configuration ${CONFIGURATION} build CONFIGURATION_BUILD_DIR=${DEV_BUILD_DIR} 2>&1
 
+#Assume there are multiple frambeworks we need to build
 FRAMEWORKS=${BUILD_DIR}/sim/*.framework
 for f in $FRAMEWORKS
 do
@@ -44,7 +45,6 @@ do
 done
 
 #Dump all into our binaries folder
-cd `dirname $0`
 cd ../Binaries
 rm -rf *
 cp -R ${UNI_BUILD_DIR}/* .
