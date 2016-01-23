@@ -34,8 +34,8 @@ A swift library for processing payments through the AcceptOn API which elegantly
     'accepton' => ['Pod/Assets/*.png']
   }
 
-  s.public_header_files = 'Pod/Vendor/Paypal/*.h'
-  s.source_files = 'Pod/Vendor/Paypal/*.h', 'Pod/Vendor/CHRTextFieldFormatter/**/*', 'Pod/Classes/**/*', 'Pod/Vendor/BUYPaymentButton/**/*', 'Pod/Vendor/Snapkit/**/*', 'Pod/Vendor/Alamofire/**/*', 'Pod/Vendor/Braintree/*', 'Pod/Vendor/Stripe/*'
+  s.public_header_files = 'Pod/Vendor/stub.h'
+  s.source_files = 'Pod/Vendor/Paypal/*', 'Pod/Vendor/CHRTextFieldFormatter/**/*', 'Pod/Classes/**/*', 'Pod/Vendor/BUYPaymentButton/**/*', 'Pod/Vendor/Snapkit/**/*', 'Pod/Vendor/Alamofire/**/*', 'Pod/Vendor/Braintree/*', 'Pod/Vendor/Stripe/*', 'Pod/Vendor/stub.h'
   # s.frameworks = 'UIKit', 'MapKit'
   s.weak_framework = 'SystemConfiguration', 'MobileCoreServices', 'MessageUI', 'CoreLocation', 'Accelerate', 'PassKit'
   s.resource_bundle = {'accepton' => ['Pod/Assets/*']}
@@ -46,6 +46,7 @@ A swift library for processing payments through the AcceptOn API which elegantly
     Braintree 
     BUYPaymentButton
     CHRTextFieldFormatter
+    PayPal
     Stripe
   )
   swift_include_paths = vendor_modules.map {|e| "${SRCROOT}/../../Pod/Vendor/#{e}/#{e}Private"}.join(" ")

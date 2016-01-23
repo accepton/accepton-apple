@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import PaypalPrivate
 
 @objc class AcceptOnUIMachinePayPalDriver : AcceptOnUIMachinePaymentDriver, PayPalPaymentDelegate {
     //Present using a specially created view controller applied to the root window
