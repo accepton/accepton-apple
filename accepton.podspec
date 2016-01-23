@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "accepton"
-  s.version          = "0.4.0"
+  s.version          = "0.4.1"
   s.summary          = "Beautiful payment processing for iOS"
 
 # This description is used to generate tags and improve search results.
@@ -40,6 +40,7 @@ A swift library for processing payments through the AcceptOn API which elegantly
   s.weak_framework = 'SystemConfiguration', 'MobileCoreServices', 'MessageUI', 'CoreLocation', 'Accelerate', 'PassKit'
   s.resource_bundle = {'accepton' => ['Pod/Assets/*']}
   s.vendored_libraries = 'Pod/Vendor/Paypal/libPayPalMobile.a'
+  s.preserve_paths = 'Pod/Vendor/**/*'
 
   # Things we have slip-streamed into Pod/Vendor/* and added a modulemap to
   vendor_modules = %w(
@@ -49,7 +50,7 @@ A swift library for processing payments through the AcceptOn API which elegantly
     PayPal
     Stripe
   )
-  swift_include_paths = vendor_modules.map {|e| "${SRCROOT}/../../Pod/Vendor/#{e}/#{e}Private"}.join(" ")
+  swift_include_paths = vendor_modules.map {|e| "${PODS_ROOT}/../../Pod/Vendor/#{e}/#{e}Private"}.join(" ")
 
   s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-ObjC', 'LIBRARY_SEARCH_PATHS' => '${SRCROOT}/**', 'USER_HEADER_SEARCH_PATHS' => "${SRCROOT}/**", 'SWIFT_INCLUDE_PATHS' => swift_include_paths}
 end

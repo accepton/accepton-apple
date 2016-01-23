@@ -1,6 +1,6 @@
 {
   "name": "accepton",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "summary": "Beautiful payment processing for iOS",
   "description": "A swift library for processing payments through the AcceptOn API which elegantly unifies many payment providers including PayPal, Stripe, and ApplePay. This library provides you with powerful flexibility and ease-of-use by offering both beautiful pre-made payment views and access to the well-engineered low-level primitives for those wanting to have tighter integration into their applications.",
   "homepage": "http://accepton.com",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://github.com/accepton/accepton-apple.git",
-    "tag": "0.3.1"
+    "tag": "0.4.0"
   },
   "social_media_url": "https://twitter.com/acceptonhq",
   "platforms": {
@@ -43,10 +43,11 @@
     "PassKit"
   ],
   "vendored_libraries": "Pod/Vendor/Paypal/libPayPalMobile.a",
+  "preserve_paths": "Pod/Vendor/**/*",
   "pod_target_xcconfig": {
     "OTHER_LDFLAGS": "-ObjC",
     "LIBRARY_SEARCH_PATHS": "${SRCROOT}/**",
     "USER_HEADER_SEARCH_PATHS": "${SRCROOT}/**",
-    "SWIFT_INCLUDE_PATHS": "${SRCROOT}/../../Pod/Vendor/Braintree/BraintreePrivate ${SRCROOT}/../../Pod/Vendor/BUYPaymentButton/BUYPaymentButtonPrivate ${SRCROOT}/../../Pod/Vendor/CHRTextFieldFormatter/CHRTextFieldFormatterPrivate ${SRCROOT}/../../Pod/Vendor/PayPal/PayPalPrivate ${SRCROOT}/../../Pod/Vendor/Stripe/StripePrivate"
+    "SWIFT_INCLUDE_PATHS": "${PODS_ROOT}/../../Pod/Vendor/Braintree/BraintreePrivate ${PODS_ROOT}/../../Pod/Vendor/BUYPaymentButton/BUYPaymentButtonPrivate ${PODS_ROOT}/../../Pod/Vendor/CHRTextFieldFormatter/CHRTextFieldFormatterPrivate ${PODS_ROOT}/../../Pod/Vendor/PayPal/PayPalPrivate ${PODS_ROOT}/../../Pod/Vendor/Stripe/StripePrivate"
   }
 }
