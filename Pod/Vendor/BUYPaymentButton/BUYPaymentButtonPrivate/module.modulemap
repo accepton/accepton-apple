@@ -1,0 +1,4 @@
+module BUYPaymentButtonPrivate {
+    header "../BUYPaymentButton.h"
+    export *
+}

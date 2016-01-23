@@ -23,7 +23,8 @@
     "Pod/Classes/**/*",
     "Pod/Vendor/BUYPaymentButton/**/*",
     "Pod/Vendor/Snapkit/**/*",
-    "Pod/Vendor/Alamofire/**/*"
+    "Pod/Vendor/Alamofire/**/*",
+    "Pod/Vendor/Braintree/*"
   ],
   "resource_bundles": {
     "accepton": [
@@ -32,8 +33,7 @@
   },
   "public_header_files": [
     "Pod/Vendor/Paypal/*.h",
-    "Pod/Vendor/CHRTextFieldFormatter/*.h",
-    "Pod/Vendor/BUYPaymentButton/*.h"
+    "Pod/Vendor/CHRTextFieldFormatter/*.h"
   ],
   "dependencies": {
     "Stripe": [
@@ -52,6 +52,7 @@
   "pod_target_xcconfig": {
     "OTHER_LDFLAGS": "-ObjC",
     "LIBRARY_SEARCH_PATHS": "${SRCROOT}/**",
-    "USER_HEADER_SEARCH_PATHS": "${SRCROOT}/**"
+    "USER_HEADER_SEARCH_PATHS": "${SRCROOT}/**",
+    "SWIFT_INCLUDE_PATHS": "${SRCROOT}/../../Pod/Vendor/Braintree/BraintreePrivate ${SRCROOT}/../../Pod/Vendor/BUYPaymentButton/BUYPaymentButtonPrivate"
   }
 }

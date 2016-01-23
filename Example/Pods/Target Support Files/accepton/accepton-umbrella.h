@@ -11,7 +11,6 @@
 #import "CHRPhoneNumberMask.h"
 #import "CHRTextFieldFormatter.h"
 #import "CHRTextMask.h"
-#import "BUYPaymentButton.h"
 
 FOUNDATION_EXPORT double acceptonVersionNumber;
 FOUNDATION_EXPORT const unsigned char acceptonVersionString[];

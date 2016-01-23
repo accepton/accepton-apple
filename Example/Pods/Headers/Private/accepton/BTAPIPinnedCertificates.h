@@ -1,0 +1,1 @@
+../../../../../Pod/Vendor/Braintree/BTAPIPinnedCertificates.h
