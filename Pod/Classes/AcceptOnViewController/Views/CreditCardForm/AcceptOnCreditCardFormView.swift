@@ -1,4 +1,5 @@
 import UIKit
+import CHRTextFieldFormatterPrivate
 
 //Notifications for all things relating to the credit card form
 @objc protocol AcceptOnCreditCardFormDelegate {

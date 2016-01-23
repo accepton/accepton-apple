@@ -1,0 +1,8 @@
+module CHRTextFieldFormatterPrivate {
+    header "../CHRCardNumberMask.h"
+    header "../CHRPhoneNumberMask.h"
+    header "../CHRTextFieldFormatter.h"
+    header "../CHRTextMask.h"
+    export *
+}
+

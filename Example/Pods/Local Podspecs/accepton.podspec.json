@@ -31,10 +31,7 @@
       "Pod/Assets/*"
     ]
   },
-  "public_header_files": [
-    "Pod/Vendor/Paypal/*.h",
-    "Pod/Vendor/CHRTextFieldFormatter/*.h"
-  ],
+  "public_header_files": "Pod/Vendor/Paypal/*.h",
   "dependencies": {
     "Stripe": [
 
@@ -53,6 +50,6 @@
     "OTHER_LDFLAGS": "-ObjC",
     "LIBRARY_SEARCH_PATHS": "${SRCROOT}/**",
     "USER_HEADER_SEARCH_PATHS": "${SRCROOT}/**",
-    "SWIFT_INCLUDE_PATHS": "${SRCROOT}/../../Pod/Vendor/Braintree/BraintreePrivate ${SRCROOT}/../../Pod/Vendor/BUYPaymentButton/BUYPaymentButtonPrivate"
+    "SWIFT_INCLUDE_PATHS": "${SRCROOT}/../../Pod/Vendor/Braintree/BraintreePrivate ${SRCROOT}/../../Pod/Vendor/BUYPaymentButton/BUYPaymentButtonPrivate ${SRCROOT}/../../Pod/Vendor/CHRTextFieldFormatter/CHRTextFieldFormatterPrivate"
   }
 }

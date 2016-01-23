@@ -34,7 +34,7 @@ A swift library for processing payments through the AcceptOn API which elegantly
     'accepton' => ['Pod/Assets/*.png']
   }
 
-  s.public_header_files = 'Pod/Vendor/Paypal/*.h', 'Pod/Vendor/CHRTextFieldFormatter/*.h'
+  s.public_header_files = 'Pod/Vendor/Paypal/*.h'
   s.source_files = 'Pod/Vendor/Paypal/*.h', 'Pod/Vendor/CHRTextFieldFormatter/**/*', 'Pod/Classes/**/*', 'Pod/Vendor/BUYPaymentButton/**/*', 'Pod/Vendor/Snapkit/**/*', 'Pod/Vendor/Alamofire/**/*', 'Pod/Vendor/Braintree/*'
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'Stripe'
@@ -42,5 +42,13 @@ A swift library for processing payments through the AcceptOn API which elegantly
   s.resource_bundle = {'accepton' => ['Pod/Assets/*']}
   s.vendored_libraries = 'Pod/Vendor/Paypal/libPayPalMobile.a'
 
-  s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-ObjC', 'LIBRARY_SEARCH_PATHS' => '${SRCROOT}/**', 'USER_HEADER_SEARCH_PATHS' => "${SRCROOT}/**", 'SWIFT_INCLUDE_PATHS' => '${SRCROOT}/../../Pod/Vendor/Braintree/BraintreePrivate ${SRCROOT}/../../Pod/Vendor/BUYPaymentButton/BUYPaymentButtonPrivate'}
+  # Things we have slip-streamed into Pod/Vendor/* and added a modulemap to
+  vendor_modules = %w(
+    Braintree 
+    BUYPaymentButton
+    CHRTextFieldFormatter
+  )
+  swift_include_paths = vendor_modules.map {|e| "${SRCROOT}/../../Pod/Vendor/#{e}/#{e}Private"}.join(" ")
+
+  s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-ObjC', 'LIBRARY_SEARCH_PATHS' => '${SRCROOT}/**', 'USER_HEADER_SEARCH_PATHS' => "${SRCROOT}/**", 'SWIFT_INCLUDE_PATHS' => swift_include_paths}
 end

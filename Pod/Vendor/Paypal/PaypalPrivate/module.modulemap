@@ -1,0 +1,7 @@
+module PaypalPrivate {
+    header "../PaypalMobile.h"
+    header "../PaypalConfiguration.h"
+    header "../PaypalPaymentViewController.h"
+    header "../PaypalPayment.h"
+    export *
+}
