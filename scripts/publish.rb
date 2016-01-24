@@ -35,6 +35,7 @@ Dir.chdir File.dirname(__FILE__) do
       git commit -a -m "Updated podspec to #{new_version}"
       git tag "#{new_version}"
       git push
+      git push --tags
     }
   end
 end
