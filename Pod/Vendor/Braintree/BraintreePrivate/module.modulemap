@@ -1,6 +1,5 @@
 module BraintreePrivate {
     header "../BTCard.h"
     header "../BTAPIClient.h"
-    header "../BTCardClient.h"
     export *
 }
