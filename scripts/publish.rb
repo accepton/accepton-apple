@@ -29,6 +29,11 @@ Dir.chdir File.dirname(__FILE__) do
 
     File.write "accepton.podspec", new_podspec.join("\n")
 
+    #Updated Example podspec version
+    Dir.chdir "Example" do
+      system "pod install"
+    end
+
     #Add changes to git
     system %{
       git add .
