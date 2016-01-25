@@ -1,6 +1,8 @@
-#Autofill hints
-In the above example, under [Use It!](#use-it), an optional setting called `userInfo` is left blank. This is where you may set auto-fill hints and require
-that certain information, like shipping information, be requested.  The available options are demo'd in this example.
+#Shipping, billing and Autofill hints
+In both the storyboard and pure-code only examples, the `AcceptOnViewController` was configured
+and had an optional `userInfo` parameter. This parameter can be configured with a set of
+auto-fill hints that will automatically fill out fields when applicable and can configure
+whether or not billing & shipping should be collected.
 
 ```swift
 //--------------------------------------------------------------------------------
@@ -77,5 +79,3 @@ will appear in your accepton-on meta-data as:
   }
 }
 ```
-
-

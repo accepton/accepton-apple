@@ -1,7 +1,7 @@
 #Install via Carthage
 > This tutorial assumes you already have install carthage installed.  If you haven't already installed carthage, [Install It From Here](https://github.com/Carthage/Carthage#installing-carthage).
 
-## Step 1
+## 1) Cartfile
 Create a new `Cartfile` in your *project folder*. Place the following into it:
 
 ```
@@ -10,15 +10,15 @@ github "accepton/accepton-apple" ~> 0.5
 
 ![Cartfile](../images/cartfile.png)
 
-## Step 2
+## 2) Build
 Run `carthage update` in the root of your *project folder*.
 
-## Step 3
+## 3) Link
 Take the newly created `./Carthage/Build/$PLATFORM/accepton.framework` in your project folder and place it in your XCode project's `Linked Frameworks and Libraries` section **without** making a copy.
 
 ![Cartfile](../images/carthage_link.gif)
 
-## Step 4
+## 4) Build Phase Script
 On your application targets’ “Build Phases” settings tab, click the “+” icon and choose “New Run Script Phase”. Create a Run Script with the following contents:
 
 ```
@@ -34,4 +34,4 @@ $(SRCROOT)/Carthage/Build/iOS/accepton.framework
 ![Carthage Run Script](../images/carthage_run_script.gif)
 
 ## You're ready to use it!
-Continue on to [Use it](../../#2-use-it-via-storyboard-or-pure-code)
+Continue on to [Part 2 of the README](../../README.md)

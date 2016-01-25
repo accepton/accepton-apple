@@ -17,7 +17,7 @@ struct AcceptOnAPIKeyInfo {
 }
 
 let keys = [
-    AcceptOnAPIKeyInfo(key: "pkey_24b6fa78e2bf234d", properties: [.PaypalRest, .Stripe, .PublicKey], paypalRestClientSecret: nil)
+    AcceptOnAPIKeyInfo(key: "pkey_24b6fa78e2bf234d", properties: [.PaypalRest, .Stripe, .PublicKey], paypalRestClientSecret: nil
 ]
 
 //Get a key with a set of properties

@@ -43,7 +43,7 @@
 </a>
 
 ## 3. Configure it [Optional]
-<a href='./docs/configure/autofill_hints.md'>
+<a href='./docs/configure/billing_shipping_autofill_hints.md'>
 <div style='text-align: center'>
   <img src='./docs/images/autofill_hints.png' />
 </div>

@@ -1,6 +1,6 @@
 #Use with storyboard
 
-After choosing one of the above methods to install the Accepton iOS framework, do the following on your storyboard:
+Do the following on your storyboard:
 
   1. Add a new view controller at the point where you want to collect a payment
   2. Add a `Present Modally` segue to the new view controller
@@ -40,19 +40,19 @@ class ViewController : UIViewController, AcceptOnViewControllerDelegate {
             //The accessToken
             avc.accessToken = "pkey_xxxxxxxxxxxxxxx"
 
-            //Optionally, provide hints to auto-suggest form information
-            //and require certain fields to be filled such as shipping
-            //and billing information.
-            //var userInfo = AcceptOnUIMachineOptionalUserInfo()
-            //----See below under userInfo for options----
-            //avc.userInfo = userInfo
-
-            //Optionally, collect shipping information.
-            avc.collectShippingInformation = false
-
             //If you're using this in production
             //avc.isProduction = true
-        }
+
+            //--------------------------------------------------------------------
+            //Optionally, collect billing & shipping, provide auto-fill hints
+            //and pass on custom information
+            //--------------------------------------------------------------------
+            //var userInfo = AcceptOnUIMachineOptionalUserInfo()
+            //
+            //See the configure section of the README
+            //
+            //avc.userInfo = userInfo
+            }
     }
     
     //User hit the close button, no payment was completed
@@ -75,4 +75,3 @@ class ViewController : UIViewController, AcceptOnViewControllerDelegate {
     }
 }
 ```
-

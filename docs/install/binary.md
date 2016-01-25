@@ -53,3 +53,5 @@ done
   <img src='../images/run_script.gif' width="900" />
 </div>
 
+## You're ready to use it!
+Continue on to [Part 2 of the README](../../README.md)
