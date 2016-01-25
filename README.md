@@ -10,6 +10,12 @@
 ## What is this?
 *accepton-apple* is a swift library for processing payments through the [AcceptOn](http://accepton.com) API which elegantly unifies many payment providers including [PayPal](http://paypal.com), [Stripe](http://stripe.com), and **ApplePay** to one transparent backend that aggregates all this information into one API.  This library provides you with powerful flexibility and ease-of-use by offering both beautiful pre-made payment views and access to the well-engineered low-level primitives for those wanting to have tighter integration into their applications.
 
+<a href='https://www.dropbox.com/s/3k0psggc1cvtipl/App%20Preview%20%28With%20Titles%29.mp4?dl=0'>
+<div style='text-align: center'>
+  <img src='./docs/images/play_video_demo.png' />
+</div>
+</a>
+
 ## Features
   - [x] Accept Credit Cards, ApplePay, Paypal, and more!
   - [x] Use it via Storyboard or Pure Code
