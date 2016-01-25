@@ -32,3 +32,6 @@ $(SRCROOT)/Carthage/Build/iOS/accepton.framework
 ```
 
 ![Carthage Run Script](../images/carthage_run_script.gif)
+
+## You're ready to use it!
+Continue on to [Use it](../../#2-use-it-via-storyboard-or-pure-code)
