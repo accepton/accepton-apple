@@ -1,5 +1,15 @@
 module BraintreePrivate {
     header "../BTCard.h"
     header "../BTAPIClient.h"
+    header "../BTCard.h"
+    header "../BTAPIClient.h"
+    header "../BraintreeCard.h"
+    header "../BraintreeCore.h"
+    header "../BTAPIClient_Internal.h"
+    header "../BTCardClient.h"
+    header "../BTTokenizationService.h"
+    header "../BTErrors.h"
+    header "../BTCardNonce.h"
+    header "../BTClientMetadata.h"
     export *
 }

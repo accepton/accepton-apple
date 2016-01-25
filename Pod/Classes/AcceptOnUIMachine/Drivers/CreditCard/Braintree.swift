@@ -22,20 +22,20 @@ class AcceptOnUIMachineCreditCardBraintreePlugin: AcceptOnUIMachineCreditCardDri
                 return
             }
             
-            /*let cardClient = BTCardClient(APIClient: api)*/
-            /*cardClient.tokenizeCard(BTCard(formOptions.creditCardParams!)) { nonce, err in*/
-                /*if let err = err {*/
-                    /*self.delegate.creditCardPlugin(self, didFailWithMessage: err.localizedDescription)*/
-                    /*return*/
-                /*}*/
+            let cardClient = BTCardClient(APIClient: api)
+            cardClient.tokenizeCard(BTCard(formOptions.creditCardParams!)) { nonce, err in
+                if let err = err {
+                    self.delegate.creditCardPlugin(self, didFailWithMessage: err.localizedDescription)
+                    return
+                }
                 
-                /*guard let tokenId = nonce?.nonce else {*/
-                    /*self.delegate.creditCardPlugin(self, didFailWithMessage: "Could not decode response from Braintree")*/
-                    /*return*/
-                /*}*/
+                guard let tokenId = nonce?.nonce else {
+                    self.delegate.creditCardPlugin(self, didFailWithMessage: "Could not decode response from Braintree")
+                    return
+                }
                 
-                /*self.delegate.creditCardPlugin(self, didSucceedWithNonce: tokenId)*/
-            /*}*/
+                self.delegate.creditCardPlugin(self, didSucceedWithNonce: tokenId)
+            }
         } else {
             self.delegate.creditCardPlugin(self, didFailWithMessage: "The Braintree publishable key could not be retrieved")
         }
