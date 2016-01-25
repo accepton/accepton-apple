@@ -10,7 +10,7 @@ Do the following on your storyboard:
  >**⚠ Make sure you press enter after typing the Module and Class or XCode will not register the Class and/or Module.**
   
 <div style='text-align: center'>
-  <img src='./docs/images/storyboard.gif' width="900" />
+  <img src='../images/storyboard.gif' width="900" />
 </div>
 
 Then use the following code for the view controller that contains the `button`.  
