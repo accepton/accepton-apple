@@ -16,7 +16,7 @@ Run `carthage update` in the root of your *project folder*.
 ## Step 3
 Take the newly created `./Carthage/Build/$PLATFORM/accepton.framework` in your project folder and place it in your XCode project's `Linked Frameworks and Libraries` section **without** making a copy.
 
-![Cartfile](../../images/carthange_link.gif)
+![Carthage Link](../images/carthange_link.gif)
 
 ## Step 4
 On your application targets’ “Build Phases” settings tab, click the “+” icon and choose “New Run Script Phase”. Create a Run Script with the following contents:
@@ -31,4 +31,4 @@ and add the paths to the `accepton.framework` you want to use under “Input Fil
 $(SRCROOT)/Carthage/Build/iOS/accepton.framework
 ```
 
-![Cartfile](../../images/carthange_run_script.gif)
+![Carthage Run Script](../images/carthange_run_script.gif)
