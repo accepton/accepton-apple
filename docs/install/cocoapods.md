@@ -9,14 +9,16 @@ $ gem install cocoapods
 
 > Make sure you have version 0.39.0 or higher. Run `pod --version` if you're unsure. You may update cocoapods by running `gem install cocoapods`.
 
-Once you have installed *CocoaPods*, please put the following code into your `Podfile`:
+Once you have installed *CocoaPods*, add a `Podfile` to the root of your XCode project folder and put the following code into your newly created `Podfile`:
 
 ```ruby
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '8.0'
+platform :ios, '9.0'
 use_frameworks!
 
-pod 'Accepton', '~> 0.2'
+pod 'Accepton', '~> 0.4'
 ```
 
 After you modify the `Podfile`, run `pod install` in the same directory as your modified `Podfile`.
+
+Continue on to [Step 2](../../README.md)
