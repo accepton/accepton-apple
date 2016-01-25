@@ -27,7 +27,7 @@ class ViewController: UIViewController, AcceptOnViewControllerDelegate {
         //The cost in cents of the item
         avc.amountInCents = 100
         
-        //The accessToken
+        //The accessToken.  If you haven't already, register at http://accepton.com
         avc.accessToken = "pkey_xxxxxxxxxxxxx"
         
         //If you're using this in production
