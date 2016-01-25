@@ -28,7 +28,7 @@ class ViewController: UIViewController, AcceptOnViewControllerDelegate {
         avc.amountInCents = 100
         
         //The accessToken
-        avc.accessToken = "pkey_24b6fa78e2bf234d"
+        avc.accessToken = "pkey_xxxxxxxxxxxxx"
         
         //If you're using this in production
         //avc.isProduction = true
