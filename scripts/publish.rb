@@ -42,5 +42,9 @@ Dir.chdir File.dirname(__FILE__) do
       git push
       git push --tags
     }
+
+    system %{
+      pod trunk push --verbose --allow-warnings
+    }
   end
 end
