@@ -452,7 +452,7 @@ extension Method {
         //merge the charge information setup in the AcceptOnAPIChargeInfo struct.
         //The merge contains things like the 'card_token' or in some cases the
         //actual credit card numbers.
-        var params = ["access_token":self.accessToken, "token_id": tid] as [String:AnyObject]
+        var params = ["access_token":self.accessToken, "token": tid] as [String:AnyObject]
         chargeInfo.mergeIntoParams(&params)
         
         requestWithMethod(.POST, path:"/v1/mobile/paypal/verify", params: params, completion: { res, err in
