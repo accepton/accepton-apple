@@ -13,7 +13,7 @@ extension AcceptOnUIMachineFormOptions {
         let request = PKPaymentRequest()
         request.currencyCode = "USD"
         request.countryCode = "US"
-        request.merchantIdentifier = "merchant.com.accepton"
+        request.merchantIdentifier = paymentMethods.stripeApplePayMerchantIdentifier ?? "<no-merchant-identifier>"
         
         let total = NSDecimalNumber(mantissa: UInt64(amountInCents), exponent: -2, isNegative: false)
         let totalSummary = PKPaymentSummaryItem(label: "Total", amount: total)

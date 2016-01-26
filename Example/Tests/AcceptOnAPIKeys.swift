@@ -5,6 +5,8 @@ enum AcceptOnKeyProperty {
     case PaypalRest
     case Stripe
     case PublicKey
+    case StripeApplePay
+    case ApplePay
 }
 
 struct AcceptOnAPIKeyInfo {
@@ -12,16 +14,17 @@ struct AcceptOnAPIKeyInfo {
     
     var properties: [AcceptOnKeyProperty]
     
-    //Extra information, usually un-necessary but used for the specs
-    var paypalRestClientSecret: String?
+    //Meta-data is just extra information
+    var metadata: [String:AnyObject]
 }
 
 let keys = [
-    AcceptOnAPIKeyInfo(key: "pkey_24b6fa78e2bf234d", properties: [.PaypalRest, .Stripe, .PublicKey], paypalRestClientSecret: nil)
+    AcceptOnAPIKeyInfo(key: "pkey_24b6fa78e2bf234d", properties: [.PaypalRest, .Stripe, .PublicKey, .StripeApplePay, .ApplePay], metadata: ["stripe_merchant_identifier": "merchant.com.accepton"]),
+    AcceptOnAPIKeyInfo(key: "pkey_89f2cc7f2c423553", properties: [.Stripe], metadata: [:])
 ]
 
 //Get a key with a set of properties
-func apiKeyWithProperties(properties: [AcceptOnKeyProperty], withoutProperties: [AcceptOnKeyProperty]) -> String {
+func apiKeyWithProperties(properties: [AcceptOnKeyProperty], withoutProperties: [AcceptOnKeyProperty]) -> AcceptOnAPIKeyInfo {
     //Must contain all mentioned properties
     var filteredKeys = keys.filter { keyInfo in
         for p in properties {
@@ -44,5 +47,5 @@ func apiKeyWithProperties(properties: [AcceptOnKeyProperty], withoutProperties: 
         NSException(name: "apiKeyWithProperties", reason: "Couldn't find an API key that had the properties of \(properties) without the properties of \(withoutProperties)", userInfo: nil).raise()
     }
     
-    return resultKey!.key
+    return resultKey!
 }

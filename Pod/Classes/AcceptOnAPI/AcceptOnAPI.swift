@@ -57,20 +57,28 @@ public class AcceptOnAPIPaymentMethodsInfo {
     }
     
     public var supportsApplePay: Bool {
-        return true
+        return stripeApplePayInfo != nil
     }
     
     //Stripe-id
     public var stripePublishableKey: String? {
-        guard let stripeInfo = creditCardProcessorInfo?["stripe"] as? [String:AnyObject] else {
-            return nil
-        }
-        
-        guard let publishKey = stripeInfo["publishable_key"] as? String else {
+        guard let publishKey = stripeInfo?["publishable_key"] as? String else {
             return nil
         }
         
         return publishKey
+    }
+    
+    public var stripeInfo: [String:AnyObject]? {
+        return creditCardProcessorInfo?["stripe"] as? [String:AnyObject]
+    }
+    
+    public var stripeApplePayInfo: [String:AnyObject]? {
+        return stripeInfo?["apple_pay"] as? [String:AnyObject]
+    }
+    
+    public var stripeApplePayMerchantIdentifier: String? {
+        return stripeApplePayInfo?["merchant_id"] as? String
     }
     
     //List of methods acceptod, e.g. paypal, credit_card
