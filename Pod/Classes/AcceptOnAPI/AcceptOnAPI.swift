@@ -41,8 +41,7 @@ public class AcceptOnAPIPaymentMethodsInfo {
     }
     
     public var paypalRestClientId: String? {
-        puts("\(processorInfo)")
-        guard let paypalInfo = processorInfo?["paypal_rest"] as? [String:AnyObject] else {
+        guard let paypalInfo = creditCardProcessorInfo?["paypal_rest"] as? [String:AnyObject] else {
             return nil
         }
         
@@ -102,10 +101,6 @@ public class AcceptOnAPIPaymentMethodsInfo {
         guard var processorInfo = config["processor_information"] as? [String:AnyObject]  else {
             return
         }
-        
-        processorInfo["paypal_rest"] = [
-            "client_id": "Ab70mPDg9HPDJRGavtsg-OmhoLH2xSHbCiw6G9e9d_wmwVBkbKWEybaZxyQMX3K3x6h89oFa9HWhrH31"
-        ]
         
         //CoW
         config["processor_information"] = processorInfo

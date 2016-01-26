@@ -74,7 +74,7 @@ class ViewController : UIViewController, AcceptOnViewControllerDelegate {
             avc.delegate = self
             avc.itemDescription = "My Item Description"
             avc.amountInCents = 100
-            avc.accessToken = "pkey_89f2cc7f2c423553"
+            avc.accessToken = "pkey_24b6fa78e2bf234d"
             avc.isProduction = false
             
             //If you're running in production
