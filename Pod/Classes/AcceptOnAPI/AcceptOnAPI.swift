@@ -162,7 +162,7 @@ public struct AcceptOnAPITransactionToken {
 public struct AcceptOnAPIChargeInfo {
     //An array of tokens to charge
     var cardTokens: [String:AnyObject]?
-    
+
     //'Extra' Metadata the user may pass in
     var metadata: [String:AnyObject]?
     
@@ -179,7 +179,12 @@ public struct AcceptOnAPIChargeInfo {
     //charge request)
     public func mergeIntoParams(inout dict: [String:AnyObject]) {
         if let cardTokens = cardTokens {
-            dict["card_tokens"] = cardTokens
+            //Pay-pal verification transactions
+            if let pid = cardTokens["paypal_payment_id"] as? String {
+              dict["payment_id"] = pid
+            } else {
+              dict["card_tokens"] = cardTokens
+            }
             
             dict["email"] = email ?? ""
             
@@ -452,7 +457,7 @@ extension Method {
         //merge the charge information setup in the AcceptOnAPIChargeInfo struct.
         //The merge contains things like the 'card_token' or in some cases the
         //actual credit card numbers.
-        var params = ["access_token":self.accessToken, "token": tid] as [String:AnyObject]
+        var params = ["access_token":self.accessToken, "token_id": tid] as [String:AnyObject]
         chargeInfo.mergeIntoParams(&params)
         
         requestWithMethod(.POST, path:"/v1/mobile/paypal/verify", params: params, completion: { res, err in
@@ -468,49 +473,56 @@ extension Method {
     //Relating to geo-location (for auto-completing addresses)
     //-----------------------------------------------------------------------------------------------------
     public func autoCompleteAddress(input: String, completion: (addressResults: [(description: String, placeId: String)]?, err: NSError?)->()) {
-        //Make a request
-        request(.GET, "http://localhost:5555/places/autocomplete", parameters: ["input":input]).responseJSON { response in
-            switch response.result {
-            case .Success:
-                if let json = response.result.value as? [String:AnyObject] {
-                    let results = json["results"] as! [[String:AnyObject]]
-                    var options: [(description: String, placeId: String)] = []
-                    for e in results {
-                        let description = e["description"] as! String
-                        let placeId = e["place_id"] as! String
-                        options.append((description: description, placeId: placeId))
-                    }
-                    
-                    completion(addressResults: options, err: nil)
-                } else {
-                }
-            case .Failure(let error):
-                puts("\(error)")
-                break
-            }
+        
+        if input == "" {
+            completion(addressResults: [], err: nil)
+            return
         }
+        
+        //Make a request
+        let params = ["access_token":self.accessToken, "input": input]
+        
+        requestWithMethod(.POST, path:"/v1/ui/helpers/address/autocomplete", params: params, completion: { res, err in
+            if err != nil {
+                completion(addressResults: nil, err: err)
+            } else {
+                let res = res!
+                
+                guard let predictions = res["predictions"] as? [[String:AnyObject]] else {
+                    completion(addressResults: nil, err: AcceptOnAPIError.errorWithCode(.MalformedOrNonExistantData, failureReason: "Tried to retrieve the address autocomplete but the results should of had a predictions array key... the returned response was \(res)"))
+                    return
+                }
+                
+                let mappedPredictions: [(description: String, placeId: String)] = predictions.map { e in
+                    let description = (e["description"] as? String) ?? "<no-description>"
+                    let placeId = (e["place_id"] as? String) ?? "<no-place-id>"
+                    return (description: description, placeId: placeId)
+                }
+                
+                completion(addressResults: mappedPredictions, err: nil)
+            }
+        })
     }
     
     public func convertPlaceIdToAddress(placeId: String, completion: (address: AcceptOnAPIAddress?, err: NSError?)->()) {
         //Make a request
-        request(.GET, "http://localhost:5555/places/convert_place_id_to_address", parameters: ["place_id":placeId]).responseJSON { response in
-            switch response.result {
-            case .Success:
-                if let json = response.result.value as? [String:AnyObject] {
-                    let line1 = json["line_1"] as? String
-                    let country = json["country"] as? String
-                    let city = json["city"] as? String
-                    let region = json["region"] as? String
-                    let postalCode = json["postal_code"] as? String
-                    
-                    let address = AcceptOnAPIAddress(line1: line1, country: country, region: region, city: city, postalCode: postalCode)
-                    completion(address: address, err: nil)
-                } else {
-                }
-            case .Failure(let error):
-                puts("\(error)")
-                break
+        let params = ["access_token":self.accessToken, "place_id": placeId]
+        
+        requestWithMethod(.POST, path:"/v1/ui/helpers/address/get_address", params: params, completion: { res, err in
+            if err != nil {
+                completion(address: nil, err: err)
+            } else {
+                let res = res!
+                
+                let line1 = res["line_1"] as? String
+                let country = res["country"] as? String
+                let city = res["city"] as? String
+                let region = res["region"] as? String
+                let postalCode = res["postal_code"] as? String
+                
+                let address = AcceptOnAPIAddress(line1: line1, country: country, region: region, city: city, postalCode: postalCode)
+                completion(address: address, err: nil)
             }
-        }
+        })
     }
 }

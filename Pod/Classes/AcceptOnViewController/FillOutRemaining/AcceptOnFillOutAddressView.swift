@@ -293,11 +293,16 @@ class AcceptOnFillOutAddressView: UIView, AcceptOnFillOutRemainingSubForm, Accep
         var address: AcceptOnAPIAddress?
 
         self.addressDelegate.api.autoCompleteAddress(text) { _addresses, err in
-            var addresses: [(description: String, tag: String)] = []
-            for e in _addresses! {
-                addresses.append((description: e.description, tag: e.placeId))
+            if err == nil {
+                var addresses: [(description: String, tag: String)] = []
+                for e in _addresses! {
+                    addresses.append((description: e.description, tag: e.placeId))
+                }
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    picker.updateAddressList(addresses)
+                }
             }
-            picker.updateAddressList(addresses)
         }
     }
     

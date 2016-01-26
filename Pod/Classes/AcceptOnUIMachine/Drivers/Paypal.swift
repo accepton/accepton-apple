@@ -129,7 +129,7 @@ import PaypalPrivate
                 self.delegate.transactionDidFailForDriver(self, withMessage: "Could not decode token id from paypal's response")
                 return
             }
-            self.nonceTokens = ["paypal": tokenId]
+            self.nonceTokens = ["paypal_payment_id": tokenId]
             
             self.state = .CompletingTransactionWithAccepton
             self.readyToCompleteTransaction(completionBlock)
