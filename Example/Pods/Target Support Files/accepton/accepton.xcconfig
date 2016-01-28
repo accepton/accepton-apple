@@ -5,5 +5,5 @@ OTHER_LDFLAGS = -ObjC -l"PayPalMobile" -weak_framework "Accelerate" -weak_framew
 OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
 PODS_ROOT = ${SRCROOT}
 SKIP_INSTALL = YES
-SWIFT_INCLUDE_PATHS = ${PODS_ROOT}/../**
+SWIFT_INCLUDE_PATHS = ${PODS_ROOT}/../** ${PODS_ROOT}/../../Pod/Vendor/**
 USER_HEADER_SEARCH_PATHS = ${SRCROOT}/**

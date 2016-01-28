@@ -52,5 +52,5 @@ A swift library for processing payments through the AcceptOn API which elegantly
   #)
   #swift_include_paths = vendor_modules.map {|e| "${PODS_ROOT}/**"}.join(" ")
 
-  s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-ObjC', 'LIBRARY_SEARCH_PATHS' => '${SRCROOT}/**', 'USER_HEADER_SEARCH_PATHS' => "${SRCROOT}/**", 'SWIFT_INCLUDE_PATHS' => "${PODS_ROOT}/../**"}
+  s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-ObjC', 'LIBRARY_SEARCH_PATHS' => '${SRCROOT}/**', 'USER_HEADER_SEARCH_PATHS' => "${SRCROOT}/**", 'SWIFT_INCLUDE_PATHS' => "${PODS_ROOT}/../** ${PODS_ROOT}/../../Pod/Vendor/**"}
 end

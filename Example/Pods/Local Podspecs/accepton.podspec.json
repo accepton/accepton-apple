@@ -48,6 +48,6 @@
     "OTHER_LDFLAGS": "-ObjC",
     "LIBRARY_SEARCH_PATHS": "${SRCROOT}/**",
     "USER_HEADER_SEARCH_PATHS": "${SRCROOT}/**",
-    "SWIFT_INCLUDE_PATHS": "${PODS_ROOT}/../**"
+    "SWIFT_INCLUDE_PATHS": "${PODS_ROOT}/../** ${PODS_ROOT}/../../Pod/Vendor/**"
   }
 }
