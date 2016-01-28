@@ -157,6 +157,7 @@ class AcceptOnChoosePaymentTypeView: UIView
                 
                 make.height.lessThanOrEqualTo(self.paymentMethodButtonsView!.snp_height).multipliedBy(Double(1)/Double(self.paymentMethodButtons.count)).offset(-intraButtonVerticalSpace)
                 make.width.equalTo(e.snp_height).multipliedBy(Double(self.paymentMethodButtonAspectRatios[i])).priority(1000)
+                make.width.lessThanOrEqualTo(self.snp_width).multipliedBy(0.8)
             }
             
             lastTop = e
