@@ -108,13 +108,13 @@ public struct AcceptOnUIMachineCreditCardParams {
     }
 }
 
-enum AcceptOnUIMachineState {
-    case Initialized           //begin has not been called
-    case BeginWasCalled        //In the middle of the begin
-    case PaymentForm           //begin succeeded
-    case ExtraFields           //Showing extra fields dialog
-    case WaitingForTransaction //In the middle of a transaction request (like apple-pay, credit-card, paypal, etc)
-    case PaymentComplete       //Payment has completed
+enum AcceptOnUIMachineState: String {
+    case Initialized = "Initialized"                     //begin has not been called
+    case BeginWasCalled = "BeginWasCalled"               //In the middle of the begin
+    case PaymentForm = "PaymentForm"                     //begin succeeded
+    case ExtraFields = "ExtraFields"                     //Showing extra fields dialog
+    case WaitingForTransaction = "WaitingForTransaction" //In the middle of a transaction request (like apple-pay, credit-card, paypal, etc)
+    case PaymentComplete = "PaymentComplete"             //Payment has completed
 }
 
 //Various informations about a user like email
@@ -205,6 +205,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
     var state: AcceptOnUIMachineState = .Initialized {
         didSet {
             self.stateInfo = nil
+            GoogleAnalytics.trackPageNamed(state.rawValue)
         }
     }
     var stateInfo: Any?
