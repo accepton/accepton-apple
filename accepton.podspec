@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "accepton"
-  s.version          = "0.5.5"
+  s.version          = "0.5.6"
   s.summary          = "Beautiful payment processing for iOS"
 
 # This description is used to generate tags and improve search results.
