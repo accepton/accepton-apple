@@ -1,5 +1,5 @@
 PODS:
-  - accepton (0.5.6)
+  - accepton (0.5.7)
   - Nimble (2.0.0)
   - Quick (0.7.0)
   - Reveal-iOS-SDK (1.6.2)
@@ -15,7 +15,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  accepton: a0b56d88c2e34c0d51f453b94ab31f932984e3a4
+  accepton: ac8e8d39669aa55fd24fa8a2b017b8808e7cc290
   Nimble: 472e75466819eb8c06299233e87c694a9b51328a
   Quick: 906d8aa995ee0afa96f1f7f01170f40fccfa5898
   Reveal-iOS-SDK: e2250b3c155bcfac53ae223ddc1f76d08f206c33
