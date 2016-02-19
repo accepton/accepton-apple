@@ -2,7 +2,7 @@ import UIKit
 
 class GoogleAnalytics {
     //This is the UA identifier
-    static var trackingId: String! = "UA-73782424-1"
+    static var trackingId: String! = "UA-65020530-2"
     
     static var clientId: String {
         return UIDevice.currentDevice().identifierForVendor?.UUIDString ?? "<no-identifier-for-vendor>"
