@@ -21,7 +21,7 @@
   - [x] Use it via Storyboard or Pure Code
   - [x] Binary, CocoaPods, and Carthage available
   - [x] Geo-Located Address Auto-Completion for Billing & Shipping
-  - [x] Lightweight (10MB when stripped)
+  - [x] Lightweight (5.6MB when stripped)
   - [x] Low Level Primitives for those wanting a more customized experience
 
 ## 1. Pick an installation method
