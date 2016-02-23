@@ -36,21 +36,11 @@ A swift library for processing payments through the AcceptOn API which elegantly
 
   s.public_header_files = 'Pod/Vendor/stub.h'
   s.source_files = 'Pod/Vendor/Paypal/*', 'Pod/Vendor/CHRTextFieldFormatter/**/*', 'Pod/Classes/**/*', 'Pod/Vendor/BUYPaymentButton/**/*', 'Pod/Vendor/Snapkit/**/*', 'Pod/Vendor/Alamofire/*', 'Pod/Vendor/Braintree/*', 'Pod/Vendor/Stripe/*', 'Pod/Vendor/stub.h', 'Pod/Vendor/AuthorizeDotNet/*'
-  # s.frameworks = 'UIKit', 'MapKit'
   s.weak_framework = 'SystemConfiguration', 'MobileCoreServices', 'MessageUI', 'CoreLocation', 'Accelerate', 'PassKit'
   s.resource_bundle = {'accepton' => ['Pod/Assets/*']}
   s.vendored_libraries = 'Pod/Vendor/Paypal/libPayPalMobile.a'
   s.preserve_paths = 'Pod/Vendor/**/*'
+  s.library = 'xml2'
 
-  ## Things we have slip-streamed into Pod/Vendor/* and added a modulemap to
-  #vendor_modules = %w(
-    #BUYPaymentButton
-    #CHRTextFieldFormatter
-    #PayPal
-    #Stripe
-    #Braintree 
-  #)
-  #swift_include_paths = vendor_modules.map {|e| "${PODS_ROOT}/**"}.join(" ")
-
-  s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-ObjC', 'LIBRARY_SEARCH_PATHS' => '${SRCROOT}/**', 'USER_HEADER_SEARCH_PATHS' => "${SRCROOT}/**", 'SWIFT_INCLUDE_PATHS' => "${PODS_ROOT}/../** ${PODS_ROOT}/../../Pod/Vendor/**"}
+  s.xcconfig = { 'OTHER_LDFLAGS' => '-ObjC', 'LIBRARY_SEARCH_PATHS' => '${SRCROOT}/**', 'USER_HEADER_SEARCH_PATHS' => "${SRCROOT}/**", 'SWIFT_INCLUDE_PATHS' => "${PODS_ROOT}/../** ${PODS_ROOT}/../../Pod/Vendor/**",'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2' }
 end

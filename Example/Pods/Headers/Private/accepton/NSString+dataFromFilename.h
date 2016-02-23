@@ -1,0 +1,1 @@
+../../../../../Pod/Vendor/AuthorizeDotNet/NSString+dataFromFilename.h

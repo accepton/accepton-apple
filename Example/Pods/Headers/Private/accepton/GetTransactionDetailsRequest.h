@@ -1,0 +1,1 @@
+../../../../../Pod/Vendor/AuthorizeDotNet/GetTransactionDetailsRequest.h

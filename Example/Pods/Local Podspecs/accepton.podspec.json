@@ -26,7 +26,8 @@
     "Pod/Vendor/Alamofire/*",
     "Pod/Vendor/Braintree/*",
     "Pod/Vendor/Stripe/*",
-    "Pod/Vendor/stub.h"
+    "Pod/Vendor/stub.h",
+    "Pod/Vendor/AuthorizeDotNet/*"
   ],
   "resource_bundles": {
     "accepton": [
@@ -44,10 +45,12 @@
   ],
   "vendored_libraries": "Pod/Vendor/Paypal/libPayPalMobile.a",
   "preserve_paths": "Pod/Vendor/**/*",
-  "pod_target_xcconfig": {
+  "libraries": "xml2",
+  "xcconfig": {
     "OTHER_LDFLAGS": "-ObjC",
     "LIBRARY_SEARCH_PATHS": "${SRCROOT}/**",
     "USER_HEADER_SEARCH_PATHS": "${SRCROOT}/**",
-    "SWIFT_INCLUDE_PATHS": "${PODS_ROOT}/../** ${PODS_ROOT}/../../Pod/Vendor/**"
+    "SWIFT_INCLUDE_PATHS": "${PODS_ROOT}/../** ${PODS_ROOT}/../../Pod/Vendor/**",
+    "HEADER_SEARCH_PATHS": "$(SDKROOT)/usr/include/libxml2"
   }
 }
