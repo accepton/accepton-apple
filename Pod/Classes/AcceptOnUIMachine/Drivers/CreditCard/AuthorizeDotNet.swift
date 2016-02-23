@@ -12,12 +12,24 @@ import AuthorizeDotNetPrivate
 //}
 //
 
-class AcceptOnUIMachineCreditCardAuthorizeDotNetPlugin: AcceptOnUIMachineCreditCardDriverPlugin {
+class AcceptOnUIMachineCreditCardAuthorizeDotNetPlugin: AcceptOnUIMachineCreditCardDriverPlugin, AuthNetDelegate {
     override var name: String {
         return "authorize.net"
     }
     
     override func beginTransactionWithFormOptions(formOptions: AcceptOnUIMachineFormOptions) {
+//        let authRequest = MobileDeviceRegistrationRequest
+        
+        let loginRequest = MobileDeviceLoginRequest()
+        loginRequest.anetApiRequest.merchantAuthentication.name = "79aT39JcK3U"
+        loginRequest.anetApiRequest.merchantAuthentication.password = ""
+        loginRequest.anetApiRequest.merchantAuthentication.mobileDeviceId = "device-id"
+        
+        AuthNet(environment: ENV_TEST)
+        let an = AuthNet.getInstance()
+        an.delegate = self
+        an.mobileDeviceLoginRequest(loginRequest)
+        
 //        //Assuming they are using stripe
 //        let stripePublishableKey = formOptions.paymentMethods.stripePublishableKey
 //        if let stripePublishableKey = stripePublishableKey {
@@ -35,5 +47,9 @@ class AcceptOnUIMachineCreditCardAuthorizeDotNetPlugin: AcceptOnUIMachineCreditC
 //        } else {
 //            self.delegate.creditCardPlugin(self, didFailWithMessage: "Stripe could not be configured")
 //        }
+    }
+    
+    func mobileDeviceLoginSucceeded(response: MobileDeviceLoginResponse!) {
+        puts("good \(response)")
     }
 }

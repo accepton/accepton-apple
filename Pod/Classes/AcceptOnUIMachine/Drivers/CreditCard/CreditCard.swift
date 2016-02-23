@@ -6,7 +6,9 @@ import UIKit
     //List of drivers that you want available
     let pluginClasses: [AcceptOnUIMachineCreditCardDriverPlugin.Type] = [
         AcceptOnUIMachineCreditCardBraintreePlugin.self,
-        AcceptOnUIMachineCreditCardStripePlugin.self]
+        AcceptOnUIMachineCreditCardStripePlugin.self,
+        AcceptOnUIMachineCreditCardAuthorizeDotNetPlugin.self,
+    ]
     
     //Driver instances that were created
     var plugins: [AcceptOnUIMachineCreditCardDriverPlugin] = []
