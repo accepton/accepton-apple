@@ -151,7 +151,7 @@
 		51925021E1107C0A6FC8CABE39804816 /* BTConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = E59DD998424A19E995464FF5279C6E4D /* BTConfiguration.m */; };
 		51C705ED31F2DD03294B46C373AF32E6 /* UserField.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A6FF9E61380A63B1774698F347C762 /* UserField.m */; };
 		523399BC32559F6A643A55AE320E71F2 /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FF433276B79EF90997E320EEBA31FAF /* Download.swift */; };
-		52342A6BDB5B7C8C8261464945FCD533 /* StringCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9568B8E1B8CA0BE98BF9034A3D38859F /* StringCases.swift */; };
+		52342A6BDB5B7C8C8261464945FCD533 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9568B8E1B8CA0BE98BF9034A3D38859F /* String.swift */; };
 		5279669D7A6287C4A5ACD6FE4C3B5F20 /* LayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A9099B7D7296A4A57FC8FF6998967F /* LayoutConstraint.swift */; };
 		545D9DE0C1024220599A5E425597E3F4 /* BTPaymentMethodNonce.m in Sources */ = {isa = PBXBuildFile; fileRef = F57A55B037B30699EA26A65634584E74 /* BTPaymentMethodNonce.m */; };
 		55C0A975B2F336EDBACD1B3B4406DB46 /* MerchantAccountType.h in Headers */ = {isa = PBXBuildFile; fileRef = D908B8DF66BB9B35998F757BE23BE139 /* MerchantAccountType.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -301,6 +301,7 @@
 		A868452BF0A103AAA6A99D7C4E3042F3 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 955A89D8D50C36232920B46DF5F0A2E6 /* Response.swift */; };
 		A8D08BF151ABBDB8E709869A256C71A3 /* BTLogger_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 9CD1CB88A5C84B050F299E7E12C7F834 /* BTLogger_Internal.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		A9BC9DBB59F02698F9D02815389F4570 /* STPOSXCheckoutWebViewAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F3E33F9F250BDB8EFCE4E5E412EAB64 /* STPOSXCheckoutWebViewAdapter.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		AA1D53D61C7CBBDB00174E83 /* Conversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1D53D51C7CBBDB00174E83 /* Conversions.swift */; };
 		AB47CB8863F185086AC4BBED24F59BDC /* NSDictionary+Stripe.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CCE38C34A4BA12C10B9C4D344B3F5E5 /* NSDictionary+Stripe.m */; };
 		ABC021C1B7557FF70841EAB6E1EF3E18 /* CreateTransactionResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B07C3917B1E0B1AC38376DBA96424ED /* CreateTransactionResponse.m */; };
 		AE250EA7F2F81A63C757186E88107C47 /* stub.h in Headers */ = {isa = PBXBuildFile; fileRef = E5541C6CA2FFF72A6D6BA32F8F90EF0C /* stub.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -752,7 +753,7 @@
 		8F50B07D2881C8C19F65856F1310699D /* Nimble.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = Nimble.modulemap; sourceTree = "<group>"; };
 		91D674C2C5DC1850A077B58CD1C5772E /* TestAccountRegistrationRequest.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = TestAccountRegistrationRequest.h; sourceTree = "<group>"; };
 		955A89D8D50C36232920B46DF5F0A2E6 /* Response.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
-		9568B8E1B8CA0BE98BF9034A3D38859F /* StringCases.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StringCases.swift; sourceTree = "<group>"; };
+		9568B8E1B8CA0BE98BF9034A3D38859F /* String.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		963D9980DF8543D8597D560CE732A8CF /* Pods-accepton_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-accepton_Tests-dummy.m"; sourceTree = "<group>"; };
 		967A1BA9F24DF1F7435B170E892D7707 /* STPFormEncodable.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = STPFormEncodable.h; sourceTree = "<group>"; };
 		968373A2C9A0AEAB9601852E37F58585 /* FDSFilterType.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = FDSFilterType.h; sourceTree = "<group>"; };
@@ -791,6 +792,7 @@
 		A989E303A7FED6190523DEA1C058D682 /* QuickConfiguration.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = QuickConfiguration.m; path = Quick/Configuration/QuickConfiguration.m; sourceTree = "<group>"; };
 		A98B0F8BD5C044BF5416D84E5C18C66E /* STPCheckoutDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = STPCheckoutDelegate.h; sourceTree = "<group>"; };
 		A9A7A1EFD28008C00C4D32C93206BC1E /* BTClientToken.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = BTClientToken.h; sourceTree = "<group>"; };
+		AA1D53D51C7CBBDB00174E83 /* Conversions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conversions.swift; sourceTree = "<group>"; };
 		AA9FF4B3C5F53680FF34F77CC5D96EE4 /* CustomerAddressType.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = CustomerAddressType.m; sourceTree = "<group>"; };
 		AB823FC05F9F197365F5A2EFE6931D57 /* SendCustomerTransactionReceiptResponse.xml */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; path = SendCustomerTransactionReceiptResponse.xml; sourceTree = "<group>"; };
 		AC06731BB565578B1835D0CDD87D4066 /* STPCheckoutInternalUIWebViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = STPCheckoutInternalUIWebViewController.h; sourceTree = "<group>"; };
@@ -1541,7 +1543,8 @@
 			children = (
 				9FF5DE2CD1D36A87A0D57B8525B8709D /* AcceptOnBundleHelper.swift */,
 				88F6F5E8BC9101AF8A7E2F90812DFD0D /* Color.swift */,
-				9568B8E1B8CA0BE98BF9034A3D38859F /* StringCases.swift */,
+				9568B8E1B8CA0BE98BF9034A3D38859F /* String.swift */,
+				AA1D53D51C7CBBDB00174E83 /* Conversions.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -2433,10 +2436,11 @@
 				B99670422F3FD4AE56E2A414F24A253B /* STPStrictURLProtocol.m in Sources */,
 				20828B3961309EAA860B4414EFA2A1E4 /* STPToken.m in Sources */,
 				C16DFB1AA5C18B64509EAFD61D4891E4 /* Stream.swift in Sources */,
-				52342A6BDB5B7C8C8261464945FCD533 /* StringCases.swift in Sources */,
+				52342A6BDB5B7C8C8261464945FCD533 /* String.swift in Sources */,
 				14C4B9052AFD079D5818E49B0485147C /* Stripe+ApplePay.m in Sources */,
 				63540737EE19BCF89F52DCC768371078 /* Stripe.swift in Sources */,
 				1FA4E589BFCB6E77C8B8358E2E2BBA24 /* StripeError.m in Sources */,
+				AA1D53D61C7CBBDB00174E83 /* Conversions.swift in Sources */,
 				941B9D6F88BE47EE37365C378A567A43 /* SwiperDataType.m in Sources */,
 				6A0F130B2E0746054E25E943C2DF0BE1 /* TestAccountCaptchaRequest.m in Sources */,
 				F202E29E04C43FE157D2E5D411E8D5C6 /* TestAccountCaptchaResponse.m in Sources */,

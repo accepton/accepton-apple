@@ -59,5 +59,4 @@ extension String {
         
         return ss.componentsJoinedByString("_") as String
     }
-
 }
