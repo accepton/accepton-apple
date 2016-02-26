@@ -16,7 +16,7 @@ class AcceptOnAPIFactory: Factory<AcceptOnAPIFactoryResult, AcceptOnAPIKeyFactor
     required init() {
         super.init()
         
-        AcceptOnAPIKeyFactory.query.eachWithProperties { res, desc, properties in
+        AcceptOnAPIKeyFactory.eachWithProperties { res, desc, properties in
             self.product(properties: properties) {
                 let api = AcceptOnAPI(publicKey: res.key, isProduction: properties.contains(.Production))
                 let result = AcceptOnAPIFactoryResult(res: res, api: api)
