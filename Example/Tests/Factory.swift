@@ -21,7 +21,7 @@ struct FactoryProduct<T, P: Equatable>: CustomStringConvertible {
     }
 }
 
-class FactoryResultQuery<T, P: Equatable> {
+class FactoryResultQuery<T, P: Equatable>: CustomStringConvertible {
     var factory: Factory<T, P>
     var withAtleastProperties: [P]?
     var withoutProperties: [P] = []
@@ -54,10 +54,15 @@ class FactoryResultQuery<T, P: Equatable> {
         }
         
         if filteredProducts.count == 0 {
-            assertionFailure("No products for \(self.dynamicType) were found that matched your query")
+            print("No products for \(self.dynamicType) were found that matched your query: \(self)")
+            assertionFailure()
         }
         
         return filteredProducts
+    }
+    
+    var description: String {
+        return "\nwithAtleastProperties: \(withAtleastProperties)\nwithoutProperties: \(withoutProperties)"
     }
     
     //Loop etc.
@@ -75,19 +80,23 @@ class FactoryResultQuery<T, P: Equatable> {
         }
     }
     
-    //Add to query
-    func withAtleast(properties: P...) -> FactoryResultQuery<T, P> {
+    //-----------------------------------------------------------------------------------------------------
+    //Fluent interface
+    //-----------------------------------------------------------------------------------------------------
+    func withAtleast(properties properties: [P]) -> FactoryResultQuery<T, P> {
         if self.withAtleastProperties == nil { self.withAtleastProperties = [] }
         self.withAtleastProperties! += properties
         
         return self
     }
+    func withAtleast(properties: P...) -> FactoryResultQuery<T, P> { return self.withAtleast(properties: properties) }
     
-    func without(properties: P...) -> FactoryResultQuery<T, P> {
+    func without(properties properties: [P]) -> FactoryResultQuery<T, P> {
         self.withoutProperties += properties
         
         return self
     }
+    func without(properties: P...) -> FactoryResultQuery<T, P> { return self.without(properties: properties) }
 }
 
 class Factory<T, P: Equatable> {
@@ -101,8 +110,7 @@ class Factory<T, P: Equatable> {
     }
     
     func product(properties: P..., withExtraDesc extraDescs: [String:String]?=nil, block: ()->(T)) {
-        let product = FactoryProduct<T, P>(properties: properties+currentContextProperties, descriptionAddendums: extraDescs, value: block())
-        products.append(product)
+        self.product(properties: properties, withExtraDesc: extraDescs, block: block)
     }
     
     var currentContextProperties: [P] = []
@@ -116,5 +124,24 @@ class Factory<T, P: Equatable> {
     static var query: FactoryResultQuery<T, P> {
         let factory = self.init()
         return FactoryResultQuery<T, P>.init(factory: factory)
+    }
+    
+    //-----------------------------------------------------------------------------------------------------
+    //Fluent interface
+    //-----------------------------------------------------------------------------------------------------
+    static func withAtleast(properties: P...) -> FactoryResultQuery<T, P> {
+        return self.query.withAtleast(properties: properties)
+    }
+    
+    static func without(properties: P...) -> FactoryResultQuery<T, P> {
+        return self.query.without(properties: properties)
+    }
+    
+    static func each(block: (value: T, desc: String)->()) {
+        return query.each(block)
+    }
+    
+    static func eachWithProperties(block: (value: T, desc: String, properties: [P])->()) {
+        return self.query.eachWithProperties(block)
     }
 }

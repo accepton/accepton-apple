@@ -28,7 +28,7 @@ extension AcceptOnAPIKeyFactoryResultProtocol {
     }
 }
 
-struct AcceptOnAPIKeyFactoryResult {
+struct AcceptOnAPIKeyFactoryResult: AcceptOnAPIKeyFactoryResultProtocol {
     var key: String!
     var appleMerchantIdentifier: String?
     
@@ -45,13 +45,15 @@ class AcceptOnAPIKeyFactory: Factory<AcceptOnAPIKeyFactoryResult, AcceptOnAPIKey
     required init() {
         super.init()
         
-        context(.Stripe) {
-            self.product {
-                return AcceptOnAPIKeyFactoryResult(key: "pkey_89f2cc7f2c423553", appleMerchantIdentifier: nil) as! AcceptOnAPIKeyFactoryResult
-            }
-            
-            self.product(.PaypalRest, .PublicKey, .ApplePay) {
-                return AcceptOnAPIKeyFactoryResult(key: "pkey_24b6fa78e2bf234d", appleMerchantIdentifier: "merchant.com.accepton")
+        context(.Sandbox) {
+            self.context(.Stripe) {
+                self.product {
+                    return AcceptOnAPIKeyFactoryResult(key: "pkey_89f2cc7f2c423553", appleMerchantIdentifier: nil)
+                }
+                
+                self.product(.PaypalRest, .PublicKey, .ApplePay) {
+                    return AcceptOnAPIKeyFactoryResult(key: "pkey_24b6fa78e2bf234d", appleMerchantIdentifier: "merchant.com.accepton")
+                }
             }
         }
     }

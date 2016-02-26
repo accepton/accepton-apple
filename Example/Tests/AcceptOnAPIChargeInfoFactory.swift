@@ -18,7 +18,7 @@ class AcceptOnAPIChargeInfoFactory: Factory<AcceptOnAPIChargeInfo, AcceptOnAPICh
             return AcceptOnAPIChargeInfo(rawCardInfo: card, cardTokens: cardTokens, email: nil, metadata: [:])
         }
         
-        AcceptOnAPICreditCardParamsFactory.query.withAtleast(.FourTwoPattern).each { card, cardDesc in
+        AcceptOnAPICreditCardParamsFactory.withAtleast(.FourTwoPattern).each { card, cardDesc in
             self.product(.HasRawCreditCardParams, withExtraDesc: ["card": cardDesc]) {
                 return AcceptOnAPIChargeInfo(rawCardInfo: card, cardTokens: cardTokens, email: nil, metadata: [:])
             }
@@ -32,7 +32,7 @@ class AcceptOnAPIChargeInfoFactory: Factory<AcceptOnAPIChargeInfo, AcceptOnAPICh
                 }
                 
                 self.context(.HasRawCreditCardParams) {
-                    AcceptOnAPICreditCardParamsFactory.query.withAtleast(.FourTwoPattern).each { card, cardDesc in
+                    AcceptOnAPICreditCardParamsFactory.withAtleast(.FourTwoPattern).each { card, cardDesc in
                         self.product(withExtraDesc: ["card": cardDesc]) {
                             return AcceptOnAPIChargeInfo(rawCardInfo: card, cardTokens: cardTokens, email: nil, metadata: [:])
                         }

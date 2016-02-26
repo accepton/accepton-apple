@@ -38,7 +38,7 @@ class AcceptOnAPIChargeInfoSpec: QuickSpec {
     override func spec() {
         describe("mergeIntoParams") {
             context("when only the raw card information is given") {
-                AcceptOnAPIChargeInfoFactory.query.withAtleast(.HasRawCreditCardParams).without(.HasTokens).each { chargeInfo, desc in
+                AcceptOnAPIChargeInfoFactory.withAtleast(.HasRawCreditCardParams).without(.HasTokens).each { chargeInfo, desc in
                     context(desc) {
                         it("does merge with correct card parameters") {
                             var info: [String:AnyObject] = [:]
@@ -55,7 +55,7 @@ class AcceptOnAPIChargeInfoSpec: QuickSpec {
             }
             
             context("When only tokens are given") {
-                AcceptOnAPIChargeInfoFactory.query.withAtleast(.HasTokens).without(.HasRawCreditCardParams).each { chargeInfo, desc in
+                AcceptOnAPIChargeInfoFactory.withAtleast(.HasTokens).without(.HasRawCreditCardParams).each { chargeInfo, desc in
                     context(desc) {
                         it("does merge with correct card parameters") {
                             var info: [String:AnyObject] = [:]
@@ -71,7 +71,7 @@ class AcceptOnAPIChargeInfoSpec: QuickSpec {
             }
             
             context("When tokens and raw-card-info is given") {
-                AcceptOnAPIChargeInfoFactory.query.withAtleast(.HasTokens).without(.HasRawCreditCardParams).each { chargeInfo, desc in
+                AcceptOnAPIChargeInfoFactory.withAtleast(.HasTokens).without(.HasRawCreditCardParams).each { chargeInfo, desc in
                     context(desc) {
                         it("does merge with correct token parameters") {
                             var info: [String:AnyObject] = [:]
@@ -87,7 +87,7 @@ class AcceptOnAPIChargeInfoSpec: QuickSpec {
             }
             
             context("When neither tokens or raw-card-info is given") {
-                AcceptOnAPIChargeInfoFactory.query.without(.HasRawCreditCardParams, .HasTokens).each { chargeInfo, desc in
+                AcceptOnAPIChargeInfoFactory.without(.HasRawCreditCardParams, .HasTokens).each { chargeInfo, desc in
                     context(desc) {
                         it("does merge with correct token parameters") {
                             var info: [String:AnyObject] = [:]

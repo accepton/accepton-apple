@@ -8,6 +8,7 @@ struct AcceptOnAPIFactoryResult: AcceptOnAPIKeyFactoryResultProtocol {
     init() {}
     init(res: AcceptOnAPIKeyFactoryResultProtocol, api: AcceptOnAPI) {
         self.init(res: res)
+        self.api = api
     }
 }
 
@@ -17,8 +18,8 @@ class AcceptOnAPIFactory: Factory<AcceptOnAPIFactoryResult, AcceptOnAPIKeyFactor
         
         AcceptOnAPIKeyFactory.query.eachWithProperties { res, desc, properties in
             self.product(properties: properties) {
-                let api = AcceptOnAPI(publicKey: res.key, isProduction: true)
-                let result = AcceptOnAPIFactoryResult(res: res as! AcceptOnAPIKeyFactoryResultProtocol, api: api)
+                let api = AcceptOnAPI(publicKey: res.key, isProduction: properties.contains(.Production))
+                let result = AcceptOnAPIFactoryResult(res: res, api: api)
                 
                 return result
             }
