@@ -1,8 +1,7 @@
 import UIKit
 
 //A payment driver is a generic interface for one payment processor
-protocol AcceptOnUIMachinePaymentDriverDelegate: class {
-    
+public protocol AcceptOnUIMachinePaymentDriverDelegate: class {    
     func transactionDidFailForDriver(driver: AcceptOnUIMachinePaymentDriver, withMessage message: String)
     
     //Transaction has completed
@@ -13,7 +12,7 @@ protocol AcceptOnUIMachinePaymentDriverDelegate: class {
     var api: AcceptOnAPI { get }
 }
 
-class AcceptOnUIMachinePaymentDriver: NSObject {
+public class AcceptOnUIMachinePaymentDriver: NSObject {
     //-----------------------------------------------------------------------------------------------------
     //Properties
     //-----------------------------------------------------------------------------------------------------
@@ -38,7 +37,7 @@ class AcceptOnUIMachinePaymentDriver: NSObject {
     //Constructors
     //-----------------------------------------------------------------------------------------------------
     var formOptions: AcceptOnUIMachineFormOptions!
-    required init(formOptions: AcceptOnUIMachineFormOptions) {
+    public required init(formOptions: AcceptOnUIMachineFormOptions) {
         self.formOptions = formOptions
     }
     

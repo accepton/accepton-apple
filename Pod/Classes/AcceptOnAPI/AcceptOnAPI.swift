@@ -24,6 +24,24 @@ public struct AcceptOnAPIError {
     }
 }
 
+
+//Used to pass-around the credit-card form information to drivers
+public struct AcceptOnAPICreditCardParams {
+    public let number: String
+    public let expMonth: String
+    public let expYear: String
+    public let cvc: String
+    public let email: String?
+    
+    public init(number: String, expMonth: String, expYear: String, cvc: String, email: String?) {
+        self.number = number
+        self.expMonth = expMonth
+        self.expYear = expYear
+        self.cvc = cvc
+        self.email = email
+    }
+}
+
 //Returned for the payment methods requests.  Describes what payments are available.
 public class AcceptOnAPIPaymentMethodsInfo {
     public var supportsStripe: Bool {
@@ -162,37 +180,52 @@ public struct AcceptOnAPITransactionToken {
 }
 
 //Helper struct for the charge methods (which have a lot of parameters and variations of parameters)
+//Which also includes paypal verify
 public struct AcceptOnAPIChargeInfo {
     //An array of tokens to charge
-    var cardTokens: [String:AnyObject]?
+    public var cardTokens: [String:AnyObject]?
+    
+    //A raw-card entry to support processors like Authorize.net
+    public var rawCardInfo: AcceptOnAPICreditCardParams?
 
     //'Extra' Metadata the user may pass in
     var metadata: [String:AnyObject]?
     
     var email: String?
     
-    public init(cardTokens: [String:AnyObject], email: String?=nil, metadata: [String:AnyObject]?=nil) {
+    public init(rawCardInfo: AcceptOnAPICreditCardParams?=nil, cardTokens: [String:AnyObject], email: String?=nil, metadata: [String:AnyObject]?=nil) {
         self.cardTokens = cardTokens
         self.metadata = metadata
         self.email = email
+        self.rawCardInfo = rawCardInfo
     }
     
     //Places all necessary info into an already created params struct (usually this would
     //have the session key already in it, so we place all the requisite fields for the
     //charge request)
     public func mergeIntoParams(inout dict: [String:AnyObject]) {
-        if let cardTokens = cardTokens {
+        dict["card_tokens"] = [:]
+        
+        if let cardTokens = cardTokens where cardTokens.count > 0 {
             //Pay-pal verification transactions
             if let pid = cardTokens["paypal_payment_id"] as? String {
               dict["payment_id"] = pid
             } else {
               dict["card_tokens"] = cardTokens
             }
-            
-            dict["email"] = email ?? ""
-            
-            dict["metadata"] = metadata ?? [:]
+        } else if let card = rawCardInfo {
+            //When no tokens are available, just send through the card information
+            var dictCard: [String:AnyObject] = [:]
+            dictCard["number"] = card.number
+            dictCard["exp_month"] = card.expMonth
+            dictCard["exp_year"] = card.expYear
+            dictCard["security_code"] = card.cvc
+
+            dict["card"] = dictCard
         }
+            
+        dict["email"] = email ?? ""
+        dict["metadata"] = metadata ?? [:]
     }
 }
 

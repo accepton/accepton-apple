@@ -77,9 +77,9 @@ class AcceptOnAPITransactionsSpec: QuickSpec {
                 })
                 
                 //This account supports paypal
-                expect {
-                    return paymentMethods?.supportsPaypal
-                }.toEventually(equal(true))
+//                expect {
+//                    return paymentMethods?.supportsPaypal
+//                }.toEventually(equal(true))
                 
                 //This account supports credit cards
                 expect {

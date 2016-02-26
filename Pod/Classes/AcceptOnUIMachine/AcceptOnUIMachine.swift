@@ -84,28 +84,11 @@ public class AcceptOnUIMachineFormOptions : NSObject {
     public var userInfo: AcceptOnUIMachineOptionalUserInfo?
     
     //Credit card transactions post the email & all fields of the credit-card
-    public var creditCardParams: AcceptOnUIMachineCreditCardParams?
+    public var creditCardParams: AcceptOnAPICreditCardParams?
     
     //Extra information, either provided by the 'extra' enabled fields
     //or user added
     public var metadata: [String:AnyObject] = [:]
-}
-
-//Used to pass-around the credit-card form information to drivers
-public struct AcceptOnUIMachineCreditCardParams {
-    let number: String
-    let expMonth: String
-    let expYear: String
-    let cvc: String
-    let email: String
-    
-    init(number: String, expMonth: String, expYear: String, cvc: String, email: String) {
-        self.number = number
-        self.expMonth = expMonth
-        self.expYear = expYear
-        self.cvc = cvc
-        self.email = email
-    }
 }
 
 enum AcceptOnUIMachineState: String {
@@ -626,7 +609,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
             self.delegate?.acceptOnUIMachinePaymentIsProcessing?("credit_card")
             
             //Create our helper struct to pass to our drivers
-            let cardParams = AcceptOnUIMachineCreditCardParams(number: cardNumFieldValue, expMonth: expMonthFieldValue ?? "", expYear: expYearFieldValue, cvc: securityFieldValue, email: emailFieldValue)
+            let cardParams = AcceptOnAPICreditCardParams(number: cardNumFieldValue, expMonth: expMonthFieldValue ?? "", expYear: expYearFieldValue, cvc: securityFieldValue, email: emailFieldValue)
             self.options!.creditCardParams = cardParams
             self.startTransactionWithDriverOfClass(AcceptOnUIMachineCreditCardDriver.self)
         }
@@ -656,14 +639,14 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
    //-----------------------------------------------------------------------------------------------------
    //AcceptOnUIMachinePaymentDriverDelegate
    //-----------------------------------------------------------------------------------------------------
-    func transactionDidCancelForDriver(driver: AcceptOnUIMachinePaymentDriver) {
+    public func transactionDidCancelForDriver(driver: AcceptOnUIMachinePaymentDriver) {
         if state != .WaitingForTransaction { return }
         state = .PaymentForm
         
         delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?(driver.dynamicType.name)
     }
     
-    func transactionDidFailForDriver(driver: AcceptOnUIMachinePaymentDriver, withMessage message: String) {
+    public func transactionDidFailForDriver(driver: AcceptOnUIMachinePaymentDriver, withMessage message: String) {
         if state != .WaitingForTransaction { return }
         state = .PaymentForm
         
@@ -671,7 +654,7 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
         delegate?.acceptOnUIMachinePaymentErrorWithMessage?(message)
     }
     
-    func transactionDidSucceedForDriver(driver: AcceptOnUIMachinePaymentDriver, withChargeRes chargeRes: [String : AnyObject]) {
+    public func transactionDidSucceedForDriver(driver: AcceptOnUIMachinePaymentDriver, withChargeRes chargeRes: [String : AnyObject]) {
         state = .PaymentComplete
         
         delegate?.acceptOnUIMachinePaymentDidSucceedWithCharge?(chargeRes)

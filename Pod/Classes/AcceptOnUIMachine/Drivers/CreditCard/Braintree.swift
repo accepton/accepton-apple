@@ -2,7 +2,7 @@ import UIKit
 import BraintreePrivate
 
 extension BTCard {
-    convenience init(_ creditCardParams: AcceptOnUIMachineCreditCardParams) {
+    convenience init(_ creditCardParams: AcceptOnAPICreditCardParams) {
         self.init()
         self.number = creditCardParams.number
         self.expirationMonth = creditCardParams.expMonth ?? ""

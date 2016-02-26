@@ -139,7 +139,7 @@ import PaypalPrivate
     //Currently, PayPal verifies using a different endpoint then the rest of the tokenizers
     override func readyToCompleteTransaction(userInfo: Any?=nil) {
         if nonceTokens.count > 0 {
-            let chargeInfo = AcceptOnAPIChargeInfo(cardTokens: self.nonceTokens, email: email, metadata: self.metadata)
+            let chargeInfo = AcceptOnAPIChargeInfo(rawCardInfo: self.formOptions.creditCardParams, cardTokens: self.nonceTokens, email: email, metadata: self.metadata)
             
             self.delegate.api.verifyPaypalWithTransactionId(self.formOptions.token.id, andChargeInfo: chargeInfo) { chargeRes, err in
                 if let err = err {
