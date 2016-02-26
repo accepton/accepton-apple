@@ -16,6 +16,9 @@
 		8DF6FEFB9A8E719E1788BFB7 /* Pods_accepton_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24E4E46E39510A32F34424D0 /* Pods_accepton_Example.framework */; };
 		AA2BF90F1C15F96400904C31 /* AcceptOnAPIGeoCodeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2BF90D1C15F6C400904C31 /* AcceptOnAPIGeoCodeSpec.swift */; };
 		AA3857151BE267D400491040 /* blur_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = AA3857141BE267D400491040 /* blur_bg.png */; };
+		AA4397981C80AF1B00FB80D2 /* AcceptOnUIMachineFormOptionsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4397961C80AEE600FB80D2 /* AcceptOnUIMachineFormOptionsFactory.swift */; };
+		AA43979D1C80AFCF00FB80D2 /* AcceptOnAPIPaymentMethodsInfoFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA43979B1C80AFA100FB80D2 /* AcceptOnAPIPaymentMethodsInfoFactory.swift */; };
+		AA4397A11C80B8A200FB80D2 /* AcceptOnAPITransactionTokenFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA43979F1C80B84400FB80D2 /* AcceptOnAPITransactionTokenFactory.swift */; };
 		AA558C8D1BD954D1003A7929 /* AcceptOnUIMachineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA558C8B1BD95485003A7929 /* AcceptOnUIMachineSpec.swift */; };
 		AA9016B51BE187CE00C00E77 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9016B41BE187CE00C00E77 /* ViewController.swift */; };
 		AADE004E1BE3EE6900912152 /* watch.png in Resources */ = {isa = PBXBuildFile; fileRef = AADE004D1BE3EE6900912152 /* watch.png */; };
@@ -28,7 +31,6 @@
 		AAFC37661C7FC57D00B65DBA /* AcceptOnAPIChargeInfoFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFC37641C7FC55100B65DBA /* AcceptOnAPIChargeInfoFactory.swift */; };
 		AAFC376C1C7FFBA000B65DBA /* AcceptOnUIMachinePaymentDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFC376A1C7FFB8B00B65DBA /* AcceptOnUIMachinePaymentDriver.swift */; };
 		AAFC376F1C7FFCAA00B65DBA /* AcceptOnAPIFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFC376D1C7FFC6500B65DBA /* AcceptOnAPIFactory.swift */; };
-		AAFC37711C7FFECE00B65DBA /* AcceptOnUIMachineFormOptionsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFC37701C7FFECE00B65DBA /* AcceptOnUIMachineFormOptionsFactory.swift */; };
 		AAFC37741C7FFF9E00B65DBA /* AcceptOnAPIKeyFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFC37721C7FFF3200B65DBA /* AcceptOnAPIKeyFactory.swift */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +75,9 @@
 		A275D41E14815B65D4C1E8FB /* accepton.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = accepton.podspec; path = ../accepton.podspec; sourceTree = "<group>"; };
 		AA2BF90D1C15F6C400904C31 /* AcceptOnAPIGeoCodeSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnAPIGeoCodeSpec.swift; sourceTree = "<group>"; };
 		AA3857141BE267D400491040 /* blur_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blur_bg.png; sourceTree = "<group>"; };
+		AA4397961C80AEE600FB80D2 /* AcceptOnUIMachineFormOptionsFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnUIMachineFormOptionsFactory.swift; sourceTree = "<group>"; };
+		AA43979B1C80AFA100FB80D2 /* AcceptOnAPIPaymentMethodsInfoFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnAPIPaymentMethodsInfoFactory.swift; sourceTree = "<group>"; };
+		AA43979F1C80B84400FB80D2 /* AcceptOnAPITransactionTokenFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnAPITransactionTokenFactory.swift; sourceTree = "<group>"; };
 		AA558C8B1BD95485003A7929 /* AcceptOnUIMachineSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnUIMachineSpec.swift; sourceTree = "<group>"; };
 		AA9016B41BE187CE00C00E77 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		AADE004D1BE3EE6900912152 /* watch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = watch.png; sourceTree = "<group>"; };
@@ -85,7 +90,6 @@
 		AAFC37641C7FC55100B65DBA /* AcceptOnAPIChargeInfoFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnAPIChargeInfoFactory.swift; sourceTree = "<group>"; };
 		AAFC376A1C7FFB8B00B65DBA /* AcceptOnUIMachinePaymentDriver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnUIMachinePaymentDriver.swift; sourceTree = "<group>"; };
 		AAFC376D1C7FFC6500B65DBA /* AcceptOnAPIFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnAPIFactory.swift; sourceTree = "<group>"; };
-		AAFC37701C7FFECE00B65DBA /* AcceptOnUIMachineFormOptionsFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnUIMachineFormOptionsFactory.swift; sourceTree = "<group>"; };
 		AAFC37721C7FFF3200B65DBA /* AcceptOnAPIKeyFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnAPIKeyFactory.swift; sourceTree = "<group>"; };
 		CB2386879C9FC7B1B2B10C0A /* Pods-accepton_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-accepton_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-accepton_Example/Pods-accepton_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		CFCA9927F0EED72BDD3B3097 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -211,6 +215,28 @@
 			name = API;
 			sourceTree = "<group>";
 		};
+		AA4397991C80AF6500FB80D2 /* AcceptOnAPI */ = {
+			isa = PBXGroup;
+			children = (
+				AA43979B1C80AFA100FB80D2 /* AcceptOnAPIPaymentMethodsInfoFactory.swift */,
+				AAE940D21C47F007008D6450 /* AcceptOnAPIKeys.swift */,
+				AAFC375D1C7FA33600B65DBA /* AcceptOnAPICreditCardParamsFactory.swift */,
+				AAFC37641C7FC55100B65DBA /* AcceptOnAPIChargeInfoFactory.swift */,
+				AAFC376D1C7FFC6500B65DBA /* AcceptOnAPIFactory.swift */,
+				AAFC37721C7FFF3200B65DBA /* AcceptOnAPIKeyFactory.swift */,
+				AA43979F1C80B84400FB80D2 /* AcceptOnAPITransactionTokenFactory.swift */,
+			);
+			name = AcceptOnAPI;
+			sourceTree = "<group>";
+		};
+		AA43979A1C80AF6F00FB80D2 /* UIMachine */ = {
+			isa = PBXGroup;
+			children = (
+				AA4397961C80AEE600FB80D2 /* AcceptOnUIMachineFormOptionsFactory.swift */,
+			);
+			name = UIMachine;
+			sourceTree = "<group>";
+		};
 		AAB4728D1BDE66850071DEBC /* Assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -255,13 +281,9 @@
 		AAFC375C1C7FA32B00B65DBA /* Factories */ = {
 			isa = PBXGroup;
 			children = (
-				AAE940D21C47F007008D6450 /* AcceptOnAPIKeys.swift */,
-				AAFC375D1C7FA33600B65DBA /* AcceptOnAPICreditCardParamsFactory.swift */,
+				AA43979A1C80AF6F00FB80D2 /* UIMachine */,
+				AA4397991C80AF6500FB80D2 /* AcceptOnAPI */,
 				AAFC375F1C7FA34400B65DBA /* Factory.swift */,
-				AAFC37641C7FC55100B65DBA /* AcceptOnAPIChargeInfoFactory.swift */,
-				AAFC376D1C7FFC6500B65DBA /* AcceptOnAPIFactory.swift */,
-				AAFC37701C7FFECE00B65DBA /* AcceptOnUIMachineFormOptionsFactory.swift */,
-				AAFC37721C7FFF3200B65DBA /* AcceptOnAPIKeyFactory.swift */,
 			);
 			name = Factories;
 			sourceTree = "<group>";
@@ -514,7 +536,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA9016B51BE187CE00C00E77 /* ViewController.swift in Sources */,
-				AAFC37711C7FFECE00B65DBA /* AcceptOnUIMachineFormOptionsFactory.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -523,13 +544,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA4397981C80AF1B00FB80D2 /* AcceptOnUIMachineFormOptionsFactory.swift in Sources */,
 				AA2BF90F1C15F96400904C31 /* AcceptOnAPIGeoCodeSpec.swift in Sources */,
 				AAFC37551C7F9E8900B65DBA /* AcceptOnAPIChargeInfoSpec.swift in Sources */,
 				AAFC37741C7FFF9E00B65DBA /* AcceptOnAPIKeyFactory.swift in Sources */,
+				AA43979D1C80AFCF00FB80D2 /* AcceptOnAPIPaymentMethodsInfoFactory.swift in Sources */,
 				AAFC37611C7FA35700B65DBA /* Factory.swift in Sources */,
 				AAFC37631C7FA35A00B65DBA /* AcceptOnAPICreditCardParamsFactory.swift in Sources */,
 				AAFC37661C7FC57D00B65DBA /* AcceptOnAPIChargeInfoFactory.swift in Sources */,
 				AAFC37581C7FA0A700B65DBA /* AcceptOnAPICreditCardParamsSpec.swift in Sources */,
+				AA4397A11C80B8A200FB80D2 /* AcceptOnAPITransactionTokenFactory.swift in Sources */,
 				AA558C8D1BD954D1003A7929 /* AcceptOnUIMachineSpec.swift in Sources */,
 				AAFC376C1C7FFBA000B65DBA /* AcceptOnUIMachinePaymentDriver.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* AcceptOnAPITransactionsSpec.swift in Sources */,

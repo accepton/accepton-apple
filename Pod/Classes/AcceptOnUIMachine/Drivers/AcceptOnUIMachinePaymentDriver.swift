@@ -16,7 +16,7 @@ public class AcceptOnUIMachinePaymentDriver: NSObject {
     //-----------------------------------------------------------------------------------------------------
     //Properties
     //-----------------------------------------------------------------------------------------------------
-    weak var delegate: AcceptOnUIMachinePaymentDriverDelegate!
+    public weak var delegate: AcceptOnUIMachinePaymentDriverDelegate!
     
     class var name: String {
         return "<unnamed>"
@@ -24,6 +24,8 @@ public class AcceptOnUIMachinePaymentDriver: NSObject {
     
     //Tokens that were retrieved from the drivers
     var nonceTokens: [String:AnyObject] = [:]
+    
+    var rawCreditCardInfo: AcceptOnAPICreditCardParams?
     
     //Email is only for credit-card forms
     var email: String?
@@ -41,17 +43,17 @@ public class AcceptOnUIMachinePaymentDriver: NSObject {
         self.formOptions = formOptions
     }
     
-    func beginTransaction() {
+    public func beginTransaction() {
     }
     
-    //At this point, you should have filled out the nonceTokens and optionally 'email' properties.  The
-    //'email' property is passed as part of the transaction and is used for credit-card transactions
-    //only.  For drivers that have more complex semantics, e.g. ApplePay, where you need to interleave
-    //actions within the transaction handshake, override the readyToCompleteTransactionDidFail and
-    //readyToCompleteTransactionDidSucceed to modify that behaviour.
+    //At this point, you should have filled out the nonceTokens, optionally the raw credit card information
+    //and optionally 'email' properties.  The 'email' property is passed as part of the transaction and is 
+    //used for credit-card transactions only.  For drivers that have more complex semantics, e.g. ApplePay, 
+    //where you need to interleave actions within the transaction handshake, override the 
+    //readyToCompleteTransactionDidFail and readyToCompleteTransactionDidSucceed to modify that behaviour.
     func readyToCompleteTransaction(userInfo: Any?=nil) {
         if nonceTokens.count > 0 {
-            let chargeInfo = AcceptOnAPIChargeInfo(cardTokens: self.nonceTokens, email: email, metadata: self.metadata)
+            let chargeInfo = AcceptOnAPIChargeInfo(rawCardInfo: self.rawCreditCardInfo, cardTokens: self.nonceTokens, email: email, metadata: self.metadata)
             
             self.delegate.api.chargeWithTransactionId(self.formOptions.token.id, andChargeinfo: chargeInfo) { chargeRes, err in
                 if let err = err {

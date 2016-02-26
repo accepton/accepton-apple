@@ -122,22 +122,11 @@ public class AcceptOnAPIPaymentMethodsInfo {
     //Loaded directly from server response on form configuration
     var config: [String:AnyObject]!
     
-    //For testing purposes
-    func addMocksToConfig() {
-        guard var processorInfo = config["processor_information"] as? [String:AnyObject]  else {
-            return
-        }
-        
-        //CoW
-        config["processor_information"] = processorInfo
-    }
-    
     public init() {}
     
     static public func parseConfig(config: [String: AnyObject]) -> AcceptOnAPIPaymentMethodsInfo? {
         var info = AcceptOnAPIPaymentMethodsInfo()
         info.config = config
-        info.addMocksToConfig()
         
         //Config must contain payment methods or processor information
         if info.paymentMethods == nil { return nil }

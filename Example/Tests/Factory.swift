@@ -109,16 +109,21 @@ class Factory<T, P: Equatable> {
         products.append(product)
     }
     
-    func product(properties: P..., withExtraDesc extraDescs: [String:String]?=nil, block: ()->(T)) {
+    func product(properties: P..., var withExtraDescs extraDescs: [String:String]=[:], block: ()->(T)) {
+        for (k, v) in currentPrefixExtraDescs { extraDescs[k] = v }
         self.product(properties: properties, withExtraDesc: extraDescs, block: block)
     }
     
+    var currentPrefixExtraDescs: [String:String]=[:]
     var currentContextProperties: [P] = []
-    func context(properties: P..., block: ()->()) {
+    func context(properties: P..., withExtraDescs extraDescs: [String:String]=[:], block: ()->()) {
         let oldProperties = currentContextProperties
+        let oldPrefixExtraDescs = currentPrefixExtraDescs
         currentContextProperties += properties
+        for (k, v) in extraDescs { currentPrefixExtraDescs[k] = v }
         block()
         currentContextProperties = oldProperties
+        currentPrefixExtraDescs = oldPrefixExtraDescs
     }
     
     static var query: FactoryResultQuery<T, P> {
