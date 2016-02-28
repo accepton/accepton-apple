@@ -1,6 +1,7 @@
 language: objective-c
 osx_image: xcode7
 xcode_scheme: accepton-Example
+xcode_workspace: Example/accepton.xcworkspace
 env:
   global:
     - LC_CTYPE=en_US.UTF-8
