@@ -2,7 +2,7 @@ import PassKit
 import UIKit
 
 //Generic credit-card driver interface
-@objc class AcceptOnUIMachineCreditCardDriver: AcceptOnUIMachinePaymentDriver, AcceptOnUIMachineCreditCardDriverPluginDelegate {
+@objc public class AcceptOnUIMachineCreditCardDriver: AcceptOnUIMachinePaymentDriver, AcceptOnUIMachineCreditCardDriverPluginDelegate {
     //List of drivers that you want available
     let pluginClasses: [AcceptOnUIMachineCreditCardDriverPlugin.Type] = [
         AcceptOnUIMachineCreditCardBraintreePlugin.self,
@@ -15,7 +15,7 @@ import UIKit
         return "credit_card"
     }
     
-    override func beginTransaction() {
+    public override func beginTransaction() {
         //Credit card transactions set the email
         self.email = formOptions.creditCardParams?.email
         

@@ -25,8 +25,6 @@ public class AcceptOnUIMachinePaymentDriver: NSObject {
     //Tokens that were retrieved from the drivers
     var nonceTokens: [String:AnyObject] = [:]
     
-    var rawCreditCardInfo: AcceptOnAPICreditCardParams?
-    
     //Email is only for credit-card forms
     var email: String?
     
@@ -52,8 +50,8 @@ public class AcceptOnUIMachinePaymentDriver: NSObject {
     //where you need to interleave actions within the transaction handshake, override the 
     //readyToCompleteTransactionDidFail and readyToCompleteTransactionDidSucceed to modify that behaviour.
     func readyToCompleteTransaction(userInfo: Any?=nil) {
-        if nonceTokens.count > 0 {
-            let chargeInfo = AcceptOnAPIChargeInfo(rawCardInfo: self.rawCreditCardInfo, cardTokens: self.nonceTokens, email: email, metadata: self.metadata)
+        if nonceTokens.count > 0 || self.formOptions.creditCardParams != nil {
+            let chargeInfo = AcceptOnAPIChargeInfo(rawCardInfo: self.formOptions.creditCardParams, cardTokens: self.nonceTokens, email: email, metadata: self.metadata)
             
             self.delegate.api.chargeWithTransactionId(self.formOptions.token.id, andChargeinfo: chargeInfo) { chargeRes, err in
                 if let err = err {

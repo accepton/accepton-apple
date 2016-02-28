@@ -79,15 +79,6 @@ class ViewController : UIViewController, AcceptOnViewControllerDelegate {
             
             //If you're running in production
             //avc.isProduction = true
-
-            //Optionally, provide an email to use to auto-fill out the email
-            //field in the credit card form
-            let userInfo = AcceptOnUIMachineOptionalUserInfo()
-            userInfo.requestsAndRequiresShippingAddress = true
-            userInfo.shippingAddressAutofillHints = AcceptOnAPIAddress(line1: "test", line2: "lol", country: "test", region: "test", city: "test", postalCode: "test")
-//            userInfo.requestsAndRequiresBillingAddress = true
-            userInfo.emailAutofillHint = "test@test.com"
-            avc.userInfo = userInfo
         }
     }
     

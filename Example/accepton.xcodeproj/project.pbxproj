@@ -14,6 +14,7 @@
 		607FACEC1AFB9204008FA782 /* AcceptOnAPITransactionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* AcceptOnAPITransactionsSpec.swift */; };
 		8CB6C48E20B34F41541EAE71 /* Pods_accepton_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 448DC9D3D8A878B7D61866C6 /* Pods_accepton_Tests.framework */; };
 		8DF6FEFB9A8E719E1788BFB7 /* Pods_accepton_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24E4E46E39510A32F34424D0 /* Pods_accepton_Example.framework */; };
+		AA24E43A1C811874001A376C /* Spy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA24E4381C8117FE001A376C /* Spy.swift */; };
 		AA2BF90F1C15F96400904C31 /* AcceptOnAPIGeoCodeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2BF90D1C15F6C400904C31 /* AcceptOnAPIGeoCodeSpec.swift */; };
 		AA3857151BE267D400491040 /* blur_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = AA3857141BE267D400491040 /* blur_bg.png */; };
 		AA4397981C80AF1B00FB80D2 /* AcceptOnUIMachineFormOptionsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4397961C80AEE600FB80D2 /* AcceptOnUIMachineFormOptionsFactory.swift */; };
@@ -21,6 +22,7 @@
 		AA4397A11C80B8A200FB80D2 /* AcceptOnAPITransactionTokenFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA43979F1C80B84400FB80D2 /* AcceptOnAPITransactionTokenFactory.swift */; };
 		AA558C8D1BD954D1003A7929 /* AcceptOnUIMachineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA558C8B1BD95485003A7929 /* AcceptOnUIMachineSpec.swift */; };
 		AA9016B51BE187CE00C00E77 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9016B41BE187CE00C00E77 /* ViewController.swift */; };
+		AAB792151C821F3600E3F9CA /* AcceptOnAPISpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB792131C821E2300E3F9CA /* AcceptOnAPISpy.swift */; };
 		AADE004E1BE3EE6900912152 /* watch.png in Resources */ = {isa = PBXBuildFile; fileRef = AADE004D1BE3EE6900912152 /* watch.png */; };
 		AAE940D41C47F014008D6450 /* AcceptOnAPIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE940D21C47F007008D6450 /* AcceptOnAPIKeys.swift */; };
 		AAE940D51C47F016008D6450 /* AcceptOnPaymentProcessorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE940D01C47EFD9008D6450 /* AcceptOnPaymentProcessorSpec.swift */; };
@@ -73,6 +75,7 @@
 		607FACEB1AFB9204008FA782 /* AcceptOnAPITransactionsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptOnAPITransactionsSpec.swift; sourceTree = "<group>"; };
 		8602CC063BC5F177EA38808C /* Pods-accepton_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-accepton_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-accepton_Example/Pods-accepton_Example.release.xcconfig"; sourceTree = "<group>"; };
 		A275D41E14815B65D4C1E8FB /* accepton.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = accepton.podspec; path = ../accepton.podspec; sourceTree = "<group>"; };
+		AA24E4381C8117FE001A376C /* Spy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spy.swift; sourceTree = "<group>"; };
 		AA2BF90D1C15F6C400904C31 /* AcceptOnAPIGeoCodeSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnAPIGeoCodeSpec.swift; sourceTree = "<group>"; };
 		AA3857141BE267D400491040 /* blur_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blur_bg.png; sourceTree = "<group>"; };
 		AA4397961C80AEE600FB80D2 /* AcceptOnUIMachineFormOptionsFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnUIMachineFormOptionsFactory.swift; sourceTree = "<group>"; };
@@ -80,6 +83,7 @@
 		AA43979F1C80B84400FB80D2 /* AcceptOnAPITransactionTokenFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnAPITransactionTokenFactory.swift; sourceTree = "<group>"; };
 		AA558C8B1BD95485003A7929 /* AcceptOnUIMachineSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnUIMachineSpec.swift; sourceTree = "<group>"; };
 		AA9016B41BE187CE00C00E77 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		AAB792131C821E2300E3F9CA /* AcceptOnAPISpy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnAPISpy.swift; sourceTree = "<group>"; };
 		AADE004D1BE3EE6900912152 /* watch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = watch.png; sourceTree = "<group>"; };
 		AAE940D01C47EFD9008D6450 /* AcceptOnPaymentProcessorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnPaymentProcessorSpec.swift; sourceTree = "<group>"; };
 		AAE940D21C47F007008D6450 /* AcceptOnAPIKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnAPIKeys.swift; sourceTree = "<group>"; };
@@ -169,6 +173,7 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				AA24E4371C8117AF001A376C /* Helpers */,
 				AAFC37671C7FFB7200B65DBA /* UIMachine */,
 				AAFC375C1C7FA32B00B65DBA /* Factories */,
 				AA2BF90C1C15F6B300904C31 /* API */,
@@ -202,6 +207,14 @@
 				24E4E46E39510A32F34424D0 /* Pods_accepton_Example.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AA24E4371C8117AF001A376C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				AAB792111C821E1200E3F9CA /* Spy */,
+			);
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 		AA2BF90C1C15F6B300904C31 /* API */ = {
@@ -246,6 +259,23 @@
 			);
 			name = Assets;
 			path = accepton;
+			sourceTree = "<group>";
+		};
+		AAB792111C821E1200E3F9CA /* Spy */ = {
+			isa = PBXGroup;
+			children = (
+				AAB792121C821E1B00E3F9CA /* SpyClasses */,
+				AA24E4381C8117FE001A376C /* Spy.swift */,
+			);
+			name = Spy;
+			sourceTree = "<group>";
+		};
+		AAB792121C821E1B00E3F9CA /* SpyClasses */ = {
+			isa = PBXGroup;
+			children = (
+				AAB792131C821E2300E3F9CA /* AcceptOnAPISpy.swift */,
+			);
+			name = SpyClasses;
 			sourceTree = "<group>";
 		};
 		AADE00501BE3EEFE00912152 /* Controllers */ = {
@@ -550,6 +580,7 @@
 				AAFC37741C7FFF9E00B65DBA /* AcceptOnAPIKeyFactory.swift in Sources */,
 				AA43979D1C80AFCF00FB80D2 /* AcceptOnAPIPaymentMethodsInfoFactory.swift in Sources */,
 				AAFC37611C7FA35700B65DBA /* Factory.swift in Sources */,
+				AA24E43A1C811874001A376C /* Spy.swift in Sources */,
 				AAFC37631C7FA35A00B65DBA /* AcceptOnAPICreditCardParamsFactory.swift in Sources */,
 				AAFC37661C7FC57D00B65DBA /* AcceptOnAPIChargeInfoFactory.swift in Sources */,
 				AAFC37581C7FA0A700B65DBA /* AcceptOnAPICreditCardParamsSpec.swift in Sources */,
@@ -560,6 +591,7 @@
 				AAE940D41C47F014008D6450 /* AcceptOnAPIKeys.swift in Sources */,
 				AAFC376F1C7FFCAA00B65DBA /* AcceptOnAPIFactory.swift in Sources */,
 				AAE940D51C47F016008D6450 /* AcceptOnPaymentProcessorSpec.swift in Sources */,
+				AAB792151C821F3600E3F9CA /* AcceptOnAPISpy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

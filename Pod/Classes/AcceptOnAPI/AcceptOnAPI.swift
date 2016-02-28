@@ -170,7 +170,7 @@ public struct AcceptOnAPITransactionToken {
 
 //Helper struct for the charge methods (which have a lot of parameters and variations of parameters)
 //Which also includes paypal verify
-public struct AcceptOnAPIChargeInfo {
+public class AcceptOnAPIChargeInfo {
     //An array of tokens to charge
     public var cardTokens: [String:AnyObject]?
     
@@ -328,7 +328,7 @@ extension Method {
     let stagingEndpointURL = "https://staging-checkout.accepton.com"
     let productionEndpointURL = "https://checkout.accepton.com"
     
-    let isProduction: Bool
+    public let isProduction: Bool
     var endpointUrl: String {
         get {
             return isProduction ? self.productionEndpointURL : self.stagingEndpointURL
@@ -449,7 +449,7 @@ extension Method {
         //merge the charge information setup in the AcceptOnAPIChargeInfo struct.
         //The merge contains things like the 'card_token' or in some cases the
         //actual credit card numbers.
-        var params = ["access_token":self.accessToken, "token": tid] as [String:AnyObject]
+        var params = ["access_token": self.accessToken, "token": tid] as [String:AnyObject]
         chargeInfo.mergeIntoParams(&params)
         
         requestWithMethod(.POST, path:"/v1/charges", params: params, completion: { res, err in

@@ -4,7 +4,9 @@ enum AcceptOnAPIPaymentMethodsInfoFactoryProperty: Equatable {
     case Stripe(key: String?, isBogus: Bool)
     case PayPalRest(key: String?, isBogus: Bool)
     
-    case PaymentMethodCreditCard
+    case SupportsCreditCards
+    
+    case WithoutAnyCreditCardPaymentProcessors
 }
 
 //This allows you to search via bogus/non-bogus keys
@@ -14,8 +16,9 @@ func ==(lhs: AcceptOnAPIPaymentMethodsInfoFactoryProperty, rhs: AcceptOnAPIPayme
         return true
     case (.PayPalRest(_, let bl), .Stripe(_, let br)) where bl == br:
         return true
-    case (.PaymentMethodCreditCard, .PaymentMethodCreditCard):
+    case (.SupportsCreditCards, .SupportsCreditCards):
         return true
+    case (.WithoutAnyCreditCardPaymentProcessors, .WithoutAnyCreditCardPaymentProcessors): return true
     default:
         return false
     }
@@ -25,8 +28,8 @@ class AcceptOnAPIPaymentMethodsInfoFactory: Factory<AcceptOnAPIPaymentMethodsInf
     required init() {
         super.init()
         
-        context(.PaymentMethodCreditCard) {
-            self.product {
+        context(.SupportsCreditCards) {
+            self.product(.WithoutAnyCreditCardPaymentProcessors) {
                 AcceptOnAPIPaymentMethodsInfo.parseConfig([
                     "payment_methods": ["credit-card"],
                     "processor_information": [

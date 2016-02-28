@@ -22,6 +22,10 @@ func ==(lhs: AcceptOnAPITransactionTokenFactoryProperty, rhs: AcceptOnAPITransac
         //If both are not nil, then during the search, use the cost to match exactly (good for finding $0.00)
         if cl != nil && cr != nil { return cl == cr }
         return true
+    case (.Bogus, .Bogus):
+        return true
+    case (.NonBogus, .NonBogus):
+        return true
     default:
         return false
     }
@@ -41,7 +45,7 @@ class AcceptOnAPITransactionTokenFactory: Factory<AcceptOnAPITransactionToken, A
                     return AcceptOnAPITransactionToken.parseTokenRes([
                         "description": item.itemValue.desc,
                         "id": item.itemValue.tid,
-                        "cost": item.itemValue.costInUSDCents!
+                        "amount": item.itemValue.costInUSDCents!
                     ])!
                 }
             }

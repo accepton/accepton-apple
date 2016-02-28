@@ -106,6 +106,16 @@ class Factory<T, P: Equatable> {
 
     func product(properties properties: [P], withExtraDesc extraDescs: [String:String]?=nil, block: ()->(T)) {
         let product = FactoryProduct<T, P>(properties: properties+currentContextProperties, descriptionAddendums: extraDescs, value: block())
+        
+        //Do any products have matching descriptions?
+        let desc = "\(product)"
+        for e in products {
+            let otherDesc = "\(e)"
+            if otherDesc == desc {
+                assertionFailure("product for \(self.dynamicType) with desc \(desc) has duplicates!!")
+            }
+        }
+        
         products.append(product)
     }
     
