@@ -16,7 +16,7 @@ class AcceptOnUIMachineCreditCardBraintreePlugin: AcceptOnUIMachineCreditCardDri
     }
     
     override func beginTransactionWithFormOptions(formOptions: AcceptOnUIMachineFormOptions) {
-        if let nonce = formOptions.paymentMethods.braintreeNonce {
+        if let nonce = formOptions.paymentMethods.braintreeClientAuthorizationFingerprint {
             guard let api = BTAPIClient(authorization: nonce) else {
                 self.delegate.creditCardPlugin(self, didFailWithMessage: "The Braintree client could not be configured")
                 return

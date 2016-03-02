@@ -50,12 +50,24 @@ public class AcceptOnAPIPaymentMethodsInfo {
     
     //TODO: Check against accepton API
     public var supportsBraintree: Bool {
-        return braintreeNonce != nil
+        return braintreeInfo != nil
+    }
+    
+    public var braintreeMerchantId: String? {
+        return braintreeInfo?["merchantId"] as? String
+    }
+    
+    public var braintreeClientTokenInfo: [String:AnyObject]? {
+        return braintreeInfo?["clientToken"] as? [String:AnyObject]
+    }
+    
+    public var braintreeClientAuthorizationFingerprint: String? {
+        return braintreeClientTokenInfo?["authorizationFingerprint"] as? String
     }
     
     //TODO: Retrieve from accepton API
-    var braintreeNonce: String? {
-        return nil
+    public var braintreeInfo: [String:AnyObject]? {
+        return creditCardProcessorInfo?["braintree"] as? [String:AnyObject]
     }
     
     public var paypalRestClientId: String? {
@@ -338,9 +350,15 @@ extension Method {
     //Makes an AcceptOnAPI network request to the `path`, e.g. if you passed in `/v1/tokens` for path
     //then you would make a request to something like `https://staging-checkout.accepton.com/v1/tokens`
     //depending on the value of endpoint_url above
-    public func requestWithMethod(method: AcceptOnAPIRequestMethod, path: String, params: [String:AnyObject]?, completion: (res: [String:AnyObject]?, error:NSError?) -> ()) {
+    public func requestWithMethod(method: AcceptOnAPIRequestMethod, path: String, params: [String:AnyObject]?, completion _completion: (res: [String:AnyObject]?, error:NSError?) -> ()) {
         //Get the full network request path, e.g. https://staging-checkout.accepton.com + /v1/tokens
         let fullPath = "\(endpointUrl)\(path)"
+        
+        func completion(res res: [String:AnyObject]?, error: NSError?) {
+//            dispatch_async(dispatch_get_main_queue()) {
+                _completion(res: res, error: error)
+//            }
+        }
         
         //Make a request
         request(Method(method), fullPath, parameters: params).responseJSON { response in

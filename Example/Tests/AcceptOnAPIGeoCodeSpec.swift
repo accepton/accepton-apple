@@ -75,7 +75,7 @@ class AcceptOnAPIGeoCodeSpec: QuickSpec {
             //Should be able to get an address back
             expect {
                 return address == nil
-                }.toEventually(equal(false))
+            }.toEventually(equal(false))
             
             //Street should have some characters in it
             //                expect {

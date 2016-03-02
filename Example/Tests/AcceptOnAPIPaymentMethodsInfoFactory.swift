@@ -7,6 +7,9 @@ enum AcceptOnAPIPaymentMethodsInfoFactoryProperty: Equatable {
     case SupportsCreditCards
     
     case WithoutAnyCreditCardPaymentProcessors
+    
+    case Bogus    //All security tokens, etc are 100% bogus
+    case Sandbox  //Tokens are valid and pulled from a server (but are sandboxed versions)
 }
 
 //This allows you to search via bogus/non-bogus keys
@@ -19,6 +22,8 @@ func ==(lhs: AcceptOnAPIPaymentMethodsInfoFactoryProperty, rhs: AcceptOnAPIPayme
     case (.SupportsCreditCards, .SupportsCreditCards):
         return true
     case (.WithoutAnyCreditCardPaymentProcessors, .WithoutAnyCreditCardPaymentProcessors): return true
+    case (.Bogus, .Bogus): return true
+    case (.Sandbox, .Sandbox): return true
     default:
         return false
     }
@@ -28,7 +33,7 @@ class AcceptOnAPIPaymentMethodsInfoFactory: Factory<AcceptOnAPIPaymentMethodsInf
     required init() {
         super.init()
         
-        context(.SupportsCreditCards) {
+        context(.SupportsCreditCards, .Bogus) {
             self.product(.WithoutAnyCreditCardPaymentProcessors) {
                 AcceptOnAPIPaymentMethodsInfo.parseConfig([
                     "payment_methods": ["credit-card"],
@@ -63,6 +68,24 @@ class AcceptOnAPIPaymentMethodsInfoFactory: Factory<AcceptOnAPIPaymentMethodsInf
                             ]
                         ]
                     ])!
+                }
+            }
+        }
+        
+        context(.Sandbox) {
+            AcceptOnAPITransactionTokenFactory.withAtleast(.Sandbox).each { tokenInfo, desc in
+                self.product(properties: [.Sandbox], withExtraDesc: ["tokenDesc": desc]) {
+                    let sem = dispatch_semaphore_create(0)
+                    
+                    
+                    var paymentMethodsRes: AcceptOnAPIPaymentMethodsInfo!
+                    tokenInfo.api!.getAvailablePaymentMethodsForTransactionWithId(tokenInfo.token.id, completion: { (paymentMethods, error) -> () in
+                        paymentMethodsRes = paymentMethods
+                    })
+                    
+                    dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER)
+                    
+                    return paymentMethodsRes
                 }
             }
         }

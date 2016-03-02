@@ -87,7 +87,7 @@ extension Request {
         -> Self
     {
         delegate.queue.addOperationWithBlock {
-            dispatch_async(queue ?? dispatch_get_main_queue()) {
+            dispatch_async(queue ?? dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
                 completionHandler(self.request, self.response, self.delegate.data, self.delegate.error)
             }
         }
@@ -119,7 +119,7 @@ extension Request {
                 self.delegate.error
             )
 
-            dispatch_async(queue ?? dispatch_get_main_queue()) {
+            dispatch_async(queue ?? dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
                 let response = Response<T.SerializedObject, T.ErrorObject>(
                     request: self.request,
                     response: self.response,

@@ -36,7 +36,7 @@ class AcceptOnPaymentProcessorSpec: QuickSpec {
         }
         
         describe("apple_pay") {
-            AcceptOnAPIFactory.query.withAtleast(.Sandbox).without(.ApplePay).each { apiInfo, desc in
+            AcceptOnAPIFactory.query.withAtleast(.Sandbox).without(.ApplePayStripe).each { apiInfo, desc in
                 context(desc) {
                     it("Does get supportsApplePay == false for a non apple-pay enabled account") {
                         var _paymentMethods: AcceptOnAPIPaymentMethodsInfo?
@@ -62,28 +62,37 @@ class AcceptOnPaymentProcessorSpec: QuickSpec {
             }
         }
         
-        it("Does get supportsApplePay == true for an apple-pay enabled account") {
-            let apiKey = apiKeyWithProperties([.ApplePay], withoutProperties: [])
-            let api = AcceptOnAPI(publicKey: apiKey.key, isProduction: false)
-            
-            var _paymentMethods: AcceptOnAPIPaymentMethodsInfo?
-            api.createTransactionTokenWithDescription("Foo", forAmountInCents: 100, completion: { (token, error) -> () in
-                if error != nil {
-                    NSException(name: "createTransactionTokenWithDescription", reason: error!.description, userInfo: nil).raise()
-                    return
-                }
-                
-                api.getAvailablePaymentMethodsForTransactionWithId(token!.id, completion: { (paymentMethods, error) -> () in
-                    if error != nil {
-                        NSException(name: "getAvailablePaymentMethodsForTransactionWithId", reason: error!.description, userInfo: nil).raise()
-                        return
+        describe("braintree") {
+            AcceptOnAPIFactory.query.withAtleast(.Sandbox).withAtleast(.Braintree).each { apiInfo, desc in
+                context(desc) {
+                    it("Does get supportsBrainTree == true for a brain-tree enabled account and a nonce") {
+                        var _paymentMethods: AcceptOnAPIPaymentMethodsInfo?
+                        apiInfo.api.createTransactionTokenWithDescription("Foo", forAmountInCents: 100, completion: { (token, error) -> () in
+                            if error != nil {
+                                NSException(name: "createTransactionTokenWithDescription", reason: error!.description, userInfo: nil).raise()
+                                return
+                            }
+                            
+                            apiInfo.api.getAvailablePaymentMethodsForTransactionWithId(token!.id, completion: { (paymentMethods, error) -> () in
+                                if error != nil {
+                                    NSException(name: "getAvailablePaymentMethodsForTransactionWithId", reason: error!.description, userInfo: nil).raise()
+                                    return
+                                }
+                                
+                                _paymentMethods = paymentMethods!
+                            })
+                        })
+                        
+                        expect(_paymentMethods?.supportsBraintree).toEventually(equal(true))
+                        expect(_paymentMethods?.braintreeMerchantId).toEventuallyNot(equal(nil))
+                        expect(_paymentMethods?.braintreeClientAuthorizationFingerprint).toEventuallyNot(equal(nil))
                     }
                     
-                    _paymentMethods = paymentMethods!
-                })
-            })
-            
-            expect(_paymentMethods?.supportsApplePay).toEventually(equal(true))
+                    it("Does allow Braintree to process a sandbox credit-card") {
+                        
+                    }
+                }
+            }
         }
         
         it("Does get stripeApplePayMerchantIdentifier for an account that has stripe & apple-pay integration enabled") {

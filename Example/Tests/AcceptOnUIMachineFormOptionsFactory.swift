@@ -3,7 +3,9 @@ import accepton
 enum AcceptOnUIMachineFormOptionsFactoryProperty {
     case Default
     
-    case Bogus
+    case Bogus    //All security tokens, etc are 100% bogus
+    case Sandbox  //Tokens are valid and pulled from a server (but are sandboxed versions)
+    
     case SupportsCreditCards
     
     case SupportsNoCreditCardPaymentProcessors
@@ -25,7 +27,7 @@ class AcceptOnUIMachineFormOptionsFactory: Factory<AcceptOnUIMachineFormOptions,
                                 //Create form options for supporting credit-card processing but no particular payment processor (usually for Authorize.net)
                                 AcceptOnAPIPaymentMethodsInfoFactory.withAtleast(.SupportsCreditCards, .WithoutAnyCreditCardPaymentProcessors).each { paymentMethodsInfo, paymentMethodDesc in
                                     self.product(.SupportsNoCreditCardPaymentProcessors, withExtraDescs: ["card_desc": cardDesc, "payment_methods": paymentMethodDesc]) {
-                                        let formOptions = AcceptOnUIMachineFormOptions(token: transactionToken, paymentMethods: paymentMethodsInfo)
+                                        let formOptions = AcceptOnUIMachineFormOptions(token: transactionToken.token, paymentMethods: paymentMethodsInfo)
                                         formOptions.creditCardParams = card
                                         
                                         return formOptions
@@ -35,13 +37,12 @@ class AcceptOnUIMachineFormOptionsFactory: Factory<AcceptOnUIMachineFormOptions,
                                 //Create form options for supporting some number of payment processors
                                 AcceptOnAPIPaymentMethodsInfoFactory.withAtleast(.SupportsCreditCards).without(.WithoutAnyCreditCardPaymentProcessors).each { paymentMethodsInfo, paymentMethodDesc in
                                     self.product(withExtraDescs: ["card_desc": cardDesc, "payment_methods": paymentMethodDesc]) {
-                                        let formOptions = AcceptOnUIMachineFormOptions(token: transactionToken, paymentMethods: paymentMethodsInfo)
+                                        let formOptions = AcceptOnUIMachineFormOptions(token: transactionToken.token, paymentMethods: paymentMethodsInfo)
                                         formOptions.creditCardParams = card
                                         
                                         return formOptions
                                     }
                                 }
-
                             }
                         }
                 }

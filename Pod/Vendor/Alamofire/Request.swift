@@ -283,6 +283,7 @@ class Request {
             }
 
             completionHandler(disposition, credential)
+
         }
 
         func URLSession(

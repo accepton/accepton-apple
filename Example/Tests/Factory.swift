@@ -1,9 +1,30 @@
+import UIKit
+
 struct FactoryProduct<T, P: Equatable>: CustomStringConvertible {
     var properties: [P]
     
     var descriptionAddendums: [String:String]?
     
-    var value: T!
+    var block: (()->(T))!
+    
+    var valueEntered = false
+    lazy var value: T = {
+        if self.valueEntered {
+            puts("Error! Value in progress...")
+            assertionFailure()
+        }
+        self.valueEntered = false
+        let val = self.block()
+        self.valueEntered = true
+        
+        return val
+    }()
+    
+    init(properties: [P], descriptionAddendums: [String:String], block: ()->(T)) {
+        self.properties = properties
+        self.descriptionAddendums = descriptionAddendums
+        self.block = block
+    }
     
     var description: String {
         var res = "\(T.self) with properties: ["
@@ -67,19 +88,31 @@ class FactoryResultQuery<T, P: Equatable>: CustomStringConvertible {
     
     //Loop etc.
     func each(block: (value: T, desc: String)->()) {
-        let res = runQuery()
-        for e in res {
-            block(value: e.value, desc: "\(e)")
+        let res = self.runQuery()
+        
+        var blockArguments: [(value: T, desc: String)] = []
+        let blockArgumentsQueue = NSOperationQueue()
+        blockArgumentsQueue.maxConcurrentOperationCount = 1
+
+        for var e in res {
+            blockArgumentsQueue.addOperation(NSBlockOperation() {
+                blockArguments.append((value: e.value, desc: "\(e)"))
+            })
+        }
+        blockArgumentsQueue.waitUntilAllOperationsAreFinished()
+        
+        for arg in blockArguments {
+            block(arg)
         }
     }
     
     func eachWithProperties(block: (value: T, desc: String, properties: [P])->()) {
-        let res = runQuery()
-        for e in res {
+        let res = self.runQuery()
+        for var e in res {
             block(value: e.value, desc: "\(e)", properties: e.properties)
         }
     }
-    
+
     //-----------------------------------------------------------------------------------------------------
     //Fluent interface
     //-----------------------------------------------------------------------------------------------------
@@ -102,10 +135,17 @@ class FactoryResultQuery<T, P: Equatable>: CustomStringConvertible {
 class Factory<T, P: Equatable> {
     var products: [FactoryProduct<T, P>] = []
     
+    var asyncProductsQueue: NSOperationQueue = {
+        let q = NSOperationQueue()
+        q.maxConcurrentOperationCount = 1
+        return q
+    }()
+    
     required init() {}
 
-    func product(properties properties: [P], withExtraDesc extraDescs: [String:String]?=nil, block: ()->(T)) {
-        let product = FactoryProduct<T, P>(properties: properties+currentContextProperties, descriptionAddendums: extraDescs, value: block())
+    func product(properties properties: [P], var withExtraDesc extraDescs: [String:String]=[:], block: ()->(T)) {
+        for (k, v) in currentPrefixExtraDescs { extraDescs[k] = v }
+        let product = FactoryProduct<T, P>(properties: properties+currentContextProperties, descriptionAddendums: extraDescs, block: block)
         
         //Do any products have matching descriptions?
         let desc = "\(product)"
@@ -119,8 +159,7 @@ class Factory<T, P: Equatable> {
         products.append(product)
     }
     
-    func product(properties: P..., var withExtraDescs extraDescs: [String:String]=[:], block: ()->(T)) {
-        for (k, v) in currentPrefixExtraDescs { extraDescs[k] = v }
+    func product(properties: P..., withExtraDescs extraDescs: [String:String]=[:], block: ()->(T)) {
         self.product(properties: properties, withExtraDesc: extraDescs, block: block)
     }
     
@@ -137,7 +176,8 @@ class Factory<T, P: Equatable> {
     }
     
     static var query: FactoryResultQuery<T, P> {
-        let factory = self.init()
+//        let factory = factoryWithType(t: T.self, p: P.self)
+        let factory = factoryWithKlass(self)
         return FactoryResultQuery<T, P>.init(factory: factory)
     }
     
@@ -159,4 +199,20 @@ class Factory<T, P: Equatable> {
     static func eachWithProperties(block: (value: T, desc: String, properties: [P])->()) {
         return self.query.eachWithProperties(block)
     }
+}
+
+private var factories: [String:AnyObject] = [:]
+private func factoryWithKlass<T, P>(klass: Factory<T, P>.Type) -> Factory<T, P> {
+    let sig = "\(klass)"
+    
+    if let factory = factories[sig] {
+        puts("Factory made \(sig)")
+        return factory as! Factory<T, P>
+    }
+    
+    puts("factory new \(sig)")
+    let factory = klass.init()
+    factories[sig] = factory
+    
+    return factoryWithKlass(klass)
 }

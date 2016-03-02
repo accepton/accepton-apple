@@ -9,7 +9,11 @@ enum AcceptOnAPIKeyFactoryProperty {
     case PaypalRest
     case Stripe
     
-    case ApplePay
+    case ApplePayStripe
+    
+    case Braintree
+    
+    case SupportsCreditCards
 }
 
 protocol AcceptOnAPIKeyFactoryResultProtocol {
@@ -46,12 +50,12 @@ class AcceptOnAPIKeyFactory: Factory<AcceptOnAPIKeyFactoryResult, AcceptOnAPIKey
         super.init()
         
         context(.Sandbox) {
-            self.context(.Stripe) {
+            self.context(.Stripe, .SupportsCreditCards) {
                 self.product {
                     return AcceptOnAPIKeyFactoryResult(key: "pkey_89f2cc7f2c423553", appleMerchantIdentifier: nil)
                 }
                 
-                self.product(.PaypalRest, .PublicKey, .ApplePay) {
+                self.product(.PaypalRest, .PublicKey, .ApplePayStripe, .Braintree, .SupportsCreditCards) {
                     return AcceptOnAPIKeyFactoryResult(key: "pkey_24b6fa78e2bf234d", appleMerchantIdentifier: "merchant.com.accepton")
                 }
             }
