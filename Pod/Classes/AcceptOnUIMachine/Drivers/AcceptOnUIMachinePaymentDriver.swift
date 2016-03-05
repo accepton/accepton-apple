@@ -23,7 +23,7 @@ public class AcceptOnUIMachinePaymentDriver: NSObject {
     }
     
     //Tokens that were retrieved from the drivers
-    var nonceTokens: [String:AnyObject] = [:]
+    public var nonceTokens: [String:AnyObject] = [:]
     
     //Email is only for credit-card forms
     var email: String?
@@ -70,15 +70,15 @@ public class AcceptOnUIMachinePaymentDriver: NSObject {
     //a 3rd party UI or a 3-way handshake
     ////////////////////////////////////////////////////////////////////////////////////
     func readyToCompleteTransactionDidFail(userInfo: Any?, withMessage message: String) {
-        dispatch_async(dispatch_get_main_queue()) {
+//        dispatch_async(dispatch_get_main_queue()) {
             self.delegate.transactionDidFailForDriver(self, withMessage: message)
-        }
+//        }
     }
 
     func readyToCompleteTransactionDidSucceed(userInfo: Any?, withChargeRes chargeRes: [String:AnyObject]) {
-        dispatch_async(dispatch_get_main_queue()) {
+//        dispatch_async(dispatch_get_main_queue()) {
             self.delegate.transactionDidSucceedForDriver(self, withChargeRes: chargeRes)
-        }
+//        }
     }
     ////////////////////////////////////////////////////////////////////////////////////
 }

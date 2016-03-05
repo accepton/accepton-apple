@@ -43,7 +43,11 @@ public struct AcceptOnAPICreditCardParams {
 }
 
 //Returned for the payment methods requests.  Describes what payments are available.
-public class AcceptOnAPIPaymentMethodsInfo {
+public class AcceptOnAPIPaymentMethodsInfo: CustomStringConvertible {
+    public var description: String {
+        return "\(self.config)"
+    }
+    
     public var supportsStripe: Bool {
         return stripePublishableKey != nil
     }
@@ -63,6 +67,10 @@ public class AcceptOnAPIPaymentMethodsInfo {
     
     public var braintreeClientAuthorizationFingerprint: String? {
         return braintreeClientTokenInfo?["authorizationFingerprint"] as? String
+    }
+    
+    public var braintreeRawEncodedClientToken: String? {
+        return braintreeClientTokenInfo?["rawEncodedClientToken"] as? String
     }
     
     //TODO: Retrieve from accepton API

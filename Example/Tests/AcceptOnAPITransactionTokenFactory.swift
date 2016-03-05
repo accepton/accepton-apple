@@ -14,6 +14,8 @@ enum AcceptOnAPITransactionTokenFactoryProperty: Equatable {
             return nil
         }
     }
+    
+    case Braintree
 }
 
 func ==(lhs: AcceptOnAPITransactionTokenFactoryProperty, rhs: AcceptOnAPITransactionTokenFactoryProperty) -> Bool {
@@ -55,26 +57,25 @@ class AcceptOnAPITransactionTokenFactory: Factory<AcceptOnAPITransactionTokenFac
                 }
             }
             
-            addHipsterDressWithCostInUSDCents(0)
+//            addHipsterDressWithCostInUSDCents(0)
             addHipsterDressWithCostInUSDCents(100)
-            addHipsterDressWithCostInUSDCents(1000)
-            addHipsterDressWithCostInUSDCents(1333)
+//            addHipsterDressWithCostInUSDCents(1000)
+//            addHipsterDressWithCostInUSDCents(1333)
         }
         
         context(.Sandbox) {
             AcceptOnAPIFactory.withAtleast(.Sandbox).each { api, apiFactoryRes in
                 self.context(withExtraDescs: ["apiFactoryRes": apiFactoryRes]) {
                     let products = [
-                        (description: "Hipster Dress", amountInCents: 0),
+//                        (description: "Hipster Dress", amountInCents: 0),
                         (description: "Hipster Dress", amountInCents: 100),
-                        (description: "Hipster Dress", amountInCents: 1000),
-                        (description: "Hipster Dress", amountInCents: 1333),
+//                        (description: "Hipster Dress", amountInCents: 1000),
+//                        (description: "Hipster Dress", amountInCents: 1333),
                     ]
                     
                     for p in products {
                         let item = AcceptOnAPITransactionTokenFactoryProperty.Item(costInUSDCents: p.amountInCents, desc: p.description)
                         self.product(properties: [item], withExtraDesc: [:]) {
-                            puts("Invoked product...")
                             let sem = dispatch_semaphore_create(0)
                             var tokenRes: AcceptOnAPITransactionToken!
                             

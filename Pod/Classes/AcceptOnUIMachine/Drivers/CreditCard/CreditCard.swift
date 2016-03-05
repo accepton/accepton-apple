@@ -10,6 +10,11 @@ import UIKit
     
     //Driver instances that were created
     var plugins: [AcceptOnUIMachineCreditCardDriverPlugin] = []
+    let pluginsQueue: NSOperationQueue = {
+       let q = NSOperationQueue()
+        q.maxConcurrentOperationCount = 1
+        return q
+    }()
     
     override class var name: String {
         return "credit_card"
@@ -33,7 +38,10 @@ import UIKit
     //Called after a plugin succeeds of fails.  Removes plugin from list of plugins and then
     //checks if we've looked at all the plugins
     func markPluginFinished(plugin: AcceptOnUIMachineCreditCardDriverPlugin) {
-        plugins.removeAtIndex(plugins.indexOf(plugin)!)
+        pluginsQueue.addOperation(NSBlockOperation() {
+            self.plugins.removeAtIndex(self.plugins.indexOf(plugin)!)
+        })
+        pluginsQueue.waitUntilAllOperationsAreFinished()
         
         //Ready to submit to accepton's API, all plugins returned something (success or failure)
         if plugins.count == 0 {
@@ -50,7 +58,10 @@ import UIKit
     }
     
     func creditCardPlugin(plugin: AcceptOnUIMachineCreditCardDriverPlugin, didSucceedWithNonce nonce: String) {
-        nonceTokens[plugin.name] = nonce
+        pluginsQueue.addOperation(NSBlockOperation() {
+            self.nonceTokens[plugin.name] = nonce
+        })
+        pluginsQueue.waitUntilAllOperationsAreFinished()
         markPluginFinished(plugin)
     }
 }

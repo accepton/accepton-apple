@@ -31,7 +31,7 @@
 		AAFC37611C7FA35700B65DBA /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFC375F1C7FA34400B65DBA /* Factory.swift */; };
 		AAFC37631C7FA35A00B65DBA /* AcceptOnAPICreditCardParamsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFC375D1C7FA33600B65DBA /* AcceptOnAPICreditCardParamsFactory.swift */; };
 		AAFC37661C7FC57D00B65DBA /* AcceptOnAPIChargeInfoFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFC37641C7FC55100B65DBA /* AcceptOnAPIChargeInfoFactory.swift */; };
-		AAFC376C1C7FFBA000B65DBA /* AcceptOnUIMachinePaymentDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFC376A1C7FFB8B00B65DBA /* AcceptOnUIMachinePaymentDriver.swift */; };
+		AAFC376C1C7FFBA000B65DBA /* AcceptOnUIMachinePaymentDriverSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFC376A1C7FFB8B00B65DBA /* AcceptOnUIMachinePaymentDriverSpec.swift */; };
 		AAFC376F1C7FFCAA00B65DBA /* AcceptOnAPIFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFC376D1C7FFC6500B65DBA /* AcceptOnAPIFactory.swift */; };
 		AAFC37741C7FFF9E00B65DBA /* AcceptOnAPIKeyFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFC37721C7FFF3200B65DBA /* AcceptOnAPIKeyFactory.swift */; };
 /* End PBXBuildFile section */
@@ -92,7 +92,7 @@
 		AAFC375D1C7FA33600B65DBA /* AcceptOnAPICreditCardParamsFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnAPICreditCardParamsFactory.swift; sourceTree = "<group>"; };
 		AAFC375F1C7FA34400B65DBA /* Factory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
 		AAFC37641C7FC55100B65DBA /* AcceptOnAPIChargeInfoFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnAPIChargeInfoFactory.swift; sourceTree = "<group>"; };
-		AAFC376A1C7FFB8B00B65DBA /* AcceptOnUIMachinePaymentDriver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnUIMachinePaymentDriver.swift; sourceTree = "<group>"; };
+		AAFC376A1C7FFB8B00B65DBA /* AcceptOnUIMachinePaymentDriverSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnUIMachinePaymentDriverSpec.swift; sourceTree = "<group>"; };
 		AAFC376D1C7FFC6500B65DBA /* AcceptOnAPIFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnAPIFactory.swift; sourceTree = "<group>"; };
 		AAFC37721C7FFF3200B65DBA /* AcceptOnAPIKeyFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AcceptOnAPIKeyFactory.swift; sourceTree = "<group>"; };
 		CB2386879C9FC7B1B2B10C0A /* Pods-accepton_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-accepton_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-accepton_Example/Pods-accepton_Example.debug.xcconfig"; sourceTree = "<group>"; };
@@ -338,7 +338,7 @@
 		AAFC37691C7FFB7D00B65DBA /* Payment */ = {
 			isa = PBXGroup;
 			children = (
-				AAFC376A1C7FFB8B00B65DBA /* AcceptOnUIMachinePaymentDriver.swift */,
+				AAFC376A1C7FFB8B00B65DBA /* AcceptOnUIMachinePaymentDriverSpec.swift */,
 			);
 			name = Payment;
 			sourceTree = "<group>";
@@ -586,7 +586,7 @@
 				AAFC37581C7FA0A700B65DBA /* AcceptOnAPICreditCardParamsSpec.swift in Sources */,
 				AA4397A11C80B8A200FB80D2 /* AcceptOnAPITransactionTokenFactory.swift in Sources */,
 				AA558C8D1BD954D1003A7929 /* AcceptOnUIMachineSpec.swift in Sources */,
-				AAFC376C1C7FFBA000B65DBA /* AcceptOnUIMachinePaymentDriver.swift in Sources */,
+				AAFC376C1C7FFBA000B65DBA /* AcceptOnUIMachinePaymentDriverSpec.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* AcceptOnAPITransactionsSpec.swift in Sources */,
 				AAE940D41C47F014008D6450 /* AcceptOnAPIKeys.swift in Sources */,
 				AAFC376F1C7FFCAA00B65DBA /* AcceptOnAPIFactory.swift in Sources */,

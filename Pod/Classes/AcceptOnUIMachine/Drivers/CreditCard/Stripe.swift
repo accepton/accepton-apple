@@ -25,7 +25,7 @@ class AcceptOnUIMachineCreditCardStripePlugin: AcceptOnUIMachineCreditCardDriver
             let card = STPCardParams(formOptions.creditCardParams!)
             STPAPIClient.sharedClient().createTokenWithCard(card) { token, err in
                 if let err = err {
-                    self.delegate.creditCardPlugin(self, didFailWithMessage: err.localizedDescription)
+                    self.delegate?.creditCardPlugin(self, didFailWithMessage: err.localizedDescription)
                     return
                 }
                 

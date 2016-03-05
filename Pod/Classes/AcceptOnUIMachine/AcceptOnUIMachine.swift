@@ -43,7 +43,7 @@ public struct AcceptOnUIMachineError {
 
 public class AcceptOnUIMachineFormOptions : NSObject {
     let token: AcceptOnAPITransactionToken!
-    let paymentMethods: AcceptOnAPIPaymentMethodsInfo!
+    public let paymentMethods: AcceptOnAPIPaymentMethodsInfo!
     public var itemDescription: String {
         return token.desc
     }
@@ -224,7 +224,9 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
             self?.api.createTransactionTokenWithDescription(description, forAmountInCents: amountInCents) { (tokenObject, error) -> () in
                 if let error = error {
                     //Non-Recoverable, recreate UIMachine to start-over
-                    self?.delegate?.acceptOnUIMachineDidFailBegin?(error)
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self?.delegate?.acceptOnUIMachineDidFailBegin?(error)
+                    }
                     return
                 }
                 
@@ -237,7 +239,9 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
                     //Make sure we got back a response
                     if let error = error {
                         //Non-Recoverable, recreate UIMachine to start-over
-                        self?.delegate?.acceptOnUIMachineDidFailBegin?(error)
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self?.delegate?.acceptOnUIMachineDidFailBegin?(error)
+                        }
                         return
                     }
                     
@@ -259,7 +263,9 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
         options = AcceptOnUIMachineFormOptions(token: self.tokenObject!, paymentMethods: self.paymentMethods!, userInfo: userInfo)
         
         //Signal that we should show the form
-        self.delegate?.acceptOnUIMachineDidFinishBeginWithFormOptions?(options)
+        dispatch_async(dispatch_get_main_queue()) {
+            self.delegate?.acceptOnUIMachineDidFinishBeginWithFormOptions?(self.options)
+        }
     }
     
     
@@ -316,10 +322,12 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
     public func didSwitchToCreditCardForm() {
         //If user info received email, update the email field
         if let email = self.userInfo?.emailAutofillHint {
-            if self.delegate?.acceptOnUIMachineDidSetInitialFieldValueWithName != nil {
-                self.delegate?.acceptOnUIMachineDidSetInitialFieldValueWithName!("email", withValue: email)
-                updateCreditCardEmailFieldWithString(email)
-                validateCreditCardEmailField()
+            dispatch_async(dispatch_get_main_queue()) {
+                if self.delegate?.acceptOnUIMachineDidSetInitialFieldValueWithName != nil {
+                    self.delegate?.acceptOnUIMachineDidSetInitialFieldValueWithName!("email", withValue: email)
+                    self.updateCreditCardEmailFieldWithString(email)
+                    self.validateCreditCardEmailField()
+                }
             }
         }
         
@@ -365,19 +373,28 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
         if let errorStr = errorStr {
             //We have a new validation error
             if (emailFieldHasValidationError == false) {
-                delegate?.acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName?("email", withMessage: errorStr)
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.delegate?.acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName?("email", withMessage: errorStr)
+                }
                 emailFieldHasValidationError = true
             } else {
                 //We still have a validation error
-                delegate?.acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName?("email", withMessage: errorStr)
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.delegate?.acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName?("email", withMessage: errorStr)
+                }
             }
         } else {
             //We no longer have a validation error
             if emailFieldHasValidationError == true {
                 emailFieldHasValidationError = false
-                delegate?.acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName?("email")
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.delegate?.acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName?("email")
+                }
             }
-            delegate?.acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName?("email", withValue: emailFieldValue)
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                self.delegate?.acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName?("email", withValue: self.emailFieldValue)
+            }
         }
         return errorStr == nil ? true : false
     }
@@ -398,7 +415,9 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
         
         set {
             if newValue != _creditCardType {
-                delegate?.acceptOnUIMachineCreditCardTypeDidChange?(newValue)
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.delegate?.acceptOnUIMachineCreditCardTypeDidChange?(newValue)
+                }
             }
             
             _creditCardType = newValue
@@ -424,19 +443,28 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
         if let errorStr = errorStr {
             //We have a new validation error
             if (cardNumFieldHasValidationError == false) {
-                delegate?.acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName?("cardNum", withMessage: errorStr)
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.delegate?.acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName?("cardNum", withMessage: errorStr)
+                }
                 cardNumFieldHasValidationError = true
             } else {
                 //We still have a validation error
-                delegate?.acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName?("cardNum", withMessage: errorStr)
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.delegate?.acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName?("cardNum", withMessage: errorStr)
+                }
             }
         } else {
             //We no longer have a validation error
             if cardNumFieldHasValidationError == true {
                 cardNumFieldHasValidationError = false
-                delegate?.acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName?("cardNum")
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.delegate?.acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName?("cardNum")
+                }
             }
-            delegate?.acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName?("cardNum", withValue: cardNumFieldValue)
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                self.delegate?.acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName?("cardNum", withValue: self.cardNumFieldValue)
+            }
         }
         return errorStr == nil ? true : false
     }
@@ -482,19 +510,29 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
         if let errorStr = errorStr {
             //We have a new validation error
             if (expMonthFieldHasValidationError == false) {
-                delegate?.acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName?("expMonth", withMessage: errorStr)
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.delegate?.acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName?("expMonth", withMessage: errorStr)
+                }
                 expMonthFieldHasValidationError = true
             } else {
                 //We still have a validation error
-                delegate?.acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName?("expMonth", withMessage: errorStr)
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.delegate?.acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName?("expMonth", withMessage: errorStr)
+                }
             }
         } else {
             //We no longer have a validation error
             if expMonthFieldHasValidationError == true {
                 expMonthFieldHasValidationError = false
-                delegate?.acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName?("expMonth")
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.delegate?.acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName?("expMonth")
+                }
             }
-            delegate?.acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName?("expMonth", withValue: expMonthFieldValue ?? "<no month>")
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                self.delegate?.acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName?("expMonth", withValue: self.expMonthFieldValue ?? "<no month>")
+            }
         }
 
         return errorStr == nil ? true : false
@@ -527,19 +565,28 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
         if let errorStr = errorStr {
             //We have a new validation error
             if (expYearFieldHasValidationError == false) {
-                delegate?.acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName?("expYear", withMessage: errorStr)
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.delegate?.acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName?("expYear", withMessage: errorStr)
+                }
                 expYearFieldHasValidationError = true
             } else {
                 //We still have a validation error
-                delegate?.acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName?("expYear", withMessage: errorStr)
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.delegate?.acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName?("expYear", withMessage: errorStr)
+                }
             }
         } else {
             //We no longer have a validation error
             if expYearFieldHasValidationError == true {
                 expYearFieldHasValidationError = false
-                delegate?.acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName?("expYear")
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.delegate?.acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName?("expYear")
+                }
             }
-            delegate?.acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName?("expYear", withValue: expYearFieldValue)
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                self.delegate?.acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName?("expYear", withValue: self.expYearFieldValue)
+            }
         }
         return errorStr == nil ? true : false
     }
@@ -571,19 +618,28 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
         if let errorStr = errorStr {
             //We have a new validation error
             if (securityFieldHasValidationError == false) {
-                delegate?.acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName?("security", withMessage: errorStr)
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.delegate?.acceptOnUIMachineShowValidationErrorForCreditCardFieldWithName?("security", withMessage: errorStr)
+                }
                 securityFieldHasValidationError = true
             } else {
                 //We still have a validation error
-                delegate?.acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName?("security", withMessage: errorStr)
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.delegate?.acceptOnUIMachineEmphasizeValidationErrorForCreditCardFieldWithName?("security", withMessage: errorStr)
+                }
             }
         } else {
             //We no longer have a validation error
             if securityFieldHasValidationError == true {
                 securityFieldHasValidationError = false
-                delegate?.acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName?("security")
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.delegate?.acceptOnUIMachineHideValidationErrorForCreditCardFieldWithName?("security")
+                }
             }
-            delegate?.acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName?("security", withValue: securityFieldValue)
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                self.delegate?.acceptOnUIMachineSpecFieldUpdatedSuccessfullyWithName?("security", withValue: self.securityFieldValue)
+            }
         }
         return errorStr == nil ? true : false
     }
@@ -606,7 +662,9 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
 
         //Are we good on all the validations?
         if (resEmail && resCardNum && resCardExpMonth && resCardExpYear && resCardSecurity == true) {
-            self.delegate?.acceptOnUIMachinePaymentIsProcessing?("credit_card")
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.delegate?.acceptOnUIMachinePaymentIsProcessing?("credit_card")
+            })
             
             //Create our helper struct to pass to our drivers
             let cardParams = AcceptOnAPICreditCardParams(number: cardNumFieldValue, expMonth: expMonthFieldValue ?? "", expYear: expYearFieldValue, cvc: securityFieldValue, email: emailFieldValue)
@@ -643,21 +701,27 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
         if state != .WaitingForTransaction { return }
         state = .PaymentForm
         
-        delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?(driver.dynamicType.name)
+        dispatch_async(dispatch_get_main_queue()) {
+            self.delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?(driver.dynamicType.name)
+        }
     }
     
     public func transactionDidFailForDriver(driver: AcceptOnUIMachinePaymentDriver, withMessage message: String) {
         if state != .WaitingForTransaction { return }
         state = .PaymentForm
         
-        delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?(driver.dynamicType.name)
-        delegate?.acceptOnUIMachinePaymentErrorWithMessage?(message)
+        dispatch_async(dispatch_get_main_queue()) {
+            self.delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?(driver.dynamicType.name)
+            self.delegate?.acceptOnUIMachinePaymentErrorWithMessage?(message)
+        }
     }
     
     public func transactionDidSucceedForDriver(driver: AcceptOnUIMachinePaymentDriver, withChargeRes chargeRes: [String : AnyObject]) {
         state = .PaymentComplete
         
-        delegate?.acceptOnUIMachinePaymentDidSucceedWithCharge?(chargeRes)
+        dispatch_async(dispatch_get_main_queue()) {
+            self.delegate?.acceptOnUIMachinePaymentDidSucceedWithCharge?(chargeRes)
+        }
     }
     
     //-----------------------------------------------------------------------------------------------------
@@ -665,7 +729,9 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
     //-----------------------------------------------------------------------------------------------------
     var activeDriver: AcceptOnUIMachinePaymentDriver!
     func startTransactionWithDriverOfClass(driverClass: AcceptOnUIMachinePaymentDriver.Type, withDelay delay: Double=0.0) {
-        self.delegate?.acceptOnUIMachinePaymentIsProcessing?(driverClass.name)
+        dispatch_async(dispatch_get_main_queue()) {
+            self.delegate?.acceptOnUIMachinePaymentIsProcessing?(driverClass.name)
+        }
         
         //Switch to 'extra fields', store the parameters to use when extra fields completes
         self.state = .ExtraFields
@@ -716,20 +782,22 @@ public class AcceptOnUIMachine: NSObject, AcceptOnUIMachinePaymentDriverDelegate
             }
     
             //Call up to retrieve any more metadata
-            self.delegate?.acceptOnUIMachineDidRequestAdditionalUserInfo(userInfo, completion: { wasCancelled, extraFieldInfo in
-                if wasCancelled {
-                    self.state = .PaymentForm
-                    self.delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?(driverClass.name)
-                } else {
-                    if let extraFieldInfo = extraFieldInfo {
-                        for (k, v) in extraFieldInfo.toDictionary() {
-                            self.options.metadata[k] = v
+            dispatch_async(dispatch_get_main_queue()) {
+                self.delegate?.acceptOnUIMachineDidRequestAdditionalUserInfo(userInfo, completion: { wasCancelled, extraFieldInfo in
+                    if wasCancelled {
+                        self.state = .PaymentForm
+                        self.delegate?.acceptOnUIMachinePaymentDidAbortPaymentMethodWithName?(driverClass.name)
+                    } else {
+                        if let extraFieldInfo = extraFieldInfo {
+                            for (k, v) in extraFieldInfo.toDictionary() {
+                                self.options.metadata[k] = v
+                            }
                         }
+                        //Start rest of driver transaction
+                        startDriverTransaction()
                     }
-                    //Start rest of driver transaction
-                    startDriverTransaction()
-                }
-            })
+                })
+            }
         } else {
             //No requirements or additional information provided.  Show no fields, start the driver transaction now
             startDriverTransaction()

@@ -86,10 +86,7 @@ class AcceptOnPaymentProcessorSpec: QuickSpec {
                         expect(_paymentMethods?.supportsBraintree).toEventually(equal(true))
                         expect(_paymentMethods?.braintreeMerchantId).toEventuallyNot(equal(nil))
                         expect(_paymentMethods?.braintreeClientAuthorizationFingerprint).toEventuallyNot(equal(nil))
-                    }
-                    
-                    it("Does allow Braintree to process a sandbox credit-card") {
-                        
+                        expect(_paymentMethods?.braintreeRawEncodedClientToken).toEventuallyNot(equal(nil))
                     }
                 }
             }

@@ -1,23 +1,24 @@
 import UIKit
 
-struct FactoryProduct<T, P: Equatable>: CustomStringConvertible {
+class FactoryProduct<T, P: Equatable>: NSObject {
     var properties: [P]
     
     var descriptionAddendums: [String:String]?
     
     var block: (()->(T))!
     
+    var blockWithRuntimeProperties: (()->(T, [P]))!
+    
     var valueEntered = false
     lazy var value: T = {
-        if self.valueEntered {
-            puts("Error! Value in progress...")
-            assertionFailure()
-        }
-        self.valueEntered = false
-        let val = self.block()
-        self.valueEntered = true
         
-        return val
+        if self.block != nil {
+            return self.block()
+        } else {
+            let res = self.blockWithRuntimeProperties()
+            self.properties += res.1
+            return res.0
+        }
     }()
     
     init(properties: [P], descriptionAddendums: [String:String], block: ()->(T)) {
@@ -25,8 +26,15 @@ struct FactoryProduct<T, P: Equatable>: CustomStringConvertible {
         self.descriptionAddendums = descriptionAddendums
         self.block = block
     }
+
+    init(properties: [P], descriptionAddendums: [String:String], blockWithRuntimeProperties: ()->(T, [P])) {
+        self.properties = properties
+        self.descriptionAddendums = descriptionAddendums
+        self.blockWithRuntimeProperties = blockWithRuntimeProperties
+    }
+
     
-    var description: String {
+    override var description: String {
         var res = "\(T.self) with properties: ["
         for p in properties {
             res += "\(p)"
@@ -57,21 +65,8 @@ class FactoryResultQuery<T, P: Equatable>: CustomStringConvertible {
         var filteredProducts = factory.products
         
         //Must contain all mentioned properties if withAtLeastProperties is set
-        if let withAtleastProperties = withAtleastProperties {
-            filteredProducts = filteredProducts.filter { product in
-                for p in withAtleastProperties {
-                    if product.properties.indexOf(p) == nil { return false }
-                }
-                return true
-            }
-        }
-        
-        //Must *not* contain all negatively mentioned properties
         filteredProducts = filteredProducts.filter { product in
-            for p in withoutProperties {
-                if product.properties.indexOf(p) != nil { return false }
-            }
-            return true
+            return productMatchesQuery(product)
         }
         
         if filteredProducts.count == 0 {
@@ -80,6 +75,20 @@ class FactoryResultQuery<T, P: Equatable>: CustomStringConvertible {
         }
         
         return filteredProducts
+    }
+    
+    private func productMatchesQuery(product: FactoryProduct<T, P>) -> Bool {
+        if let withAtleastProperties = withAtleastProperties {
+            for p in withAtleastProperties {
+                if product.properties.indexOf(p) == nil { return false }
+            }
+        }
+        
+        for p in withoutProperties {
+            if product.properties.indexOf(p) != nil { return false }
+        }
+        
+        return true
     }
     
     var description: String {
@@ -96,7 +105,20 @@ class FactoryResultQuery<T, P: Equatable>: CustomStringConvertible {
 
         for var e in res {
             blockArgumentsQueue.addOperation(NSBlockOperation() {
-                blockArguments.append((value: e.value, desc: "\(e)"))
+                let v = e.value
+                
+                if self.productMatchesQuery(e) {
+                    let desc = "\(e)"
+                    blockArguments.append((value: e.value, desc: desc))
+                    
+                    if let product = productDescripions[desc] {
+                        if product != e {
+                            NSException(name: "Factory Error", reason: "Product with description \(desc) had a duplicate", userInfo: nil).raise()
+                        }
+                    }
+                } else {
+                    puts("\(e) rejected after running post-query")
+                }
             })
         }
         blockArgumentsQueue.waitUntilAllOperationsAreFinished()
@@ -163,6 +185,32 @@ class Factory<T, P: Equatable> {
         self.product(properties: properties, withExtraDesc: extraDescs, block: block)
     }
     
+    //Products that are 'added' after the block is called (because they cannot be computed before hand)
+    //can have additional properties which are then checked via filter at the last minute
+    func productWithRunTimeProperties(properties properties: [P], var withExtraDesc extraDescs: [String:String]=[:], block: ()->(value: T, extraProperties: [P])) {
+        for (k, v) in currentPrefixExtraDescs { extraDescs[k] = v }
+        
+        var extraProperties: [P]!
+        let _block: ()->(T) = {
+            let res = block()
+            extraProperties = res.extraProperties
+            return res.value
+        }
+        
+        let product = FactoryProduct<T, P>(properties: properties+currentContextProperties, descriptionAddendums: extraDescs, blockWithRuntimeProperties: block)
+        
+        //Do any products have matching descriptions?
+        let desc = "\(product)"
+        for e in products {
+            let otherDesc = "\(e)"
+            if otherDesc == desc {
+                assertionFailure("product for \(self.dynamicType) with desc \(desc) has duplicates!!")
+            }
+        }
+        
+        products.append(product)
+    }
+    
     var currentPrefixExtraDescs: [String:String]=[:]
     var currentContextProperties: [P] = []
     func context(properties: P..., withExtraDescs extraDescs: [String:String]=[:], block: ()->()) {
@@ -200,6 +248,8 @@ class Factory<T, P: Equatable> {
         return self.query.eachWithProperties(block)
     }
 }
+
+private var productDescripions: [NSObject:String] = [:]
 
 private var factories: [String:AnyObject] = [:]
 private func factoryWithKlass<T, P>(klass: Factory<T, P>.Type) -> Factory<T, P> {
