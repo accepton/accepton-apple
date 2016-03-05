@@ -4,4 +4,6 @@ xcode_workspace: ./Example/accepton.xcworkspace
 xcode_scheme: accepton-Example
 xcode_sdk: iphonesimulator9.2
 before_install:
-  cd Example; pod install
+  cd Example
+  pod install
+  cd ..
