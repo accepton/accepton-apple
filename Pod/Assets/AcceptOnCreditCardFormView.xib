@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -54,7 +54,6 @@
                                                             <subviews>
                                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="marissa@yahoo.com" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BLC-gE-JbC">
                                                                     <rect key="frame" x="15" y="5" width="330" height="32"/>
-                                                                    <animations/>
                                                                     <color key="textColor" red="0.21933962260000001" green="0.21933962260000001" blue="0.21933962260000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" keyboardAppearance="alert" returnKeyType="next"/>
@@ -63,7 +62,6 @@
                                                                     </connections>
                                                                 </textField>
                                                             </subviews>
-                                                            <animations/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="trailing" secondItem="BLC-gE-JbC" secondAttribute="trailing" constant="15" id="2pa-Wo-f9k"/>
@@ -74,7 +72,6 @@
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email Address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yn0-N4-hfb">
                                                             <rect key="frame" x="0.0" y="0.0" width="360" height="20"/>
-                                                            <animations/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="GpX-PN-HqS"/>
                                                             </constraints>
@@ -83,7 +80,6 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <animations/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="Yn0-N4-hfb" firstAttribute="width" secondItem="0va-aI-YzY" secondAttribute="width" id="3EC-ZZ-WFF"/>
@@ -104,14 +100,12 @@
                                                             <subviews>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FdW-Nc-bnA" customClass="AcceptOnCreditCardNumBrandPop" customModule="accepton" customModuleProvider="target">
                                                                     <rect key="frame" x="318" y="0.0" width="42" height="42"/>
-                                                                    <animations/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" secondItem="FdW-Nc-bnA" secondAttribute="height" id="9qI-RF-Dzy"/>
                                                                     </constraints>
                                                                 </view>
                                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1xR-R1-An5">
                                                                     <rect key="frame" x="15" y="5" width="288" height="32"/>
-                                                                    <animations/>
                                                                     <color key="textColor" red="0.21933962260000001" green="0.21933962260000001" blue="0.21933962260000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad" keyboardAppearance="alert" returnKeyType="next"/>
@@ -120,7 +114,6 @@
                                                                     </connections>
                                                                 </textField>
                                                             </subviews>
-                                                            <animations/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="bottom" secondItem="FdW-Nc-bnA" secondAttribute="bottom" id="22O-dH-hSm"/>
@@ -134,13 +127,11 @@
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Card Number" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z6X-QF-IqA">
                                                             <rect key="frame" x="0.0" y="0.0" width="360" height="20"/>
-                                                            <animations/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
                                                             <color key="textColor" red="0.23450263560000001" green="0.23502059149999999" blue="0.2429245283" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <animations/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="2pn-Ra-KAI" secondAttribute="trailing" id="5Yb-eT-Wjm"/>
@@ -163,7 +154,6 @@
                                                                     <subviews>
                                                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="1234" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DEx-mD-Pqw">
                                                                             <rect key="frame" x="15" y="5" width="78" height="32"/>
-                                                                            <animations/>
                                                                             <color key="textColor" red="0.21933962260000001" green="0.21933962260000001" blue="0.21933962260000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad" keyboardAppearance="alert" returnKeyType="go"/>
@@ -172,7 +162,6 @@
                                                                             </connections>
                                                                         </textField>
                                                                     </subviews>
-                                                                    <animations/>
                                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="trailing" secondItem="DEx-mD-Pqw" secondAttribute="trailing" constant="15" id="5EK-iU-HEq"/>
@@ -183,13 +172,11 @@
                                                                 </view>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Security" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zBR-Zo-vPh">
                                                                     <rect key="frame" x="0.0" y="0.0" width="108" height="20"/>
-                                                                    <animations/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
                                                                     <color key="textColor" red="0.23450263560000001" green="0.23502059149999999" blue="0.2429245283" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
-                                                            <animations/>
                                                             <constraints>
                                                                 <constraint firstItem="zBR-Zo-vPh" firstAttribute="leading" secondItem="baR-QS-RmN" secondAttribute="leading" id="EJK-lJ-sJP"/>
                                                                 <constraint firstItem="JnI-io-37g" firstAttribute="leading" secondItem="baR-QS-RmN" secondAttribute="leading" id="FNJ-YV-iDn"/>
@@ -205,7 +192,6 @@
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Year" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qgh-Iu-o7G">
                                                                     <rect key="frame" x="118" y="0.0" width="98" height="20"/>
-                                                                    <animations/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
                                                                     <color key="textColor" red="0.23450263560000001" green="0.23502059149999999" blue="0.2429245283" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
@@ -215,7 +201,6 @@
                                                                     <subviews>
                                                                         <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="MM" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kST-Pj-LHV">
                                                                             <rect key="frame" x="15" y="2" width="78" height="35"/>
-                                                                            <animations/>
                                                                             <color key="textColor" red="0.21933962260000001" green="0.21933962260000001" blue="0.21933962260000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                                             <textInputTraits key="textInputTraits"/>
@@ -224,7 +209,6 @@
                                                                             </connections>
                                                                         </textField>
                                                                     </subviews>
-                                                                    <animations/>
                                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="trailing" secondItem="kST-Pj-LHV" secondAttribute="trailing" constant="15" id="Jja-zD-uuE"/>
@@ -237,7 +221,6 @@
                                                                     <subviews>
                                                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="YY" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="InK-pM-vt4">
                                                                             <rect key="frame" x="15" y="5" width="68" height="35"/>
-                                                                            <animations/>
                                                                             <color key="textColor" red="0.21933962264150941" green="0.21933962264150941" blue="0.21933962264150941" alpha="1" colorSpace="calibratedRGB"/>
                                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad" keyboardAppearance="alert" returnKeyType="next"/>
@@ -246,7 +229,6 @@
                                                                             </connections>
                                                                         </textField>
                                                                     </subviews>
-                                                                    <animations/>
                                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                     <constraints>
                                                                         <constraint firstItem="InK-pM-vt4" firstAttribute="leading" secondItem="imc-AX-pQ0" secondAttribute="leading" constant="15" id="UtF-UB-udl"/>
@@ -257,13 +239,11 @@
                                                                 </view>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Month" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wRU-XS-B8l">
                                                                     <rect key="frame" x="0.0" y="0.0" width="108" height="20"/>
-                                                                    <animations/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
                                                                     <color key="textColor" red="0.23450263560000001" green="0.23502059149999999" blue="0.2429245283" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
-                                                            <animations/>
                                                             <constraints>
                                                                 <constraint firstAttribute="bottom" secondItem="s0b-cu-yZA" secondAttribute="bottom" id="4vc-7z-e3k"/>
                                                                 <constraint firstAttribute="bottom" secondItem="imc-AX-pQ0" secondAttribute="bottom" id="5wV-Jp-a6u"/>
@@ -284,7 +264,6 @@
                                                             </constraints>
                                                         </view>
                                                     </subviews>
-                                                    <animations/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="bottom" secondItem="baR-QS-RmN" secondAttribute="bottom" id="2Jp-1k-Jo9"/>
@@ -299,7 +278,6 @@
                                                     </constraints>
                                                 </view>
                                             </subviews>
-                                            <animations/>
                                             <constraints>
                                                 <constraint firstItem="8Po-1B-Jg6" firstAttribute="width" secondItem="tKh-rj-rMZ" secondAttribute="width" id="1eZ-O8-G8y"/>
                                                 <constraint firstAttribute="bottom" secondItem="8Po-1B-Jg6" secondAttribute="bottom" id="30p-SD-4AP"/>
@@ -319,7 +297,6 @@
                                             </constraints>
                                         </view>
                                     </subviews>
-                                    <animations/>
                                     <color key="backgroundColor" red="0.964622641509434" green="0.964622641509434" blue="0.964622641509434" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="bottom" secondItem="1wB-bq-Ufs" secondAttribute="bottom" priority="999" constant="20" id="8fE-fb-5SZ"/>
@@ -331,7 +308,6 @@
                                 </view>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eQA-F0-IBu" customClass="AcceptOnRoundedButton" customModule="accepton" customModuleProvider="target">
                                     <rect key="frame" x="203" y="265" width="175" height="45"/>
-                                    <animations/>
                                     <color key="backgroundColor" red="0.52549019607843139" green="0.92156862745098034" blue="0.7686274509803922" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="45" id="5cY-3y-Gzi"/>
@@ -346,7 +322,6 @@
                                     </connections>
                                 </button>
                             </subviews>
-                            <animations/>
                             <constraints>
                                 <constraint firstItem="OPZ-tw-1lX" firstAttribute="top" secondItem="e8o-Jv-tYk" secondAttribute="top" id="EMK-lT-xvB"/>
                                 <constraint firstItem="OPZ-tw-1lX" firstAttribute="width" relation="lessThanOrEqual" secondItem="e8o-Jv-tYk" secondAttribute="width" id="EbW-gt-b6j"/>
@@ -358,7 +333,6 @@
                             </constraints>
                         </view>
                     </subviews>
-                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="e8o-Jv-tYk" firstAttribute="centerX" secondItem="H7I-5r-JIp" secondAttribute="centerX" id="DiH-eI-UMu"/>
@@ -368,7 +342,6 @@
                     </constraints>
                 </view>
             </subviews>
-            <animations/>
             <constraints>
                 <constraint firstItem="H7I-5r-JIp" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="MGv-61-Bdq"/>
                 <constraint firstAttribute="bottom" secondItem="H7I-5r-JIp" secondAttribute="bottom" constant="10" id="dXb-TE-i5g"/>
@@ -376,7 +349,7 @@
                 <constraint firstAttribute="trailing" secondItem="H7I-5r-JIp" secondAttribute="trailing" constant="10" id="u47-bY-C63"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
-            <point key="canvasLocation" x="644" y="931"/>
+            <point key="canvasLocation" x="447" y="794"/>
         </view>
     </objects>
 </document>
